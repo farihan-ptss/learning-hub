@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ms" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seni Bina & Organisasi Komputer - Hub Pembelajaran Ceria</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Quicksand', 'sans-serif'],
+                        display: ['Fredoka', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            300: '#7dd3fc',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            warm: '#ffefe2',
+                            accent: '#f43f5e',
+                            success: '#10b981',
+                            playful: '#f59e0b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #fafaf9;
+        }
+        h1, h2, h3, .font-fun {
+            font-family: 'Fredoka', sans-serif;
+        }
+        .bounce-hover:hover {
+            transform: translateY(-4px);
+        }
+        .transition-custom {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-brand-300 selection:text-slate-900">
+
+    <!-- Top Navigation / Hero Banner -->
+    <header class="relative overflow-hidden bg-gradient-to-b from-brand-100 via-sky-50 to-transparent pt-12 pb-8 px-4">
+        <!-- Decorative Bubbles -->
+        <div class="absolute -top-10 -left-10 w-40 h-40 bg-brand-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
+        <div class="absolute top-20 -right-10 w-52 h-52 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse duration-1000"></div>
+        
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-semibold bg-brand-500 text-white shadow-sm mb-4">
+                🚀 Peta Minda Interaktif Diploma
+            </span>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                Terokai Rahsia <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-pink-500">Dunia Komputer!</span>
+            </h1>
+            <p class="mt-4 text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">
+                Keliru tentang komponen komputer? Jangan risau! Mari belajar dengan cara paling ceria, mudah, dan penuh dengan analogi yang menyeronokkan! 🎯
+            </p>
+            
+            <!-- Quick Navigation Shortcuts -->
+            <div class="flex flex-wrap justify-center gap-3 mt-8">
+                <a href="#arch-org" class="px-5 py-2.5 bg-white border-2 border-brand-300 hover:border-brand-500 rounded-2xl shadow-sm text-sm font-bold text-brand-700 hover:text-brand-600 transition-all duration-200">
+                    🔍 What vs How?
+                </a>
+                <a href="#bandar-komputer" class="px-5 py-2.5 bg-white border-2 border-teal-300 hover:border-teal-500 rounded-2xl shadow-sm text-sm font-bold text-teal-700 hover:text-teal-600 transition-all duration-200">
+                    🏙️ Bandar Komputer
+                </a>
+                <a href="#simulasi-data" class="px-5 py-2.5 bg-white border-2 border-pink-300 hover:border-pink-500 rounded-2xl shadow-sm text-sm font-bold text-pink-700 hover:text-pink-600 transition-all duration-200">
+                    ⚡ Simulasi Aliran Data
+                </a>
+                <a href="#kuiz-minda" class="px-5 py-2.5 bg-brand-playful hover:bg-amber-500 text-white rounded-2xl shadow-md text-sm font-bold transition-all duration-200">
+                    🎮 Jawab Kuiz Ceria
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-8 space-y-16">
+
+        <!-- SECTION 1: ARCHITECTURE VS ORGANIZATION -->
+        <section id="arch-org" class="bg-white rounded-3xl p-6 md:p-8 shadow-xl shadow-slate-100 border border-slate-100 transition-custom">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-slate-100 pb-6">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-900 flex items-center gap-2">
+                        <span>🤔</span> Architecture vs Organization
+                    </h2>
+                    <p class="text-slate-500 mt-1">Sering terkeliru? Formula paling mudah berada di sini!</p>
+                </div>
+                <div class="flex gap-2 bg-slate-100 p-1.5 rounded-2xl self-start">
+                    <div class="px-4 py-2 bg-brand-500 text-white rounded-xl text-sm font-bold shadow-sm">
+                        What? vs How?
+                    </div>
+                </div>
+            </div>
+
+            <!-- The Big Dual Concept cards -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Architecture Card -->
+                <div class="bg-gradient-to-br from-sky-50 to-white border-2 border-sky-100 rounded-2xl p-6 relative overflow-hidden transition-all duration-300 hover:shadow-lg">
+                    <div class="absolute -top-6 -right-6 w-24 h-24 bg-sky-200 rounded-full opacity-30"></div>
+                    <span class="inline-block px-3 py-1 bg-sky-200 text-sky-800 rounded-full text-xs font-bold mb-4 uppercase tracking-wider">
+                        Computer Architecture
+                    </span>
+                    <h3 class="text-2xl font-bold text-sky-900 flex items-center gap-2">
+                        <span>💻</span> APA yang komputer buat?
+                    </h3>
+                    <p class="text-slate-600 mt-3 text-sm md:text-base">
+                        Ia menerangkan ciri-ciri dan fungsi komputer yang ditawarkan terus kepada pengguna atau programmer. Ibarat janji atau spesifikasi pada kotak produk!
+                    </p>
+                    <ul class="mt-4 space-y-2 text-sm text-slate-700">
+                        <li class="flex items-center gap-2">
+                            <span class="text-sky-500">✔</span> Menyokong pemprosesan 64-bit
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-sky-500">✔</span> Set Arahan (Instruction Set)
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-sky-500">✔</span> Menyokong Virtualization & Ray Tracing
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Organization Card -->
+                <div class="bg-gradient-to-br from-rose-50 to-white border-2 border-rose-100 rounded-2xl p-6 relative overflow-hidden transition-all duration-300 hover:shadow-lg">
+                    <div class="absolute -top-6 -right-6 w-24 h-24 bg-rose-200 rounded-full opacity-30"></div>
+                    <span class="inline-block px-3 py-1 bg-rose-200 text-rose-800 rounded-full text-xs font-bold mb-4 uppercase tracking-wider">
+                        Computer Organization
+                    </span>
+                    <h3 class="text-2xl font-bold text-rose-900 flex items-center gap-2">
+                        <span>⚙️</span> BAGAIMANA ia dilakukan?
+                    </h3>
+                    <p class="text-slate-600 mt-3 text-sm md:text-base">
+                        Bagaimana perkakasan fizikal di belakang tabir direka bentuk supaya spesifikasi "Architecture" tadi berjaya berfungsi dengan lancar.
+                    </p>
+                    <ul class="mt-4 space-y-2 text-sm text-slate-700">
+                        <li class="flex items-center gap-2">
+                            <span class="text-rose-500">⚙️</span> Litar pendawaian, Bus & Clock
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-rose-500">⚙️</span> Pembahagian Cache (L1, L2, L3)
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-rose-500">⚙️</span> Bagaimana isyarat dihantar ke RAM & GPU
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Analogy Simulator Interactive Selector -->
+            <div class="mt-10 bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                <h3 class="text-lg font-bold text-slate-950 mb-3 text-center">💡 Pilih Analogi Kehidupan Seharian Untuk Faham Lebih Jelas:</h3>
+                <div class="flex flex-wrap justify-center gap-2 mb-6">
+                    <button onclick="switchAnalogy('house')" id="btn-house" class="analogy-btn px-4 py-2 rounded-xl text-sm font-bold bg-brand-500 text-white shadow-sm transition-all duration-200 flex items-center gap-2">
+                        🏠 Analogi Rumah
+                    </button>
+                    <button onclick="switchAnalogy('car')" id="btn-car" class="analogy-btn px-4 py-2 rounded-xl text-sm font-bold bg-white text-slate-700 hover:bg-slate-100 transition-all duration-200 flex items-center gap-2 border border-slate-200">
+                        🚗 Analogi Kereta
+                    </button>
+                    <button onclick="switchAnalogy('restaurant')" id="btn-restaurant" class="analogy-btn px-4 py-2 rounded-xl text-sm font-bold bg-white text-slate-700 hover:bg-slate-100 transition-all duration-200 flex items-center gap-2 border border-slate-200">
+                        🍔 Analogi Restoran
+                    </button>
+                </div>
+
+                <!-- Display Screen for analogies -->
+                <div id="analogy-content" class="bg-white p-5 rounded-xl shadow-inner border border-slate-100 min-h-[220px] transition-all duration-300">
+                    <!-- Default House Content -->
+                    <div id="analogy-house" class="analogy-pane space-y-4">
+                        <div class="flex items-center gap-2 text-brand-600 font-bold text-lg border-b border-slate-100 pb-2">
+                            <span>🏠</span> Bagaimanakah kita melihat sebuah rumah?
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50/50 p-4 rounded-xl">
+                                <h4 class="font-bold text-blue-900 mb-1">📐 Computer Architecture (Pelan Rumah)</h4>
+                                <p class="text-sm text-slate-600 mb-2">Apa yang ditawarkan pada spesifikasi yang pembeli nampak:</p>
+                                <ul class="text-xs space-y-1 text-slate-700 list-disc pl-4 font-semibold">
+                                    <li>Mempunyai 4 bilik tidur & 3 bilik air</li>
+                                    <li>Ada ruang dapur luas</li>
+                                    <li>Ada garaj muat untuk 2 buah kereta</li>
+                                </ul>
+                            </div>
+                            <div class="bg-rose-50/50 p-4 rounded-xl">
+                                <h4 class="font-bold text-rose-900 mb-1">🏗️ Computer Organization (Cara Rumah Dibina)</h4>
+                                <p class="text-sm text-slate-600 mb-2">Perkara teknikal di sebalik dinding yang menjamin ia berfungsi:</p>
+                                <ul class="text-xs space-y-1 text-slate-700 list-disc pl-4 font-semibold">
+                                    <li>Pendawaian elektrik dalam dinding</li>
+                                    <li>Sistem paip air mengalir</li>
+                                    <li>Ketebalan dinding batu bata & jenis simen digunakan</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Car Content (Hidden by default) -->
+                    <div id="analogy-car" class="analogy-pane hidden space-y-4">
+                        <div class="flex items-center gap-2 text-brand-600 font-bold text-lg border-b border-slate-100 pb-2">
+                            <span>🚗</span> Bagaimanakah kita melihat spesifikasi kereta?
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50/50 p-4 rounded-xl">
+                                <h4 class="font-bold text-blue-900 mb-1">🏎️ Computer Architecture (Spesifikasi Pembeli)</h4>
+                                <p class="text-sm text-slate-600 mb-2">Ciri-ciri hebat yang dipromosikan kepada pembeli:</p>
+                                <ul class="text-xs space-y-1 text-slate-700 list-disc pl-4 font-semibold">
+                                    <li>Enjin 2.0L Hybrid menjimatkan minyak</li>
+                                    <li>6 tempat duduk yang selesa</li>
+                                    <li>Kelajuan maksimum mencecah 200 km/j</li>
+                                </ul>
+                            </div>
+                            <div class="bg-rose-50/50 p-4 rounded-xl">
+                                <h4 class="font-bold text-rose-900 mb-1">🛠️ Computer Organization (Kejuruteraan Kereta)</h4>
+                                <p class="text-sm text-slate-600 mb-2">Bagaimana jurutera memastikan kelajuan dan ciri itu dicapai:</p>
+                                <ul class="text-xs space-y-1 text-slate-700 list-disc pl-4 font-semibold">
+                                    <li>Sistem penyejukan cecair pintar</li>
+                                    <li>Sistem suntikan bahan api lancar</li>
+                                    <li>Susunan omboh (piston) & jenis gearbox digunakan</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Restaurant Content (Hidden by default) -->
+                    <div id="analogy-restaurant" class="analogy-pane hidden space-y-4">
+                        <div class="flex items-center gap-2 text-brand-600 font-bold text-lg border-b border-slate-100 pb-2">
+                            <span>🍔</span> Bagaimanakah operasi restoran dijalankan?
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50/50 p-4 rounded-xl">
+                                <h4 class="font-bold text-blue-900 mb-1">📋 Computer Architecture (Menu Makanan)</h4>
+                                <p class="text-sm text-slate-600 mb-2">Pilihan menu utama yang ditawarkan kepada pelanggan:</p>
+                                <ul class="text-xs space-y-1 text-slate-700 list-disc pl-4 font-semibold">
+                                    <li>Burger Daging Keju Meleleh</li>
+                                    <li>Nasi Goreng Kampung Pedas</li>
+                                    <li>Mee Goreng Basah & Air Sejuk</li>
+                                </ul>
+                            </div>
+                            <div class="bg-rose-50/50 p-4 rounded-xl">
+                                <h4 class="font-bold text-rose-900 mb-1">🍳 Computer Organization (Dapur Restoran)</h4>
+                                <p class="text-sm text-slate-600 mb-2">Pengurusan di sebalik tabir dapur agar makanan siap cepat:</p>
+                                <ul class="text-xs space-y-1 text-slate-700 list-disc pl-4 font-semibold">
+                                    <li>Tukang masak menyusun bahan mengikut stesen</li>
+                                    <li>Penggunaan oven elektrik berkuasa tinggi</li>
+                                    <li>Sistem giliran pesanan (order ticket system)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="mt-10 overflow-x-auto rounded-xl border border-slate-200">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-slate-900 text-white font-fun">
+                            <th class="p-4">Kriteria Perbandingan</th>
+                            <th class="p-4 bg-sky-950 text-sky-200">Computer Architecture</th>
+                            <th class="p-4 bg-rose-950 text-rose-200">Computer Organization</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 font-bold text-slate-700">Fokus Utama</td>
+                            <td class="p-4 text-sky-800 font-medium">Fungsi ("What?" - Apa komputer boleh lakukan)</td>
+                            <td class="p-4 text-rose-800 font-medium">Pelaksanaan ("How?" - Bagaimana ia dilaksanakan)</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 font-bold text-slate-700">Siapa Perlu Tahu?</td>
+                            <td class="p-4 text-sky-800">Programmer / Pembangun perisian</td>
+                            <td class="p-4 text-rose-800">Jurutera reka bentuk perkakasan fizikal</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 font-bold text-slate-700">Skop Hubungan</td>
+                            <td class="p-4 text-sky-800">Instruction Set Architecture (ISA), jenis data</td>
+                            <td class="p-4 text-rose-800">Komponen fizikal: CPU register, bus, litar kawalan</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 font-bold text-slate-700">Contoh Isu/Soalan</td>
+                            <td class="p-4 text-sky-800 font-semibold">"Adakah CPU ini mempunyai 8 Core dan sokong 64-bit?"</td>
+                            <td class="p-4 text-rose-800 font-semibold">"Bagaimana 8 Core ini berkongsi dan membaca Cache L3?"</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 2: INTERACTIVE COMPUTER CITY MAP -->
+        <section id="bandar-komputer" class="bg-gradient-to-br from-teal-50 to-emerald-50/20 rounded-3xl p-6 md:p-8 shadow-xl shadow-slate-100 border border-teal-100">
+            <div class="mb-6">
+                <h2 class="text-2xl md:text-3xl font-bold text-teal-900 flex items-center gap-2">
+                    <span>🏙️</span> Peta Interaktif: "Bandar Komputer"
+                </h2>
+                <p class="text-teal-700 mt-1">Sukar faham istilah teknikal seperti Bus dan RAM? Klik pada "bangunan" atau "jalan raya" di bawah untuk melihat analoginya!</p>
+            </div>
+
+            <!-- Town Interactive Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 my-8">
+                <!-- Factory / CPU -->
+                <button onclick="showCityDetail('cpu')" class="group p-5 bg-white border-2 border-teal-100 hover:border-teal-500 rounded-2xl shadow-sm text-center transition-all duration-300 hover:shadow-md transform hover:-translate-y-1">
+                    <span class="text-4xl block mb-2 group-hover:scale-110 transition-transform">🏭</span>
+                    <span class="block font-bold text-slate-800">Kilang Besar</span>
+                    <span class="text-xs bg-teal-100 text-teal-800 px-2.5 py-0.5 rounded-full font-bold mt-1 inline-block">CPU (Processor)</span>
+                </button>
+
+                <!-- Warehouse / RAM -->
+                <button onclick="showCityDetail('ram')" class="group p-5 bg-white border-2 border-teal-100 hover:border-teal-500 rounded-2xl shadow-sm text-center transition-all duration-300 hover:shadow-md transform hover:-translate-y-1">
+                    <span class="text-4xl block mb-2 group-hover:scale-110 transition-transform">🏢</span>
+                    <span class="block font-bold text-slate-800">Gudang Penyimpanan</span>
+                    <span class="text-xs bg-teal-100 text-teal-800 px-2.5 py-0.5 rounded-full font-bold mt-1 inline-block">RAM & SSD</span>
+                </button>
+
+                <!-- Highway / Bus -->
+                <button onclick="showCityDetail('bus')" class="group p-5 bg-white border-2 border-teal-100 hover:border-teal-500 rounded-2xl shadow-sm text-center transition-all duration-300 hover:shadow-md transform hover:-translate-y-1">
+                    <span class="text-4xl block mb-2 group-hover:scale-110 transition-transform">🛣️</span>
+                    <span class="block font-bold text-slate-800">Jalan Raya Utama</span>
+                    <span class="text-xs bg-teal-100 text-teal-800 px-2.5 py-0.5 rounded-full font-bold mt-1 inline-block">System Bus</span>
+                </button>
+
+                <!-- Intersection / Interface Module -->
+                <button onclick="showCityDetail('interface')" class="group p-5 bg-white border-2 border-teal-100 hover:border-teal-500 rounded-2xl shadow-sm text-center transition-all duration-300 hover:shadow-md transform hover:-translate-y-1">
+                    <span class="text-4xl block mb-2 group-hover:scale-110 transition-transform">🚦</span>
+                    <span class="block font-bold text-slate-800">Penterjemah Trafik</span>
+                    <span class="text-xs bg-teal-100 text-teal-800 px-2.5 py-0.5 rounded-full font-bold mt-1 inline-block">Interface Module</span>
+                </button>
+            </div>
+
+            <!-- Dynamic City Detail Display -->
+            <div id="city-detail-box" class="bg-white p-6 rounded-2xl shadow-inner border border-teal-100/70 min-h-[140px] flex items-center justify-center transition-all duration-300">
+                <div class="text-center text-slate-500" id="city-default-msg">
+                    <span class="text-3xl block mb-2">👈</span>
+                    Klik mana-mana komponen bandar di atas untuk melihat bagaimana ia bekerjasama!
+                </div>
+                <!-- Dynamic contents injected here by JS -->
+                <div id="city-content-cpu" class="hidden text-left space-y-2 w-full">
+                    <h3 class="font-bold text-teal-900 text-xl flex items-center gap-2">🏭 Kilang Besar = CPU (Central Processing Unit)</h3>
+                    <p class="text-slate-600">Kilang besar inilah yang memproses segala bahan mentah (data) yang masuk ke dalam bandar komputer. Kilang ini mengandungi unit pemproses utama seperti ALU (untuk mengira), Control Unit (untuk memberi arahan), dan Register (sebagai stesen kerja kecil berkelajuan tinggi).</p>
+                </div>
+                <div id="city-content-ram" class="hidden text-left space-y-2 w-full">
+                    <h3 class="font-bold text-teal-900 text-xl flex items-center gap-2">🏢 Gudang Penyimpanan = RAM & SSD/Harddisk</h3>
+                    <p class="text-slate-600">Gudang besar yang menyimpan semua barangan sementara (RAM) untuk cepat dihantar ke kilang, manakala barangan kekal disimpan selamat di dalam lori stor simpanan utama (SSD atau hard disk).</p>
+                </div>
+                <div id="city-content-bus" class="hidden text-left space-y-2 w-full">
+                    <h3 class="font-bold text-teal-900 text-xl flex items-center gap-2">🛣️ Jalan Raya Utama = System Bus</h3>
+                    <p class="text-slate-600">Sistem jalan raya khas yang membolehkan semua komponen (Gudang, Kilang, Port Luaran) menghantar lori membawa maklumat dan data. Tanpa jalan raya ini, komputer anda akan lumpuh kerana maklumat tidak dapat bergerak.</p>
+                </div>
+                <div id="city-content-interface" class="hidden text-left space-y-2 w-full">
+                    <h3 class="font-bold text-teal-900 text-xl flex items-center gap-2">🚦 Penterjemah Trafik & Persimpangan = Interface Module (Contoh: USB Controller)</h3>
+                    <p class="text-slate-600">Komponen luar bercakap dalam "bahasa" yang berbeza dengan kilang utama (CPU). Interface module bertindak seperti penterjemah di persimpangan jalan masuk bagi memastikan semua peranti luar seperti Mouse, Pendrive, dan Keyboard dapat difahami sepenuhnya oleh CPU.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: INTERACTIVE FLOW SIMULATION -->
+        <section id="simulasi-data" class="bg-white rounded-3xl p-6 md:p-8 shadow-xl shadow-slate-100 border border-slate-100">
+            <div class="mb-6">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 flex items-center gap-2">
+                    <span>⚡</span> Simulasi: Langkah-langkah Membuka Google Chrome
+                </h2>
+                <p class="text-slate-500 mt-1">Bagaimana komponen bekerjasama secara harmoni melalui sistem Bus? Mari lihat prosesnya secara interaktif!</p>
+            </div>
+
+            <!-- Flow Step Visualizer -->
+            <div class="relative bg-slate-50 p-6 rounded-2xl border border-slate-150 overflow-hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-xs font-bold uppercase tracking-widest text-slate-400">Laluan Aliran Data</span>
+                    <span id="step-counter" class="text-sm font-bold bg-pink-100 text-pink-700 px-3 py-1 rounded-full">Langkah 1 daripada 5</span>
+                </div>
+
+                <!-- Simulation Visual Board -->
+                <div class="flex flex-col items-center justify-center py-8 min-h-[220px]">
+                    <!-- Step 1 display -->
+                    <div id="sim-step-1" class="sim-step space-y-4 text-center">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-pink-100 text-pink-600 rounded-full text-3xl font-bold animate-bounce mb-2">🖱️</div>
+                        <h4 class="font-bold text-lg text-slate-800">Langkah 1: Klik Ikon Google Chrome</h4>
+                        <p class="text-slate-600 max-w-lg mx-auto text-sm">Mouse menghantar isyarat klik <span class="bg-pink-100 text-pink-700 font-bold px-1 rounded">"Buka Chrome!"</span> melalui <strong>Bus</strong> terus menuju ke CPU.</p>
+                        <div class="text-xs text-slate-400 font-semibold">Mouse ➡️ BUS ➡️ CPU</div>
+                    </div>
+
+                    <!-- Step 2 display -->
+                    <div id="sim-step-2" class="sim-step hidden space-y-4 text-center">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full text-3xl font-bold animate-pulse mb-2">🏭</div>
+                        <h4 class="font-bold text-lg text-slate-800">Langkah 2: CPU Terima Arahan</h4>
+                        <p class="text-slate-600 max-w-lg mx-auto text-sm">CPU meminta fail pemasangan Google Chrome daripada SSD (Storage) dengan menghantar arahan bacaan melalui <strong>Bus</strong>.</p>
+                        <div class="text-xs text-slate-400 font-semibold">CPU ➡️ BUS ➡️ SSD</div>
+                    </div>
+
+                    <!-- Step 3 display -->
+                    <div id="sim-step-3" class="sim-step hidden space-y-4 text-center">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-teal-100 text-teal-600 rounded-full text-3xl font-bold animate-pulse mb-2">💾</div>
+                        <h4 class="font-bold text-lg text-slate-800">Langkah 3: SSD Hantar Fail</h4>
+                        <p class="text-slate-600 max-w-lg mx-auto text-sm">SSD yang menerima arahan tadi, menyalin fail perisian Chrome dan menghantarnya menerusi <strong>Bus</strong> untuk diletakkan di dalam RAM.</p>
+                        <div class="text-xs text-slate-400 font-semibold">SSD ➡️ BUS ➡️ RAM</div>
+                    </div>
+
+                    <!-- Step 4 display -->
+                    <div id="sim-step-4" class="sim-step hidden space-y-4 text-center">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-purple-100 text-purple-600 rounded-full text-3xl font-bold animate-pulse mb-2">🧠</div>
+                        <h4 class="font-bold text-lg text-slate-800">Langkah 4: Pemprosesan Paparan</h4>
+                        <p class="text-slate-600 max-w-lg mx-auto text-sm">CPU mula memproses arahan grafik daripada RAM lalu menghantar isyarat data bergambar kepada GPU (kad grafik) menggunakan <strong>Bus</strong>.</p>
+                        <div class="text-xs text-slate-400 font-semibold">RAM ➡️ CPU ➡️ BUS ➡️ GPU</div>
+                    </div>
+
+                    <!-- Step 5 display -->
+                    <div id="sim-step-5" class="sim-step hidden space-y-4 text-center">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full text-3xl font-bold animate-bounce mb-2">🖥️</div>
+                        <h4 class="font-bold text-lg text-slate-800">Langkah 5: Tuala Paparan Terhasil! 🎉</h4>
+                        <p class="text-slate-600 max-w-lg mx-auto text-sm">GPU menghantar isyarat gambar akhir ke Monitor anda. Halaman Google Chrome kini berjaya dipaparkan di skrin!</p>
+                        <div class="text-xs text-emerald-600 font-extrabold">Semua perkakasan berjaya berhubung melalui Bus Interconnection!</div>
+                    </div>
+                </div>
+
+                <!-- Simulation Nav Buttons -->
+                <div class="flex justify-between items-center mt-6 pt-4 border-t border-slate-200">
+                    <button id="prev-sim-btn" onclick="changeSimStep(-1)" class="px-4 py-2 bg-slate-200 text-slate-700 hover:bg-slate-300 rounded-xl text-xs font-bold transition duration-200 disabled:opacity-50" disabled>
+                        ⬅️ Undur
+                    </button>
+                    <button id="next-sim-btn" onclick="changeSimStep(1)" class="px-4 py-2 bg-pink-500 text-white hover:bg-pink-600 rounded-xl text-xs font-bold transition duration-200">
+                        Seterusnya ➡️
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: THE FUN QUIZ (UJI MINDA) -->
+        <section id="kuiz-minda" class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-6 md:p-8 shadow-xl shadow-slate-100 border border-amber-150">
+            <div class="mb-6 text-center">
+                <span class="text-3xl">🎮</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-amber-900 mt-2">
+                    Uji Minda Ceria!
+                </h2>
+                <p class="text-amber-700 mt-1">Mari uji kefahaman anda. Sedia untuk dapatkan markah penuh?</p>
+            </div>
+
+            <!-- Quiz Main Container -->
+            <div class="max-w-xl mx-auto bg-white p-6 rounded-2xl shadow-sm border border-amber-200/50">
+                <div id="quiz-question-box">
+                    <div class="flex justify-between items-center mb-4">
+                        <span id="quiz-progress" class="text-xs font-bold text-amber-600">SOALAN 1/3</span>
+                        <span id="quiz-score-live" class="text-xs font-bold text-emerald-600">Skor: 0</span>
+                    </div>
+                    
+                    <h3 id="quiz-question-text" class="text-base md:text-lg font-bold text-slate-800 mb-6">
+                        "Adakah CPU ini menyokong arahan 64-bit?" Soalan ini berada di bawah bidang yang mana?
+                    </h3>
+
+                    <!-- Choices Buttons -->
+                    <div class="space-y-3" id="quiz-choices-container">
+                        <button onclick="checkAnswer(0)" class="quiz-choice-btn w-full text-left p-4 rounded-xl border-2 border-slate-100 hover:border-amber-400 hover:bg-amber-50/20 font-bold text-sm transition-all duration-200">
+                            A. Computer Architecture (Seni Bina)
+                        </button>
+                        <button onclick="checkAnswer(1)" class="quiz-choice-btn w-full text-left p-4 rounded-xl border-2 border-slate-100 hover:border-amber-400 hover:bg-amber-50/20 font-bold text-sm transition-all duration-200">
+                            B. Computer Organization (Organisasi)
+                        </button>
+                    </div>
+
+                    <!-- Answer Feedback -->
+                    <div id="quiz-feedback" class="mt-6 p-4 rounded-xl hidden text-sm font-bold transition-all duration-300">
+                        <!-- Dynamic text generated by JS -->
+                    </div>
+                    
+                    <button id="next-quiz-btn" onclick="nextQuizQuestion()" class="mt-6 w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-sm hidden transition duration-200">
+                        Soalan Seterusnya ➡️
+                    </button>
+                </div>
+
+                <!-- Quiz Results Pane -->
+                <div id="quiz-results" class="hidden text-center py-6 space-y-4">
+                    <div class="text-5xl">🏆</div>
+                    <h3 class="text-2xl font-bold text-slate-800">Tahniah! Anda Selesai!</h3>
+                    <p class="text-slate-600 text-sm">Anda mendapat markah sebanyak:</p>
+                    <div id="quiz-final-score" class="text-4xl font-extrabold text-amber-500">3 / 3</div>
+                    <p id="quiz-commentary" class="text-xs text-slate-500 italic max-w-xs mx-auto">Hebat sungguh! Anda sudah sedia menjadi seorang pakar komputer sejati!</p>
+                    <button onclick="resetQuiz()" class="mt-4 px-6 py-2.5 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-slate-800 transition">
+                        Cuba Lagi 🔄
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SUMMARY HIGHLIGHT -->
+        <section class="bg-slate-900 text-white rounded-3xl p-6 md:p-8 shadow-xl relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-44 h-44 bg-brand-600/20 rounded-full"></div>
+            <h3 class="text-xl md:text-2xl font-bold text-brand-300 mb-4">💡 Cara Kilat Mengingat "Bandar Komputer"</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-300">
+                <div class="space-y-2">
+                    <p class="flex items-start gap-2"><span class="text-brand-300">🏢</span> <strong>RAM / SSD:</strong> Gudang barangan dan fail.</p>
+                    <p class="flex items-start gap-2"><span class="text-brand-300">🏭</span> <strong>CPU:</strong> Kilang utama yang memproses kerja.</p>
+                    <p class="flex items-start gap-2"><span class="text-brand-300">🛣️</span> <strong>Bus:</strong> Jalan raya pengangkutan data.</p>
+                </div>
+                <div class="space-y-2">
+                    <p class="flex items-start gap-2"><span class="text-brand-300">🚦</span> <strong>Interface Module:</strong> Penterjemah bahasa peranti.</p>
+                    <p class="flex items-start gap-2"><span class="text-brand-300">🔗</span> <strong>Interconnection Structure:</strong> Pelan keseluruhan bandar.</p>
+                    <p class="flex items-start gap-2"><span class="text-brand-300">🚌</span> <strong>Bus Interconnection:</strong> Kongsi jalan utama yang sama.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER WITH MANDATORY TEXT -->
+    <footer class="bg-white border-t border-slate-100 py-10 mt-20 text-center text-slate-500 text-sm">
+        <div class="max-w-4xl mx-auto px-4 space-y-2">
+            <p class="font-bold text-slate-700">Hub Pembelajaran Seni Bina & Organisasi Komputer</p>
+            <p class="text-xs">Direka dengan penuh kasih sayang untuk membantu pelajar memahami asas komputer tanpa pening kepala.</p>
+            <div class="pt-4 border-t border-slate-100 text-xs font-semibold text-slate-400">
+                Hak milik 2026@Pn Farihan Elyana binti Zahari
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Script -->
+    <script>
+        // 1. Analogy Switcher Logic
+        function switchAnalogy(type) {
+            // Hide all analogy panes
+            document.querySelectorAll('.analogy-pane').forEach(pane => {
+                pane.classList.add('hidden');
+            });
+            // Show selected analogy pane
+            document.getElementById('analogy-' + type).classList.remove('hidden');
+
+            // Reset buttons style
+            document.querySelectorAll('.analogy-btn').forEach(btn => {
+                btn.className = "analogy-btn px-4 py-2 rounded-xl text-sm font-bold bg-white text-slate-700 hover:bg-slate-100 transition-all duration-200 flex items-center gap-2 border border-slate-200";
+            });
+
+            // Set active button style
+            const activeBtn = document.getElementById('btn-' + type);
+            activeBtn.className = "analogy-btn px-4 py-2 rounded-xl text-sm font-bold bg-brand-500 text-white shadow-sm transition-all duration-200 flex items-center gap-2";
+        }
+
+        // 2. City Interactive Detail Logic
+        function showCityDetail(item) {
+            // Hide default message
+            document.getElementById('city-default-msg').classList.add('hidden');
+            
+            // Hide all city details
+            document.getElementById('city-content-cpu').classList.add('hidden');
+            document.getElementById('city-content-ram').classList.add('hidden');
+            document.getElementById('city-content-bus').classList.add('hidden');
+            document.getElementById('city-content-interface').classList.add('hidden');
+
+            // Show current detail
+            document.getElementById('city-content-' + item).classList.remove('hidden');
+        }
+
+        // 3. Step-by-Step Flow Simulation Logic
+        let currentSimStep = 1;
+        const totalSimSteps = 5;
+
+        function changeSimStep(direction) {
+            currentSimStep += direction;
+            if (currentSimStep < 1) currentSimStep = 1;
+            if (currentSimStep > totalSimSteps) currentSimStep = totalSimSteps;
+
+            // Update UI displays
+            for (let i = 1; i <= totalSimSteps; i++) {
+                const stepElem = document.getElementById('sim-step-' + i);
+                if (i === currentSimStep) {
+                    stepElem.classList.remove('hidden');
+                } else {
+                    stepElem.classList.add('hidden');
+                }
+            }
+
+            // Update counter text
+            document.getElementById('step-counter').innerText = `Langkah ${currentSimStep} daripada ${totalSimSteps}`;
+
+            // Handle button disabled states
+            document.getElementById('prev-sim-btn').disabled = (currentSimStep === 1);
+            document.getElementById('next-sim-btn').disabled = (currentSimStep === totalSimSteps);
+        }
+
+        // 4. Interactive Quiz Logic
+        const quizData = [
+            {
+                question: `"Adakah CPU ini menyokong arahan 64-bit?" Soalan ini berada di bawah bidang yang mana?`,
+                choices: [
+                    "A. Computer Architecture (Seni Bina)",
+                    "B. Computer Organization (Organisasi)"
+                ],
+                correct: 0,
+                feedback: "Betul! 🎉 Ini adalah Architecture (Seni Bina) kerana ia menerangkan fungsi yang disokong oleh CPU untuk programmer guna tanpa perlu tahu cara binaannya."
+            },
+            {
+                question: `"Berapakah saiz cache L3 pada processor ini dan bagaimanakah data mengalir di dalamnya?" Persoalan ini berkaitan...`,
+                choices: [
+                    "A. Computer Architecture (Seni Bina)",
+                    "B. Computer Organization (Organisasi)"
+                ],
+                correct: 1,
+                feedback: "Bijak sekali! 🌟 Ia menerangkan cara pelaksanaan fizikal komponen dalaman, maka ia merupakan Computer Organization."
+            },
+            {
+                question: `Dalam analogi "Bandar Komputer", komponen apakah yang diibaratkan sebagai Jalan Raya Utama tempat mengalir laluan data?`,
+                choices: [
+                    "A. CPU (Kilang)",
+                    "B. RAM (Gudang)",
+                    "C. System Bus (Laluan Pengangkutan)"
+                ],
+                correct: 2,
+                feedback: "Tepat sekali! 🛣️ Bus ialah jalan raya utama tempat lori-lori data berlalu-lalang membawa fail ke CPU dan monitor!"
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        let score = 0;
+        let hasAnswered = false;
+
+        function renderQuizQuestion() {
+            hasAnswered = false;
+            const currentQuestion = quizData[currentQuizIndex];
+            
+            // Progress Bar & Score
+            document.getElementById('quiz-progress').innerText = `SOALAN ${currentQuizIndex + 1}/${quizData.length}`;
+            document.getElementById('quiz-score-live').innerText = `Skor: ${score}`;
+
+            // Question text
+            document.getElementById('quiz-question-text').innerText = currentQuestion.question;
+
+            // Choices container setup
+            const choicesContainer = document.getElementById('quiz-choices-container');
+            choicesContainer.innerHTML = '';
+            
+            currentQuestion.choices.forEach((choice, index) => {
+                const btn = document.createElement('button');
+                btn.className = "quiz-choice-btn w-full text-left p-4 rounded-xl border-2 border-slate-100 hover:border-amber-400 hover:bg-amber-50/20 font-bold text-sm transition-all duration-200";
+                btn.innerText = choice;
+                btn.onclick = () => checkAnswer(index, btn);
+                choicesContainer.appendChild(btn);
+            });
+
+            // Hide feedback & next button
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById('next-quiz-btn').classList.add('hidden');
+        }
+
+        function checkAnswer(selectedIndex, clickedBtn) {
+            if (hasAnswered) return;
+            hasAnswered = true;
+
+            const currentQuestion = quizData[currentQuizIndex];
+            const feedbackBox = document.getElementById('quiz-feedback');
+            const choices = document.querySelectorAll('.quiz-choice-btn');
+
+            // Disable all choices
+            choices.forEach((btn, index) => {
+                btn.disabled = true;
+                if (index === currentQuestion.correct) {
+                    btn.classList.add('border-emerald-500', 'bg-emerald-50/20');
+                }
+            });
+
+            if (selectedIndex === currentQuestion.correct) {
+                score++;
+                feedbackBox.className = "mt-6 p-4 rounded-xl text-sm font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 block";
+                feedbackBox.innerText = currentQuestion.feedback;
+            } else {
+                clickedBtn.classList.add('border-rose-500', 'bg-rose-50/20');
+                feedbackBox.className = "mt-6 p-4 rounded-xl text-sm font-bold bg-rose-50 text-rose-800 border border-rose-200 block";
+                feedbackBox.innerText = `Kurang tepat! Jawapan betul ialah: ${currentQuestion.choices[currentQuestion.correct]}`;
+            }
+
+            // Show next button
+            document.getElementById('next-quiz-btn').classList.remove('hidden');
+            document.getElementById('quiz-score-live').innerText = `Skor: ${score}`;
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIndex++;
+            if (currentQuizIndex < quizData.length) {
+                renderQuizQuestion();
+            } else {
+                // Show final results screen
+                document.getElementById('quiz-question-box').classList.add('hidden');
+                const resultsPane = document.getElementById('quiz-results');
+                resultsPane.classList.remove('hidden');
+                
+                document.getElementById('quiz-final-score').innerText = `${score} / ${quizData.length}`;
+                
+                const commentary = document.getElementById('quiz-commentary');
+                if (score === quizData.length) {
+                    commentary.innerText = "Luar biasa hebat! Anda mendapat markah penuh! Komponen komputer kini berada dalam genggaman anda. 🎉";
+                } else if (score >= 1) {
+                    commentary.innerText = "Bagus sekali usaha anda! Sedikit lagi latihan sahaja lagi untuk capai markah penuh. 💡";
+                } else {
+                    commentary.innerText = "Jangan putus asa! Pembelajaran adalah satu proses. Mari ulangi nota di atas dan cuba lagi! 💪";
+                }
+            }
+        }
+
+        function resetQuiz() {
+            currentQuizIndex = 0;
+            score = 0;
+            document.getElementById('quiz-question-box').classList.remove('hidden');
+            document.getElementById('quiz-results').classList.add('hidden');
+            renderQuizQuestion();
+        }
+
+        // Initialize quiz on load
+        window.onload = function() {
+            renderQuizQuestion();
+        };
+    </script>
+</body>
+</html>
