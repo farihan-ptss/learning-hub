@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Pembelajaran: System & Cache Memory</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- React & Babel CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- FontAwesome for beautiful icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+        }
+        .gradient-accent {
+            background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+        }
+        .custom-shadow {
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 5px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+        .glow {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+        /* Hide scrollbars but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Custom Simulated Data for Interactive Learning Elements
+        const MEMORY_TYPES_INFO = {
+            register: {
+                title: "Register",
+                analogy: "Tangan CPU",
+                desc: "Menyimpan data yang sedang diproses. CPU memegang data ini sekarang.",
+                speed: "⭐⭐⭐⭐⭐ (Paling Laju)",
+                size: "Sangat Kecil (Bait)",
+                cost: "Sangat Mahal",
+                volatile: "Ya (Data hilang bila power off)",
+                bg: "bg-rose-50 border-rose-200 text-rose-700",
+                icon: "fa-hand-pointer"
+            },
+            cache: {
+                title: "Cache Memory",
+                analogy: "Poket CPU",
+                desc: "Menyimpan data yang selalu dan kerap digunakan agar CPU tidak perlu ke RAM.",
+                speed: "⭐⭐⭐⭐ (Sangat Laju)",
+                size: "Kecil (Megabait)",
+                cost: "Mahal",
+                volatile: "Ya (Data hilang bila power off)",
+                bg: "bg-amber-50 border-amber-200 text-amber-700",
+                icon: "fa-bolt"
+            },
+            ram: {
+                title: "RAM (Random Access Memory)",
+                analogy: "Meja Belajar",
+                desc: "Tempat menyimpan semua aplikasi & program yang sedang aktif dijalankan.",
+                speed: "⭐⭐⭐ (Sederhana Laju)",
+                size: "Sederhana (Gigabait)",
+                cost: "Sederhana",
+                volatile: "Ya (Data hilang bila power off)",
+                bg: "bg-blue-50 border-blue-200 text-blue-700",
+                icon: "fa-laptop"
+            },
+            rom: {
+                title: "ROM (Read Only Memory)",
+                analogy: "Buku Panduan Kekal",
+                desc: "Menyimpan firmware/BIOS penting untuk menghidupkan komputer. Tidak boleh diubah suai sesuka hati.",
+                speed: "⭐⭐ (Sederhana Perlahan)",
+                size: "Kecil",
+                cost: "Sederhana",
+                volatile: "Tidak (Kekal / Non-Volatile)",
+                bg: "bg-indigo-50 border-indigo-200 text-indigo-700",
+                icon: "fa-shield-halved"
+            },
+            ssd: {
+                title: "SSD (Solid State Drive)",
+                analogy: "Almari Buku",
+                desc: "Penyimpanan sekunder berasaskan cip yang laju untuk sistem operasi dan fail aplikasi.",
+                speed: "⭐⭐ (Laju Sekunder)",
+                size: "Besar (Ratusan GB/TB)",
+                cost: "Murah berbanding RAM",
+                volatile: "Tidak (Kekal / Non-Volatile)",
+                bg: "bg-emerald-50 border-emerald-200 text-emerald-700",
+                icon: "fa-microchip"
+            },
+            hdd: {
+                title: "HDD (Hard Disk Drive)",
+                analogy: "Stor Simpanan",
+                desc: "Penyimpanan magnetik tradisional untuk fail bersaiz sangat besar dengan kos rendah.",
+                speed: "⭐ (Perlahan)",
+                size: "Sangat Besar (Terabait)",
+                cost: "Paling Murah",
+                volatile: "Tidak (Kekal / Non-Volatile)",
+                bg: "bg-slate-100 border-slate-300 text-slate-700",
+                icon: "fa-database"
+            }
+        };
+
+        const QUIZ_QUESTIONS = [
+            {
+                id: 1,
+                question: "Di manakah program Microsoft Word diletakkan SEBELUM ia dibuka oleh pengguna?",
+                options: [
+                    { key: "A", text: "Di dalam RAM" },
+                    { key: "B", text: "Di dalam SSD/HDD" },
+                    { key: "C", text: "Di dalam Cache L1" },
+                    { key: "D", text: "Di dalam Register" }
+                ],
+                correct: "B",
+                explanation: "Sebelum dibuka, program disimpan secara kekal dalam storan sekunder (SSD/HDD). Apabila dibuka, barulah ia dipindahkan ke RAM."
+            },
+            {
+                id: 2,
+                question: "Berdasarkan analogi meja belajar, apakah yang diwakili oleh RAM?",
+                options: [
+                    { key: "A", text: "Almari buku di sudut bilik" },
+                    { key: "B", text: "Otak pelajar" },
+                    { key: "C", text: "Meja belajar di mana buku diletakkan semasa dibaca" },
+                    { key: "D", text: "Stor di luar rumah" }
+                ],
+                correct: "C",
+                explanation: "RAM dianalogikan sebagai Meja Belajar kerana ia memegang data/buku yang sedang aktif digunakan sekarang supaya senang diakses oleh otak (CPU)."
+            },
+            {
+                id: 3,
+                question: "Apakah jenis memori yang paling hampir dengan CPU, paling laju, paling kecil saiznya dan paling mahal harganya?",
+                options: [
+                    { key: "A", text: "RAM" },
+                    { key: "B", text: "SSD" },
+                    { key: "C", text: "Cache L3" },
+                    { key: "D", text: "Register" }
+                ],
+                correct: "D",
+                explanation: "Register terletak di dalam CPU sendiri. Ia merupakan memori paling laju, paling kecil, dan paling mahal dalam hierarki memori."
+            },
+            {
+                id: 4,
+                question: "Kenapa RAM dipanggil volatile memory?",
+                options: [
+                    { key: "A", text: "Kerana semua data di dalamnya akan hilang apabila komputer dimatikan." },
+                    { key: "B", text: "Kerana harganya sangat mahal di pasaran." },
+                    { key: "C", text: "Kerana ia menyimpan BIOS secara kekal." },
+                    { key: "D", text: "Kerana data boleh ditulis berkali-kali tanpa kuasa elektrik." }
+                ],
+                correct: "A",
+                explanation: "Volatile bermaksud sementara. Memori jenis ini memerlukan kuasa elektrik untuk mengekalkan data; sebaik sahaja dimatikan, datanya akan terpadam sepenuhnya."
+            },
+            {
+                id: 5,
+                question: "Jika CPU seorang Chef, manakah padanan analogi Cache L1 yang paling tepat?",
+                options: [
+                    { key: "A", text: "Bahan masakan di dalam peti sejuk" },
+                    { key: "B", text: "Bahan masakan yang sedang dipegang di tangan chef" },
+                    { key: "C", text: "Bahan masakan di atas meja dapur" },
+                    { key: "D", text: "Bahan masakan di dalam stor belakang rumah" }
+                ],
+                correct: "B",
+                explanation: "Cache L1 berada paling hampir dengan CPU core, sama seperti bahan masakan yang berada betul-betul di tangan chef untuk digunakan serta-merta."
+            },
+            {
+                id: 6,
+                question: "Apakah fungsi utama Cache Memory di antara CPU dan RAM?",
+                options: [
+                    { key: "A", text: "Menyimpan fail video bersaiz besar untuk dimainkan semula" },
+                    { key: "B", text: "Menyimpan firmware komputer (BIOS)" },
+                    { key: "C", text: "Menyimpan data yang kerap digunakan oleh CPU bagi melajukan pemprosesan" },
+                    { key: "D", text: "Menggantikan terus peranan SSD secara kekal" }
+                ],
+                correct: "C",
+                explanation: "Cache menyimpan salinan data daripada RAM yang kerap digunakan semula, supaya CPU tidak perlu kerap berjalan jauh ke RAM yang lebih perlahan."
+            },
+            {
+                id: 7,
+                question: "Apakah urutan carian data yang betul apabila CPU memerlukan sesuatu maklumat?",
+                options: [
+                    { key: "A", text: "RAM → L3 → L2 → L1 → CPU" },
+                    { key: "B", text: "CPU → RAM → L1 → L2 → L3" },
+                    { key: "C", text: "CPU → L1 → L2 → L3 → RAM" },
+                    { key: "D", text: "L3 → L2 → L1 → RAM → CPU" }
+                ],
+                correct: "C",
+                explanation: "Urutannya bermula daripada yang paling hampir dan laju: CPU menyemak L1 Cache, kemudian L2, kemudian L3, dan jika masih tiada (Cache Miss), barulah ia mencari di dalam RAM."
+            }
+        ];
+
+        function App() {
+            const [activeTab, setActiveTab] = useState('home'); // home, sys-memory, cache-memory, simulator, quiz
+            const [searchQuery, setSearchQuery] = useState('');
+            const [selectedHierarchy, setSelectedHierarchy] = useState('register');
+            
+            // Simulator State
+            const [simState, setSimState] = useState('idle'); // idle, fetching_l1, fetching_l2, fetching_l3, fetching_ram, found
+            const [simLocation, setSimLocation] = useState('');
+            const [simLogs, setSimLogs] = useState([]);
+            const [simItem, setSimItem] = useState('Garam (Data Kerap)'); // Garam (L1), Bawang (L2), Kicap (L3), Telur (RAM)
+
+            // Quiz State
+            const [currentQuestion, setCurrentQuestion] = useState(0);
+            const [quizAnswers, setQuizAnswers] = useState({});
+            const [showResults, setShowResults] = useState(false);
+            const [score, setScore] = useState(0);
+
+            // Toast/Alert message simulation
+            const [toastMessage, setToastMessage] = useState(null);
+
+            const showToast = (msg) => {
+                setToastMessage(msg);
+                setTimeout(() => {
+                    setToastMessage(null);
+                }, 3000);
+            };
+
+            // Reset simulator
+            const resetSimulator = () => {
+                setSimState('idle');
+                setSimLocation('');
+                setSimLogs([]);
+            };
+
+            // Run Kitchen Cache Simulation
+            const runSimulator = (target) => {
+                resetSimulator();
+                setSimItem(target);
+                setSimState('running');
+                
+                let logs = [];
+                const addLog = (text, delay) => {
+                    return new Promise((resolve) => {
+                        setTimeout(() => {
+                            logs = [...logs, text];
+                            setSimLogs([...logs]);
+                            resolve();
+                        }, delay);
+                    });
+                };
+
+                // L1 Check
+                addLog("🔍 CPU (Chef) mula mencari bahan: " + target, 500)
+                    .then(() => {
+                        setSimLocation('l1');
+                        return addLog("👉 Menyemak L1 Cache (Bahan di tangan)...", 1000);
+                    })
+                    .then(() => {
+                        if (target === 'Sudu Masak (L1 Data)') {
+                            setSimLocation('l1-found');
+                            setSimState('found');
+                            return addLog("🎯 DIJUMPAI di L1 Cache! Sangat Laju (0.5 ns). Tiada lengahan.", 800);
+                        } else {
+                            return addLog("❌ Tiada di L1 Cache (L1 Miss). Teruskan carian...", 1000);
+                        }
+                    })
+                    .then(() => {
+                        if (simState === 'found' || target === 'Sudu Masak (L1 Data)') return;
+                        setSimLocation('l2');
+                        return addLog("👉 Menyemak L2 Cache (Bahan atas meja)...", 1000);
+                    })
+                    .then(() => {
+                        if (simState === 'found' || target === 'Sudu Masak (L1 Data)') return;
+                        if (target === 'Bawang Dipotong (L2 Data)') {
+                            setSimLocation('l2-found');
+                            setSimState('found');
+                            return addLog("🎯 DIJUMPAI di L2 Cache! Cepat dan cekap (2 ns).", 800);
+                        } else {
+                            return addLog("❌ Tiada di L2 Cache (L2 Miss). Teruskan carian...", 1000);
+                        }
+                    })
+                    .then(() => {
+                        if (simState === 'found' || target === 'Sudu Masak (L1 Data)' || target === 'Bawang Dipotong (L2 Data)') return;
+                        setSimLocation('l3');
+                        return addLog("👉 Menyemak L3 Cache (Bahan di rak dapur - kongsi core)...", 1000);
+                    })
+                    .then(() => {
+                        if (simState === 'found' || target === 'Sudu Masak (L1 Data)' || target === 'Bawang Dipotong (L2 Data)') return;
+                        if (target === 'Kicap Manis (L3 Data)') {
+                            setSimLocation('l3-found');
+                            setSimState('found');
+                            return addLog("🎯 DIJUMPAI di L3 Cache! Sederhana laju (10 ns). Masih jimat masa.", 800);
+                        } else {
+                            return addLog("❌ Tiada di L3 Cache (L3 Miss). Terpaksa keluar ke RAM...", 1000);
+                        }
+                    })
+                    .then(() => {
+                        if (simState === 'found' || target !== 'Telur Mentah (RAM Data)') return;
+                        setSimLocation('ram');
+                        return addLog("🏃‍♂️ Berjalan ke RAM (Peti Sejuk jauh)...", 1200);
+                    })
+                    .then(() => {
+                        if (simState === 'found' || target !== 'Telur Mentah (RAM Data)') return;
+                        setSimLocation('ram-found');
+                        setSimState('found');
+                        return addLog("🎯 Akhirnya DIJUMPAI di RAM! Mengambil masa lebih lama (100 ns). Lambat sedikit tetapi data berjaya dibaca.", 1000);
+                    });
+            };
+
+            // Quiz logic
+            const handleAnswerSelect = (optionKey) => {
+                setQuizAnswers({
+                    ...quizAnswers,
+                    [currentQuestion]: optionKey
+                });
+            };
+
+            const nextQuestion = () => {
+                if (currentQuestion < QUIZ_QUESTIONS.length - 1) {
+                    setCurrentQuestion(currentQuestion + 1);
+                } else {
+                    // Calculate score
+                    let totalScore = 0;
+                    QUIZ_QUESTIONS.forEach((q, idx) => {
+                        if (quizAnswers[idx] === q.correct) {
+                            totalScore += 1;
+                        }
+                    });
+                    setScore(totalScore);
+                    setShowResults(true);
+                }
+            };
+
+            const prevQuestion = () => {
+                if (currentQuestion > 0) {
+                    setCurrentQuestion(currentQuestion - 1);
+                }
+            };
+
+            const resetQuiz = () => {
+                setCurrentQuestion(0);
+                setQuizAnswers({});
+                setShowResults(false);
+                setScore(0);
+            };
+
+            return (
+                <div className="min-h-screen flex flex-col">
+                    {/* Header Nav */}
+                    <header className="sticky top-0 z-50 bg-white border-b border-slate-100 shadow-sm">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex justify-between items-center h-16">
+                                <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('home')}>
+                                    <div className="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white shadow-md">
+                                        <i className="fa-solid fa-graduation-cap text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <span className="font-extrabold text-slate-800 text-lg tracking-tight block">MemoryHub</span>
+                                        <span className="text-xs text-sky-600 font-semibold block uppercase tracking-wider">Computer Architecture</span>
+                                    </div>
+                                </div>
+                                
+                                {/* Desktop Menu Nav */}
+                                <nav className="hidden md:flex space-x-1">
+                                    <button 
+                                        onClick={() => setActiveTab('home')}
+                                        className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${activeTab === 'home' ? 'bg-sky-50 text-sky-600' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'}`}
+                                    >
+                                        <i className="fa-solid fa-house mr-1.5"></i> Utama
+                                    </button>
+                                    <button 
+                                        onClick={() => setActiveTab('sys-memory')}
+                                        className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${activeTab === 'sys-memory' ? 'bg-sky-50 text-sky-600' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'}`}
+                                    >
+                                        <i className="fa-solid fa-server mr-1.5"></i> System Memory
+                                    </button>
+                                    <button 
+                                        onClick={() => setActiveTab('cache-memory')}
+                                        className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${activeTab === 'cache-memory' ? 'bg-sky-50 text-sky-600' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'}`}
+                                    >
+                                        <i className="fa-solid fa-bolt mr-1.5"></i> Cache Memory
+                                    </button>
+                                    <button 
+                                        onClick={() => setActiveTab('simulator')}
+                                        className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${activeTab === 'simulator' ? 'bg-sky-50 text-sky-600' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'}`}
+                                    >
+                                        <i className="fa-solid fa-gamepad mr-1.5"></i> Simulasi Chef
+                                    </button>
+                                    <button 
+                                        onClick={() => setActiveTab('quiz')}
+                                        className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${activeTab === 'quiz' ? 'bg-sky-50 text-sky-600' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'}`}
+                                    >
+                                        <i className="fa-solid fa-circle-question mr-1.5"></i> Kuiz Minda
+                                    </button>
+                                </nav>
+
+                                {/* Responsive Badge / Contact */}
+                                <div className="flex items-center space-x-2">
+                                    <span className="hidden lg:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+                                        <span className="w-1.5 h-1.5 mr-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                        Belajar Cepat
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Mobile Navigation Bar */}
+                    <div className="md:hidden bg-white border-b border-slate-200 px-4 py-2 flex space-x-1 overflow-x-auto no-scrollbar">
+                        <button 
+                            onClick={() => setActiveTab('home')}
+                            className={`flex-none px-3 py-1.5 rounded-lg text-xs font-bold ${activeTab === 'home' ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-600'}`}
+                        >
+                            <i className="fa-solid fa-house mr-1"></i> Utama
+                        </button>
+                        <button 
+                            onClick={() => setActiveTab('sys-memory')}
+                            className={`flex-none px-3 py-1.5 rounded-lg text-xs font-bold ${activeTab === 'sys-memory' ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-600'}`}
+                        >
+                            <i className="fa-solid fa-server mr-1"></i> System Memory
+                        </button>
+                        <button 
+                            onClick={() => setActiveTab('cache-memory')}
+                            className={`flex-none px-3 py-1.5 rounded-lg text-xs font-bold ${activeTab === 'cache-memory' ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-600'}`}
+                        >
+                            <i className="fa-solid fa-bolt mr-1"></i> Cache Memory
+                        </button>
+                        <button 
+                            onClick={() => setActiveTab('simulator')}
+                            className={`flex-none px-3 py-1.5 rounded-lg text-xs font-bold ${activeTab === 'simulator' ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-600'}`}
+                        >
+                            <i className="fa-solid fa-gamepad mr-1"></i> Chef Sim
+                        </button>
+                        <button 
+                            onClick={() => setActiveTab('quiz')}
+                            className={`flex-none px-3 py-1.5 rounded-lg text-xs font-bold ${activeTab === 'quiz' ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-600'}`}
+                        >
+                            <i className="fa-solid fa-circle-question mr-1"></i> Kuiz
+                        </button>
+                    </div>
+
+                    {/* Toast Notification */}
+                    {toastMessage && (
+                        <div className="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-3 animate-bounce">
+                            <i className="fa-solid fa-bell text-sky-400"></i>
+                            <span className="text-sm font-medium">{toastMessage}</span>
+                        </div>
+                    )}
+
+                    {}
+                    <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                        {activeTab === 'home' && (
+                            <div className="space-y-8 animate-fadeIn">
+                                {/* Hero Banner */}
+                                <div className="relative rounded-3xl overflow-hidden gradient-bg text-white p-8 md:p-12 custom-shadow">
+                                    <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
+                                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-sky-500/30 rounded-full blur-2xl -ml-20 -mb-20"></div>
+                                    
+                                    <div className="relative max-w-2xl space-y-4">
+                                        <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/20 text-sky-100 text-xs font-bold uppercase tracking-wider">
+                                            💻 Pengenalan Computer Architecture
+                                        </div>
+                                        <h1 className="text-3xl md:text-5xl font-extrabold leading-tight tracking-tight">
+                                            Kuasai System Memory & Cache dengan Mudah!
+                                        </h1>
+                                        <p className="text-sky-100 text-sm md:text-base font-medium">
+                                            Selamat datang ke Hub Pembelajaran interaktif. Melalui visualisasi interaktif dan analogi dunia sebenar (Chef masakan & Meja belajar), anda akan faham bagaimana komputer memproses data sepantas kilat!
+                                        </p>
+                                        <div className="pt-4 flex flex-wrap gap-3">
+                                            <button 
+                                                onClick={() => setActiveTab('sys-memory')}
+                                                className="px-6 py-3 rounded-xl bg-white text-sky-700 font-bold hover:bg-sky-50 transition shadow-lg text-sm"
+                                            >
+                                                Mula Belajar
+                                            </button>
+                                            <button 
+                                                onClick={() => setActiveTab('simulator')}
+                                                className="px-6 py-3 rounded-xl bg-sky-500/40 border border-white/20 text-white font-bold hover:bg-sky-500/60 transition text-sm flex items-center"
+                                            >
+                                                <i className="fa-solid fa-play mr-2"></i> Cuba Simulasi Chef
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Quick Analogy Highlighters */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {/* System Memory Analogy Box */}
+                                    <div className="bg-white rounded-2xl p-6 border border-slate-100 custom-shadow hover:scale-[1.01] transition-transform">
+                                        <div className="flex items-center space-x-3 mb-4">
+                                            <div className="w-12 h-12 rounded-xl bg-sky-50 flex items-center justify-center text-sky-600">
+                                                <i className="fa-solid fa-book-open text-xl"></i>
+                                            </div>
+                                            <div>
+                                                <span className="text-xs font-bold text-sky-600 uppercase">Analogi Meja Belajar</span>
+                                                <h3 className="text-lg font-bold text-slate-800">Bagaimana RAM Berfungsi?</h3>
+                                            </div>
+                                        </div>
+                                        <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                                            Apabila anda hendak belajar, anda tidak membaca buku di dalam almari (SSD/HDD). Anda ambil buku tersebut, letakkan di atas <strong>meja belajar (RAM)</strong>, barulah otak anda (CPU) membacanya dengan pantas.
+                                        </p>
+                                        <div className="bg-slate-50 p-3 rounded-xl flex justify-around text-center text-xs font-bold text-slate-700 border border-slate-100">
+                                            <div>
+                                                <p className="text-slate-400 font-medium">Almari</p>
+                                                <p className="text-sky-600">SSD / HDD</p>
+                                            </div>
+                                            <div className="flex items-center text-slate-300">
+                                                <i className="fa-solid fa-arrow-right"></i>
+                                            </div>
+                                            <div>
+                                                <p className="text-slate-400 font-medium">Meja Belajar</p>
+                                                <p className="text-indigo-600">RAM</p>
+                                            </div>
+                                            <div className="flex items-center text-slate-300">
+                                                <i className="fa-solid fa-arrow-right"></i>
+                                            </div>
+                                            <div>
+                                                <p className="text-slate-400 font-medium">Otak</p>
+                                                <p className="text-rose-600">CPU</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Cache Memory Analogy Box */}
+                                    <div className="bg-white rounded-2xl p-6 border border-slate-100 custom-shadow hover:scale-[1.01] transition-transform">
+                                        <div className="flex items-center space-x-3 mb-4">
+                                            <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+                                                <i className="fa-solid fa-utensils text-xl"></i>
+                                            </div>
+                                            <div>
+                                                <span className="text-xs font-bold text-emerald-600 uppercase">Analogi Dapur Chef</span>
+                                                <h3 className="text-lg font-bold text-slate-800">Konsep Tahap Cache L1, L2, L3</h3>
+                                            </div>
+                                        </div>
+                                        <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                                            Bayangkan CPU ialah seorang <strong>Chef</strong>. L1 Cache ialah bahan yang sudah dipegang di tangan, L2 ialah bahan di atas meja kerja, manakah L3 ialah bahan di rak kabinet dapur. RAM pula seperti peti sejuk di luar kawasan memasak!
+                                        </p>
+                                        <div className="bg-slate-50 p-3 rounded-xl flex justify-around text-center text-xs font-bold text-slate-700 border border-slate-100">
+                                            <div>
+                                                <p className="text-emerald-600">L1 Cache</p>
+                                                <p className="text-slate-500 font-medium">Di Tangan</p>
+                                            </div>
+                                            <div className="flex items-center text-slate-300">
+                                                <i className="fa-solid fa-arrow-right"></i>
+                                            </div>
+                                            <div>
+                                                <p className="text-teal-600">L2 Cache</p>
+                                                <p className="text-slate-500 font-medium">Atas Meja</p>
+                                            </div>
+                                            <div className="flex items-center text-slate-300">
+                                                <i className="fa-solid fa-arrow-right"></i>
+                                            </div>
+                                            <div>
+                                                <p className="text-amber-600">L3 Cache</p>
+                                                <p className="text-slate-500 font-medium">Rak Dapur</p>
+                                            </div>
+                                            <div className="flex items-center text-slate-300">
+                                                <i className="fa-solid fa-arrow-right"></i>
+                                            </div>
+                                            <div>
+                                                <p className="text-rose-600">RAM</p>
+                                                <p className="text-slate-500 font-medium">Peti Sejuk</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Interactive Memory Hierarchy Pyramid Sneak Peek */}
+                                <div className="bg-white rounded-2xl p-6 border border-slate-100 custom-shadow">
+                                    <div className="text-center max-w-xl mx-auto space-y-2 mb-8">
+                                        <h3 className="text-2xl font-extrabold text-slate-800">Hierarki Memori Komputer</h3>
+                                        <p className="text-slate-500 text-sm">
+                                            Klik pada setiap tingkat piramid di bawah untuk melihat butiran kelajuan, saiz, kos dan peranannya secara interaktif!
+                                        </p>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                                        {/* Pyramid Visual */}
+                                        <div className="lg:col-span-7 flex flex-col items-center justify-center space-y-2">
+                                            {/* Register */}
+                                            <button 
+                                                onClick={() => { setSelectedHierarchy('register'); showToast("Memilih Register!"); }}
+                                                className={`w-full max-w-[220px] py-3 px-4 text-center rounded-xl font-bold transition-all duration-150 border text-xs sm:text-sm ${selectedHierarchy === 'register' ? 'bg-rose-500 text-white border-rose-600 shadow-lg scale-105' : 'bg-rose-50 hover:bg-rose-100 text-rose-700 border-rose-200'}`}
+                                            >
+                                                ⚡ Register (Paling Laju & Kecil)
+                                            </button>
+                                            <div className="text-slate-400 text-xs"><i className="fa-solid fa-angles-down"></i></div>
+                                            {/* Cache */}
+                                            <button 
+                                                onClick={() => { setSelectedHierarchy('cache'); showToast("Memilih Cache Memory!"); }}
+                                                className={`w-full max-w-[280px] py-3 px-4 text-center rounded-xl font-bold transition-all duration-150 border text-xs sm:text-sm ${selectedHierarchy === 'cache' ? 'bg-amber-500 text-white border-amber-600 shadow-lg scale-105' : 'bg-amber-50 hover:bg-amber-100 text-amber-700 border-amber-200'}`}
+                                            >
+                                                ⚡ Cache Memory (Sangat Laju)
+                                            </button>
+                                            <div className="text-slate-400 text-xs"><i className="fa-solid fa-angles-down"></i></div>
+                                            {/* RAM */}
+                                            <button 
+                                                onClick={() => { setSelectedHierarchy('ram'); showToast("Memilih RAM!"); }}
+                                                className={`w-full max-w-[340px] py-3 px-4 text-center rounded-xl font-bold transition-all duration-150 border text-xs sm:text-sm ${selectedHierarchy === 'ram' ? 'bg-blue-500 text-white border-blue-600 shadow-lg scale-105' : 'bg-blue-50 hover:bg-blue-100 text-blue-700 border-blue-200'}`}
+                                            >
+                                                💻 RAM (Random Access Memory)
+                                            </button>
+                                            <div className="text-slate-400 text-xs"><i className="fa-solid fa-angles-down"></i></div>
+                                            {/* ROM */}
+                                            <button 
+                                                onClick={() => { setSelectedHierarchy('rom'); showToast("Memilih ROM!"); }}
+                                                className={`w-full max-w-[380px] py-3 px-4 text-center rounded-xl font-bold transition-all duration-150 border text-xs sm:text-sm ${selectedHierarchy === 'rom' ? 'bg-indigo-500 text-white border-indigo-600 shadow-lg scale-105' : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'}`}
+                                            >
+                                                🔒 ROM (Read Only / BIOS)
+                                            </button>
+                                            <div className="text-slate-400 text-xs"><i className="fa-solid fa-angles-down"></i></div>
+                                            {/* SSD */}
+                                            <button 
+                                                onClick={() => { setSelectedHierarchy('ssd'); showToast("Memilih SSD!"); }}
+                                                className={`w-full max-w-[440px] py-3 px-4 text-center rounded-xl font-bold transition-all duration-150 border text-xs sm:text-sm ${selectedHierarchy === 'ssd' ? 'bg-emerald-500 text-white border-emerald-600 shadow-lg scale-105' : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border-emerald-200'}`}
+                                            >
+                                                💾 SSD (Storan Sekunder Laju)
+                                            </button>
+                                            <div className="text-slate-400 text-xs"><i className="fa-solid fa-angles-down"></i></div>
+                                            {/* HDD */}
+                                            <button 
+                                                onClick={() => { setSelectedHierarchy('hdd'); showToast("Memilih HDD!"); }}
+                                                className={`w-full max-w-[500px] py-3 px-4 text-center rounded-xl font-bold transition-all duration-150 border text-xs sm:text-sm ${selectedHierarchy === 'hdd' ? 'bg-slate-600 text-white border-slate-700 shadow-lg scale-105' : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300'}`}
+                                            >
+                                                📦 HDD (Storan Sangat Besar / Perlahan)
+                                            </button>
+                                        </div>
+
+                                        {/* Dynamic Hierarchy Detail Panel */}
+                                        <div className="lg:col-span-5">
+                                            {(() => {
+                                                const info = MEMORY_TYPES_INFO[selectedHierarchy];
+                                                return (
+                                                    <div className={`p-6 rounded-2xl border transition-all duration-300 ${info.bg} h-full flex flex-col justify-between`}>
+                                                        <div>
+                                                            <div className="flex items-center space-x-3 mb-4">
+                                                                <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center shadow-sm">
+                                                                    <i className={`fa-solid ${info.icon} text-lg`}></i>
+                                                                </div>
+                                                                <h4 className="text-xl font-extrabold">{info.title}</h4>
+                                                            </div>
+                                                            <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-white mb-4 shadow-xs">
+                                                                💡 Analogi: {info.analogy}
+                                                            </div>
+                                                            <p className="text-sm font-medium mb-6 leading-relaxed opacity-90">{info.desc}</p>
+                                                        </div>
+                                                        <div className="space-y-2 border-t border-black/5 pt-4 text-sm font-semibold">
+                                                            <div className="flex justify-between">
+                                                                <span className="opacity-75">🚀 Kelajuan:</span>
+                                                                <span>{info.speed}</span>
+                                                            </div>
+                                                            <div className="flex justify-between">
+                                                                <span className="opacity-75">📦 Saiz:</span>
+                                                                <span>{info.size}</span>
+                                                            </div>
+                                                            <div className="flex justify-between">
+                                                                <span className="opacity-75">💵 Kos:</span>
+                                                                <span>{info.cost}</span>
+                                                            </div>
+                                                            <div className="flex justify-between">
+                                                                <span className="opacity-75">🔌 Volatile (Hilang data jika mati elektrik):</span>
+                                                                <span>{info.volatile}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })()}
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Core Principle Banner */}
+                                    <div className="mt-8 bg-sky-50 border border-sky-100 p-4 rounded-xl text-center">
+                                        <p className="text-sm text-sky-800 font-bold">
+                                            💡 Formula Penting Peperiksaan: 
+                                            <span className="text-indigo-600 block sm:inline ml-1">
+                                                "Semakin dekat dengan CPU, semakin laju tetapi semakin kecil dan mahal."
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {}
+                        {activeTab === 'sys-memory' && (
+                            <div className="space-y-8 animate-fadeIn">
+                                {/* Page Header */}
+                                <div className="border-b border-slate-100 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                    <div>
+                                        <h2 className="text-3xl font-extrabold text-slate-800">1.4.1 System Memory</h2>
+                                        <p className="text-slate-500 text-sm">Asas terpenting dalam Seni Bina Komputer (Computer Architecture).</p>
+                                    </div>
+                                    <div className="bg-sky-50 text-sky-700 px-4 py-2 rounded-xl text-xs font-bold self-start md:self-center">
+                                        Siri Kuliah: Topik 1
+                                    </div>
+                                </div>
+
+                                {/* Content Grid */}
+                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                                    {/* Left 2 Cols: Main Notes */}
+                                    <div className="lg:col-span-2 space-y-6">
+                                        {/* What is System Memory? */}
+                                        <div className="bg-white rounded-2xl p-6 border border-slate-100 custom-shadow space-y-4">
+                                            <h3 className="text-xl font-bold text-slate-800 flex items-center">
+                                                <span className="w-2.5 h-6 bg-sky-500 rounded-full mr-2.5"></span>
+                                                Apa itu System Memory?
+                                            </h3>
+                                            <div className="p-4 bg-sky-50 rounded-xl border border-sky-100">
+                                                <p className="text-sm text-sky-900 leading-relaxed font-medium">
+                                                    <strong>Definisi (Bahasa Mudah):</strong> System Memory ialah tempat komputer menyimpan data dan arahan (instructions) supaya CPU boleh menggunakannya untuk menjalankan sesuatu program. Tanpa memory, CPU tiada data untuk diproses.
+                                                </p>
+                                            </div>
+
+                                            {/* Step by step process when Word open */}
+                                            <div className="space-y-3">
+                                                <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Contoh Situasi: Membuka Microsoft Word</h4>
+                                                <div className="relative border-l-2 border-indigo-100 pl-4 space-y-4 ml-2">
+                                                    <div className="relative">
+                                                        <span className="absolute -left-[25px] top-1/2 -translate-y-1/2 w-4.5 h-4.5 rounded-full bg-indigo-500 text-white text-[10px] flex items-center justify-center font-bold">1</span>
+                                                        <p className="text-sm text-slate-600">Program Microsoft Word disimpan secara kekal dalam <strong>SSD/HDD</strong>.</p>
+                                                    </div>
+                                                    <div className="relative">
+                                                        <span className="absolute -left-[25px] top-1/2 -translate-y-1/2 w-4.5 h-4.5 rounded-full bg-indigo-500 text-white text-[10px] flex items-center justify-center font-bold">2</span>
+                                                        <p className="text-sm text-slate-600">Apabila dibuka, fail dipindahkan ke dalam <strong>RAM</strong>.</p>
+                                                    </div>
+                                                    <div className="relative">
+                                                        <span className="absolute -left-[25px] top-1/2 -translate-y-1/2 w-4.5 h-4.5 rounded-full bg-indigo-500 text-white text-[10px] flex items-center justify-center font-bold">3</span>
+                                                        <p className="text-sm text-slate-600"><strong>CPU</strong> membaca dan mengambil data daripada RAM tersebut.</p>
+                                                    </div>
+                                                    <div className="relative">
+                                                        <span className="absolute -left-[25px] top-1/2 -translate-y-1/2 w-4.5 h-4.5 rounded-full bg-indigo-500 text-white text-[10px] flex items-center justify-center font-bold">4</span>
+                                                        <p className="text-sm text-slate-600">CPU memproses arahan dan hasilnya dipaparkan pada <strong>monitor</strong> anda.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Primary Memory vs Secondary Memory */}
+                                        <div className="bg-white rounded-2xl p-6 border border-slate-100 custom-shadow space-y-6">
+                                            <h3 className="text-xl font-bold text-slate-800 flex items-center">
+                                                <span className="w-2.5 h-6 bg-indigo-500 rounded-full mr-2.5"></span>
+                                                Jenis-Jenis Memori Komputer (1.4.1 Types)
+                                            </h3>
+
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div className="border border-indigo-100 rounded-xl p-4 bg-indigo-50/20 space-y-3">
+                                                    <h4 className="text-base font-bold text-indigo-900 flex items-center">
+                                                        <i className="fa-solid fa-bolt mr-2 text-indigo-500"></i> Primary Memory (Utama)
+                                                    </h4>
+                                                    <p className="text-xs text-slate-600 leading-relaxed">
+                                                        Memori yang boleh diakses secara <strong>terus</strong> oleh CPU tanpa melalui sebarang perantara sekunder. Sangat laju dan kritikal untuk operasi aktif.
+                                                    </p>
+                                                    <div className="flex flex-wrap gap-2 pt-2">
+                                                        <span className="px-2 py-1 bg-indigo-100 text-indigo-800 text-[10px] font-extrabold rounded-md">Register</span>
+                                                        <span className="px-2 py-1 bg-indigo-100 text-indigo-800 text-[10px] font-extrabold rounded-md">Cache Memory</span>
+                                                        <span className="px-2 py-1 bg-indigo-100 text-indigo-800 text-[10px] font-extrabold rounded-md">RAM</span>
+                                                        <span className="px-2 py-1 bg-indigo-100 text-indigo-800 text-[10px] font-extrabold rounded-md">ROM</span>
+                                                    </div>
+                                                </div>
+
+                                                <div className="border border-emerald-100 rounded-xl p-4 bg-emerald-50/20 space-y-3">
+                                                    <h4 className="text-base font-bold text-emerald-900 flex items-center">
+                                                        <i className="fa-solid fa-box-archive mr-2 text-emerald-500"></i> Secondary Memory (Sekunder)
+                                                    </h4>
+                                                    <p className="text-xs text-slate-600 leading-relaxed">
+                                                        Digunakan untuk penyimpanan jangka panjang secara kekal. Data tidak hilang walaupun kuasa komputer dimatikan (Non-Volatile).
+                                                    </p>
+                                                    <div className="flex flex-wrap gap-2 pt-2">
+                                                        <span className="px-2 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-extrabold rounded-md">SSD</span>
+                                                        <span className="px-2 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-extrabold rounded-md">HDD</span>
+                                                        <span className="px-2 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-extrabold rounded-md">USB Drive</span>
+                                                        <span className="px-2 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-extrabold rounded-md">Memory Card</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Micro-Details for Primary Memory Types */}
+                                            <div className="space-y-4">
+                                                <h4 className="text-sm font-bold text-slate-700 uppercase">Perincian Memori Utama (Primary)</h4>
+                                                
+                                                <div className="space-y-3">
+                                                    {/* Register */}
+                                                    <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 hover:border-sky-300 transition-all">
+                                                        <span className="font-extrabold text-slate-800 text-sm block">(a) Register</span>
+                                                        <p className="text-xs text-slate-600 mt-1">
+                                                            <strong>Lokasi:</strong> Di dalam CPU sendiri. <br />
+                                                            <strong>Fungsi:</strong> Menyimpan data yang sedang diproses (contoh: semasa mengira 25 + 30). <br />
+                                                            <strong>Ciri:</strong> Paling laju, paling kecil saiz, dan paling mahal harganya.
+                                                        </p>
+                                                    </div>
+
+                                                    {/* Cache */}
+                                                    <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 hover:border-amber-300 transition-all">
+                                                        <span className="font-extrabold text-slate-800 text-sm block">(b) Cache Memory</span>
+                                                        <p className="text-xs text-slate-600 mt-1">
+                                                            <strong>Lokasi:</strong> Berada di antara CPU dan RAM. <br />
+                                                            <strong>Fungsi:</strong> Menyimpan data yang selalu dan kerap digunakan (contoh: data pelayar Google Chrome). <br />
+                                                            <strong>Ciri:</strong> Sangat laju, lebih besar daripada Register, lebih kecil daripada RAM.
+                                                        </p>
+                                                    </div>
+
+                                                    {/* RAM */}
+                                                    <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 hover:border-blue-300 transition-all">
+                                                        <span className="font-extrabold text-slate-800 text-sm block">(c) RAM (Random Access Memory)</span>
+                                                        <p className="text-xs text-slate-600 mt-1">
+                                                            <strong>Fungsi:</strong> Menyimpan program yang sedang aktif dibuka (Chrome, Word, Canva). <br />
+                                                            <strong>Sifat:</strong> <strong className="text-rose-600">Volatile Memory</strong> (semua data hilang apabila komputer dimatikan).
+                                                        </p>
+                                                    </div>
+
+                                                    {/* ROM */}
+                                                    <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 hover:border-indigo-300 transition-all">
+                                                        <span className="font-extrabold text-slate-800 text-sm block">(d) ROM (Read Only Memory)</span>
+                                                        <p className="text-xs text-slate-600 mt-1">
+                                                            <strong>Fungsi:</strong> Menyimpan arahan penting permulaan boot komputer seperti BIOS atau UEFI Firmware. <br />
+                                                            <strong>Sifat:</strong> <strong className="text-emerald-600">Non-Volatile Memory</strong> (data kekal walaupun tiada bekalan kuasa elektrik).
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Right 1 Col: Quick Tables & Summaries */}
+                                    <div className="space-y-6">
+                                        {/* Comparison Table */}
+                                        <div className="bg-white rounded-2xl p-5 border border-slate-100 custom-shadow space-y-4">
+                                            <h3 className="text-md font-bold text-slate-800 flex items-center">
+                                                <i className="fa-solid fa-table mr-2 text-sky-500"></i> Jadual Jenis Memori
+                                            </h3>
+                                            <div className="overflow-x-auto">
+                                                <table className="w-full text-left border-collapse text-xs">
+                                                    <thead>
+                                                        <tr className="border-b border-slate-100 text-slate-400 font-bold">
+                                                            <th className="pb-2">Jenis</th>
+                                                            <th className="pb-2">Fungsi Utama</th>
+                                                            <th className="pb-2">Volatile?</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody className="divide-y divide-slate-100 text-slate-700 font-medium">
+                                                        <tr>
+                                                            <td className="py-2.5 font-bold text-rose-600">Register</td>
+                                                            <td className="py-2.5">Simpan data sedang diproses</td>
+                                                            <td className="py-2.5 text-rose-500">Ya</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td className="py-2.5 font-bold text-amber-600">Cache</td>
+                                                            <td className="py-2.5">Simpan data kerap guna</td>
+                                                            <td className="py-2.5 text-rose-500">Ya</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td className="py-2.5 font-bold text-blue-600">RAM</td>
+                                                            <td className="py-2.5">Simpan aplikasi sedang jalan</td>
+                                                            <td className="py-2.5 text-rose-500">Ya</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td className="py-2.5 font-bold text-indigo-600">ROM</td>
+                                                            <td className="py-2.5">Simpan BIOS/Firmware</td>
+                                                            <td className="py-2.5 text-emerald-600">Tidak</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td className="py-2.5 font-bold text-emerald-600">SSD/HDD</td>
+                                                            <td className="py-2.5">Simpan fail jangka panjang</td>
+                                                            <td className="py-2.5 text-emerald-600">Tidak</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        {/* Analogy Box */}
+                                        <div className="bg-sky-50 rounded-2xl p-5 border border-sky-100 space-y-3">
+                                            <h4 className="text-sm font-extrabold text-sky-900">Cara Mudah Ingat:</h4>
+                                            <ul className="space-y-2 text-xs text-sky-800 font-semibold">
+                                                <li className="flex items-center space-x-2">
+                                                    <span className="w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-xs">👉</span>
+                                                    <span><strong>Register:</strong> "Tangan CPU" (Pegang sekarang)</span>
+                                                </li>
+                                                <li className="flex items-center space-x-2">
+                                                    <span className="w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-xs">👉</span>
+                                                    <span><strong>Cache:</strong> "Poket CPU" (Kerap digunakan)</span>
+                                                </li>
+                                                <li className="flex items-center space-x-2">
+                                                    <span className="w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-xs">👉</span>
+                                                    <span><strong>RAM:</strong> "Meja belajar" (Aktif digunakan)</span>
+                                                </li>
+                                                <li className="flex items-center space-x-2">
+                                                    <span className="w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-xs">👉</span>
+                                                    <span><strong>SSD:</strong> "Almari" (Simpan fail kemas)</span>
+                                                </li>
+                                                <li className="flex items-center space-x-2">
+                                                    <span className="w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-xs">👉</span>
+                                                    <span><strong>HDD:</strong> "Stor" (Simpanan pukal)</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {}
+                        {activeTab === 'cache-memory' && (
+                            <div className="space-y-8 animate-fadeIn">
+                                {/* Page Header */}
+                                <div className="border-b border-slate-100 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                    <div>
+                                        <h2 className="text-3xl font-extrabold text-slate-800">1.4.2 Cache Memory Deep-Dive</h2>
+                                        <p className="text-slate-500 text-sm">Bagaimana cache berfungsi mempercepatkan prestasi komputer anda.</p>
+                                    </div>
+                                    <div className="bg-emerald-50 text-emerald-700 px-4 py-2 rounded-xl text-xs font-bold self-start md:self-center">
+                                        Siri Kuliah: Topik 2
+                                    </div>
+                                </div>
+
+                                {/* Content Grid */}
+                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                                    {/* Left 2 Cols: Main Notes */}
+                                    <div className="lg:col-span-2 space-y-6">
+                                        {/* What is Cache? */}
+                                        <div className="bg-white rounded-2xl p-6 border border-slate-100 custom-shadow space-y-4">
+                                            <h3 className="text-xl font-bold text-slate-800 flex items-center">
+                                                <span className="w-2.5 h-6 bg-emerald-500 rounded-full mr-2.5"></span>
+                                                Apa itu Cache Memory?
+                                            </h3>
+                                            <p className="text-slate-600 text-sm leading-relaxed">
+                                                <strong>Definisi Mudah:</strong> Cache Memory ialah memori berkelajuan tinggi yang menyimpan salinan data atau arahan yang kerap digunakan supaya CPU dapat mengaksesnya dengan lebih pantas. Tanpa cache, CPU terpaksa berulang-alik mengambil data dari RAM yang jauh lebih perlahan, menjejaskan prestasi komputer.
+                                            </p>
+                                        </div>
+
+                                        {/* Cache Levels */}
+                                        <div className="bg-white rounded-2xl p-6 border border-slate-100 custom-shadow space-y-6">
+                                            <h3 className="text-xl font-bold text-slate-800 flex items-center">
+                                                <span className="w-2.5 h-6 bg-amber-500 rounded-full mr-2.5"></span>
+                                                Tahap-Tahap Cache (Levels L1, L2, L3)
+                                            </h3>
+
+                                            <div className="space-y-4">
+                                                {/* Level 1 */}
+                                                <div className="border border-rose-100 bg-rose-50/10 rounded-2xl p-5 space-y-2">
+                                                    <div className="flex justify-between items-center">
+                                                        <h4 className="text-md font-extrabold text-rose-800">Level 1 (L1 Cache)</h4>
+                                                        <span className="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 text-[10px] font-bold">Paling Laju</span>
+                                                    </div>
+                                                    <p className="text-xs text-slate-600 leading-relaxed">
+                                                        Cache terdekat dengan CPU Core dan biasanya dibina di dalam teras cip itu sendiri. Mempunyai kapasiti yang sangat kecil tetapi sangat pantas.
+                                                    </p>
+                                                    <div className="text-xs text-slate-500 bg-white p-2.5 rounded-lg border border-rose-100/50">
+                                                        <strong>Analogi Chef:</strong> Sudu di tangan. Tidak perlu dicari lagi, boleh terus digunakan sekarang!
+                                                    </div>
+                                                </div>
+
+                                                {/* Level 2 */}
+                                                <div className="border border-amber-100 bg-amber-50/10 rounded-2xl p-5 space-y-2">
+                                                    <div className="flex justify-between items-center">
+                                                        <h4 className="text-md font-extrabold text-amber-800">Level 2 (L2 Cache)</h4>
+                                                        <span className="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">Sangat Laju</span>
+                                                    </div>
+                                                    <p className="text-xs text-slate-600 leading-relaxed">
+                                                        Terletak berhampiran dengan L1 tetapi sedikit jauh berbanding L1. Berfungsi menyimpan data sekiranya tidak ditemui di dalam L1 Cache.
+                                                    </p>
+                                                    <div className="text-xs text-slate-500 bg-white p-2.5 rounded-lg border border-amber-100/50">
+                                                        <strong>Analogi Chef:</strong> Bahan masakan di atas meja kerja. Hanya perlu hulurkan tangan sedikit.
+                                                    </div>
+                                                </div>
+
+                                                {/* Level 3 */}
+                                                <div className="border border-indigo-100 bg-indigo-50/10 rounded-2xl p-5 space-y-2">
+                                                    <div className="flex justify-between items-center">
+                                                        <h4 className="text-md font-extrabold text-indigo-800">Level 3 (L3 Cache)</h4>
+                                                        <span className="px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-[10px] font-bold">Kapasiti Terbesar</span>
+                                                    </div>
+                                                    <p className="text-xs text-slate-600 leading-relaxed">
+                                                        Biasanya dikongsi (shared) oleh semua teras core CPU dalam satu cip yang sama. Ia menjadi 'simpanan pertahanan terakhir' sebelum terpaksa pergi ke RAM yang lambat.
+                                                    </p>
+                                                    <div className="text-xs text-slate-500 bg-white p-2.5 rounded-lg border border-indigo-100/50">
+                                                        <strong>Analogi Chef:</strong> Bahan masakan berada di dalam rak kabinet dapur. Perlu berjalan sedikit.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Right 1 Col: Search order and real-world specs */}
+                                    <div className="space-y-6">
+                                        {/* Search Order Visual */}
+                                        <div className="bg-white rounded-2xl p-6 border border-slate-100 custom-shadow space-y-4">
+                                            <h3 className="text-md font-extrabold text-slate-800">Urutan CPU Mencari Data</h3>
+                                            <p className="text-xs text-slate-500">
+                                                Setiap kali CPU inginkan data, ia akan mencari mengikut urutan keutamaan ini:
+                                            </p>
+                                            
+                                            <div className="flex flex-col items-center space-y-2 py-4">
+                                                <div className="w-full text-center bg-rose-500 text-white font-bold py-2 rounded-xl text-xs shadow-xs">
+                                                    1. L1 Cache (Semak Terlebih Dahulu)
+                                                </div>
+                                                <div className="text-slate-300 text-xs"><i className="fa-solid fa-arrow-down-long"></i></div>
+                                                <div className="w-full text-center bg-amber-500 text-white font-bold py-2 rounded-xl text-xs shadow-xs">
+                                                    2. L2 Cache (Jika Tiada di L1)
+                                                </div>
+                                                <div className="text-slate-300 text-xs"><i className="fa-solid fa-arrow-down-long"></i></div>
+                                                <div className="w-full text-center bg-indigo-500 text-white font-bold py-2 rounded-xl text-xs shadow-xs">
+                                                    3. L3 Cache (Jika Tiada di L2)
+                                                </div>
+                                                <div className="text-slate-300 text-xs"><i className="fa-solid fa-arrow-down-long"></i></div>
+                                                <div className="w-full text-center bg-sky-600 text-white font-bold py-2 rounded-xl text-xs shadow-xs">
+                                                    4. RAM (Jika Tiada di L3)
+                                                </div>
+                                            </div>
+
+                                            <div className="p-3 bg-indigo-50 text-indigo-900 rounded-xl text-xs leading-relaxed font-semibold">
+                                                🎯 <strong>Fakta Menarik:</strong> Jika data dijumpai di mana-mana tahap Cache, CPU tidak perlu mengakses RAM. Ini mengekalkan kelajuan pemprosesan maksimum!
+                                            </div>
+                                        </div>
+
+                                        {/* Specs Table */}
+                                        <div className="bg-white rounded-2xl p-5 border border-slate-100 custom-shadow space-y-3">
+                                            <h3 className="text-sm font-extrabold text-slate-800">Contoh Spesifikasi Realistik</h3>
+                                            <div className="text-xs text-slate-600 space-y-2 font-medium">
+                                                <div className="flex justify-between py-1 border-b border-slate-50">
+                                                    <span>L1 Cache</span>
+                                                    <span className="font-bold text-rose-600">64 KB per core</span>
+                                                </div>
+                                                <div className="flex justify-between py-1 border-b border-slate-50">
+                                                    <span>L2 Cache</span>
+                                                    <span className="font-bold text-amber-600">1 MB per core</span>
+                                                </div>
+                                                <div className="flex justify-between py-1 border-b border-slate-50">
+                                                    <span>L3 Cache</span>
+                                                    <span className="font-bold text-indigo-600">24 MB (Kongsi core)</span>
+                                                </div>
+                                                <div className="flex justify-between py-1">
+                                                    <span>RAM</span>
+                                                    <span className="font-bold text-sky-600">16 GB (Sangat besar)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {}
+                        {activeTab === 'simulator' && (
+                            <div className="space-y-8 animate-fadeIn">
+                                <div className="border-b border-slate-100 pb-4">
+                                    <h2 className="text-3xl font-extrabold text-slate-800">🍳 Simulasi Dapur Chef Cache Memory</h2>
+                                    <p className="text-slate-500 text-sm">Visualisasikan bagaimana CPU mencari data di pelbagai tahap memori menggunakan analogi Chef memasak.</p>
+                                </div>
+
+                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                                    {/* Control Panel */}
+                                    <div className="lg:col-span-4 bg-white rounded-2xl p-6 border border-slate-100 custom-shadow space-y-6">
+                                        <h3 className="text-lg font-bold text-slate-800">Pilih Data Untuk Dicari</h3>
+                                        <p className="text-xs text-slate-500">Klik butang di bawah untuk menyuruh CPU mencari bahan masakan yang diwakili oleh data tertentu:</p>
+                                        
+                                        <div className="flex flex-col space-y-3">
+                                            <button 
+                                                onClick={() => runSimulator('Sudu Masak (L1 Data)')}
+                                                className={`py-3 px-4 rounded-xl text-left font-bold border transition-all text-xs flex justify-between items-center ${simItem === 'Sudu Masak (L1 Data)' ? 'bg-rose-50 border-rose-300 text-rose-800 shadow-xs' : 'bg-slate-50 border-slate-100 hover:bg-slate-100 text-slate-700'}`}
+                                            >
+                                                <span>🥄 Sudu Masak (L1 Data)</span>
+                                                <span className="text-[10px] bg-rose-150 text-rose-700 px-2 py-0.5 rounded-full font-bold">Di Tangan</span>
+                                            </button>
+
+                                            <button 
+                                                onClick={() => runSimulator('Bawang Dipotong (L2 Data)')}
+                                                className={`py-3 px-4 rounded-xl text-left font-bold border transition-all text-xs flex justify-between items-center ${simItem === 'Bawang Dipotong (L2 Data)' ? 'bg-amber-50 border-amber-300 text-amber-800 shadow-xs' : 'bg-slate-50 border-slate-100 hover:bg-slate-100 text-slate-700'}`}
+                                            >
+                                                <span>🧅 Bawang Dipotong (L2 Data)</span>
+                                                <span className="text-[10px] bg-amber-150 text-amber-700 px-2 py-0.5 rounded-full font-bold">Atas Meja</span>
+                                            </button>
+
+                                            <button 
+                                                onClick={() => runSimulator('Kicap Manis (L3 Data)')}
+                                                className={`py-3 px-4 rounded-xl text-left font-bold border transition-all text-xs flex justify-between items-center ${simItem === 'Kicap Manis (L3 Data)' ? 'bg-indigo-50 border-indigo-300 text-indigo-800 shadow-xs' : 'bg-slate-50 border-slate-100 hover:bg-slate-100 text-slate-700'}`}
+                                            >
+                                                <span>🍶 Kicap Manis (L3 Data)</span>
+                                                <span className="text-[10px] bg-indigo-150 text-indigo-700 px-2 py-0.5 rounded-full font-bold">Di Rak Dapur</span>
+                                            </button>
+
+                                            <button 
+                                                onClick={() => runSimulator('Telur Mentah (RAM Data)')}
+                                                className={`py-3 px-4 rounded-xl text-left font-bold border transition-all text-xs flex justify-between items-center ${simItem === 'Telur Mentah (RAM Data)' ? 'bg-sky-50 border-sky-300 text-sky-800 shadow-xs' : 'bg-slate-50 border-slate-100 hover:bg-slate-100 text-slate-700'}`}
+                                            >
+                                                <span>🥚 Telur Mentah (RAM Data)</span>
+                                                <span className="text-[10px] bg-sky-150 text-sky-700 px-2 py-0.5 rounded-full font-bold">Peti Sejuk</span>
+                                            </button>
+                                        </div>
+
+                                        {/* Console Logs */}
+                                        <div className="space-y-2">
+                                            <span className="text-xs font-bold text-slate-400 block uppercase tracking-wider">Log Aktiviti Chef:</span>
+                                            <div className="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs h-40 overflow-y-auto space-y-1">
+                                                {simLogs.length === 0 ? (
+                                                    <span className="text-slate-500 italic">Sila pilih satu bahan di atas untuk memulakan simulasi...</span>
+                                                ) : (
+                                                    simLogs.map((log, idx) => (
+                                                        <p key={idx} className="animate-fadeIn">
+                                                            <span className="text-sky-400 font-bold">&gt;&gt;</span> {log}
+                                                        </p>
+                                                    ))
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Visual Representation Arena */}
+                                    <div className="lg:col-span-8 bg-white rounded-2xl p-6 border border-slate-100 custom-shadow flex flex-col justify-between">
+                                        <div className="flex justify-between items-center mb-6">
+                                            <h3 className="text-lg font-bold text-slate-800">Ruang Dapur Masakan</h3>
+                                            <span className="text-xs bg-slate-100 px-2.5 py-1 rounded-full font-semibold text-slate-600">
+                                                Status: {simState === 'running' ? '⚡ Sedang Berjalan...' : simState === 'found' ? '✅ Selesai!' : '💤 Sedia'}
+                                            </span>
+                                        </div>
+
+                                        {/* Simulated Grid Elements */}
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                            {/* L1 Cache Card */}
+                                            <div className={`p-4 rounded-xl border text-center transition-all ${simLocation === 'l1' ? 'border-rose-500 bg-rose-50/50 scale-105 glow' : simLocation === 'l1-found' ? 'border-rose-600 bg-rose-500 text-white scale-105' : 'border-slate-100 bg-slate-50'}`}>
+                                                <span className="block text-xs font-bold uppercase opacity-75">L1 Cache</span>
+                                                <span className="block text-2xl my-2">🥄</span>
+                                                <span className="block text-[10px] font-bold">Di Tangan Chef</span>
+                                            </div>
+
+                                            {/* L2 Cache Card */}
+                                            <div className={`p-4 rounded-xl border text-center transition-all ${simLocation === 'l2' ? 'border-amber-500 bg-amber-50/50 scale-105 glow' : simLocation === 'l2-found' ? 'border-amber-600 bg-amber-500 text-white scale-105' : 'border-slate-100 bg-slate-50'}`}>
+                                                <span className="block text-xs font-bold uppercase opacity-75">L2 Cache</span>
+                                                <span className="block text-2xl my-2">🧅</span>
+                                                <span className="block text-[10px] font-bold">Atas Meja</span>
+                                            </div>
+
+                                            {/* L3 Cache Card */}
+                                            <div className={`p-4 rounded-xl border text-center transition-all ${simLocation === 'l3' ? 'border-indigo-500 bg-indigo-50/50 scale-105 glow' : simLocation === 'l3-found' ? 'border-indigo-600 bg-indigo-500 text-white scale-105' : 'border-slate-100 bg-slate-50'}`}>
+                                                <span className="block text-xs font-bold uppercase opacity-75">L3 Cache</span>
+                                                <span className="block text-2xl my-2">🍶</span>
+                                                <span className="block text-[10px] font-bold">Rak Dapur</span>
+                                            </div>
+
+                                            {/* RAM Card */}
+                                            <div className={`p-4 rounded-xl border text-center transition-all ${simLocation === 'ram' ? 'border-sky-500 bg-sky-50/50 scale-105 glow' : simLocation === 'ram-found' ? 'border-sky-600 bg-sky-500 text-white scale-105' : 'border-slate-100 bg-slate-50'}`}>
+                                                <span className="block text-xs font-bold uppercase opacity-75">RAM</span>
+                                                <span className="block text-2xl my-2">🥚</span>
+                                                <span className="block text-[10px] font-bold">Peti Sejuk</span>
+                                            </div>
+                                        </div>
+
+                                        {/* visual animation chef */}
+                                        <div className="bg-slate-50 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-around space-y-4 md:space-y-0 border border-slate-100">
+                                            <div className="text-center">
+                                                <div className="w-16 h-16 rounded-full bg-slate-200 flex items-center justify-center text-3xl mx-auto shadow-sm">
+                                                    🧑‍🍳
+                                                </div>
+                                                <span className="block text-xs font-bold text-slate-800 mt-2">Chef (CPU Core)</span>
+                                            </div>
+
+                                            <div className="flex-grow flex items-center justify-center max-w-xs">
+                                                <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                                                    <div 
+                                                        className={`h-full bg-sky-600 rounded-full transition-all duration-300 ${simState === 'running' ? 'w-3/4 animate-pulse' : simState === 'found' ? 'w-full' : 'w-0'}`}
+                                                    ></div>
+                                                </div>
+                                            </div>
+
+                                            <div className="text-center">
+                                                <div className="w-16 h-16 rounded-full bg-slate-200 flex items-center justify-center text-3xl mx-auto shadow-sm">
+                                                    {simState === 'found' ? '🍳' : '❓'}
+                                                </div>
+                                                <span className="block text-xs font-bold text-slate-800 mt-2">Hasil Masakan</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {}
+                        {activeTab === 'quiz' && (
+                            <div className="max-w-3xl mx-auto space-y-6 animate-fadeIn">
+                                {/* Header */}
+                                <div className="text-center space-y-2">
+                                    <h2 className="text-3xl font-extrabold text-slate-800">🧠 Uji Minda Komputer</h2>
+                                    <p className="text-slate-500 text-sm">Mari uji kefahaman anda mengenai subtopik System Memory & Cache Memory!</p>
+                                </div>
+
+                                {!showResults ? (
+                                    <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-100 custom-shadow space-y-6">
+                                        {/* Progress Bar */}
+                                        <div className="space-y-2">
+                                            <div className="flex justify-between text-xs font-bold text-slate-400">
+                                                <span>SOALAN {currentQuestion + 1} DARIPADA {QUIZ_QUESTIONS.length}</span>
+                                                <span>{Math.round(((currentQuestion + 1) / QUIZ_QUESTIONS.length) * 100)}% Selesai</span>
+                                            </div>
+                                            <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                                                <div 
+                                                    className="bg-sky-600 h-full transition-all duration-300"
+                                                    style={{ width: `${((currentQuestion + 1) / QUIZ_QUESTIONS.length) * 100}%` }}
+                                                ></div>
+                                            </div>
+                                        </div>
+
+                                        {/* Question Area */}
+                                        <div className="space-y-4">
+                                            <h3 className="text-lg md:text-xl font-extrabold text-slate-800 leading-snug">
+                                                {QUIZ_QUESTIONS[currentQuestion].question}
+                                            </h3>
+                                        </div>
+
+                                        {/* Options Grid */}
+                                        <div className="grid grid-cols-1 gap-3">
+                                            {QUIZ_QUESTIONS[currentQuestion].options.map((option) => {
+                                                const isSelected = quizAnswers[currentQuestion] === option.key;
+                                                return (
+                                                    <button
+                                                        key={option.key}
+                                                        onClick={() => handleAnswerSelect(option.key)}
+                                                        className={`w-full p-4 rounded-xl text-left font-bold border transition-all text-sm flex items-center space-x-3 ${isSelected ? 'bg-sky-50 border-sky-500 text-sky-800 shadow-xs' : 'bg-slate-50 border-slate-100 hover:bg-slate-100 hover:border-slate-200 text-slate-700'}`}
+                                                    >
+                                                        <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black ${isSelected ? 'bg-sky-500 text-white' : 'bg-white text-slate-500 shadow-sm'}`}>
+                                                            {option.key}
+                                                        </span>
+                                                        <span>{option.text}</span>
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+
+                                        {/* Navigation Actions */}
+                                        <div className="flex justify-between pt-4 border-t border-slate-100">
+                                            <button
+                                                onClick={prevQuestion}
+                                                disabled={currentQuestion === 0}
+                                                className="px-5 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 text-xs font-bold transition disabled:opacity-50"
+                                            >
+                                                <i className="fa-solid fa-arrow-left mr-1.5"></i> Kembali
+                                            </button>
+
+                                            <button
+                                                onClick={nextQuestion}
+                                                disabled={!quizAnswers[currentQuestion]}
+                                                className="px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition shadow-md disabled:opacity-50"
+                                            >
+                                                {currentQuestion === QUIZ_QUESTIONS.length - 1 ? 'Hantar Keputusan' : 'Seterusnya'} <i className="fa-solid fa-arrow-right ml-1.5"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    /* Results Display Section */
+                                    <div className="space-y-6">
+                                        <div className="bg-white rounded-2xl p-8 border border-slate-100 custom-shadow text-center space-y-6">
+                                            <div className="w-24 h-24 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center text-4xl mx-auto shadow-sm">
+                                                🎉
+                                            </div>
+                                            <div className="space-y-2">
+                                                <h3 className="text-2xl font-extrabold text-slate-800">Taniah! Selesai Menjawab</h3>
+                                                <p className="text-slate-500 text-sm">Berikut adalah pencapaian anda untuk kuiz ini:</p>
+                                            </div>
+
+                                            <div className="inline-flex items-center space-x-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                                                <div className="text-left">
+                                                    <span className="block text-xs text-slate-400 font-bold">SKOR ANDA:</span>
+                                                    <span className="text-3xl font-black text-sky-600">{score} / {QUIZ_QUESTIONS.length}</span>
+                                                </div>
+                                                <div className="w-px h-10 bg-slate-200"></div>
+                                                <div className="text-left">
+                                                    <span className="block text-xs text-slate-400 font-bold">KADAR KEPUTUSAN:</span>
+                                                    <span className="text-lg font-extrabold text-emerald-600">{Math.round((score / QUIZ_QUESTIONS.length) * 100)}%</span>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <button 
+                                                    onClick={resetQuiz}
+                                                    className="px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs transition shadow-md"
+                                                >
+                                                    <i className="fa-solid fa-rotate-left mr-2"></i> Cuba Semula Kuiz
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {/* Detailed Explanation / Review Area */}
+                                        <div className="space-y-4">
+                                            <h4 className="text-md font-extrabold text-slate-800">Review Jawapan:</h4>
+                                            
+                                            {QUIZ_QUESTIONS.map((q, idx) => {
+                                                const isCorrect = quizAnswers[idx] === q.correct;
+                                                return (
+                                                    <div key={q.id} className={`p-5 rounded-2xl border ${isCorrect ? 'border-emerald-100 bg-emerald-50/10' : 'border-rose-100 bg-rose-50/10'} space-y-3`}>
+                                                        <div className="flex justify-between items-start gap-4">
+                                                            <h5 className="font-bold text-sm text-slate-800">{idx + 1}. {q.question}</h5>
+                                                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold whitespace-nowrap ${isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>
+                                                                {isCorrect ? 'Betul' : 'Salah'}
+                                                            </span>
+                                                        </div>
+                                                        <div className="text-xs text-slate-600 space-y-1 font-medium">
+                                                            <p>Jawapan Anda: <strong className={isCorrect ? 'text-emerald-600' : 'text-rose-600'}>{quizAnswers[idx]}</strong></p>
+                                                            <p>Jawapan Betul: <strong className="text-emerald-600">{q.correct}</strong></p>
+                                                        </div>
+                                                        <p className="text-xs text-slate-500 bg-white p-3 rounded-xl border border-slate-100 font-semibold leading-relaxed">
+                                                            💡 <strong>Huraian:</strong> {q.explanation}
+                                                        </p>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </main>
+
+                    {/* Footer - Professional, cleanly styled */}
+                    <footer className="bg-slate-900 text-slate-400 py-10 mt-12 border-t border-slate-800">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+                            <div className="flex items-center justify-center space-x-2">
+                                <div className="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center text-white shadow-md">
+                                    <i className="fa-solid fa-graduation-cap text-sm"></i>
+                                </div>
+                                <span className="font-extrabold text-white text-md tracking-tight">MemoryHub</span>
+                            </div>
+                            <p className="text-xs max-w-md mx-auto leading-relaxed">
+                                Dioptimumkan untuk membantu pelajar memahami topik Struktur Hierarki Memori, Register, Cache L1/L2/L3, ROM & RAM secara visual dan intuitif.
+                            </p>
+                            <div className="pt-4 border-t border-slate-800 text-xs font-semibold text-slate-500">
+                                hak milik : 2026@ Pn Farihan Elyana binti Zahari
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        }
+
+        // Render the App
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
