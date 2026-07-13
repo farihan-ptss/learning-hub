@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Pembelajaran Data Transfer & I/O - Politeknik Tuanku Syed Sirajuddin</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fredoka & Quicksand (Sangat Ceria & Mesra Pembelajaran) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@400..700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti untuk Impak Kejayaan Kuiz -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'sans-serif'],
+                        quicksand: ['Quicksand', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#FF6B6B',
+                        secondary: '#4ECDC4',
+                        accent: '#FFE66D',
+                        pastelPink: '#FFF0F5',
+                        pastelBlue: '#E8F1F5',
+                        pastelGreen: '#EAF9E7',
+                        pastelYellow: '#FFFDF0',
+                        darkNavy: '#2F3E46',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #F7F9FC;
+        }
+        .header-bg {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 16px -6px rgba(0, 0, 0, 0.05);
+        }
+        .tab-active {
+            border-bottom: 4px solid #FF6B6B;
+            color: #FF6B6B;
+            font-weight: bold;
+        }
+        /* Custom scrollbar for beautiful UI */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FF6B6B;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e05353;
+        }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col min-h-screen">
+
+    <!-- HEADER -->
+    <header class="header-bg text-white shadow-lg relative overflow-hidden">
+        <!-- Background decorative circles -->
+        <div class="absolute -top-10 -left-10 w-40 h-40 bg-white/10 rounded-full blur-xl"></div>
+        <div class="absolute -bottom-10 -right-10 w-52 h-52 bg-white/10 rounded-full blur-xl"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 py-8 md:py-12 flex flex-col md:flex-row items-center justify-between relative z-10">
+            <div class="text-center md:text-left mb-6 md:mb-0">
+                <span class="bg-yellow-400 text-darkNavy text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow">Diploma IT Interactive Hub</span>
+                <h1 class="font-fredoka text-4xl md:text-5xl mt-3 font-bold tracking-wide">Data Transfer & I/O Hub 🚀</h1>
+                <p class="text-white/90 text-sm md:text-base mt-2 font-medium">Platform pembelajaran ceria, santai dan interaktif untuk memahami Seni Bina Komputer!</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="bg-white/20 p-4 rounded-2xl backdrop-blur-md border border-white/30 text-center shadow-lg transform hover:scale-105 transition">
+                    <i class="fa-solid fa-graduation-cap text-3xl text-yellow-300 animate-bounce"></i>
+                    <p class="text-xs font-bold uppercase mt-1 tracking-wider text-white">Politeknik PTSS</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8">
+        
+        <!-- MOTIVATION / INTRO BANNER -->
+        <div class="bg-white rounded-3xl p-6 md:p-8 mb-8 card-shadow border-2 border-dashed border-red-200 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex-1">
+                <h2 class="font-fredoka text-2xl text-red-500 font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-heart text-red-500 animate-pulse"></i> Hai Pelajar IT!
+                </h2>
+                <p class="text-slate-600 mt-2 text-sm md:text-base leading-relaxed">
+                    Sering kali topik <strong>Synchronous, Asynchronous, Serial, Parallel, dan I/O Modes</strong> kelihatan sangat teknikal dan membosankan, bukan? Jangan risau! Di sini kami permudahkan semuanya menggunakan <strong>analogi kehidupan harian 🚶🚶, lori hantar barang 📦, dan WhatsApp 📱</strong> supaya anda boleh skor A+ dalam peperiksaan!
+                </p>
+            </div>
+            <div class="flex gap-3 shrink-0">
+                <a href="#canvasSec" class="bg-emerald-400 hover:bg-emerald-500 text-white font-bold px-5 py-3 rounded-2xl shadow-lg transition transform hover:-translate-y-1 flex items-center gap-2">
+                    <i class="fa-solid fa-play"></i> Main Simulator
+                </a>
+                <a href="#quizSec" class="bg-amber-400 hover:bg-amber-500 text-slate-800 font-bold px-5 py-3 rounded-2xl shadow-lg transition transform hover:-translate-y-1 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-question"></i> Uji Minda
+                </a>
+            </div>
+        </div>
+
+        <!-- TABS FOR TOPICS -->
+        <div class="bg-white rounded-3xl p-4 card-shadow mb-8 flex flex-wrap gap-2 justify-around border border-slate-100">
+            <button onclick="switchTopic('sync-async')" id="btn-sync-async" class="topic-tab flex-1 py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition font-fredoka text-sm md:text-base bg-red-500 text-white shadow-md">
+                <i class="fa-solid fa-clock"></i> Sync vs Async
+            </button>
+            <button onclick="switchTopic('serial-parallel')" id="btn-serial-parallel" class="topic-tab flex-1 py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition font-fredoka text-sm md:text-base text-slate-600 hover:bg-slate-50">
+                <i class="fa-solid fa-arrows-left-right"></i> Serial vs Parallel
+            </button>
+            <button onclick="switchTopic('io-modes')" id="btn-io-modes" class="topic-tab flex-1 py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition font-fredoka text-sm md:text-base text-slate-600 hover:bg-slate-50">
+                <i class="fa-solid fa-microchip"></i> 3 Mode Pemindahan I/O
+            </button>
+        </div>
+
+        <!-- TOPIC SECTION: SYNCHRONOUS VS ASYNCHRONOUS -->
+        <section id="sec-sync-async" class="topic-content space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Synchronous Card -->
+                <div class="bg-white rounded-3xl p-6 md:p-8 card-shadow border-t-8 border-red-400 hover:shadow-xl transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <span class="bg-red-100 text-red-600 text-xs font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-clock"></i> S = Same Clock</span>
+                            <span class="text-3xl">⏰</span>
+                        </div>
+                        <h3 class="font-fredoka text-2xl text-red-500 font-bold mt-4">Synchronous Method</h3>
+                        <p class="text-slate-600 mt-3 text-sm md:text-base leading-relaxed">
+                            Penghantaran data yang menggunakan <strong>isyarat jam (clock) yang sama</strong> antara penghantar dan penerima. Kedua-dua peranti diselaraskan secara jitu untuk mengetahui bila hendak menghantar dan menerima data.
+                        </p>
+                        
+                        <!-- Analogy box -->
+                        <div class="bg-pastelPink p-4 rounded-2xl border-l-4 border-red-400 my-4 text-xs md:text-sm">
+                            <p class="font-semibold text-red-700">🚶🚶 Analogi Ali & Abu Berjalan:</p>
+                            <p class="text-slate-700 mt-1">Mereka melangkah kaki pada rentak yang <strong>sama serentak</strong>. Ali (👣 👣) & Abu (👣 👣). Tiada siapa lebih cepat atau perlahan.</p>
+                            <p class="font-semibold text-red-700 mt-3">🚦 Analogi Lampu Isyarat:</p>
+                            <p class="text-slate-700 mt-1">Semua kereta bergerak serentak apabila lampu hijau menyala secara berjadual.</p>
+                        </div>
+
+                        <!-- Examples -->
+                        <div class="mt-4">
+                            <span class="font-bold text-xs uppercase tracking-wider text-slate-400">Contoh Utama:</span>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-microchip mr-1 text-red-400"></i> CPU ↔ RAM</span>
+                                <span class="bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-bolt mr-1 text-red-400"></i> CPU ↔ Cache</span>
+                                <span class="bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-server mr-1 text-red-400"></i> DDR RAM</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between text-xs text-slate-500">
+                        <span class="text-emerald-500 font-bold"><i class="fa-solid fa-circle-check"></i> Sangat Laju & Teratur</span>
+                        <span class="text-red-400 font-bold"><i class="fa-solid fa-circle-xmark"></i> Kompleks (Gantung pada Jam)</span>
+                    </div>
+                </div>
+
+                <!-- Asynchronous Card -->
+                <div class="bg-white rounded-3xl p-6 md:p-8 card-shadow border-t-8 border-teal-400 hover:shadow-xl transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <span class="bg-teal-100 text-teal-600 text-xs font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-circle-play"></i> A = Anytime Ready</span>
+                            <span class="text-3xl">📱</span>
+                        </div>
+                        <h3 class="font-fredoka text-2xl text-teal-600 font-bold mt-4">Asynchronous Method</h3>
+                        <p class="text-slate-600 mt-3 text-sm md:text-base leading-relaxed">
+                            Penghantaran data <strong>tanpa berkongsi clock yang sama</strong>. Data hanya dihantar apabila kedua-dua peranti sudah bersedia. Sebelum data dihantar, isyarat persediaan (request & response) ditukarkan.
+                        </p>
+                        
+                        <!-- Analogy box -->
+                        <div class="bg-pastelBlue p-4 rounded-2xl border-l-4 border-teal-400 my-4 text-xs md:text-sm">
+                            <p class="font-semibold text-teal-700">💬 Analogi WhatsApp:</p>
+                            <p class="text-slate-700 mt-1">Anda hantar mesej pukul 10.00 pagi ("Hi"). Rakan membalas pada pukul 10.30 pagi ("Hi juga"). Tiada masa tetap, masing-masing bertindak apabila lapang.</p>
+                            <p class="font-semibold text-teal-700 mt-3">⌨️ Analogi Keyboard:</p>
+                            <p class="text-slate-700 mt-1">Sistem hanya menerima isyarat apabila anda menekan kekunci huruf 'A'. Tiada jam khas yang mengatur bila anda perlu menekan.</p>
+                        </div>
+
+                        <!-- Examples -->
+                        <div class="mt-4">
+                            <span class="font-bold text-xs uppercase tracking-wider text-slate-400">Contoh Utama:</span>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-keyboard mr-1 text-teal-500"></i> Keyboard ↔ CPU</span>
+                                <span class="bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-computer-mouse mr-1 text-teal-500"></i> Mouse ↔ CPU</span>
+                                <span class="bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-print mr-1 text-teal-500"></i> Printer ↔ CPU</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between text-xs text-slate-500">
+                        <span class="text-emerald-500 font-bold"><i class="fa-solid fa-circle-check"></i> Mudah & Fleksibel</span>
+                        <span class="text-red-400 font-bold"><i class="fa-solid fa-circle-xmark"></i> Perlahan (Menunggu Isyarat)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Grid Comparison -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 card-shadow border border-slate-100">
+                <h4 class="font-fredoka text-xl text-darkNavy mb-6 flex items-center gap-2"><i class="fa-solid fa-list-check text-indigo-500"></i> Jadual Perbandingan Pembelajaran</h4>
+                <div class="overflow-x-auto rounded-2xl border border-slate-100">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-100">
+                                <th class="p-4 text-xs md:text-sm font-bold text-slate-600 uppercase">Ciri Perbandingan</th>
+                                <th class="p-4 text-xs md:text-sm font-bold text-red-500 uppercase bg-red-50/30">Synchronous (⏰)</th>
+                                <th class="p-4 text-xs md:text-sm font-bold text-teal-600 uppercase bg-teal-50/30">Asynchronous (💬)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr>
+                                <td class="p-4 text-xs md:text-sm font-semibold text-slate-700">Penggunaan Clock</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-red-50/10">Menggunakan isyarat jam (clock) yang sama.</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-teal-50/10">Tidak menggunakan clock yang sama.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-xs md:text-sm font-semibold text-slate-700">Masa Penghantaran</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-red-50/10">Pada masa/fasa clock yang ditetapkan.</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-teal-50/10">Bila-bila masa apabila peranti sudah sedia.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-xs md:text-sm font-semibold text-slate-700">Kelajuan</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-red-50/10 font-medium text-emerald-600">Sangat Pantas.</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-teal-50/10">Sedikit lebih perlahan (ada handshaking).</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-xs md:text-sm font-semibold text-slate-700">Sifat Aliran</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-red-50/10">Komunikasi sangat tersusun & teratur.</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-teal-50/10">Lebih fleksibel, rawak (on-demand).</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-xs md:text-sm font-semibold text-slate-700">Formula Mudah</td>
+                                <td class="p-4 text-xs md:text-sm text-red-500 font-bold bg-red-50/10">"Ikut jam yang sama." ⏰</td>
+                                <td class="p-4 text-xs md:text-sm text-teal-600 font-bold bg-teal-50/10">"Hantar bila sudah bersedia." 💬</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOPIC SECTION: SERIAL VS PARALLEL -->
+        <section id="sec-serial-parallel" class="topic-content hidden space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Serial Card -->
+                <div class="bg-white rounded-3xl p-6 md:p-8 card-shadow border-t-8 border-indigo-400 hover:shadow-xl transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <span class="bg-indigo-100 text-indigo-600 text-xs font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-road"></i> Single Lane / Lorong Tunggal</span>
+                            <span class="text-3xl">🚗</span>
+                        </div>
+                        <h3 class="font-fredoka text-2xl text-indigo-500 font-bold mt-4">Serial Transfer</h3>
+                        <p class="text-slate-600 mt-3 text-sm md:text-base leading-relaxed">
+                            Kaedah penghantaran data di mana <strong>hanya satu bit dihantar pada satu masa</strong> melalui satu saluran wayar tunggal. Semua bit beratur dan tiba satu demi satu.
+                        </p>
+                        
+                        <!-- Analogy box -->
+                        <div class="bg-slate-50 p-4 rounded-2xl border-l-4 border-indigo-400 my-4 text-xs md:text-sm">
+                            <p class="font-semibold text-indigo-700">📦 Analogi Lori Hantar Kotak:</p>
+                            <p class="text-slate-700 mt-1">Hanya ada <strong>sebuah lori</strong>. Lori membawa 1 kotak pada satu masa. Semua 8 kotak tiba satu persatu (📦 → 📦 → 📦).</p>
+                            <p class="font-semibold text-indigo-700 mt-3">🛣️ Analogi Lebuh Raya:</p>
+                            <p class="text-slate-700 mt-1">Lebuh raya hanya ada <strong>1 lorong</strong>. Kereta wajib mengekor satu demi satu.</p>
+                        </div>
+
+                        <!-- Examples -->
+                        <div class="mt-4">
+                            <span class="font-bold text-xs uppercase tracking-wider text-slate-400">Contoh Utama:</span>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg"><i class="fa-brands fa-usb mr-1 text-indigo-500"></i> USB (Universal Serial Bus)</span>
+                                <span class="bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-hard-drive mr-1 text-indigo-500"></i> SATA (SSD/HDD)</span>
+                                <span class="bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-ethernet mr-1 text-indigo-500"></i> Ethernet & HDMI</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between text-xs text-slate-500">
+                        <span class="text-emerald-500 font-bold"><i class="fa-solid fa-circle-check"></i> Kos Murah & Jarak Jauh</span>
+                        <span class="text-red-400 font-bold"><i class="fa-solid fa-circle-xmark"></i> Beratur Satu-Satu</span>
+                    </div>
+                </div>
+
+                <!-- Parallel Card -->
+                <div class="bg-white rounded-3xl p-6 md:p-8 card-shadow border-t-8 border-amber-400 hover:shadow-xl transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <span class="bg-amber-100 text-amber-700 text-xs font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-grip-lines"></i> Multi Lane / Banyak Lorong</span>
+                            <span class="text-3xl">🚗🚗🚗</span>
+                        </div>
+                        <h3 class="font-fredoka text-2xl text-amber-600 font-bold mt-4">Parallel Transfer</h3>
+                        <p class="text-slate-600 mt-3 text-sm md:text-base leading-relaxed">
+                            Kaedah penghantaran data di mana <strong>beberapa bit dihantar serentak</strong> menggunakan banyak saluran (wire) pada masa yang sama. Kesemua bit tiba bersama-sama.
+                        </p>
+                        
+                        <!-- Analogy box -->
+                        <div class="bg-pastelYellow p-4 rounded-2xl border-l-4 border-amber-400 my-4 text-xs md:text-sm">
+                            <p class="font-semibold text-amber-700">📦 Analogi Lori Hantar Kotak:</p>
+                            <p class="text-slate-700 mt-1">Anda mempunyai <strong>8 lori serentak</strong>. Setiap lori membawa 1 kotak dan kesemua lori sampai ke destinasi secara serentak (📦📦📦📦📦📦📦📦).</p>
+                            <p class="font-semibold text-amber-700 mt-3">🛣️ Analogi Lebuh Raya:</p>
+                            <p class="text-slate-700 mt-1">Lebuh raya luas dengan <strong>8 lorong</strong>. 8 buah kereta boleh dipandu bersebelahan pada masa yang sama.</p>
+                        </div>
+
+                        <!-- Examples -->
+                        <div class="mt-4">
+                            <span class="font-bold text-xs uppercase tracking-wider text-slate-400">Contoh Utama:</span>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-print mr-1 text-amber-500"></i> Parallel Printer Port (LPT)</span>
+                                <span class="bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-server mr-1 text-amber-500"></i> IDE / PATA Cable (Lama)</span>
+                                <span class="bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg"><i class="fa-solid fa-microchip mr-1 text-amber-500"></i> CPU-RAM Data Bus (64-bit)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between text-xs text-slate-500">
+                        <span class="text-emerald-500 font-bold"><i class="fa-solid fa-circle-check"></i> Laju (Jarak Pendek)</span>
+                        <span class="text-red-400 font-bold"><i class="fa-solid fa-circle-xmark"></i> Gangguan Isyarat & Mahal</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Grid Comparison -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 card-shadow border border-slate-100">
+                <h4 class="font-fredoka text-xl text-darkNavy mb-6 flex items-center gap-2"><i class="fa-solid fa-list-check text-indigo-500"></i> Jadual Perbandingan Pembelajaran</h4>
+                <div class="overflow-x-auto rounded-2xl border border-slate-100">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-100">
+                                <th class="p-4 text-xs md:text-sm font-bold text-slate-600 uppercase">Ciri Perbandingan</th>
+                                <th class="p-4 text-xs md:text-sm font-bold text-indigo-500 uppercase bg-indigo-50/30">Serial Transfer (🔵)</th>
+                                <th class="p-4 text-xs md:text-sm font-bold text-amber-600 uppercase bg-amber-50/30">Parallel Transfer (🟢)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr>
+                                <td class="p-4 text-xs md:text-sm font-semibold text-slate-700">Bilangan Bit/Masa</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-indigo-50/10">1 bit sahaja pada satu masa.</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-amber-50/10">Banyak bit (contoh: 8, 16, 64) secara serentak.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-xs md:text-sm font-semibold text-slate-700">Bilangan Wayar</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-indigo-50/10">Hanya 1 (atau sepasang wayar sahaja).</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-amber-50/10">Banyak wayar yang disusun selari.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-xs md:text-sm font-semibold text-slate-700">Kelayakkan Jarak</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-indigo-50/10 font-medium text-emerald-600">Sangat sesuai untuk jarak jauh.</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-amber-50/10 font-medium text-red-500">Hanya jarak pendek (jika panjang, herotan berlaku).</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-xs md:text-sm font-semibold text-slate-700">Kos Kabel</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-indigo-50/10 text-emerald-600 font-bold">Jauh Lebih Murah & Ringkas.</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-amber-50/10">Lebih mahal & tebal (banyak laluan).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOPIC SECTION: THREE I/O MODES -->
+        <section id="sec-io-modes" class="topic-content hidden space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Programmed I/O Card -->
+                <div class="bg-white rounded-3xl p-6 md:p-8 card-shadow border-t-8 border-red-500 hover:shadow-xl transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <span class="bg-red-100 text-red-600 text-xs font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-person-digging"></i> CPU Sangat Sibuk!</span>
+                            <span class="text-3xl">🚶🏼‍♂️</span>
+                        </div>
+                        <h3 class="font-fredoka text-xl text-red-500 font-bold mt-4">1. Programmed I/O</h3>
+                        <p class="text-slate-600 mt-3 text-sm leading-relaxed">
+                            CPU mengawal secara terus dan manual kesemua proses pemindahan data. CPU akan bertanya peranti berulang-ulang kali (polling / busy waiting) sehingga data tersedia.
+                        </p>
+                        
+                        <div class="bg-red-50 p-4 rounded-2xl border-l-4 border-red-400 my-4 text-xs">
+                            <p class="font-semibold text-red-700">👨🏻‍🏫 Analogi Pensyarah:</p>
+                            <p class="text-slate-700 mt-1">Pensyarah bergerak sendiri dari satu meja ke satu meja pelajar untuk mengutip tugasan. Beliau terpaksa berdiri menunggu pelajar tersebut menyelesaikan tugasan sehingga siap.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="space-y-1.5 mb-4 text-xs font-semibold text-slate-500">
+                            <div>👉 <span class="text-red-500">CPU tanya device:</span> "Ada data?"</div>
+                            <div>👉 <span class="text-red-500">CPU tunggu</span> (busy wait)</div>
+                            <div>👉 <span class="text-red-500">CPU ambil & simpan</span> dalam memori</div>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 text-xs text-red-500 font-bold">
+                            ❌ CPU tidak boleh buat kerja lain!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interrupt I/O Card -->
+                <div class="bg-white rounded-3xl p-6 md:p-8 card-shadow border-t-8 border-teal-500 hover:shadow-xl transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <span class="bg-teal-100 text-teal-600 text-xs font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-bell"></i> Panggil Bila Sedia!</span>
+                            <span class="text-3xl">📱</span>
+                        </div>
+                        <h3 class="font-fredoka text-xl text-teal-600 font-bold mt-4">2. Interrupt-Initiated I/O</h3>
+                        <p class="text-slate-600 mt-3 text-sm leading-relaxed">
+                            CPU membuat kerja asalnya terlebih dahulu. Apabila peranti I/O bersedia, ia menghantar isyarat (interrupt) kepada CPU. CPU akan menghentikan seketika kerjanya untuk memproses data I/O tersebut.
+                        </p>
+                        
+                        <div class="bg-teal-50 p-4 rounded-2xl border-l-4 border-teal-400 my-4 text-xs">
+                            <p class="font-semibold text-teal-700">🔔 Analogi Notifikasi Telefon:</p>
+                            <p class="text-slate-700 mt-1">Anda sedang fokus menulis laporan. Tiba-tiba telefon berbunyi notifikasi mesej masuk. Anda berhenti sebentar untuk membalas, dan menyambung semula tugasan anda.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="space-y-1.5 mb-4 text-xs font-semibold text-slate-500">
+                            <div>👉 <span class="text-teal-600">CPU buat kerja</span> utama yang lain</div>
+                            <div>👉 <span class="text-teal-600">Peranti hantar</span> isyarat interrupt</div>
+                            <div>👉 <span class="text-teal-600">CPU berhenti</span> seketika, proses data</div>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 text-xs text-teal-600 font-bold">
+                            ✅ CPU lebih efisien, tidak perlu tunggu!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DMA Card -->
+                <div class="bg-white rounded-3xl p-6 md:p-8 card-shadow border-t-8 border-purple-500 hover:shadow-xl transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <span class="bg-purple-100 text-purple-600 text-xs font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-truck-fast"></i> Kurier Hantar Terus</span>
+                            <span class="text-3xl">🚚</span>
+                        </div>
+                        <h3 class="font-fredoka text-xl text-purple-600 font-bold mt-4">3. Direct Memory Access</h3>
+                        <p class="text-slate-600 mt-3 text-sm leading-relaxed">
+                            Peranti I/O memindahkan data bersaiz besar terus ke RAM melalui pengawal DMA tanpa mengganggu CPU. CPU hanya menyediakan tetapan awal dan bebas bekerja sepenuhnya.
+                        </p>
+                        
+                        <div class="bg-purple-50 p-4 rounded-2xl border-l-4 border-purple-400 my-4 text-xs">
+                            <p class="font-semibold text-purple-700">💼 Analogi Pengurus (Manager):</p>
+                            <p class="text-slate-700 mt-1">Syarikat mempunyai Pengurus Besar (CPU). Pengurus hanya mengarahkan kurier (DMA) memindahkan barang terus ke Stor (RAM). Pengurus bebas merancang strategi lain.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="space-y-1.5 mb-4 text-xs font-semibold text-slate-500">
+                            <div>👉 <span class="text-purple-600">CPU set up</span> controller DMA</div>
+                            <div>👉 <span class="text-purple-600">DMA pindah data</span> terus ke RAM</div>
+                            <div>👉 <span class="text-purple-600">DMA hantar isyarat</span> selesai ke CPU</div>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 text-xs text-purple-600 font-bold">
+                            🚀 Pemindahan data saiz besar paling pantas!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Grid Comparison -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 card-shadow border border-slate-100">
+                <h4 class="font-fredoka text-xl text-darkNavy mb-6 flex items-center gap-2"><i class="fa-solid fa-list-check text-indigo-500"></i> Jadual Perbandingan Pembelajaran</h4>
+                <div class="overflow-x-auto rounded-2xl border border-slate-100">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-100">
+                                <th class="p-4 text-xs md:text-sm font-bold text-slate-600 uppercase">Ciri Perbandingan</th>
+                                <th class="p-4 text-xs md:text-sm font-bold text-red-500 uppercase bg-red-50/30">Programmed I/O</th>
+                                <th class="p-4 text-xs md:text-sm font-bold text-teal-600 uppercase bg-teal-50/30">Interrupt-Initiated I/O</th>
+                                <th class="p-4 text-xs md:text-sm font-bold text-purple-600 uppercase bg-purple-50/30">Direct Memory Access (DMA)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr>
+                                <td class="p-4 text-xs md:text-sm font-semibold text-slate-700">Siapa Kawal Data?</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-red-50/10">CPU Sepenuhnya</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-teal-50/10">Peranti + CPU</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-purple-50/10">Pengawal DMA (DMA Controller)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-xs md:text-sm font-semibold text-slate-700">Status Keadaan CPU</td>
+                                <td class="p-4 text-xs md:text-sm text-red-500 bg-red-50/10 font-bold">Sangat Sibuk (Menunggu)</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-teal-50/10">Sederhana Sibuk (Hanya diganggu bila sedia)</td>
+                                <td class="p-4 text-xs md:text-sm text-emerald-600 bg-purple-50/10 font-bold">Sangat Ringan / Bebas sepenuhnya</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-xs md:text-sm font-semibold text-slate-700">Kelajuan Pemindahan</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-red-50/10 font-medium">Perlahan</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-teal-50/10">Sederhana</td>
+                                <td class="p-4 text-xs md:text-sm text-emerald-600 bg-purple-50/10 font-bold">Sangat Laju (Sesuai fail saiz besar)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-xs md:text-sm font-semibold text-slate-700">Ringkasan Ringkas</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-red-50/10">"CPU pergi ambil sendiri."</td>
+                                <td class="p-4 text-xs md:text-sm text-slate-600 bg-teal-50/10">"Bila siap, peranti panggil CPU."</td>
+                                <td class="p-4 text-xs md:text-sm text-purple-600 bg-purple-50/10 font-bold">"Kurier buat semua, bos goyang kaki."</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: INTERACTIVE SIMULATOR (CANVAS) -->
+        <section id="canvasSec" class="bg-white rounded-3xl p-6 md:p-8 card-shadow border border-slate-100 my-10">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div>
+                    <h2 class="font-fredoka text-2xl text-darkNavy font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-gamepad text-emerald-400"></i> Simulator Visual Interaktif (Canvas)
+                    </h2>
+                    <p class="text-slate-500 text-sm mt-1">Pilih simulasi di bawah untuk melihat bagaimana bit dan isyarat bergerak secara masa nyata!</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="setSimMode('sync')" id="simBtn-sync" class="bg-red-500 text-white font-bold px-4 py-2 rounded-xl text-xs shadow transition">Synchronous ⏰</button>
+                    <button onclick="setSimMode('async')" id="simBtn-async" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition">Asynchronous 💬</button>
+                    <button onclick="setSimMode('serial')" id="simBtn-serial" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition">Serial (1 Lane) 🔵</button>
+                    <button onclick="setSimMode('parallel')" id="simBtn-parallel" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition">Parallel (8 Lane) 🟢</button>
+                </div>
+            </div>
+
+            <!-- Main Interactive Screen Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <!-- Control Panel (Left/Top) -->
+                <div class="lg:col-span-1 bg-slate-50 p-5 rounded-2xl border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        <h4 class="font-fredoka text-slate-700 font-bold mb-4 flex items-center gap-1.5">
+                            <i class="fa-solid fa-sliders text-indigo-500"></i> Panel Kawalan
+                        </h4>
+                        
+                        <!-- SIMULATION DETAILS DESCRIPTION -->
+                        <div id="sim-desc" class="text-xs text-slate-600 space-y-3 leading-relaxed">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-slate-200 space-y-3">
+                        <button onclick="triggerAction()" id="actionBtn" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-xl text-sm shadow-md transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-play"></i> Mulakan Pemindahan
+                        </button>
+                        <button onclick="resetSimulation()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 px-4 rounded-xl text-xs transition">
+                            <i class="fa-solid fa-rotate-left"></i> Set Semula
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Canvas Visualizer Screen (Right) -->
+                <div class="lg:col-span-3 bg-slate-900 rounded-3xl p-4 overflow-hidden shadow-inner relative flex flex-col justify-between min-h-[380px]">
+                    <!-- Live Stats HUD -->
+                    <div class="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 text-[11px] font-mono text-emerald-400 z-10">
+                        Status: <span id="simStatus" class="text-yellow-400">Menunggu Tindakan...</span>
+                    </div>
+                    <div class="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 text-[11px] font-mono text-purple-400 z-10">
+                        Kelajuan: <span id="simSpeed">60 FPS</span>
+                    </div>
+
+                    <!-- HTML5 CANVAS -->
+                    <div class="flex-grow flex items-center justify-center w-full">
+                        <canvas id="simCanvas" class="w-full h-full max-h-[350px] bg-slate-950 rounded-2xl block"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: EXAM TIPS & QUIZ -->
+        <section id="quizSec" class="bg-slate-900 text-white rounded-3xl p-6 md:p-10 card-shadow relative overflow-hidden my-10">
+            <!-- Background lights -->
+            <div class="absolute top-0 right-0 w-80 h-80 bg-red-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl"></div>
+
+            <div class="relative z-10 max-w-4xl mx-auto">
+                <div class="text-center mb-8">
+                    <span class="bg-yellow-400 text-slate-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Kuiz Uji Minda Ceria</span>
+                    <h2 class="font-fredoka text-3xl md:text-4xl font-bold mt-3">Adakah Anda Sudah Bersedia Skor A+? 🏆</h2>
+                    <p class="text-slate-400 text-sm md:text-base mt-2">Jom uji kefahaman anda melalui 5 soalan berpandukan nota Pn Farihan Elyana!</p>
+                </div>
+
+                <!-- Quiz Main Layout -->
+                <div id="quiz-container" class="bg-white/5 border border-white/10 p-6 md:p-8 rounded-3xl backdrop-blur-md">
+                    <!-- Progress Bar -->
+                    <div class="flex justify-between items-center text-xs text-slate-400 mb-4">
+                        <span>Soalan <span id="current-q">1</span> dari 5</span>
+                        <span class="font-bold text-yellow-300" id="score-txt">Mata: 0</span>
+                    </div>
+                    <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden mb-6">
+                        <div id="quiz-progress" class="h-full bg-yellow-400 transition-all duration-300" style="width: 20%;"></div>
+                    </div>
+
+                    <!-- Question Block -->
+                    <div id="question-box" class="space-y-6">
+                        <h3 id="question-text" class="font-fredoka text-lg md:text-xl font-bold leading-relaxed text-white">
+                            Sebut sahaja CPU, RAM, Cache, Register atau isyarat Clock, kebiasaannya ia menggunakan pemindahan jenis apa?
+                        </h3>
+
+                        <!-- Option Buttons -->
+                        <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Feedbacks and Next Button -->
+                    <div id="feedback-box" class="mt-6 p-4 rounded-2xl hidden">
+                        <!-- Custom styled response message -->
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <button onclick="nextQuestion()" id="nextBtn" class="hidden bg-yellow-400 text-slate-900 hover:bg-yellow-300 font-bold px-6 py-2.5 rounded-xl text-sm transition">
+                            Seterusnya <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Finished Block -->
+                <div id="quiz-finished" class="hidden text-center bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-md space-y-6">
+                    <div class="text-6xl animate-bounce">🥳</div>
+                    <h3 class="font-fredoka text-3xl font-bold">Tahniah! Anda Selesai!</h3>
+                    <p class="text-slate-300 text-sm max-w-md mx-auto">
+                        Anda telah menjawab semua soalan kuiz dengan cemerlang. Anda kini bersedia untuk menghadapi apa jua soalan peperiksaan bertopik ini!
+                    </p>
+                    <div class="text-2xl font-bold text-yellow-400" id="final-score">
+                        Skor Akhir: 5 / 5
+                    </div>
+                    <button onclick="restartQuiz()" class="bg-red-500 hover:bg-red-600 text-white font-bold px-6 py-3 rounded-2xl text-sm transition mt-2">
+                        Cuba Lagi Semula
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER YANG BESAR (BIG FOOTER) -->
+    <footer class="bg-slate-950 text-slate-400 pt-16 pb-8 border-t-4 border-red-500 mt-auto relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10 relative z-10">
+            <!-- Col 1: About the Hub -->
+            <div class="space-y-4">
+                <div class="flex items-center space-x-2">
+                    <span class="bg-red-500 text-white p-2 rounded-xl text-lg font-bold">IT</span>
+                    <span class="font-fredoka text-xl text-white font-bold">PTSS Interactive Hub</span>
+                </div>
+                <p class="text-xs leading-relaxed text-slate-400">
+                    Sebuah inisiatif digital pendidikan ceria untuk membantu pelajar memahami konsep asas Seni Bina & Organisasi Komputer dengan kaedah visualisasi yang menyeronokkan dan senang diingati.
+                </p>
+                <div class="flex space-x-3">
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition"><i class="fa-brands fa-facebook-f text-xs"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition"><i class="fa-brands fa-twitter text-xs"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition"><i class="fa-brands fa-instagram text-xs"></i></a>
+                </div>
+            </div>
+
+            <!-- Col 2: Quick Mnemonics -->
+            <div class="space-y-4">
+                <h4 class="font-fredoka text-white font-bold text-sm uppercase tracking-wider">Formula Ringkas Peperiksaan 💡</h4>
+                <ul class="space-y-2 text-xs">
+                    <li class="flex items-center gap-2"><span class="text-red-500">⏰ Synchronous</span> = "Ikut jam yang sama."</li>
+                    <li class="flex items-center gap-2"><span class="text-teal-400">💬 Asynchronous</span> = "Hantar bila sudah bersedia."</li>
+                    <li class="flex items-center gap-2"><span class="text-indigo-400">🔵 Serial</span> = "Satu Lorong / Jalan Sempit."</li>
+                    <li class="flex items-center gap-2"><span class="text-amber-400">🟢 Parallel</span> = "Banyak Lorong / Jalan Luas."</li>
+                </ul>
+            </div>
+
+            <!-- Col 3: Polytechnic Details -->
+            <div class="space-y-4">
+                <h4 class="font-fredoka text-white font-bold text-sm uppercase tracking-wider">Hubungi Kami 🏢</h4>
+                <div class="space-y-2 text-xs leading-relaxed">
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-location-dot text-red-500"></i> Jabatan Teknologi Maklumat & Komunikasi</p>
+                    <p class="text-slate-500 ml-4">Politeknik Tuanku Syed Sirajuddin, Arau, Perlis, Malaysia.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright Line exactly as specified -->
+        <div class="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-slate-900 text-center text-xs md:text-sm text-slate-500 font-medium">
+            <p class="text-slate-300">Hak Milik 2026@Pn Farihan Elyana binti Zahari (POLITEKNIK TUANKU SYED SIRAJUDDIN)</p>
+            <p class="mt-2 text-slate-600 text-[11px]">Terbina dengan ❤️ menggunakan HTML5 Canvas, Tailwind CSS & Quicksand Font.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // 1. Tab Switching Logic
+        function switchTopic(topicId) {
+            // Hide all topics
+            document.querySelectorAll('.topic-content').forEach(sec => {
+                sec.classList.add('hidden');
+            });
+            // Show active topic
+            document.getElementById('sec-' + topicId).classList.remove('hidden');
+
+            // Reset tab styles
+            document.querySelectorAll('.topic-tab').forEach(btn => {
+                btn.className = "topic-tab flex-1 py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition font-fredoka text-sm md:text-base text-slate-600 hover:bg-slate-50";
+            });
+
+            // Set active styles based on color theme of the topic
+            const activeBtn = document.getElementById('btn-' + topicId);
+            if (topicId === 'sync-async') {
+                activeBtn.className = "topic-tab flex-1 py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition font-fredoka text-sm md:text-base bg-red-500 text-white shadow-md";
+            } else if (topicId === 'serial-parallel') {
+                activeBtn.className = "topic-tab flex-1 py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition font-fredoka text-sm md:text-base bg-indigo-500 text-white shadow-md";
+            } else if (topicId === 'io-modes') {
+                activeBtn.className = "topic-tab flex-1 py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition font-fredoka text-sm md:text-base bg-purple-500 text-white shadow-md";
+            }
+        }
+
+        // 2. Interactive Canvas Simulator Engine
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+        let simMode = 'sync'; // sync, async, serial, parallel
+        let packets = [];
+        let clockTick = 0;
+        let lastTime = 0;
+        let clockTimer = 0;
+        let scale = 1;
+
+        // Resize Canvas dynamically to match parent width
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            canvas.width = container.clientWidth * window.devicePixelRatio;
+            canvas.height = container.clientHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            scale = window.devicePixelRatio;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Control Panel dynamic descriptions & actions
+        const simDescElement = document.getElementById('sim-desc');
+        const actionBtn = document.getElementById('actionBtn');
+        const simStatus = document.getElementById('simStatus');
+
+        const simData = {
+            sync: {
+                desc: `
+                    <p class="font-bold text-red-500">⏰ Kaedah Synchronous</p>
+                    <p>Semua perpindahan bit disusun di bawah satu denyutan sistem jam (Clock) yang sama.</p>
+                    <p class="mt-2 bg-slate-100 p-2.5 rounded-xl border border-slate-200">
+                        <strong>Cara Uji:</strong> Klik butang di bawah untuk melihat bit dihantar secara teratur mengikut fasa denyutan jam yang sama serentak.
+                    </p>
+                `,
+                btnText: "Hantar Data (Ikut Jam)",
+                btnClass: "w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-xl text-sm shadow-md transition flex items-center justify-center gap-2"
+            },
+            async: {
+                desc: `
+                    <p class="font-bold text-teal-600">💬 Kaedah Asynchronous</p>
+                    <p>Data dihantar secara on-demand. Penghantar memberi isyarat sedia, penerima mengiyakan (handshaking), barulah data dipindahkan.</p>
+                    <p class="mt-2 bg-slate-100 p-2.5 rounded-xl border border-slate-200">
+                        <strong>Cara Uji:</strong> Klik butang untuk melancarkan isyarat handshaking sebelum bit dilepaskan.
+                    </p>
+                `,
+                btnText: "Hantar Rawak (On-Demand)",
+                btnClass: "w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-4 rounded-xl text-sm shadow-md transition flex items-center justify-center gap-2"
+            },
+            serial: {
+                desc: `
+                    <p class="font-bold text-indigo-500">🔵 Serial Transfer</p>
+                    <p>Pemindahan data 1 bit demi 1 bit pada satu wayar tunggal. Sesuai untuk peranti luaran (USB, SATA).</p>
+                    <p class="mt-2 bg-slate-100 p-2.5 rounded-xl border border-slate-200">
+                        <strong>Cara Uji:</strong> Klik butang untuk melihat kesemua 8 bit dihantar berbaris di satu laluan wayar.
+                    </p>
+                `,
+                btnText: "Hantar 8-Bit (Beratur)",
+                btnClass: "w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-4 rounded-xl text-sm shadow-md transition flex items-center justify-center gap-2"
+            },
+            parallel: {
+                desc: `
+                    <p class="font-bold text-amber-500">🟢 Parallel Transfer</p>
+                    <p>Semua 8 bit dihantar serentak secara selari di atas 8 wayar yang berasingan. Sesuai untuk jarak dekat sahaja.</p>
+                    <p class="mt-2 bg-slate-100 p-2.5 rounded-xl border border-slate-200">
+                        <strong>Cara Uji:</strong> Klik butang untuk melihat kesemua 8 lori / bit dipindahkan selari pada satu masa!
+                    </p>
+                `,
+                btnText: "Hantar Serentak (8 Lorong)",
+                btnClass: "w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3 px-4 rounded-xl text-sm shadow-md transition flex items-center justify-center gap-2"
+            }
+        };
+
+        function setSimMode(mode) {
+            simMode = mode;
+            // Update control UI
+            simDescElement.innerHTML = simData[mode].desc;
+            actionBtn.innerText = simData[mode].btnText;
+            actionBtn.className = simData[mode].btnClass;
+            
+            // Highlight current simulation selector buttons
+            document.querySelectorAll('[id^="simBtn-"]').forEach(btn => {
+                btn.className = "bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition";
+            });
+            const activeSel = document.getElementById('simBtn-' + mode);
+            if (mode === 'sync') activeSel.className = "bg-red-500 text-white font-bold px-4 py-2 rounded-xl text-xs shadow transition";
+            if (mode === 'async') activeSel.className = "bg-teal-500 text-white font-bold px-4 py-2 rounded-xl text-xs shadow transition";
+            if (mode === 'serial') activeSel.className = "bg-indigo-500 text-white font-bold px-4 py-2 rounded-xl text-xs shadow transition";
+            if (mode === 'parallel') activeSel.className = "bg-amber-500 text-slate-900 font-bold px-4 py-2 rounded-xl text-xs shadow transition";
+
+            resetSimulation();
+        }
+
+        function resetSimulation() {
+            packets = [];
+            clockTick = 0;
+            clockTimer = 0;
+            simStatus.innerText = "Sedia menerima isyarat...";
+            simStatus.className = "text-yellow-400";
+        }
+
+        function triggerAction() {
+            if (simMode === 'sync') {
+                simStatus.innerText = "Menghantar mengikut rentak clock...";
+                simStatus.className = "text-red-400";
+                // Add synchronous packets that fire on upcoming intervals
+                for (let i = 0; i < 5; i++) {
+                    packets.push({
+                        id: i,
+                        x: 80,
+                        y: 120,
+                        targetX: 380,
+                        color: '#FF6B6B',
+                        val: Math.round(Math.random()),
+                        delay: i * 40,
+                        active: false
+                    });
+                }
+            } else if (simMode === 'async') {
+                simStatus.innerText = "Melakukan Handshaking (Sedia)...";
+                simStatus.className = "text-teal-400";
+                // Trigger handshake visual sequence first, then send packets after a moment
+                setTimeout(() => {
+                    simStatus.innerText = "Handshake Berjaya! Data Dihantar.";
+                    for (let i = 0; i < 5; i++) {
+                        packets.push({
+                            id: i,
+                            x: 80,
+                            y: 120,
+                            targetX: 380,
+                            color: '#4ECDC4',
+                            val: Math.round(Math.random()),
+                            delay: i * 15 + 10,
+                            active: true
+                        });
+                    }
+                }, 1000);
+            } else if (simMode === 'serial') {
+                simStatus.innerText = "Hantar 8-Bit silih berganti...";
+                simStatus.className = "text-indigo-400";
+                // 8 bit, beratur satu wayar
+                for (let i = 0; i < 8; i++) {
+                    packets.push({
+                        id: i,
+                        x: 80,
+                        y: 150,
+                        targetX: 380,
+                        color: '#818CF8',
+                        val: [1, 0, 1, 1, 0, 0, 1, 0][i],
+                        delay: i * 35,
+                        active: true
+                    });
+                }
+            } else if (simMode === 'parallel') {
+                simStatus.innerText = "Hantar 8-Bit serentak (8 wire)!";
+                simStatus.className = "text-amber-500 font-bold";
+                // 8 bit, 8 wayar serentak
+                for (let i = 0; i < 8; i++) {
+                    packets.push({
+                        id: i,
+                        x: 80,
+                        y: 60 + (i * 24),
+                        targetX: 380,
+                        color: '#FBBF24',
+                        val: [1, 0, 1, 1, 0, 0, 1, 0][i],
+                        delay: 0,
+                        active: true
+                    });
+                }
+            }
+        }
+
+        // Canvas Drawing Engine Loop
+        function draw(time) {
+            const width = canvas.width / scale;
+            const height = canvas.height / scale;
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw Background grid
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+            for (let i = 20; i < width; i += 20) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, height);
+                ctx.stroke();
+            }
+            for (let i = 20; i < height; i += 20) {
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(width, i);
+                ctx.stroke();
+            }
+
+            // Draw Sender & Receiver boxes
+            // Sender box
+            ctx.fillStyle = '#1e293b';
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.roundRect(20, 50, 80, height - 100, 15);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 12px Fredoka';
+            ctx.fillText("CPU", 45, 100);
+
+            // Receiver box
+            ctx.fillStyle = '#1e293b';
+            ctx.beginPath();
+            ctx.roundRect(width - 100, 50, 80, height - 100, 15);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#fff';
+            ctx.fillText(simMode === 'sync' ? "RAM" : "PERANTI", width - 85, 100);
+
+            // Draw Wire lines
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 2;
+            if (simMode === 'parallel') {
+                // 8 individual wires
+                for (let i = 0; i < 8; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(100, 60 + (i * 24));
+                    ctx.lineTo(width - 100, 60 + (i * 24));
+                    ctx.stroke();
+                }
+            } else {
+                // 1 main central wire
+                ctx.beginPath();
+                ctx.moveTo(100, 150);
+                ctx.lineTo(width - 100, 150);
+                ctx.stroke();
+            }
+
+            // Draw Clock ticks if Sync mode
+            if (simMode === 'sync') {
+                clockTimer++;
+                if (clockTimer % 40 === 0) {
+                    clockTick = !clockTick;
+                }
+                ctx.fillStyle = clockTick ? '#EF4444' : '#1E293B';
+                ctx.beginPath();
+                ctx.arc(width / 2, 30, 8, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#94A3B8';
+                ctx.font = '10px monospace';
+                ctx.fillText(`CLOCK TICK: ${clockTick ? 'HIGH' : 'LOW'}`, width / 2 - 45, 52);
+            }
+
+            // Handle and Draw data packets
+            packets.forEach(packet => {
+                if (packet.delay > 0) {
+                    packet.delay--;
+                    // Sync packets wake up only on clock HIGH transitions
+                    if (simMode === 'sync' && packet.delay <= 0) {
+                        packet.active = true;
+                    }
+                    return;
+                }
+                if (!packet.active && simMode === 'sync') {
+                    if (clockTick) packet.active = true;
+                }
+
+                if (packet.active) {
+                    // Update movement
+                    if (packet.x < width - 120) {
+                        packet.x += 2; // move right
+                    } else {
+                        // Reached destination, show check icon or light up receiver
+                        ctx.fillStyle = '#10B981';
+                        ctx.beginPath();
+                        ctx.arc(width - 60, packet.y, 4, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+
+                    // Render Packet
+                    ctx.fillStyle = packet.color;
+                    ctx.beginPath();
+                    ctx.roundRect(packet.x - 10, packet.y - 10, 20, 20, 6);
+                    ctx.fill();
+                    
+                    // Draw digital Bit inside (1 or 0)
+                    ctx.fillStyle = '#000';
+                    ctx.font = 'bold 11px monospace';
+                    ctx.fillText(packet.val.toString(), packet.x - 3, packet.y + 4);
+                }
+            });
+
+            requestAnimationFrame(draw);
+        }
+        
+        // Start Canvas loop
+        requestAnimationFrame(draw);
+        setSimMode('sync');
+
+        // 3. Quiz Game Engine & Database
+        const quizDB = [
+            {
+                q: "Sebut sahaja CPU, RAM, Cache, Register atau isyarat Clock, kebiasaannya ia menggunakan pemindahan jenis apa?",
+                options: ["Synchronous", "Asynchronous", "Direct Memory Access", "Parallel Transfer"],
+                ans: 0,
+                feedback: "Betul! Tip peperiksaan: Semua komponen dalaman yang berkongsi isyarat jam utama menggunakan Synchronous (S = Same Clock)."
+            },
+            {
+                q: "Analoginya sama seperti kita berbual dalam kumpulan WhatsApp, di mana jawapan diletakkan secara rawak mengikut masa yang lapang. Apakah jenis perpindahan ini?",
+                options: ["Direct Memory Access", "Parallel Transfer", "Asynchronous Transfer", "Programmed I/O"],
+                ans: 2,
+                feedback: "Bijak sekali! WhatsApp tidak bergantung kepada masa jitu, jadi ia adalah Asynchronous (A = Anytime Ready)."
+            },
+            {
+                q: "Dalam kaedah penghantaran manakah lori digunakan untuk menghantar 8 kotak secara serentak menggunakan 8 lorong lebuh raya berbeza?",
+                options: ["Serial Transfer", "Parallel Transfer", "Programmed I/O", "Interrupt I/O"],
+                ans: 1,
+                feedback: "Betul! Parallel Transfer bermaksud bit dihantar secara serentak menggunakan banyak saluran fizikal."
+            },
+            {
+                q: "Mengapakah kaedah Serial Transfer paling banyak diguna pakai oleh teknologi moden (seperti USB & SATA) berbanding Parallel?",
+                options: ["Lebih mahal dibina", "Lebih ringkas, kos rendah, tiada gangguan isyarat pada jarak jauh", "Lebih perlahan dan berat", "Menggunakan clock yang sama"],
+                ans: 1,
+                feedback: "Sempurna! Serial lebih digemari peranti moden kerana murah, kabel yang kompak, serta tiada gangguan isyarat bertindih walaupun dalam jarak jauh."
+            },
+            {
+                q: "Dalam mode pemindahan I/O yang manakah CPU langsung tidak diganggu, sebaliknya pengawal khusus yang menguruskan fail besar terus ke stor RAM?",
+                options: ["Programmed I/O", "Interrupt-Initiated I/O", "Direct Memory Access (DMA)", "Serial-Initiated I/O"],
+                ans: 2,
+                feedback: "Tepat sekali! DMA membolehkan data dipindah terus ke memori tanpa melibatkan CPU. Bos goyang kaki, kurier hantar barang!"
+            }
+        ];
+
+        let currentQuestionIdx = 0;
+        let score = 0;
+
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackBox = document.getElementById('feedback-box');
+        const currentQLabel = document.getElementById('current-q');
+        const progressIndicator = document.getElementById('quiz-progress');
+        const scoreTxt = document.getElementById('score-txt');
+        const nextBtn = document.getElementById('nextBtn');
+        const quizContainer = document.getElementById('quiz-container');
+        const quizFinishedBlock = document.getElementById('quiz-finished');
+        const finalScoreLabel = document.getElementById('final-score');
+
+        function loadQuestion() {
+            feedbackBox.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+            
+            const currentQ = quizDB[currentQuestionIdx];
+            currentQLabel.innerText = currentQuestionIdx + 1;
+            scoreTxt.innerText = `Mata: ${score}`;
+            progressIndicator.style.width = `${((currentQuestionIdx + 1) / quizDB.length) * 100}%`;
+            
+            questionText.innerText = currentQ.q;
+            optionsContainer.innerHTML = '';
+
+            currentQ.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "text-left bg-white/5 border border-white/15 hover:bg-white/10 p-4 rounded-2xl text-sm md:text-base font-medium transition duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-300";
+                btn.innerHTML = `<span class="inline-block bg-white/10 w-6 h-6 rounded-lg text-center font-bold text-xs mr-2 leading-6">${String.fromCharCode(65 + idx)}</span> ${opt}`;
+                btn.onclick = () => checkAnswer(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIdx, clickedBtn) {
+            const currentQ = quizDB[currentQuestionIdx];
+            const buttons = optionsContainer.getElementsByTagName('button');
+            
+            // Disable all option buttons
+            for (let btn of buttons) {
+                btn.disabled = true;
+            }
+
+            if (selectedIdx === currentQ.ans) {
+                score++;
+                clickedBtn.className = "text-left bg-emerald-500/20 border border-emerald-500 p-4 rounded-2xl text-sm md:text-base font-semibold text-emerald-400 focus:outline-none";
+                feedbackBox.className = "mt-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs md:text-sm leading-relaxed";
+                feedbackBox.innerHTML = `<strong>Betul! 🎉</strong> <br/> ${currentQ.feedback}`;
+                confetti({
+                    particleCount: 50,
+                    spread: 60,
+                    origin: { y: 0.8 }
+                });
+            } else {
+                clickedBtn.className = "text-left bg-red-500/20 border border-red-500 p-4 rounded-2xl text-sm md:text-base font-semibold text-red-400 focus:outline-none";
+                feedbackBox.className = "mt-6 p-4 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs md:text-sm leading-relaxed";
+                feedbackBox.innerHTML = `<strong>Sikit Lagi! 💡</strong> <br/> Jawapan betul ialah <i>"${currentQ.options[currentQ.ans]}"</i>. <br/> ${currentQ.feedback}`;
+            }
+
+            feedbackBox.classList.remove('hidden');
+            nextBtn.classList.remove('hidden');
+            scoreTxt.innerText = `Mata: ${score}`;
+        }
+
+        function nextQuestion() {
+            currentQuestionIdx++;
+            if (currentQuestionIdx < quizDB.length) {
+                loadQuestion();
+            } else {
+                // Show completion screen
+                quizContainer.classList.add('hidden');
+                quizFinishedBlock.classList.remove('hidden');
+                finalScoreLabel.innerText = `Skor Akhir: ${score} / ${quizDB.length}`;
+                if (score === quizDB.length) {
+                    confetti({
+                        particleCount: 150,
+                        spread: 80,
+                        origin: { y: 0.6 }
+                    });
+                }
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestionIdx = 0;
+            score = 0;
+            quizFinishedBlock.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            loadQuestion();
+        }
+
+        // Initialize quiz on page load
+        loadQuestion();
+    </script>
+</body>
+</html>
