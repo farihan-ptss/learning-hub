@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Pembelajaran Interaktif CPU - Arkitektur Komputer</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons for nice assets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .animate-pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .data-flow-line {
+            stroke-dasharray: 8;
+            animation: dash 1.5s linear infinite;
+        }
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -16;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-teal-500 selection:text-slate-900">
+
+    <!-- Top Banner / Navigation -->
+    <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-teal-500 text-slate-950 p-2.5 rounded-xl shadow-lg shadow-teal-500/20">
+                    <i class="fa-solid fa-microchip text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-white tracking-wide">CPU Learning Hub</h1>
+                    <p class="text-xs text-teal-400 font-medium">Silibus Diploma Semester 1 - Arkitektur Komputer</p>
+                </div>
+            </div>
+            
+            <!-- Tab Buttons -->
+            <nav class="flex flex-wrap gap-1 bg-slate-950 p-1 rounded-xl border border-slate-700/60 w-full md:w-auto overflow-x-auto">
+                <button onclick="switchTab('def-analogi')" id="btn-def-analogi" class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 bg-teal-500 text-slate-950 shadow-md">
+                    <i class="fa-solid fa-book-open mr-1.5"></i>Definisi & Analogi
+                </button>
+                <button onclick="switchTab('blok-cpu')" id="btn-blok-cpu" class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-slate-200 transition-all duration-200">
+                    <i class="fa-solid fa-diagram-project mr-1.5"></i>Rajah Blok CPU
+                </button>
+                <button onclick="switchTab('simulator-aliran')" id="btn-simulator-aliran" class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-slate-200 transition-all duration-200">
+                    <i class="fa-solid fa-gears mr-1.5"></i>Simulator CPU
+                </button>
+                <button onclick="switchTab('kitaran-arahan')" id="btn-kitaran-arahan" class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-slate-200 transition-all duration-200">
+                    <i class="fa-solid fa-rotate mr-1.5"></i>Kitaran Arahan
+                </button>
+                <button onclick="switchTab('kuiz')" id="btn-kuiz" class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-slate-200 transition-all duration-200">
+                    <i class="fa-solid fa-graduation-cap mr-1.5"></i>Ujian Ringkas
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- TAB 1: DEFINISI & ANALOGI -->
+        <section id="tab-def-analogi" class="tab-content space-y-8">
+            <!-- Hero Definition Card -->
+            <div class="relative bg-gradient-to-r from-slate-800 to-slate-800/60 p-6 sm:p-8 rounded-3xl border border-slate-700 overflow-hidden shadow-xl">
+                <div class="absolute -right-16 -bottom-16 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-16 -top-16 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="max-w-3xl">
+                    <span class="bg-teal-500/10 text-teal-400 text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full border border-teal-500/20">Silibus 1.5.1</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-3">Apakah itu Central Processing Unit (CPU)?</h2>
+                    <p class="text-slate-300 mt-4 text-base sm:text-lg leading-relaxed">
+                        <strong class="text-teal-400">Central Processing Unit (CPU)</strong> ialah <span class="underline decoration-teal-400 decoration-2 font-semibold">otak komputer</span> yang bertanggungjawab memproses semua arahan, membuat pengiraan, dan mengawal operasi semua komponen komputer.
+                    </p>
+                    <p class="text-slate-400 mt-3 text-sm sm:text-base">
+                        Ia menerima data daripada ingatan (Memory) atau peranti input (seperti papan kekunci), memproses data tersebut, dan menghantar hasilnya semula ke ingatan atau peranti output (seperti monitor).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Analogi Section with Toggle -->
+            <div>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb text-yellow-400"></i>
+                            Kuasai Melalui Analogi Mudah
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-1">Gunakan analogi untuk mudah menghafal peranan asas CPU</p>
+                    </div>
+                    <!-- Analogi Switcher Buttons -->
+                    <div class="flex bg-slate-950 p-1 rounded-xl border border-slate-800 self-stretch sm:self-auto">
+                        <button onclick="setAnalogy('brain')" id="btn-analogy-brain" class="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all duration-300 bg-teal-500 text-slate-950">
+                            🧠 Otak Manusia
+                        </button>
+                        <button onclick="setAnalogy('restaurant')" id="btn-analogy-restaurant" class="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all duration-300 text-slate-400 hover:text-slate-200">
+                            🍽️ Restoran
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Interactive Analogi Display -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <!-- CPU Card -->
+                    <div class="bg-slate-800/80 p-6 rounded-2xl border border-slate-700/60 flex flex-col justify-between hover:border-slate-600 transition-all shadow-md group">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-microchip"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-white">CPU Utama</h4>
+                            <p class="text-xs text-teal-400 font-medium uppercase tracking-wider mt-0.5">Pemproses Utama</p>
+                            <p class="text-slate-300 text-sm mt-3 leading-relaxed" id="analogy-cpu-desc">
+                                Otak manusia yang menyelaraskan tindakan fizikal, memproses deria, dan berfikir.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-slate-700/60 flex items-center gap-2 text-xs text-slate-400">
+                            <span class="font-bold text-teal-500">Analogi:</span>
+                            <span id="analogy-cpu-name">Otak Manusia</span>
+                        </div>
+                    </div>
+
+                    <!-- Input Card -->
+                    <div class="bg-slate-800/80 p-6 rounded-2xl border border-slate-700/60 flex flex-col justify-between hover:border-slate-600 transition-all shadow-md group">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-keyboard"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-white">Input Devices</h4>
+                            <p class="text-xs text-indigo-400 font-medium uppercase tracking-wider mt-0.5">Kemasukan Data</p>
+                            <p class="text-slate-300 text-sm mt-3 leading-relaxed" id="analogy-input-desc">
+                                Mata dan Telinga yang menangkap rangsangan dan maklumat dari persekitaran luar.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-slate-700/60 flex items-center gap-2 text-xs text-slate-400">
+                            <span class="font-bold text-indigo-400">Analogi:</span>
+                            <span id="analogy-input-name">Mata / Telinga</span>
+                        </div>
+                    </div>
+
+                    <!-- Memory Card -->
+                    <div class="bg-slate-800/80 p-6 rounded-2xl border border-slate-700/60 flex flex-col justify-between hover:border-slate-600 transition-all shadow-md group">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-memory"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-white">Memory (RAM)</h4>
+                            <p class="text-xs text-amber-400 font-medium uppercase tracking-wider mt-0.5">Penyimpanan Sementara</p>
+                            <p class="text-slate-300 text-sm mt-3 leading-relaxed" id="analogy-memory-desc">
+                                Ingatan jangka pendek manusia untuk menyimpan maklumat penting ketika melakukan tugas.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-slate-700/60 flex items-center gap-2 text-xs text-slate-400">
+                            <span class="font-bold text-amber-400">Analogi:</span>
+                            <span id="analogy-memory-name">Ingatan / Memori</span>
+                        </div>
+                    </div>
+
+                    <!-- Output Card -->
+                    <div class="bg-slate-800/80 p-6 rounded-2xl border border-slate-700/60 flex flex-col justify-between hover:border-slate-600 transition-all shadow-md group">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-desktop"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-white">Output Devices</h4>
+                            <p class="text-xs text-rose-400 font-medium uppercase tracking-wider mt-0.5">Hasil Pemprosesan</p>
+                            <p class="text-slate-300 text-sm mt-3 leading-relaxed" id="analogy-output-desc">
+                                Tangan dan Kaki yang digerakkan untuk bertindak balas berdasarkan keputusan otak.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-slate-700/60 flex items-center gap-2 text-xs text-slate-400">
+                            <span class="font-bold text-rose-400">Analogi:</span>
+                            <span id="analogy-output-name">Tangan / Kaki</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Real Example Box (Interactive Calculator Flow) -->
+            <div class="bg-slate-950 rounded-2xl p-6 border border-slate-800">
+                <h4 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-calculator text-teal-400"></i>
+                    Contoh Aliran Kerja Nyata: Pengiraan <span class="text-teal-400 font-extrabold font-mono">5 + 3</span>
+                </h4>
+                <p class="text-xs text-slate-400 mb-6">Lakukan simulasi ringkas untuk melihat perjalanan data dari peranti input ke output.</p>
+                
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6 relative">
+                    <!-- Step 1: Input -->
+                    <div class="flex flex-col items-center bg-slate-800/50 p-4 rounded-xl border border-slate-700/40 w-full md:w-1/4 text-center">
+                        <span class="text-2xl mb-1">⌨️</span>
+                        <span class="text-xs text-indigo-400 font-bold uppercase tracking-wider">Langkah 1: Input</span>
+                        <h5 class="text-white font-bold mt-1">Papan Kekunci</h5>
+                        <p class="text-xs text-slate-400 mt-1">Anda menaip <span class="bg-slate-900 text-slate-200 px-1.5 py-0.5 rounded font-mono font-bold">5 + 3</span></p>
+                    </div>
+
+                    <div class="hidden md:block text-teal-400 text-xl animate-pulse"><i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="md:hidden text-teal-400 text-xl"><i class="fa-solid fa-arrow-down"></i></div>
+
+                    <!-- Step 2: CPU Process -->
+                    <div class="flex flex-col items-center bg-slate-800/50 p-4 rounded-xl border border-teal-500/30 w-full md:w-1/3 text-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-teal-500/5 animate-pulse-slow"></div>
+                        <span class="text-2xl mb-1 z-10">🧠</span>
+                        <span class="text-xs text-teal-400 font-bold uppercase tracking-wider z-10">Langkah 2: Proses</span>
+                        <h5 class="text-white font-bold mt-1 z-10">CPU (ALU & CU)</h5>
+                        <p class="text-xs text-slate-400 mt-1 z-10">Menerima data, mengira <strong class="text-teal-400 font-mono">5 + 3 = 8</strong> dalam sekelip mata.</p>
+                    </div>
+
+                    <div class="hidden md:block text-teal-400 text-xl animate-pulse"><i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="md:hidden text-teal-400 text-xl"><i class="fa-solid fa-arrow-down"></i></div>
+
+                    <!-- Step 3: Output -->
+                    <div class="flex flex-col items-center bg-slate-800/50 p-4 rounded-xl border border-slate-700/40 w-full md:w-1/4 text-center">
+                        <span class="text-2xl mb-1">🖥️</span>
+                        <span class="text-xs text-rose-400 font-bold uppercase tracking-wider">Langkah 3: Output</span>
+                        <h5 class="text-white font-bold mt-1">Monitor</h5>
+                        <p class="text-xs text-slate-400 mt-1">Keputusan <span class="bg-slate-900 text-teal-400 px-2 py-0.5 rounded font-mono font-bold">8</span> dipaparkan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: RAJAH BLOK CPU -->
+        <section id="tab-blok-cpu" class="tab-content hidden space-y-8">
+            <div class="bg-slate-800/40 p-6 rounded-2xl border border-slate-700/50">
+                <div class="max-w-3xl mb-6">
+                    <span class="bg-indigo-500/10 text-indigo-400 text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full border border-indigo-500/20">CLO 1.5.3 (Peperiksaan Akhir)</span>
+                    <h2 class="text-2xl font-bold text-white mt-3">Rajah Blok Utama CPU (CPU Block Diagram)</h2>
+                    <p class="text-slate-300 text-sm mt-2">
+                        Dalam peperiksaan, anda sering diminta untuk <strong class="text-teal-400">melukis rajah CPU dan melabelkan komponennya</strong> serta fungsinya. Di bawah adalah rajah interaktif. Klik pada mana-mana blok untuk mempelajari fungsi serta analoginya!
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <!-- Interactive SVG Block Diagram (Col span 7) -->
+                    <div class="lg:col-span-7 bg-slate-950 p-4 rounded-2xl border border-slate-800 flex justify-center items-center shadow-inner overflow-x-auto">
+                        <svg id="cpu-svg-diagram" width="550" height="420" viewBox="0 0 550 420" class="max-w-full">
+                            <!-- Outer CPU Box -->
+                            <rect x="130" y="20" width="290" height="310" rx="15" fill="#1e293b" stroke="#0d9488" stroke-width="3" />
+                            <text x="275" y="45" fill="#2dd4bf" font-size="14" font-weight="bold" text-anchor="middle">CPU (Central Processing Unit)</text>
+                            
+                            <!-- Control Unit Block -->
+                            <g id="svg-cu" onclick="selectComponent('cu')" class="cursor-pointer group">
+                                <rect x="150" y="65" width="250" height="60" rx="8" fill="#0f172a" stroke="#6366f1" stroke-width="2" class="hover:fill-slate-800 transition-colors" />
+                                <text x="275" y="93" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">Control Unit (CU)</text>
+                                <text x="275" y="110" fill="#a5b4fc" font-size="10" text-anchor="middle">🚦 Polis Trafik / Pengurus</text>
+                            </g>
+
+                            <!-- Flow arrows between CU and ALU -->
+                            <line x1="260" y1="125" x2="260" y2="155" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)" class="data-flow-line" />
+                            <line x1="290" y1="155" x2="290" y2="125" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)" class="data-flow-line" />
+
+                            <!-- ALU Block -->
+                            <g id="svg-alu" onclick="selectComponent('alu')" class="cursor-pointer group">
+                                <rect x="150" y="155" width="250" height="60" rx="8" fill="#0f172a" stroke="#2dd4bf" stroke-width="2" class="hover:fill-slate-800 transition-colors" />
+                                <text x="275" y="183" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">Arithmetic & Logic Unit (ALU)</text>
+                                <text x="275" y="200" fill="#99f6e4" font-size="10" text-anchor="middle">🧮 Kalkulator / Chef</text>
+                            </g>
+
+                            <!-- Flow arrows between ALU and Memory Unit -->
+                            <line x1="260" y1="215" x2="260" y2="245" stroke="#2dd4bf" stroke-width="2" marker-end="url(#arrow)" class="data-flow-line" />
+                            <line x1="290" y1="245" x2="290" y2="215" stroke="#2dd4bf" stroke-width="2" marker-end="url(#arrow)" class="data-flow-line" />
+
+                            <!-- Memory Unit Block -->
+                            <g id="svg-mu" onclick="selectComponent('mu')" class="cursor-pointer group">
+                                <rect x="150" y="245" width="250" height="60" rx="8" fill="#0f172a" stroke="#fbbf24" stroke-width="2" class="hover:fill-slate-800 transition-colors" />
+                                <text x="275" y="273" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">Memory Unit (Registers)</text>
+                                <text x="275" y="290" fill="#fde047" font-size="10" text-anchor="middle">📋 Meja Kerja / Simpan Sementara</text>
+                            </g>
+
+                            <!-- External Connection (System Bus) -->
+                            <rect x="60" y="360" width="430" height="30" rx="5" fill="#334155" stroke="#475569" stroke-width="2" />
+                            <text x="275" y="379" fill="#e2e8f0" font-size="11" font-weight="bold" text-anchor="middle">ADDRESS BUS / DATA BUS / CONTROL BUS</text>
+
+                            <!-- Connection lines from CPU to Bus -->
+                            <line x1="275" y1="330" x2="275" y2="360" stroke="#f43f5e" stroke-width="3" marker-end="url(#arrow)" />
+
+                            <!-- Inputs & Outputs on sides -->
+                            <g id="svg-input" onclick="selectComponent('input')" class="cursor-pointer">
+                                <rect x="20" y="155" width="90" height="50" rx="5" fill="#1e1b4b" stroke="#4f46e5" stroke-width="2" />
+                                <text x="65" y="180" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">Input Devices</text>
+                                <text x="65" y="195" fill="#a5b4fc" font-size="9" text-anchor="middle">(Keyboard, Mouse)</text>
+                            </g>
+                            <line x1="110" y1="180" x2="130" y2="180" stroke="#4f46e5" stroke-width="2" />
+
+                            <g id="svg-output" onclick="selectComponent('output')" class="cursor-pointer">
+                                <rect x="440" y="155" width="90" height="50" rx="5" fill="#4c0519" stroke="#be123c" stroke-width="2" />
+                                <text x="485" y="180" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">Output Devices</text>
+                                <text x="485" y="195" fill="#fecdd3" font-size="9" text-anchor="middle">(Monitor)</text>
+                            </g>
+                            <line x1="420" y1="180" x2="440" y2="180" stroke="#be123c" stroke-width="2" />
+
+                            <!-- Define Markers for Arrows -->
+                            <defs>
+                                <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M 0 1 L 10 5 L 0 9 z" fill="context-stroke" />
+                                </marker>
+                            </defs>
+                        </svg>
+                    </div>
+
+                    <!-- Component Details Card on click (Col span 5) -->
+                    <div class="lg:col-span-5 flex flex-col h-full justify-between">
+                        <div id="comp-details-card" class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-md">
+                            <div class="flex items-center gap-3">
+                                <div id="comp-icon-box" class="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold bg-teal-500/10 text-teal-400">
+                                    <i class="fa-solid fa-hand-pointer"></i>
+                                </div>
+                                <div>
+                                    <h3 id="comp-title" class="text-xl font-bold text-white">Sila klik komponen</h3>
+                                    <p id="comp-subtitle" class="text-xs text-slate-400">Pilih komponen dari rajah di sebelah kiri</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 space-y-4">
+                                <div>
+                                    <h4 class="text-xs font-bold uppercase tracking-wider text-teal-400">Definisi & Peranan</h4>
+                                    <p id="comp-def" class="text-sm text-slate-300 mt-1">Sila klik mana-mana komponen grafik dalam rajah CPU Block Diagram di sebelah untuk melihat perincian fungsinya, contoh penggunaan sebenar dan tip untuk lulus peperiksaan dengan cemerlang!</p>
+                                </div>
+
+                                <div id="comp-extra-section" class="hidden">
+                                    <h4 class="text-xs font-bold uppercase tracking-wider text-indigo-400 mt-4">Analogi</h4>
+                                    <div class="flex items-center gap-2 mt-1.5 bg-slate-900/60 p-2.5 rounded-lg border border-slate-700/50">
+                                        <span id="comp-analogy-emoji" class="text-lg">💡</span>
+                                        <p id="comp-analogy" class="text-xs text-slate-300"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Exam Pro-Tip Floating Box -->
+                        <div class="mt-6 bg-indigo-950/60 p-4 rounded-xl border border-indigo-500/30 flex gap-3">
+                            <span class="text-2xl">🔥</span>
+                            <div>
+                                <h5 class="text-sm font-bold text-indigo-300">Cara Mudah Ingat untuk Exam</h5>
+                                <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                                    Gunakan formula mudah: <strong class="text-teal-400">Control → Calculate → Store</strong>. <br>
+                                    (CU mengawal, ALU mengira, Memory Unit menyimpan sementara).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Bus Information -->
+            <div class="bg-slate-800/20 p-6 rounded-2xl border border-slate-800">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-road text-rose-500"></i>
+                    Memahami Isyarat "Bus" (Sistem Penghubung)
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                            <h4 class="font-bold text-white text-sm">Data Bus</h4>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2">Membawa bit-bit data sebenar di antara CPU, memori, dan peranti luaran.</p>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
+                            <h4 class="font-bold text-white text-sm">Address Bus</h4>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2">Membawa alamat memori (lokasi penyimpanan) di mana data tersebut diletakkan atau ingin dibaca.</p>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                            <h4 class="font-bold text-white text-sm">Control Bus</h4>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2">Membawa isyarat kawalan (seperti arahan membaca 'Read' atau menulis 'Write') daripada Control Unit.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: SIMULATOR ALIRAN DATA -->
+        <section id="tab-simulator-aliran" class="tab-content hidden space-y-8">
+            <div class="bg-slate-800/40 p-6 rounded-2xl border border-slate-700/50">
+                <div class="max-w-3xl mb-6">
+                    <span class="bg-teal-500/10 text-teal-400 text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full border border-teal-500/20">Amali Interaktif</span>
+                    <h2 class="text-2xl font-bold text-white mt-3">Simulator Aliran Komponen CPU</h2>
+                    <p class="text-slate-300 text-sm mt-2">
+                        Pilih satu arahan kerja di bawah, kemudian tekan butang mula untuk melihat bagaimana komponen CPU bekerjasama secara berperingkat dalam menyelesaikan arahan tersebut!
+                    </p>
+                </div>
+
+                <!-- Simulation Control Controls -->
+                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800/80 mb-6">
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div class="space-y-1">
+                            <label class="text-xs text-slate-400 font-bold uppercase tracking-wider block">Pilih Arahan Pengiraan:</label>
+                            <div class="flex gap-2">
+                                <button onclick="selectSimTask('15_25')" id="btn-task-15_25" class="sim-task-btn px-4 py-2 text-sm font-bold bg-teal-500 text-slate-950 rounded-lg transition-colors">
+                                    15 + 25
+                                </button>
+                                <button onclick="selectSimTask('10_20')" id="btn-task-10_20" class="sim-task-btn px-4 py-2 text-sm font-bold bg-slate-800 text-slate-300 rounded-lg transition-colors">
+                                    10 + 20
+                                </button>
+                                <button onclick="selectSimTask('50_25')" id="btn-task-50_25" class="sim-task-btn px-4 py-2 text-sm font-bold bg-slate-800 text-slate-300 rounded-lg transition-colors">
+                                    50 + 25
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Action controls -->
+                        <div class="flex gap-2 w-full md:w-auto">
+                            <button onclick="startSimulation()" id="btn-sim-start" class="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg shadow-teal-500/10">
+                                <i class="fa-solid fa-play"></i> Mulakan Simulasi
+                            </button>
+                            <button onclick="resetSimulation()" class="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl transition-all">
+                                <i class="fa-solid fa-arrow-rotate-left"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Animation Sandbox -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Screen Graphic Panel (Col span 8) -->
+                    <div class="lg:col-span-8 bg-slate-950 p-6 rounded-2xl border border-slate-800/80 min-h-[400px] flex flex-col justify-between relative overflow-hidden">
+                        <!-- BG Circuit decoration -->
+                        <div class="absolute inset-0 opacity-5 pointer-events-none">
+                            <div class="absolute top-10 left-10 w-24 h-24 bg-teal-500 rounded-full blur-2xl"></div>
+                            <div class="absolute bottom-10 right-10 w-32 h-32 bg-indigo-500 rounded-full blur-2xl"></div>
+                        </div>
+
+                        <!-- Step indicator header -->
+                        <div class="flex justify-between items-center pb-4 border-b border-slate-800/80 z-10">
+                            <div class="flex items-center gap-2">
+                                <span class="flex h-2.5 w-2.5 relative">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-teal-500"></span>
+                                </span>
+                                <h3 class="text-sm font-bold text-white tracking-wide">Status Aliran Data</h3>
+                            </div>
+                            <span id="sim-step-badge" class="bg-teal-500/10 text-teal-400 border border-teal-500/20 text-xs px-2.5 py-1 rounded-full font-bold">
+                                Sedia Mula
+                            </span>
+                        </div>
+
+                        <!-- Visually connected blocks (CU, ALU, Registers, RAM) -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8 z-10">
+                            
+                            <!-- Control Unit Panel -->
+                            <div id="sim-card-cu" class="bg-slate-900 p-5 rounded-xl border border-slate-800 transition-all duration-300 text-center">
+                                <div class="w-10 h-10 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg mx-auto mb-3">
+                                    <i class="fa-solid fa-compass"></i>
+                                </div>
+                                <h4 class="font-bold text-white text-sm">Control Unit</h4>
+                                <p class="text-[10px] text-indigo-400 font-semibold uppercase mt-0.5">Isyarat & Kawalan</p>
+                                <div id="sim-cu-bubble" class="mt-4 bg-slate-950 p-2.5 rounded-lg text-xs text-slate-400 min-h-[50px] flex items-center justify-center italic">
+                                    Menunggu simulasi bermula...
+                                </div>
+                            </div>
+
+                            <!-- ALU Panel -->
+                            <div id="sim-card-alu" class="bg-slate-900 p-5 rounded-xl border border-slate-800 transition-all duration-300 text-center">
+                                <div class="w-10 h-10 rounded-lg bg-teal-500/10 text-teal-400 flex items-center justify-center text-lg mx-auto mb-3">
+                                    <i class="fa-solid fa-calculator"></i>
+                                </div>
+                                <h4 class="font-bold text-white text-sm">ALU</h4>
+                                <p class="text-[10px] text-teal-400 font-semibold uppercase mt-0.5">Operasi Matematik</p>
+                                <div id="sim-alu-bubble" class="mt-4 bg-slate-950 p-2.5 rounded-lg text-xs text-slate-400 min-h-[50px] flex items-center justify-center italic">
+                                    Menunggu arahan...
+                                </div>
+                            </div>
+
+                            <!-- Memory Unit Panel -->
+                            <div id="sim-card-mu" class="bg-slate-900 p-5 rounded-xl border border-slate-800 transition-all duration-300 text-center">
+                                <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center text-lg mx-auto mb-3">
+                                    <i class="fa-solid fa-list-check"></i>
+                                </div>
+                                <h4 class="font-bold text-white text-sm">Memory Unit</h4>
+                                <p class="text-[10px] text-amber-400 font-semibold uppercase mt-0.5">Penyimpanan Registers</p>
+                                <div id="sim-mu-bubble" class="mt-4 bg-slate-950 p-2.5 rounded-lg text-xs text-slate-400 min-h-[50px] flex items-center justify-center italic">
+                                    Registers kosong...
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Virtual Screen display showing Output -->
+                        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center justify-between z-10">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded bg-rose-500/10 text-rose-400 flex items-center justify-center text-sm">
+                                    <i class="fa-solid fa-tv"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-slate-400 uppercase">Paparan Monitor Luaran</h4>
+                                    <p id="sim-monitor-text" class="text-sm font-mono text-slate-200 mt-0.5">Sedia menerima output...</p>
+                                </div>
+                            </div>
+                            <div id="sim-screen-display" class="bg-black/80 px-4 py-2 rounded-lg font-mono font-bold text-lg text-rose-500 min-w-[60px] text-center shadow-inner">
+                                --
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Steps Timeline / Explanation (Col span 4) -->
+                    <div class="lg:col-span-4 bg-slate-800 p-6 rounded-2xl border border-slate-700/60 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-4">Langkah Aliran Pengesanan</h3>
+                            
+                            <!-- Steps stack -->
+                            <div class="space-y-4">
+                                <div id="sim-step-1" class="flex gap-3 p-3 rounded-lg border border-transparent transition-all">
+                                    <div class="w-6 h-6 rounded-full bg-slate-700 text-slate-300 font-bold text-xs flex items-center justify-center shrink-0">1</div>
+                                    <div>
+                                        <h5 class="text-xs font-bold text-slate-300">Ambil dari RAM</h5>
+                                        <p class="text-[11px] text-slate-400 mt-0.5">Control Unit mengambil arahan matematik dari RAM.</p>
+                                    </div>
+                                </div>
+
+                                <div id="sim-step-2" class="flex gap-3 p-3 rounded-lg border border-transparent transition-all">
+                                    <div class="w-6 h-6 rounded-full bg-slate-700 text-slate-300 font-bold text-xs flex items-center justify-center shrink-0">2</div>
+                                    <div>
+                                        <h5 class="text-xs font-bold text-slate-300">Hantar ke ALU</h5>
+                                        <p class="text-[11px] text-slate-400 mt-0.5">Control Unit menghantar arahan dan data untuk dikira.</p>
+                                    </div>
+                                </div>
+
+                                <div id="sim-step-3" class="flex gap-3 p-3 rounded-lg border border-transparent transition-all">
+                                    <div class="w-6 h-6 rounded-full bg-slate-700 text-slate-300 font-bold text-xs flex items-center justify-center shrink-0">3</div>
+                                    <div>
+                                        <h5 class="text-xs font-bold text-slate-300">Pengiraan ALU</h5>
+                                        <p class="text-[11px] text-slate-400 mt-0.5">ALU melakukan pengiraan aritmetik secara pantas.</p>
+                                    </div>
+                                </div>
+
+                                <div id="sim-step-4" class="flex gap-3 p-3 rounded-lg border border-transparent transition-all">
+                                    <div class="w-6 h-6 rounded-full bg-slate-700 text-slate-300 font-bold text-xs flex items-center justify-center shrink-0">4</div>
+                                    <div>
+                                        <h5 class="text-xs font-bold text-slate-300">Simpan Jawapan</h5>
+                                        <p class="text-[11px] text-slate-400 mt-0.5">Jawapan disimpan sementara di dalam Memory Unit (Registers).</p>
+                                    </div>
+                                </div>
+
+                                <div id="sim-step-5" class="flex gap-3 p-3 rounded-lg border border-transparent transition-all">
+                                    <div class="w-6 h-6 rounded-full bg-slate-700 text-slate-300 font-bold text-xs flex items-center justify-center shrink-0">5</div>
+                                    <div>
+                                        <h5 class="text-xs font-bold text-slate-300">Paparan Hasil</h5>
+                                        <p class="text-[11px] text-slate-400 mt-0.5">CPU menghantar hasil keputusan ke peranti output monitor.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Simulator tip -->
+                        <p class="text-[10px] text-slate-400 mt-4 leading-relaxed italic border-t border-slate-700 pt-4">
+                            *Setiap langkah di atas memerlukan koordinasi berkelajuan tinggi berulang kali sesaat.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: KITARAN ARAHAN (INSTRUCTION CYCLE) -->
+        <section id="tab-kitaran-arahan" class="tab-content hidden space-y-8">
+            <div class="bg-slate-800/40 p-6 rounded-2xl border border-slate-700/50">
+                <div class="max-w-3xl mb-6">
+                    <span class="bg-amber-500/10 text-amber-400 text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full border border-amber-500/20">Silibus 1.5.4</span>
+                    <h2 class="text-2xl font-bold text-white mt-3">Apakah itu Kitaran Arahan (Instruction Cycle)?</h2>
+                    <p class="text-slate-300 text-sm mt-2">
+                        Kitaran arahan ialah langkah berturut-turut yang sentiasa diulangi oleh CPU untuk <strong class="text-teal-400">mengambil, memahami, dan melaksanakan</strong> arahan pengaturcaraan daripada memori utama.
+                    </p>
+                </div>
+
+                <!-- 3 Phase Steps Section (Interactive Grid) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Fetch Cycle -->
+                    <div class="bg-slate-900 border border-indigo-500/30 p-6 rounded-2xl relative overflow-hidden group">
+                        <div class="absolute -right-8 -top-8 w-20 h-20 bg-indigo-500/10 rounded-full blur-xl group-hover:scale-150 transition-transform"></div>
+                        <span class="bg-indigo-500/10 text-indigo-400 text-xs font-extrabold px-3 py-1 rounded-full border border-indigo-500/20">Fasa 1: FETCH</span>
+                        <h3 class="text-xl font-bold text-white mt-4 flex items-center gap-2">
+                            <span>📖</span> Fetch Cycle
+                        </h3>
+                        <p class="text-xs text-indigo-400 font-semibold uppercase tracking-wider mt-0.5">Kata Kunci: Fetch = Ambil</p>
+                        
+                        <div class="mt-4 space-y-3">
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                CPU mengambil arahan mentah daripada memori RAM. CPU <strong>belum memahami</strong> arahan tersebut pada tahap ini.
+                            </p>
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-[11px]">
+                                <span class="text-indigo-400 font-bold block">Analogi:</span>
+                                📚 Mengambil buku resipi makanan daripada rak buku.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Decode Cycle -->
+                    <div class="bg-slate-900 border border-teal-500/30 p-6 rounded-2xl relative overflow-hidden group">
+                        <div class="absolute -right-8 -top-8 w-20 h-20 bg-teal-500/10 rounded-full blur-xl group-hover:scale-150 transition-transform"></div>
+                        <span class="bg-teal-500/10 text-teal-400 text-xs font-extrabold px-3 py-1 rounded-full border border-teal-500/20">Fasa 2: DECODE</span>
+                        <h3 class="text-xl font-bold text-white mt-4 flex items-center gap-2">
+                            <span>🤔</span> Decode Cycle
+                        </h3>
+                        <p class="text-xs text-teal-400 font-semibold uppercase tracking-wider mt-0.5">Kata Kunci: Decode = Faham</p>
+                        
+                        <div class="mt-4 space-y-3">
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Control Unit (CU) mentafsir dan menterjemah kod arahan tersebut untuk mengetahui tugas yang patut dilakukan.
+                            </p>
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-[11px]">
+                                <span class="text-teal-400 font-bold block">Analogi:</span>
+                                📝 Membaca resipi dan memahami keperluan bahan memasak.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Execute Cycle -->
+                    <div class="bg-slate-900 border border-amber-500/30 p-6 rounded-2xl relative overflow-hidden group">
+                        <div class="absolute -right-8 -top-8 w-20 h-20 bg-amber-500/10 rounded-full blur-xl group-hover:scale-150 transition-transform"></div>
+                        <span class="bg-amber-500/10 text-amber-400 text-xs font-extrabold px-3 py-1 rounded-full border border-amber-500/20">Fasa 3: EXECUTE</span>
+                        <h3 class="text-xl font-bold text-white mt-4 flex items-center gap-2">
+                            <span>☕</span> Execute Cycle
+                        </h3>
+                        <p class="text-xs text-amber-400 font-semibold uppercase tracking-wider mt-0.5">Kata Kunci: Execute = Laksana</p>
+                        
+                        <div class="mt-4 space-y-3">
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                CPU menjalankan arahan yang telah difahami. ALU dipanggil untuk membuat pengiraan jika melibatkan operasi logik/aritmetik.
+                            </p>
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-[11px]">
+                                <span class="text-amber-400 font-bold block">Analogi:</span>
+                                🍳 Memasak hidangan di dapur berdasarkan resipi tadi.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exam Tip Memorizing -->
+                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col md:flex-row items-center gap-6 mt-8">
+                    <div class="text-4xl">🎓</div>
+                    <div>
+                        <h4 class="text-md font-bold text-white">Bagaimana Mengingat Untuk Peperiksaan?</h4>
+                        <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                            Bayangkan tugasan soalan daripada Pensyarah: <br>
+                            <strong class="text-indigo-400">Fetch 📄</strong> → Ambil helaian kertas soalan. <br>
+                            <strong class="text-teal-400">Decode 🤔</strong> → Baca dan faham kehendak soalan. <br>
+                            <strong class="text-amber-400">Execute ✍️</strong> → Menjawab soalan secara amali.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: UJIAN RINGKAS (QUIZ) -->
+        <section id="tab-kuiz" class="tab-content hidden space-y-8">
+            <div class="bg-slate-800/40 p-6 rounded-2xl border border-slate-700/50">
+                <div class="max-w-3xl mb-6">
+                    <span class="bg-teal-500/10 text-teal-400 text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full border border-teal-500/20">Ujian Kendiri</span>
+                    <h2 class="text-2xl font-bold text-white mt-3">Kuiz Arkitektur CPU & Kitaran Arahan</h2>
+                    <p class="text-slate-300 text-sm mt-2">
+                        Uji pemahaman anda sebelum menghadapi peperiksaan sebenar. Jawab semua soalan aneka pilihan di bawah!
+                    </p>
+                </div>
+
+                <!-- Live Quiz Container -->
+                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-850">
+                    <!-- Quiz Progress Header -->
+                    <div class="flex justify-between items-center pb-4 border-b border-slate-800 mb-6">
+                        <span class="text-xs text-slate-400 font-bold" id="quiz-progress-text">Soalan 1 daripada 5</span>
+                        <span class="text-xs bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded-full font-bold" id="quiz-score-badge">Markah: 0</span>
+                    </div>
+
+                    <!-- Question Container -->
+                    <div id="quiz-question-box">
+                        <h3 id="quiz-question-title" class="text-lg font-bold text-white mb-6">Sila mulakan ujian di bawah.</h3>
+                        <div id="quiz-options-container" class="space-y-3">
+                            <!-- Options injected dynamically by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Navigation and feedback footer -->
+                    <div class="mt-8 pt-4 border-t border-slate-800 flex justify-between items-center">
+                        <div id="quiz-feedback-text" class="text-xs font-medium text-slate-400">Klik pilihan jawapan di atas.</div>
+                        <button onclick="nextQuizQuestion()" id="btn-next-quiz" class="hidden px-5 py-2.5 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold rounded-lg text-xs transition-all shadow-md">
+                            Seterusnya <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Summary Quiz Result (Hidden Initially) -->
+                <div id="quiz-result-card" class="hidden bg-slate-900 border border-teal-500/30 p-8 rounded-2xl text-center max-w-xl mx-auto space-y-4">
+                    <div class="w-16 h-16 bg-teal-500/10 text-teal-400 rounded-full flex items-center justify-center text-3xl mx-auto animate-bounce">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white">Tahniah! Anda Selesai Ujian</h3>
+                    <p class="text-slate-300 text-sm">Anda berjaya menamatkan kuiz pengukuhan dengan pencapaian yang memberangsangkan.</p>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 inline-block font-mono font-bold text-2xl text-teal-400" id="quiz-final-score">
+                        Markah: 5 / 5
+                    </div>
+                    <div>
+                        <button onclick="restartQuiz()" class="px-5 py-2.5 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold rounded-lg text-xs transition-all shadow-md">
+                            Cuba Semula
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 text-slate-500 py-6 mt-12 text-center text-xs">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>© 2026 Hub Interaktif Arkitektur CPU. Direka khas untuk memudahkan pembelajaran pelajar Diploma Semester 1.</p>
+            <p class="mt-1 text-[10px] text-slate-600">Sesuai untuk CLO 1.5.1, 1.5.3, & 1.5.4 (Central Processing Unit & Instruction Cycle)</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Custom Modals / Toast Notification -->
+    <div id="custom-toast" class="fixed bottom-5 right-5 bg-teal-500 text-slate-950 px-4 py-3 rounded-xl shadow-2xl font-bold text-xs flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <i class="fa-solid fa-circle-check text-base"></i>
+        <span id="toast-message">Data diakses dengan jayanya!</span>
+    </div>
+
+    <!-- JavaScript For Interactivity -->
+    <script>
+        // Data Store for CPU Analogy
+        const analogyData = {
+            brain: {
+                cpu: "Otak utama manusia yang berfikir, mengawal pergerakan saraf, dan memproses deria.",
+                input: "Mata, Telinga, dan Kulit yang mengumpul rangsangan (input data) dari luar tubuh.",
+                memory: "Memori / Ingatan minda yang menyimpan ingatan jangka pendek ketika memproses maklumat.",
+                output: "Tangan, Kaki, dan Mulut yang digerakkan untuk melakukan tindakan hasil arahan dari otak."
+            },
+            restaurant: {
+                cpu: "Chef Utama (ALU) dan Pengurus Restoran (CU) yang bertanggungjawab terhadap semua makanan.",
+                input: "Pelanggan atau resit pesanan makanan (Input Data) yang masuk ke bahagian dapur.",
+                memory: "Meja kerja / Rak stor bahan makanan untuk meletakkan garam dan rempah agar mudah dicapai.",
+                output: "Makanan yang telah siap dimasak (Output) yang dihidangkan terus kepada pelanggan."
+            }
+        };
+
+        // Switch Analogy Functionality
+        function setAnalogy(type) {
+            const btnBrain = document.getElementById('btn-analogy-brain');
+            const btnRest = document.getElementById('btn-analogy-restaurant');
+            
+            // Toggle active styling
+            if(type === 'brain') {
+                btnBrain.className = "flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all duration-300 bg-teal-500 text-slate-950";
+                btnRest.className = "flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all duration-300 text-slate-400 hover:text-slate-200";
+                
+                // Update Descriptions
+                document.getElementById('analogy-cpu-desc').innerText = analogyData.brain.cpu;
+                document.getElementById('analogy-input-desc').innerText = analogyData.brain.input;
+                document.getElementById('analogy-memory-desc').innerText = analogyData.brain.memory;
+                document.getElementById('analogy-output-desc').innerText = analogyData.brain.output;
+                
+                // Update labels
+                document.getElementById('analogy-cpu-name').innerText = "Otak Manusia";
+                document.getElementById('analogy-input-name').innerText = "Mata / Telinga";
+                document.getElementById('analogy-memory-name').innerText = "Minda / Ingatan";
+                document.getElementById('analogy-output-name').innerText = "Tangan / Kaki";
+            } else {
+                btnRest.className = "flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all duration-300 bg-teal-500 text-slate-950";
+                btnBrain.className = "flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all duration-300 text-slate-400 hover:text-slate-200";
+                
+                // Update Descriptions
+                document.getElementById('analogy-cpu-desc').innerText = analogyData.restaurant.cpu;
+                document.getElementById('analogy-input-desc').innerText = analogyData.restaurant.input;
+                document.getElementById('analogy-memory-desc').innerText = analogyData.restaurant.memory;
+                document.getElementById('analogy-output-desc').innerText = analogyData.restaurant.output;
+                
+                // Update labels
+                document.getElementById('analogy-cpu-name').innerText = "Chef & Pengurus";
+                document.getElementById('analogy-input-name').innerText = "Resit Pesanan";
+                document.getElementById('analogy-memory-name').innerText = "Meja Penyediaan";
+                document.getElementById('analogy-output-name').innerText = "Pesanan Dihidang";
+            }
+            showToast("Analogi ditukar kepada: " + (type === 'brain' ? "Otak Manusia" : "Restoran"));
+        }
+
+        // Tab Switcher
+        function switchTab(tabId) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.add('hidden'));
+            
+            // Show target
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            
+            // Update Active class on button
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.className = "tab-btn px-4 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-slate-200 transition-all duration-200";
+            });
+            
+            // Set current active
+            const currentBtn = document.getElementById('btn-' + tabId);
+            if(currentBtn) {
+                currentBtn.className = "tab-btn px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 bg-teal-500 text-slate-950 shadow-md";
+            }
+        }
+
+        // Toast Notification helper
+        function showToast(message) {
+            const toast = document.getElementById('custom-toast');
+            document.getElementById('toast-message').innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2500);
+        }
+
+        // Interactive Diagram Component Data
+        const componentData = {
+            cu: {
+                title: "Control Unit (CU)",
+                icon: "<i class='fa-solid fa-traffic-light text-indigo-400'></i>",
+                iconClass: "bg-indigo-500/10 text-indigo-400",
+                subtitle: "Bahagian pengawal dan pengarah isyarat",
+                definition: "Control Unit (CU) mengawal dan menyelaraskan operasi keseluruhan komputer. Ia TIDAK melakukan pengiraan secara langsung. Fungsinya termasuk mengambil arahan daripada RAM, menterjemah (decode), dan menghantar isyarat kawalan ke ALU dan Memory Unit.",
+                analogy: "🚦 Seperti Polis Trafik atau Pengurus Restoran yang hanya memberikan arahan (Siapa patut bergerak, bila perlu berhenti dan ke mana arahnya)."
+            },
+            alu: {
+                title: "Arithmetic & Logic Unit (ALU)",
+                icon: "<i class='fa-solid fa-calculator text-teal-400'></i>",
+                iconClass: "bg-teal-500/10 text-teal-400",
+                subtitle: "Bahagian pengira & pembuat keputusan",
+                definition: "Arithmetic and Logic Unit (ALU) melakukan semua pengiraan matematik (Tambah, Tolak, Darab, Bahagi) dan keputusan logik (Perbandingan seperti lebih besar >, lebih kecil <, dan kesamaan == yang menghasilkan TRUE atau FALSE).",
+                analogy: "🧮 Seperti Kalkulator pintar atau Chef utama di restoran yang menumis bahan, memotong, dan memasak secara fizikal."
+            },
+            mu: {
+                title: "Memory Unit (Registers)",
+                icon: "<i class='fa-solid fa-box text-amber-400'></i>",
+                iconClass: "bg-amber-500/10 text-amber-400",
+                subtitle: "Bahagian simpanan dalaman CPU terpantas",
+                definition: "Memory Unit dalam lingkungan CPU merujuk kepada Registers. Ia berfungsi menyimpan arahan, data perantaraan, dan keputusan pengiraan secara sementara semasa pemprosesan sedang aktif dijalankan oleh ALU dan CU.",
+                analogy: "📋 Seperti Meja Kerja atau Buku Nota kecil seorang chef. Chef tidak perlu berlari ke stor bahan setiap saat; beliau letak dahulu bahan di atas meja kerjanya."
+            },
+            input: {
+                title: "Input Devices",
+                icon: "<i class='fa-solid fa-keyboard text-indigo-400'></i>",
+                iconClass: "bg-indigo-500/10 text-indigo-400",
+                subtitle: "Sumber kemasukan data",
+                definition: "Peranti luaran seperti Papan Kekunci, Tetikus, dan Pengimbas yang menukar tindakan fizikal manusia kepada data digital mentah yang boleh difahami oleh CPU.",
+                analogy: "👀 Mata dan Telinga kita yang menangkap maklumat dan menyerahkannya kepada minda/otak."
+            },
+            output: {
+                title: "Output Devices",
+                icon: "<i class='fa-solid fa-tv text-rose-400'></i>",
+                iconClass: "bg-rose-500/10 text-rose-400",
+                subtitle: "Paparan hasil pemprosesan",
+                definition: "Peranti luaran seperti Monitor dan Pencetak yang menerima isyarat data yang telah selesai diproses oleh CPU untuk dibentangkan kepada pengguna dalam format visual/nyata.",
+                analogy: "✋ Tangan dan Kaki yang melakukan tindakan balas setelah mendapat isyarat kawalan."
+            }
+        };
+
+        // Select component logic from Block Diagram SVG
+        function selectComponent(compKey) {
+            const comp = componentData[compKey];
+            if(!comp) return;
+
+            // Highlight chosen SVG elements by adding styled outlines or updating styles
+            const svgs = ['cu', 'alu', 'mu', 'input', 'output'];
+            svgs.forEach(s => {
+                const rect = document.querySelector(`#svg-${s} rect`);
+                if(rect) {
+                    if(s === compKey) {
+                        rect.setAttribute('stroke-width', '4');
+                        rect.setAttribute('fill', '#1e293b');
+                    } else {
+                        rect.setAttribute('stroke-width', '2');
+                        rect.setAttribute('fill', '#0f172a');
+                    }
+                }
+            });
+
+            // Update UI Details Panel
+            document.getElementById('comp-icon-box').innerHTML = comp.icon;
+            document.getElementById('comp-icon-box').className = "w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold " + comp.iconClass;
+            document.getElementById('comp-title').innerText = comp.title;
+            document.getElementById('comp-subtitle').innerText = comp.subtitle;
+            document.getElementById('comp-def').innerText = comp.definition;
+            document.getElementById('comp-analogy').innerText = comp.analogy;
+            document.getElementById('comp-extra-section').classList.remove('hidden');
+
+            showToast("Memaparkan maklumat: " + comp.title);
+        }
+
+        // SIMULATOR COMPONENT WORKFLOW STATE
+        let activeSimTask = '15_25';
+        let simInterval = null;
+        let simStep = 0;
+
+        function selectSimTask(task) {
+            activeSimTask = task;
+            
+            // Toggle active button style
+            const btns = ['15_25', '10_20', '50_25'];
+            btns.forEach(b => {
+                const btn = document.getElementById('btn-task-' + b);
+                if(b === task) {
+                    btn.className = "sim-task-btn px-4 py-2 text-sm font-bold bg-teal-500 text-slate-950 rounded-lg transition-colors";
+                } else {
+                    btn.className = "sim-task-btn px-4 py-2 text-sm font-bold bg-slate-800 text-slate-300 rounded-lg transition-colors";
+                }
+            });
+            
+            resetSimulation();
+            showToast("Tugasan diset kepada: " + task.replace('_', ' + '));
+        }
+
+        function resetSimulation() {
+            clearInterval(simInterval);
+            simStep = 0;
+            
+            // Reset Step UI styles
+            for(let i=1; i<=5; i++) {
+                const stepCard = document.getElementById('sim-step-' + i);
+                stepCard.className = "flex gap-3 p-3 rounded-lg border border-transparent transition-all";
+                stepCard.querySelector('.w-6').className = "w-6 h-6 rounded-full bg-slate-700 text-slate-300 font-bold text-xs flex items-center justify-center shrink-0";
+            }
+
+            // Reset Panel Cards
+            document.getElementById('sim-card-cu').className = "bg-slate-900 p-5 rounded-xl border border-slate-800 transition-all duration-300 text-center";
+            document.getElementById('sim-card-alu').className = "bg-slate-900 p-5 rounded-xl border border-slate-800 transition-all duration-300 text-center";
+            document.getElementById('sim-card-mu').className = "bg-slate-900 p-5 rounded-xl border border-slate-800 transition-all duration-300 text-center";
+
+            // Reset text bubbles
+            document.getElementById('sim-cu-bubble').innerText = "Menunggu simulasi bermula...";
+            document.getElementById('sim-alu-bubble').innerText = "Menunggu arahan...";
+            document.getElementById('sim-mu-bubble').innerText = "Registers kosong...";
+
+            // Reset Monitor UI
+            document.getElementById('sim-step-badge').innerText = "Sedia Mula";
+            document.getElementById('sim-step-badge').className = "bg-teal-500/10 text-teal-400 border border-teal-500/20 text-xs px-2.5 py-1 rounded-full font-bold";
+            document.getElementById('sim-monitor-text').innerText = "Sedia menerima output...";
+            document.getElementById('sim-screen-display').innerText = "--";
+            document.getElementById('sim-screen-display').className = "bg-black/80 px-4 py-2 rounded-lg font-mono font-bold text-lg text-rose-500 min-w-[60px] text-center shadow-inner";
+            
+            document.getElementById('btn-sim-start').disabled = false;
+        }
+
+        function startSimulation() {
+            document.getElementById('btn-sim-start').disabled = true;
+            resetSimulation();
+            
+            let valA = 15;
+            let valB = 25;
+            if(activeSimTask === '10_20') { valA = 10; valB = 20; }
+            if(activeSimTask === '50_25') { valA = 50; valB = 25; }
+            
+            const total = valA + valB;
+
+            simInterval = setInterval(() => {
+                simStep++;
+                
+                // Reset active styling from previous step
+                if(simStep > 1) {
+                    const prevStep = document.getElementById('sim-step-' + (simStep - 1));
+                    prevStep.className = "flex gap-3 p-3 rounded-lg border border-transparent opacity-60";
+                    prevStep.querySelector('.w-6').className = "w-6 h-6 rounded-full bg-emerald-950 text-emerald-400 font-bold text-xs flex items-center justify-center shrink-0 border border-emerald-500/20";
+                }
+
+                // Apply active styling to current step
+                if(simStep <= 5) {
+                    const curStep = document.getElementById('sim-step-' + simStep);
+                    curStep.className = "flex gap-3 p-3 rounded-lg border border-teal-500 bg-teal-950/20 shadow-md";
+                    curStep.querySelector('.w-6').className = "w-6 h-6 rounded-full bg-teal-500 text-slate-950 font-bold text-xs flex items-center justify-center shrink-0";
+                }
+
+                switch(simStep) {
+                    case 1:
+                        document.getElementById('sim-step-badge').innerText = "Fetch & Decode";
+                        document.getElementById('sim-step-badge').className = "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs px-2.5 py-1 rounded-full font-bold";
+                        
+                        document.getElementById('sim-card-cu').className = "bg-slate-900 p-5 rounded-xl border border-indigo-500 scale-105 shadow-lg shadow-indigo-500/10 text-center";
+                        document.getElementById('sim-cu-bubble').innerHTML = `<span class="text-indigo-400 font-bold">CU Mengambil Arahan</span><br>Mendapatkan data ${valA} & ${valB} daripada RAM.`;
+                        break;
+                        
+                    case 2:
+                        document.getElementById('sim-step-badge').innerText = "Menghantar Data";
+                        
+                        document.getElementById('sim-card-cu').className = "bg-slate-900 p-5 rounded-xl border border-indigo-500/40 text-center";
+                        document.getElementById('sim-card-mu').className = "bg-slate-900 p-5 rounded-xl border border-amber-500 scale-105 shadow-lg shadow-amber-500/10 text-center";
+                        
+                        document.getElementById('sim-cu-bubble').innerHTML = `<span class="text-slate-400">CU Mentafsir</span><br>Menghantar input ke Unit Memori.`;
+                        document.getElementById('sim-mu-bubble').innerHTML = `<span class="text-amber-400 font-bold">Registers</span><br>Menyimpan nilai [${valA}] & [${valB}] sementara.`;
+                        break;
+                        
+                    case 3:
+                        document.getElementById('sim-step-badge').innerText = "Execute (Mengira)";
+                        document.getElementById('sim-step-badge').className = "bg-teal-500/10 text-teal-400 border border-teal-500/20 text-xs px-2.5 py-1 rounded-full font-bold";
+                        
+                        document.getElementById('sim-card-mu').className = "bg-slate-900 p-5 rounded-xl border border-amber-500/40 text-center";
+                        document.getElementById('sim-card-alu').className = "bg-slate-900 p-5 rounded-xl border border-teal-500 scale-105 shadow-lg shadow-teal-500/10 text-center";
+                        
+                        document.getElementById('sim-alu-bubble').innerHTML = `<span class="text-teal-400 font-bold">ALU Mengira</span><br>${valA} + ${valB} = ${total}`;
+                        break;
+                        
+                    case 4:
+                        document.getElementById('sim-step-badge').innerText = "Menyimpan Hasil";
+                        
+                        document.getElementById('sim-card-alu').className = "bg-slate-900 p-5 rounded-xl border border-teal-500/40 text-center";
+                        document.getElementById('sim-card-mu').className = "bg-slate-900 p-5 rounded-xl border border-emerald-500 scale-105 text-center";
+                        
+                        document.getElementById('sim-mu-bubble').innerHTML = `<span class="text-emerald-400 font-bold">Keputusan Disimpan</span><br>Registers memegang nilai [${total}].`;
+                        break;
+                        
+                    case 5:
+                        document.getElementById('sim-step-badge').innerText = "Selesai Dipapar";
+                        document.getElementById('sim-step-badge').className = "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs px-2.5 py-1 rounded-full font-bold";
+                        
+                        document.getElementById('sim-card-mu').className = "bg-slate-900 p-5 rounded-xl border border-slate-800 text-center";
+                        
+                        // Output update on bottom panel
+                        document.getElementById('sim-monitor-text').innerHTML = `<span class="text-emerald-400 font-bold">Selesai!</span> CPU berjaya memaparkan keputusan pengiraan.`;
+                        document.getElementById('sim-screen-display').innerText = total;
+                        document.getElementById('sim-screen-display').className = "bg-black/80 px-4 py-2 rounded-lg font-mono font-bold text-lg text-emerald-400 min-w-[60px] text-center border border-emerald-500/30 shadow-lg shadow-emerald-500/10";
+                        
+                        clearInterval(simInterval);
+                        document.getElementById('btn-sim-start').disabled = false;
+                        showToast("Simulasi CPU selesai diproses!");
+                        break;
+                }
+            }, 1800);
+        }
+
+        // INTERACTIVE QUIZ APPLICATION
+        const quizQuestions = [
+            {
+                q: "Bahagian CPU manakah yang bertindak seperti 'polis trafik' atau 'pengurus restoran' yang menyelaraskan semua kerja tanpa membuat pengiraan?",
+                options: [
+                    "Arithmetic & Logic Unit (ALU)",
+                    "Control Unit (CU)",
+                    "Memory Unit (Registers)",
+                    "System Bus"
+                ],
+                correct: 1, // index for Control Unit (CU)
+                tip: "Control Unit (CU) mengawal, manakala ALU mengira."
+            },
+            {
+                q: "Apakah fungsi utama bagi Arithmetic & Logic Unit (ALU) dalam CPU?",
+                options: [
+                    "Menyimpan fail dan sistem operasi komputer",
+                    "Mengambil arahan daripada RAM secara berkala",
+                    "Melaksanakan pengiraan aritmetik dan operasi perbandingan logik",
+                    "Membawa isyarat alamat memori"
+                ],
+                correct: 2,
+                tip: "ALU = Arithmetic (Matematik) & Logic (Logik: > < =)."
+            },
+            {
+                q: "Apakah analogi yang paling sesuai untuk menggambarkan 'Memory Unit' (Registers) dalam CPU?",
+                options: [
+                    "Buku resipi bertulis",
+                    "Meja kerja penyediaan atau buku nota chef",
+                    "Pengurus yang sedang memberi arahan",
+                    "Jalan raya di tengah bandar"
+                ],
+                correct: 1,
+                tip: "Memory Unit menyimpan data sementara, seperti meja kerja chef yang memudahkan pengambilan garam dan bahan."
+            },
+            {
+                q: "Apakah tiga jenis 'Bus' utama yang menghubungkan CPU dengan peranti lain?",
+                options: [
+                    "Data Bus, Address Bus, Control Bus",
+                    "Fast Bus, Slow Bus, Local Bus",
+                    "Input Bus, Process Bus, Output Bus",
+                    "Internet Bus, Network Bus, RAM Bus"
+                ],
+                correct: 0,
+                tip: "Data Bus membawa data, Address Bus membawa alamat memori, dan Control Bus membawa isyarat kawalan."
+            },
+            {
+                q: "Susun Kitaran Arahan (Instruction Cycle) CPU mengikut tertib urutan yang betul:",
+                options: [
+                    "Decode ➔ Execute ➔ Fetch",
+                    "Execute ➔ Fetch ➔ Decode",
+                    "Fetch ➔ Decode ➔ Execute",
+                    "Fetch ➔ Execute ➔ Decode"
+                ],
+                correct: 2,
+                tip: "Formula Mudah: Ambil (Fetch) ➔ Faham (Decode) ➔ Buat (Execute)."
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let answerSelected = false;
+
+        function initQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            answerSelected = false;
+            
+            document.getElementById('quiz-result-card').classList.add('hidden');
+            document.getElementById('quiz-question-box').classList.remove('hidden');
+            
+            loadQuizQuestion();
+        }
+
+        function loadQuizQuestion() {
+            answerSelected = false;
+            const curQ = quizQuestions[currentQuizIndex];
+            
+            // Progress Header
+            document.getElementById('quiz-progress-text').innerText = `Soalan ${currentQuizIndex + 1} daripada ${quizQuestions.length}`;
+            document.getElementById('quiz-score-badge').innerText = `Markah: ${quizScore}`;
+            
+            // Question Title
+            document.getElementById('quiz-question-title').innerText = curQ.q;
+            
+            // Generate Options HTML
+            const optionsContainer = document.getElementById('quiz-options-container');
+            optionsContainer.innerHTML = '';
+            
+            curQ.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-850 hover:border-slate-500 transition-all duration-200 text-sm font-medium flex items-center justify-between group";
+                btn.innerHTML = `
+                    <span>${opt}</span>
+                    <span class="w-5 h-5 rounded-full border border-slate-600 flex items-center justify-center text-xs group-hover:border-slate-400 font-bold font-mono">${String.fromCharCode(65 + idx)}</span>
+                `;
+                btn.onclick = () => selectQuizOption(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+            
+            document.getElementById('quiz-feedback-text').innerText = "Sila klik pilihan jawapan di atas.";
+            document.getElementById('quiz-feedback-text').className = "text-xs font-medium text-slate-400";
+            document.getElementById('btn-next-quiz').classList.add('hidden');
+        }
+
+        function selectQuizOption(selectedIdx, buttonElement) {
+            if(answerSelected) return; // Prevent multiple selection
+            answerSelected = true;
+            
+            const curQ = quizQuestions[currentQuizIndex];
+            const optionsContainer = document.getElementById('quiz-options-container');
+            const buttons = optionsContainer.querySelectorAll('button');
+            
+            if(selectedIdx === curQ.correct) {
+                // Correct Answer
+                quizScore++;
+                document.getElementById('quiz-score-badge').innerText = `Markah: ${quizScore}`;
+                
+                buttonElement.className = "w-full text-left p-4 rounded-xl border-emerald-500 bg-emerald-950/30 text-emerald-300 font-bold text-sm flex items-center justify-between";
+                buttonElement.querySelector('.w-5').className = "w-5 h-5 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center text-xs font-bold font-mono";
+                buttonElement.querySelector('.w-5').innerHTML = "<i class='fa-solid fa-check'></i>";
+                
+                document.getElementById('quiz-feedback-text').innerHTML = `<span class="text-emerald-400 font-bold">Betul!</span> ${curQ.tip}`;
+            } else {
+                // Wrong Answer
+                buttonElement.className = "w-full text-left p-4 rounded-xl border-rose-500 bg-rose-950/30 text-rose-300 font-bold text-sm flex items-center justify-between";
+                buttonElement.querySelector('.w-5').className = "w-5 h-5 rounded-full bg-rose-500 text-slate-950 flex items-center justify-center text-xs font-bold font-mono";
+                buttonElement.querySelector('.w-5').innerHTML = "<i class='fa-solid fa-xmark'></i>";
+                
+                // Highlight correct answer
+                const correctButton = buttons[curQ.correct];
+                correctButton.className = "w-full text-left p-4 rounded-xl border-emerald-500 bg-emerald-950/20 text-emerald-300 font-bold text-sm flex items-center justify-between";
+                
+                document.getElementById('quiz-feedback-text').innerHTML = `<span class="text-rose-400 font-bold">Salah!</span> Cuba lagi dalam peperiksaan nanti. Tip: ${curQ.tip}`;
+            }
+            
+            document.getElementById('btn-next-quiz').classList.remove('hidden');
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIndex++;
+            if(currentQuizIndex < quizQuestions.length) {
+                loadQuizQuestion();
+            } else {
+                // Show Quiz Summary card
+                document.getElementById('quiz-question-box').classList.add('hidden');
+                document.getElementById('quiz-result-card').classList.remove('hidden');
+                document.getElementById('quiz-final-score').innerText = `Markah Anda: ${quizScore} / ${quizQuestions.length}`;
+                showToast("Keputusan kuiz anda telah sedia!");
+            }
+        }
+
+        function restartQuiz() {
+            initQuiz();
+            showToast("Kuiz dimula semula.");
+        }
+
+        // Initialize App on load
+        window.onload = function() {
+            // Select CU initially by default in Diagram Tab
+            selectComponent('cu');
+            // Initialize Quiz
+            initQuiz();
+            // Start simulator to ensure it's loaded
+            resetSimulation();
+        }
+    </script>
+</body>
+</html>
