@@ -3,544 +3,592 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hab Pembelajaran Kelas Pn Farihan Elyana </title>
-    <!-- Tailwind CSS CDN -->
+    <title>Hub Pembelajaran Interaktif Pn Farihan - Computer Architecture</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
                     colors: {
-                        primary: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                        }
+                        techBlue: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            200: '#bae0fd',
+                            500: '#0084ff',
+                            600: '#0062cc',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                            950: '#172554'
+                        },
+                        neonCyan: '#00b4d8',
+                        neonPurple: '#7209b7'
                     }
                 }
             }
         }
     </script>
-    <!-- Google Fonts & FontAwesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <!-- Google Fonts (Inter & Fira Code) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
         }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        .glow-cyan {
+            box-shadow: 0 4px 20px rgba(0, 180, 216, 0.15);
+        }
+        .glow-purple {
+            box-shadow: 0 4px 20px rgba(114, 9, 183, 0.15);
+        }
+        /* Custom Computer Hardware Circuit Board Background (High Visibility & Clean contrast) */
+        .bg-hardware-pattern {
+            background-color: #f1f5f9; /* Warna asas yang lebih dalam sedikit supaya kad putih lebih menyerlah */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cg fill='%230084ff' fill-opacity='0.08' stroke='%230084ff' stroke-opacity='0.12' stroke-width='1.5'%3E%3Cpath d='M10 10 h 40 v 2 h -40 z M50 10 l 20 20 h 50 v 2 h -50 z M130 30 l 15 -15 h 45 v 2 h -45 z M10 60 h 60 v 2 h -60 z M70 60 l 20 20 h 80 v 2 h -80 z M180 80 l 10 -10 h 10 v 2 h -10 z M10 100 h 30 v 2 h -30 z M40 100 l 15 15 h 115 v 2 h -115 z M170 115 l 10 -10 h 20 v 2 h -20 z M10 145 h 90 v 2 h -90 z M100 145 l 20 20 h 60 v 2 h -60 z'/%3E%3Ccircle cx='10' cy='10' r='4'/%3E%3Ccircle cx='50' cy='10' r='4'/%3E%3Ccircle cx='130' cy='30' r='4'/%3E%3Ccircle cx='190' cy='15' r='4'/%3E%3Ccircle cx='10' cy='60' r='4'/%3E%3Ccircle cx='70' cy='60' r='4'/%3E%3Ccircle cx='180' cy='80' r='4'/%3E%3Ccircle cx='10' cy='100' r='4'/%3E%3Ccircle cx='40' cy='100' r='4'/%3E%3Ccircle cx='170' cy='115' r='4'/%3E%3Ccircle cx='10' cy='145' r='4'/%3E%3Ccircle cx='100' cy='145' r='4'/%3E%3Ccircle cx='180' cy='165' r='4'/%3E%3Cpath d='M 50 10 L 50 50 M 70 60 L 70 95 M 170 115 L 170 140' stroke-dasharray='4,4'/%3E%3Crect x='85' y='85' width='22' height='22' rx='3' fill='%230084ff' fill-opacity='0.05' stroke='%230084ff' stroke-opacity='0.15' stroke-width='1.5'/%3E%3Crect x='140' y='140' width='16' height='16' rx='3' fill='%237209b7' fill-opacity='0.05' stroke='%237209b7' stroke-opacity='0.15' stroke-width='1.5'/%3E%3C/g%3E%3C/svg%3E");
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col transition-colors duration-200">
+<body class="bg-hardware-pattern text-slate-800 min-h-screen transition-colors duration-300">
 
-    <!-- Header / Navigasi -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 backdrop-blur-md bg-white/90">
+    <!-- NAVBAR -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 border-b border-slate-200/80 shadow-sm transition-all">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="bg-primary-600 text-white p-2.5 rounded-xl shadow-md shadow-primary-600/20">
-                    <i class="fa-solid fa-graduation-cap text-xl"></i>
-                </div>
+                <!-- Verbatim integration of the uploaded logo image -->
+                <img src="ChatGPT Image Jul 13, 2026, 09_23_40 PM.png" alt="Computer Architecture Logo" class="w-12 h-12 object-contain rounded-xl shadow-sm border border-slate-100 bg-white">
                 <div>
-                    <span class="text-xl font-extrabold text-slate-900 tracking-tight">HAB</span>
-                    <span class="text-xl font-semibold text-primary-600 tracking-tight">PEMBELAJARAN</span>
+                    <span class="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-techBlue-900 to-techBlue-600 tracking-tight sm:text-lg block">Hub Pembelajaran Interaktif</span>
+                    <span class="text-xs text-slate-500 block -mt-1">Pn Farihan • Seni Bina Komputer</span>
                 </div>
             </div>
+
+            <!-- Nav Links / Actions -->
             <div class="flex items-center space-x-4">
-                <button onclick="openAddModal()" class="flex items-center space-x-2 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-all shadow-lg shadow-primary-600/10 hover:shadow-primary-600/20 active:scale-95">
-                    <i class="fa-solid fa-plus text-xs"></i>
-                    <span>Tambah Pautan</span>
-                </button>
+                <a href="#topik" class="hidden md:inline-block text-sm text-slate-605 hover:text-techBlue-600 font-semibold transition">Topik</a>
+                <a href="#tanya" class="hidden md:inline-block text-sm text-slate-605 hover:text-techBlue-600 font-semibold transition">Tanya Pn Farihan</a>
+                <a href="#glosari" class="hidden md:inline-block text-sm text-slate-605 hover:text-techBlue-600 font-semibold transition">Glosari</a>
+                
+                <!-- Quick Completion Progress Pill -->
+                <div class="flex items-center space-x-2 bg-white/90 border border-slate-200 px-3 py-1.5 rounded-full shadow-sm">
+                    <div class="text-xs text-slate-500 font-medium">Kemajuan:</div>
+                    <div class="text-xs font-bold text-techBlue-600 code-font" id="overall-progress-text">0%</div>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Kandungan Utama -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        <!-- Hero Section -->
-        <div class="bg-gradient-to-r from-primary-800 to-slate-900 rounded-3xl p-6 sm:p-10 text-white mb-8 relative overflow-hidden shadow-xl">
-            <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl">
-                <i class="fa-solid fa-book-open"></i>
-            </div>
-            <div class="relative z-10 max-w-2xl">
-                <span class="bg-primary-600/30 text-primary-100 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Pusat Rujukan Peribadi</span>
-                <h1 class="text-3xl sm:text-4xl font-extrabold mt-3 tracking-tight">Terus Teroka & Belajar Perkara Baharu!</h1>
-                <p class="mt-2 text-slate-300 text-sm sm:text-base">Himpunan semua pautan nota, tutorial, video, dan bahan rujukan pembelajaran anda di satu tempat yang tersusun rapi.</p>
-            </div>
-        </div>
+    <!-- HERO SECTION -->
+    <section class="relative overflow-hidden py-16 sm:py-20 border-b border-slate-200 bg-gradient-to-b from-blue-50/80 via-indigo-50/10 to-slate-100/50">
+        <!-- Overlay Grid Pattern Decor -->
+        <div class="absolute inset-0 opacity-40 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+        <div class="absolute -top-24 -left-20 w-96 h-96 bg-neonCyan/10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-24 -right-20 w-96 h-96 bg-techBlue-500/10 rounded-full blur-3xl"></div>
 
-        <!-- Panel Carian & Penapisan -->
-        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mb-8">
-            <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
-                <!-- Carian -->
-                <div class="relative w-full md:w-96">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                        <i class="fa-solid fa-magnifying-glass"></i>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto">
+                <span class="px-3 py-1 text-xs font-semibold text-techBlue-700 bg-techBlue-100/60 border border-techBlue-200/80 rounded-full inline-block mb-4 tracking-wider uppercase shadow-xs">
+                    Politeknik Tuanku Syed Sirajuddin
+                </span>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 mb-6 leading-tight">
+                    Seni Bina <span class="text-transparent bg-clip-text bg-gradient-to-r from-techBlue-600 via-techBlue-700 to-neonCyan">Komputer</span>
+                </h1>
+                <p class="text-slate-600 text-lg mb-8 leading-relaxed">
+                    Selamat datang ke Hub Pembelajaran Interaktif Pn Farihan. Terokai konsep sistem bas, pemindahan data, ingatan sistem, pemprosesan CPU, dan pelbagai topik penting seni bina komputer secara mudah, dinamik, dan interaktif!
+                </p>
+
+                <!-- Search and Filter Bar -->
+                <div class="max-w-md mx-auto relative mb-8 shadow-md rounded-2xl">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <input type="text" id="search-input" onkeyup="filterTopics()" placeholder="Cari topik atau sumber pembelajaran..." class="block w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-techBlue-500 focus:border-transparent transition text-sm">
+                </div>
+
+                <!-- Live Notification / Banner Info -->
+                <div class="inline-flex items-center space-x-2 bg-white/95 border border-slate-200 px-4 py-2 rounded-2xl text-xs sm:text-sm text-slate-700 shadow-sm">
+                    <span class="flex h-2 w-2 relative">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                     </span>
-                    <input type="text" id="searchInput" oninput="filterLinks()" placeholder="Cari bahan pembelajaran..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all">
-                </div>
-                
-                <!-- Filter Kategori -->
-                <div class="flex flex-wrap gap-2 w-full md:w-auto justify-start md:justify-end overflow-x-auto pb-1 md:pb-0" id="categoryFilterContainer">
-                    <!-- Kategori akan dijana oleh JS -->
+                    <span><strong>Nota Terkini:</strong> Topik 1 kini aktif sepenuhnya dengan 4 pautan hub interaktif!</span>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Grid Statistik & Pautan -->
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <!-- MAIN CONTENT SECTIONS -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+        
+        <!-- DASHBOARD GRID LAYOUT -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <!-- Sidebar Kiri: Statistik & Kategori -->
-            <div class="lg:col-span-1 space-y-6">
-                <!-- Ringkasan Statistik -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                    <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Statistik Bahan</h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
-                            <span class="block text-2xl font-extrabold text-primary-600" id="totalLinksCount">0</span>
-                            <span class="text-xs text-slate-500 font-medium">Jumlah Fail</span>
+            <!-- LEFT 2 COLUMNS: TOPICS LIST -->
+            <div class="lg:col-span-2 space-y-8" id="topik">
+                <div class="flex items-center justify-between border-b border-slate-200/80 pb-4">
+                    <h2 class="text-2xl font-bold tracking-tight text-slate-900 flex items-center space-x-2">
+                        <svg class="w-6 h-6 text-techBlue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                        <span>Senarai Topik Pembelajaran</span>
+                    </h2>
+                    <span class="text-xs bg-slate-200/80 text-slate-700 px-2.5 py-1 rounded-full font-semibold" id="topic-count-badge">5 Topik Tersedia</span>
+                </div>
+
+                <!-- TOPIK 1: ACTIVE -->
+                <div class="topic-card bg-white/90 backdrop-blur-xs border border-slate-200 rounded-3xl p-6 sm:p-8 hover:shadow-xl hover:border-slate-300 transition-all duration-300 relative group" data-title="introduction to computer architecture">
+                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6 relative z-10">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 rounded-2xl bg-techBlue-50 border border-techBlue-200 flex items-center justify-center text-techBlue-600 shrink-0">
+                                <span class="font-extrabold text-lg">01</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900 group-hover:text-techBlue-600 transition">Introduction to Computer Architecture</h3>
+                                <p class="text-sm text-slate-500 mt-1">Asas struktur sistem komputer, peranan sistem bas, pemindahan data, serta pengenalan memori dan CPU.</p>
+                            </div>
                         </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
-                            <span class="block text-2xl font-extrabold text-amber-500" id="totalCategoriesCount">0</span>
-                            <span class="text-xs text-slate-500 font-medium">Kategori</span>
+                        <span class="inline-flex self-start px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200">Aktif</span>
+                    </div>
+
+                    <!-- Hub Links Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 relative z-10">
+                        
+                        <!-- Link 1 -->
+                        <div class="bg-slate-50/80 border border-slate-200 rounded-2xl p-4 flex flex-col justify-between hover:border-techBlue-300 hover:bg-white hover:shadow-md transition duration-200 group/link">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs font-semibold text-slate-400 tracking-wider">MODUL 1.1</span>
+                                    <!-- Progress Tick Box -->
+                                    <button onclick="toggleLinkProgress('link1')" id="tick-link1" class="w-5 h-5 rounded-md border border-slate-300 bg-white flex items-center justify-center hover:bg-slate-50 transition">
+                                        <svg class="w-3.5 h-3.5 text-techBlue-600 hidden" id="svg-link1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                    </button>
+                                </div>
+                                <h4 class="text-sm font-bold text-slate-800 group-hover/link:text-techBlue-600 transition">Introduction to System Bus</h4>
+                                <p class="text-xs text-slate-500 mt-1">Fahami bagaimana bas data, bas alamat, dan bas kawalan menghubungkan komponen perkakasan utama.</p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-slate-200 flex justify-between items-center">
+                                <span class="text-xs text-slate-400">farihan-ptss.github.io</span>
+                                <a href="https://farihan-ptss.github.io/learning-hub/intro_bus.html" target="_blank" class="inline-flex items-center space-x-1 text-xs text-techBlue-600 hover:text-techBlue-700 font-semibold hover:underline">
+                                    <span>Buka Hub</span>
+                                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                                </a>
+                            </div>
                         </div>
+
+                        <!-- Link 2 -->
+                        <div class="bg-slate-50/80 border border-slate-200 rounded-2xl p-4 flex flex-col justify-between hover:border-techBlue-300 hover:bg-white hover:shadow-md transition duration-200 group/link">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs font-semibold text-slate-400 tracking-wider">MODUL 1.2</span>
+                                    <button onclick="toggleLinkProgress('link2')" id="tick-link2" class="w-5 h-5 rounded-md border border-slate-300 bg-white flex items-center justify-center hover:bg-slate-50 transition">
+                                        <svg class="w-3.5 h-3.5 text-techBlue-600 hidden" id="svg-link2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                    </button>
+                                </div>
+                                <h4 class="text-sm font-bold text-slate-800 group-hover/link:text-techBlue-600 transition">Data Transfer Mechanisms</h4>
+                                <p class="text-xs text-slate-500 mt-1">Terokai teknik dan aliran penghantaran data berkesan dalam seni bina komputer.</p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-slate-200 flex justify-between items-center">
+                                <span class="text-xs text-slate-400">farihan-ptss.github.io</span>
+                                <a href="https://farihan-ptss.github.io/learning-hub/data_transfer.html" target="_blank" class="inline-flex items-center space-x-1 text-xs text-techBlue-600 hover:text-techBlue-700 font-semibold hover:underline">
+                                    <span>Buka Hub</span>
+                                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Link 3 -->
+                        <div class="bg-slate-50/80 border border-slate-200 rounded-2xl p-4 flex flex-col justify-between hover:border-techBlue-300 hover:bg-white hover:shadow-md transition duration-200 group/link">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs font-semibold text-slate-400 tracking-wider">MODUL 1.3</span>
+                                    <button onclick="toggleLinkProgress('link3')" id="tick-link3" class="w-5 h-5 rounded-md border border-slate-300 bg-white flex items-center justify-center hover:bg-slate-50 transition">
+                                        <svg class="w-3.5 h-3.5 text-techBlue-600 hidden" id="svg-link3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                    </button>
+                                </div>
+                                <h4 class="text-sm font-bold text-slate-800 group-hover/link:text-techBlue-600 transition">System Memory Basics</h4>
+                                <p class="text-xs text-slate-500 mt-1">Memahami hierarki memori, perbezaan RAM dan ROM, serta operasi capaian storan.</p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-slate-200 flex justify-between items-center">
+                                <span class="text-xs text-slate-400">farihan-ptss.github.io</span>
+                                <a href="https://farihan-ptss.github.io/learning-hub/system_memory.html" target="_blank" class="inline-flex items-center space-x-1 text-xs text-techBlue-600 hover:text-techBlue-700 font-semibold hover:underline">
+                                    <span>Buka Hub</span>
+                                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Link 4 -->
+                        <div class="bg-slate-50/80 border border-slate-200 rounded-2xl p-4 flex flex-col justify-between hover:border-techBlue-300 hover:bg-white hover:shadow-md transition duration-200 group/link">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs font-semibold text-slate-400 tracking-wider">MODUL 1.4</span>
+                                    <button onclick="toggleLinkProgress('link4')" id="tick-link4" class="w-5 h-5 rounded-md border border-slate-300 bg-white flex items-center justify-center hover:bg-slate-50 transition">
+                                        <svg class="w-3.5 h-3.5 text-techBlue-600 hidden" id="svg-link4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                    </button>
+                                </div>
+                                <h4 class="text-sm font-bold text-slate-800 group-hover/link:text-techBlue-600 transition">Interactive CPU Learning Hub</h4>
+                                <p class="text-xs text-slate-500 mt-1">Visualisasi dinamik kitaran arahan (fetch, decode, execute) serta struktur dalaman CPU.</p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-slate-200 flex justify-between items-center">
+                                <span class="text-xs text-slate-400">farihan-ptss.github.io</span>
+                                <a href="https://farihan-ptss.github.io/learning-hub/interactive_cpu_learning_hub.html" target="_blank" class="inline-flex items-center space-x-1 text-xs text-techBlue-600 hover:text-techBlue-700 font-semibold hover:underline">
+                                    <span>Buka Hub</span>
+                                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                                </a>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
-                <!-- Petua Pembelajaran -->
-                <div class="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 p-6 rounded-2xl">
-                    <div class="flex items-start space-x-3">
-                        <span class="text-amber-600 text-lg mt-0.5"><i class="fa-solid fa-lightbulb"></i></span>
-                        <div>
-                            <h4 class="font-bold text-amber-900 text-sm">Petua Hari Ini</h4>
-                            <p class="text-xs text-amber-800 mt-1 leading-relaxed">
-                                Sediakan jadual belajar sekurang-kurangnya 15 minit sehari secara konsisten. Konsistensi adalah kunci utama kejayaan!
-                            </p>
+                <!-- TOPIK 2: UNDER CONSTRUCTION -->
+                <div class="topic-card bg-white/70 backdrop-blur-xs border border-slate-200 rounded-3xl p-6 sm:p-8 hover:shadow-md transition duration-300 relative group opacity-90" data-title="arithmetic and logic alu">
+                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500">
+                                <span class="font-extrabold text-lg">02</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800">Arithmetic and Logic</h3>
+                                <p class="text-sm text-slate-500 mt-1">Pembelajaran Unit Aritmetik dan Logik (ALU), operasi binari, dan gerbang logik komputer.</p>
+                            </div>
                         </div>
+                        <span class="inline-flex self-start px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-600 border border-amber-200">Dalam Pembinaan</span>
+                    </div>
+
+                    <!-- Under Construction Placeholder -->
+                    <div class="mt-6 border border-dashed border-slate-300 rounded-2xl p-6 text-center bg-white/80">
+                        <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                        </div>
+                        <p class="text-sm font-semibold text-slate-800">Hub Pembelajaran Sedang Dibangunkan</p>
+                        <p class="text-xs text-slate-500 mt-1 max-w-md mx-auto">Kami sedang mempersiapkan simulasi ALU yang interaktif dan aktiviti pengiraan binari khusus untuk modul ini.</p>
+                        <button onclick="requestNotification('Arithmetic and Logic')" class="mt-4 px-4 py-1.5 bg-slate-100/90 border border-slate-200 text-xs text-slate-600 rounded-lg hover:bg-slate-200/80 transition shadow-xs">Maklumkan Saya Apabila Siap</button>
                     </div>
                 </div>
+
+                <!-- TOPIK 3: UNDER CONSTRUCTION -->
+                <div class="topic-card bg-white/70 backdrop-blur-xs border border-slate-200 rounded-3xl p-6 sm:p-8 hover:shadow-md transition duration-300 relative group opacity-90" data-title="operating systems os">
+                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500">
+                                <span class="font-extrabold text-lg">03</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800">Operating Systems</h3>
+                                <p class="text-sm text-slate-500 mt-1">Memahami interaksi perkakasan komputer dengan sistem operasi melalui penjadualan proses dan pengurusan memori maya.</p>
+                            </div>
+                        </div>
+                        <span class="inline-flex self-start px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-600 border border-amber-200">Dalam Pembinaan</span>
+                    </div>
+
+                    <!-- Under Construction Placeholder -->
+                    <div class="mt-6 border border-dashed border-slate-300 rounded-2xl p-6 text-center bg-white/80">
+                        <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                        </div>
+                        <p class="text-sm font-semibold text-slate-800">Hub Pembelajaran Sedang Dibangunkan</p>
+                        <p class="text-xs text-slate-500 mt-1 max-w-md mx-auto">Visualisasi penjadualan proses (Round Robin, FIFO) serta pengurusan memori virtual sedang dalam pembinaan.</p>
+                        <button onclick="requestNotification('Operating Systems')" class="mt-4 px-4 py-1.5 bg-slate-100/90 border border-slate-200 text-xs text-slate-600 rounded-lg hover:bg-slate-200/80 transition shadow-xs">Maklumkan Saya Apabila Siap</button>
+                    </div>
+                </div>
+
+                <!-- TOPIK 4: UNDER CONSTRUCTION -->
+                <div class="topic-card bg-white/70 backdrop-blur-xs border border-slate-200 rounded-3xl p-6 sm:p-8 hover:shadow-md transition duration-300 relative group opacity-90" data-title="instruction set and assembly language programming">
+                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500">
+                                <span class="font-extrabold text-lg">04</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800">Instruction Set and Assembly Language Programming</h3>
+                                <p class="text-sm text-slate-500 mt-1">Pengaturcaraan aras rendah (Assembly Language) dan pemahaman kod mesin berasaskan set arahan pemproses.</p>
+                            </div>
+                        </div>
+                        <span class="inline-flex self-start px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-600 border border-amber-200">Dalam Pembinaan</span>
+                    </div>
+
+                    <!-- Under Construction Placeholder -->
+                    <div class="mt-6 border border-dashed border-slate-300 rounded-2xl p-6 text-center bg-white/80">
+                        <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                        </div>
+                        <p class="text-sm font-semibold text-slate-800">Hub Pembelajaran Sedang Dibangunkan</p>
+                        <p class="text-xs text-slate-500 mt-1 max-w-md mx-auto">Simulator Pengkompil Bahasa Himpunan (Assembly Compiler) secara langsung pada web sedang dibangunkan.</p>
+                        <button onclick="requestNotification('Instruction Set and Assembly Language Programming')" class="mt-4 px-4 py-1.5 bg-slate-100/90 border border-slate-200 text-xs text-slate-600 rounded-lg hover:bg-slate-200/80 transition shadow-xs">Maklumkan Saya Apabila Siap</button>
+                    </div>
+                </div>
+
+                <!-- TOPIK 5: UNDER CONSTRUCTION -->
+                <div class="topic-card bg-white/70 backdrop-blur-xs border border-slate-200 rounded-3xl p-6 sm:p-8 hover:shadow-md transition duration-300 relative group opacity-90" data-title="hardware software and networking troubleshooting">
+                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500">
+                                <span class="font-extrabold text-lg">05</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800">Hardware, Software, and Networking Troubleshooting</h3>
+                                <p class="text-sm text-slate-500 mt-1">Panduan diagnosis kerosakan perkakasan komputer, pepijat perisian, dan isu komunikasi rangkaian.</p>
+                            </div>
+                        </div>
+                        <span class="inline-flex self-start px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-600 border border-amber-200">Dalam Pembinaan</span>
+                    </div>
+
+                    <!-- Under Construction Placeholder -->
+                    <div class="mt-6 border border-dashed border-slate-300 rounded-2xl p-6 text-center bg-white/80">
+                        <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                        </div>
+                        <p class="text-sm font-semibold text-slate-800">Hub Pembelajaran Sedang Dibangunkan</p>
+                        <p class="text-xs text-slate-500 mt-1 max-w-md mx-auto">Senario kes penyelesaian masalah interaktif serta simulasi "diagnosis kerosakan" sedang dibina.</p>
+                        <button onclick="requestNotification('Hardware, Software, and Networking Troubleshooting')" class="mt-4 px-4 py-1.5 bg-slate-100/90 border border-slate-200 text-xs text-slate-600 rounded-lg hover:bg-slate-200/80 transition shadow-xs">Maklumkan Saya Apabila Siap</button>
+                    </div>
+                </div>
+
             </div>
 
-            <!-- Senarai Pautan (Kanan) -->
-            <div class="lg:col-span-3">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-lg font-bold text-slate-900" id="listHeading">Semua Bahan Pembelajaran</h2>
-                    <span class="text-xs text-slate-500 font-medium bg-slate-200 px-2.5 py-1 rounded-full" id="visibleLinksCount">0 dipaparkan</span>
-                </div>
-
-                <!-- Grid Kad -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="linksGrid">
-                    <!-- Kad akan dijana oleh JS -->
-                </div>
-
-                <!-- Keadaan Kosong (Empty State) -->
-                <div id="emptyState" class="hidden flex-col items-center justify-center text-center py-16 bg-white rounded-2xl border border-dashed border-slate-300">
-                    <div class="text-slate-300 text-5xl mb-4">
-                        <i class="fa-regular fa-folder-open"></i>
+            <!-- RIGHT 1 COLUMN: INTERACTIVE SIDEBAR & WIDGETS -->
+            <div class="space-y-8">
+                
+                <!-- PROGRESS TRACKER WIDGET -->
+                <div class="bg-white/95 backdrop-blur-xs border border-slate-200 rounded-3xl p-6 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-techBlue-500/5 rounded-full blur-2xl"></div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center space-x-2">
+                        <svg class="w-5 h-5 text-techBlue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                        <span>Kemajuan Belajar Anda</span>
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-4">Tanda modul pembelajaran (Modul 1.1 hingga 1.4) yang selesai dibaca di sebelah kiri untuk melihat perkembangan status belajar anda secara langsung.</p>
+                    
+                    <div class="relative pt-1">
+                        <div class="flex mb-2 items-center justify-between">
+                            <div>
+                                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full bg-techBlue-50 text-techBlue-700">Status Pembacaan</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-sm font-semibold inline-block text-techBlue-600 code-font" id="progress-percentage-label">0%</span>
+                            </div>
+                        </div>
+                        <div class="overflow-hidden h-2.5 text-xs flex rounded-full bg-slate-100 border border-slate-200">
+                            <div id="progress-bar-inner" style="width: 0%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-techBlue-500 to-techBlue-700 transition-all duration-500"></div>
+                        </div>
                     </div>
-                    <h3 class="text-base font-bold text-slate-700">Tiada bahan ditemui</h3>
-                    <p class="text-xs text-slate-500 mt-1 max-w-xs">Cuba tukar carian atau tambah fail rujukan yang baharu untuk mulakan!</p>
-                    <button onclick="openAddModal()" class="mt-4 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all">
-                        Tambah Pautan Baharu
-                    </button>
+                    <div class="mt-4 flex justify-between text-xs text-slate-500">
+                        <span id="completed-modules-count" class="font-medium text-slate-600">Selesai: 0 daripada 4 modul</span>
+                        <button onclick="resetProgress()" class="text-techBlue-600 hover:text-techBlue-700 hover:underline font-semibold">Set Semula</button>
+                    </div>
                 </div>
+
+                <!-- FEEDBACK / WHATSAPP SOALAN WIDGET -->
+                <div class="bg-white/95 backdrop-blur-xs border border-slate-200 rounded-3xl p-6 shadow-sm relative" id="tanya">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-xl"></div>
+                    
+                    <!-- WhatsApp Header with dynamic visual styling -->
+                    <div class="flex items-center space-x-2.5 mb-3">
+                        <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0 shadow-inner">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 448 512">
+                                <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L3 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900 leading-tight">Tanya Pn Farihan</h3>
+                            <p class="text-[11px] font-semibold text-emerald-600 uppercase tracking-wider">Direct WhatsApp Messenger</p>
+                        </div>
+                    </div>
+                    
+                    <p class="text-xs text-slate-500 mb-4 leading-relaxed">Mempunyai pertanyaan mengenai topik atau pautan hub? Isi borang ini dan ia akan terus dihantar ke WhatsApp peribadi Pn Farihan untuk maklum balas segera.</p>
+                    
+                    <form id="whatsapp-form" onsubmit="handleWhatsAppSubmit(event)" class="space-y-3">
+                        <div>
+                            <label for="student-name" class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Nama Pelajar</label>
+                            <input type="text" id="student-name" required placeholder="Contoh: Muhammad Ali" class="w-full p-2.5 bg-slate-50 border border-slate-250 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-techBlue-500 focus:border-techBlue-500">
+                        </div>
+                        <div>
+                            <label for="student-message" class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Soalan / Mesej Anda</label>
+                            <textarea id="student-message" rows="3" required placeholder="Tulis persoalan anda mengenai Seni Bina Komputer di sini..." class="w-full p-2.5 bg-slate-50 border border-slate-250 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-techBlue-500 focus:border-techBlue-500"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-md hover:shadow-emerald-600/10 transition flex items-center justify-center space-x-2">
+                            <span>Buka Chat WhatsApp</span>
+                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                        </button>
+                    </form>
+                </div>
+
             </div>
 
         </div>
+
+        <!-- TECH GLOSSARY SECTION -->
+        <section class="mt-16 bg-white/90 backdrop-blur-xs border border-slate-200 rounded-3xl p-6 sm:p-8 relative" id="glosari">
+            <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center space-x-2">
+                <svg class="w-6 h-6 text-techBlue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                <span>Kamus Istilah Seni Bina Komputer</span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-slate-50/90 p-5 rounded-2xl border border-slate-200 hover:border-slate-300 hover:bg-white hover:shadow-md transition duration-155">
+                    <span class="text-xs font-bold text-techBlue-600 code-font block mb-1">ALU (Arithmetic Logic Unit)</span>
+                    <p class="text-xs text-slate-500 leading-relaxed">Komponen dalam pemproses yang menjalankan operasi pengiraan matematik (aritmetik) dan perbandingan logik boole.</p>
+                </div>
+                <div class="bg-slate-50/90 p-5 rounded-2xl border border-slate-200 hover:border-slate-300 hover:bg-white hover:shadow-md transition duration-155">
+                    <span class="text-xs font-bold text-techBlue-600 code-font block mb-1">Register (Daftar)</span>
+                    <p class="text-xs text-slate-500 leading-relaxed">Storan berkelajuan ultra-tinggi yang terletak di dalam pemproses untuk menyimpan data dan arahan sementara yang sedang diproses.</p>
+                </div>
+                <div class="bg-slate-50/90 p-5 rounded-2xl border border-slate-200 hover:border-slate-300 hover:bg-white hover:shadow-md transition duration-155">
+                    <span class="text-xs font-bold text-techBlue-600 code-font block mb-1">Sistem Bas (System Bus)</span>
+                    <p class="text-xs text-slate-500 leading-relaxed">Laluan komunikasi fizikal atau elektronik yang menghubungkan CPU, memori, dan peranti input/output bagi pemindahan isyarat.</p>
+                </div>
+            </div>
+        </section>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-6 mt-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-slate-500 text-xs gap-4">
-            <p>&copy; 2026 Hab Pembelajaran Peribadi. Dibina untuk memudahkan proses pembelajaran.</p>
-            <div class="flex space-x-4">
-                <a href="#" class="hover:text-primary-600 transition-colors">Utama</a>
-                <a href="#" class="hover:text-primary-600 transition-colors">Dokumentasi</a>
-                <a href="#" class="hover:text-primary-600 transition-colors">Mengenai</a>
+    <!-- NOTIFICATION MODAL (TOAST EFFECT) -->
+    <div id="notification-toast" class="fixed bottom-6 right-6 z-55 hidden bg-white border border-slate-200 px-5 py-4 rounded-2xl shadow-xl flex items-center space-x-3 max-w-sm glow-cyan transform translate-y-0 transition-all">
+        <div class="w-8 h-8 rounded-full bg-techBlue-50 text-techBlue-600 flex items-center justify-center shrink-0">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+        </div>
+        <div>
+            <p class="text-xs font-bold text-slate-900">Notifikasi Ditetapkan!</p>
+            <p class="text-[11px] text-slate-500 mt-0.5" id="notification-msg">Kami akan memaklumkan anda apabila modul siap.</p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="mt-24 border-t border-slate-200 bg-white py-12 text-center relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-center space-x-6 mb-6">
+                <!-- Decorative network / logic gate icon -->
+                <svg class="w-8 h-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 10-1.022-.547l-2.387 2.387a2 2 0 10-.718.718l2.387 2.387a2 2 0 101.986-1.564zM6 5a2 2 0 100 4 2 2 0 000-4zm6 8a2 2 0 100-4 2 2 0 000 4zm0 0v1.5a2.5 2.5 0 005 0V12m0 0a2 2 0 100-4 2 2 0 000 4z" />
+                </svg>
             </div>
+            <p class="text-xs sm:text-sm text-slate-650 font-medium">
+                Hak Milik 2026@Pn Farihan Elyana binti Zahari - POLITEKNIK TUANKU SYED SIRAJUDDIN
+            </p>
+            <p class="text-[10px] text-slate-450 mt-2 tracking-wide code-font">
+                Designed for excellence in Technical Education • Jabatan Teknologi Maklumat & Komunikasi (JTMK)
+            </p>
         </div>
     </footer>
 
-    <!-- MODAL: Tambah Pautan Baru -->
-    <div id="addModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm hidden transition-opacity">
-        <div class="bg-white w-full max-w-md mx-4 p-6 rounded-2xl shadow-xl transform transition-transform scale-95 duration-200">
-            <div class="flex items-center justify-between pb-4 border-b border-slate-100">
-                <h3 class="text-lg font-bold text-slate-950 flex items-center space-x-2">
-                    <i class="fa-solid fa-link text-primary-600"></i>
-                    <span>Tambah Pautan Baharu</span>
-                </h3>
-                <button onclick="closeAddModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-50 transition-all">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            
-            <form id="linkForm" onsubmit="saveLink(event)" class="mt-4 space-y-4">
-                <input type="hidden" id="editIndex" value="">
-                
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Fail / Tajuk *</label>
-                    <input type="text" id="linkTitle" required placeholder="Contoh: Belajar JavaScript Asas" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-600 focus:outline-none">
-                </div>
-                
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">URL / Pautan Fail *</label>
-                    <input type="url" id="linkUrl" required placeholder="https://..." class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-600 focus:outline-none">
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Kategori *</label>
-                        <select id="linkCategory" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-600 focus:outline-none bg-white">
-                            <option value="Web Dev">Pembangunan Web</option>
-                            <option value="Sains Data">Sains Data</option>
-                            <option value="Bahasa">Bahasa</option>
-                            <option value="Sains/Matematik">Sains / Matematik</option>
-                            <option value="Reka Bentuk">Reka Bentuk</option>
-                            <option value="Lain-lain">Lain-lain</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Gaya Warna</label>
-                        <select id="linkColor" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-600 focus:outline-none bg-white">
-                            <option value="blue">Biru (Teknologi)</option>
-                            <option value="purple">Ungu (Data)</option>
-                            <option value="emerald">Hijau (Bahasa)</option>
-                            <option value="rose">Merah (Sains)</option>
-                            <option value="amber">Jingga (Reka Bentuk)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Huraian Ringkas</label>
-                    <textarea id="linkDescription" rows="2" placeholder="Tulis nota ringkas tentang rujukan ini..." class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-600 focus:outline-none resize-none"></textarea>
-                </div>
-
-                <div class="flex items-center justify-end space-x-3 pt-4 border-t border-slate-100">
-                    <button type="button" onclick="closeAddModal()" class="px-4 py-2 text-slate-600 hover:bg-slate-50 rounded-xl text-sm font-medium transition-all">Batal</button>
-                    <button type="submit" class="bg-primary-600 hover:bg-primary-700 text-white px-5 py-2 rounded-xl text-sm font-medium transition-all shadow-md">Simpan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Mesej Toast Kustom (Ganti alert) -->
-    <div id="toast" class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg flex items-center space-x-3 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
-        <span id="toastIcon" class="text-emerald-400"><i class="fa-solid fa-circle-check"></i></span>
-        <span id="toastMessage" class="text-xs font-medium">Mesej berjaya!</span>
-    </div>
-
-    <!-- JavaScript Dinamik -->
+    <!-- INTERACTIVE JAVASCRIPT -->
     <script>
-        // Data Contoh Awal (Mock Data)
-        let defaultLinks = [
-            {
-                title: "Asas Pengaturcaraan HTML & CSS",
-                url: "https://developer.mozilla.org/ms/docs/Web/HTML",
-                category: "Web Dev",
-                description: "Rujukan rasmi untuk belajar kod struktur dan gaya reka bentuk web.",
-                color: "blue"
-            },
-            {
-                title: "Pengenalan Sains Data menggunakan Python",
-                url: "https://pandas.pydata.org/docs/",
-                category: "Sains Data",
-                description: "Nota dan latihan manipulasi data menggunakan pustaka Pandas.",
-                color: "purple"
-            },
-            {
-                title: "Koleksi Video Tatabahasa Inggeris",
-                url: "https://learnenglish.britishcouncil.org/",
-                category: "Bahasa",
-                description: "Latihan dan petua praktikal untuk meningkatkan kemahiran menulis dan bertutur.",
-                color: "emerald"
-            },
-            {
-                title: "Formula & Simulasi Fizik Menengah",
-                url: "https://phet.colorado.edu/",
-                category: "Sains/Matematik",
-                description: "Simulasi interaktif sains dan fizik yang menyeronokkan.",
-                color: "rose"
-            },
-            {
-                title: "Prinsip Utama Reka Bentuk UI/UX",
-                url: "https://www.figma.com/resources/",
-                category: "Reka Bentuk",
-                description: "Koleksi garis panduan dan rekaan terbaik untuk aplikasi moden.",
-                color: "amber"
-            }
-        ];
-
-        let links = [];
-        let activeCategory = "Semua";
-
-        // Inisialisasi Aplikasi
-        window.addEventListener('DOMContentLoaded', () => {
-            // Ambil dari Local Storage jika ada, jika tiada gunakan default
-            const stored = localStorage.getItem('learning_hub_links');
-            if (stored) {
-                links = JSON.parse(stored);
-            } else {
-                links = defaultLinks;
-                saveToStorage();
-            }
-            renderFilters();
-            renderLinks();
-            updateStats();
-        });
-
-        // Simpan ke Local Storage
-        function saveToStorage() {
-            localStorage.setItem('learning_hub_links', JSON.stringify(links));
-        }
-
-        // Peta Warna untuk Kad & Elemen UI
-        const colorClasses = {
-            blue: {
-                bg: "bg-blue-50 border-blue-100 hover:border-blue-200",
-                badge: "bg-blue-100 text-blue-800",
-                accent: "text-blue-600",
-                btn: "bg-blue-600 hover:bg-blue-700 shadow-blue-600/10",
-                icon: "fa-code"
-            },
-            purple: {
-                bg: "bg-purple-50 border-purple-100 hover:border-purple-200",
-                badge: "bg-purple-100 text-purple-800",
-                accent: "text-purple-600",
-                btn: "bg-purple-600 hover:bg-purple-700 shadow-purple-600/10",
-                icon: "fa-brain"
-            },
-            emerald: {
-                bg: "bg-emerald-50 border-emerald-100 hover:border-emerald-200",
-                badge: "bg-emerald-100 text-emerald-800",
-                accent: "text-emerald-600",
-                btn: "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/10",
-                icon: "fa-language"
-            },
-            rose: {
-                bg: "bg-rose-50 border-rose-100 hover:border-rose-200",
-                badge: "bg-rose-100 text-rose-800",
-                accent: "text-rose-600",
-                btn: "bg-rose-600 hover:bg-rose-700 shadow-rose-600/10",
-                icon: "fa-calculator"
-            },
-            amber: {
-                bg: "bg-amber-50 border-amber-100 hover:border-amber-200",
-                badge: "bg-amber-100 text-amber-800",
-                accent: "text-amber-600",
-                btn: "bg-amber-600 hover:bg-amber-700 shadow-amber-600/10",
-                icon: "fa-palette"
-            }
+        // Track the read state of individual modules
+        const progressState = {
+            link1: false,
+            link2: false,
+            link3: false,
+            link4: false
         };
 
-        // Paparkan Kad Pautan
-        function renderLinks() {
-            const grid = document.getElementById('linksGrid');
-            const emptyState = document.getElementById('emptyState');
-            const searchVal = document.getElementById('searchInput').value.toLowerCase();
-            
-            grid.innerHTML = "";
-            let filtered = links.filter(item => {
-                const matchesSearch = item.title.toLowerCase().includes(searchVal) || 
-                                      item.description.toLowerCase().includes(searchVal) ||
-                                      item.category.toLowerCase().includes(searchVal);
-                const matchesCategory = (activeCategory === "Semua" || item.category === activeCategory);
-                return matchesSearch && matchesCategory;
-            });
+        // Initialize state or layout
+        window.addEventListener('DOMContentLoaded', () => {
+            updateProgressDOM();
+        });
 
-            document.getElementById('visibleLinksCount').textContent = `${filtered.length} dipaparkan`;
+        // Search Filter Logic
+        function filterTopics() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const topicCards = document.querySelectorAll('.topic-card');
+            let visibleCount = 0;
 
-            if (filtered.length === 0) {
-                grid.classList.add('hidden');
-                emptyState.classList.remove('hidden');
-                emptyState.classList.add('flex');
-            } else {
-                grid.classList.remove('hidden');
-                emptyState.classList.add('hidden');
-                emptyState.classList.remove('flex');
-
-                filtered.forEach((item, index) => {
-                    const originalIndex = links.indexOf(item);
-                    const design = colorClasses[item.color] || colorClasses.blue;
-                    
-                    const card = document.createElement('div');
-                    card.className = `p-5 rounded-2xl border ${design.bg} transition-all duration-200 hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between h-full`;
-                    
-                    card.innerHTML = `
-                        <div>
-                            <div class="flex items-center justify-between mb-3">
-                                <span class="text-xs font-semibold px-2.5 py-1 rounded-full ${design.badge}">${item.category}</span>
-                                <div class="flex items-center space-x-1">
-                                    <button onclick="editLink(${originalIndex})" class="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-white/80 transition-all" title="Sunting">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                                    <button onclick="deleteLink(${originalIndex})" class="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-white/80 transition-all" title="Padam">
-                                        <i class="fa-regular fa-trash-can"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <h3 class="font-bold text-slate-900 line-clamp-2 mb-2 hover:text-primary-600 transition-colors">
-                                <a href="${item.url}" target="_blank" class="flex items-start gap-2">
-                                    <span class="${design.accent} mt-1"><i class="fa-solid ${design.icon}"></i></span>
-                                    <span>${item.title}</span>
-                                </a>
-                            </h3>
-                            <p class="text-xs text-slate-600 line-clamp-3 leading-relaxed mb-4">${item.description || 'Tiada rujukan huraian disediakan.'}</p>
-                        </div>
-                        <div class="pt-2 border-t border-slate-200/40 flex items-center justify-between">
-                            <span class="text-[10px] text-slate-400 font-mono truncate max-w-[150px]">${item.url}</span>
-                            <a href="${item.url}" target="_blank" class="inline-flex items-center space-x-1.5 text-xs font-semibold text-white px-3 py-1.5 rounded-lg ${design.btn} transition-all active:scale-95 shadow-md">
-                                <span>Buka</span>
-                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-                            </a>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                });
-            }
-        }
-
-        // Paparkan Penapis Kategori (Dinamik mengikut data sedia ada)
-        function renderFilters() {
-            const container = document.getElementById('categoryFilterContainer');
-            container.innerHTML = "";
-
-            // Dapatkan kategori unik
-            const categories = ["Semua", ...new Set(links.map(item => item.category))];
-
-            categories.forEach(cat => {
-                const button = document.createElement('button');
-                button.type = "button";
-                button.onclick = () => {
-                    activeCategory = cat;
-                    document.getElementById('listHeading').textContent = cat === "Semua" ? "Semua Bahan Pembelajaran" : `Kategori: ${cat}`;
-                    renderFilters();
-                    renderLinks();
-                };
-
-                if (activeCategory === cat) {
-                    button.className = "px-4 py-1.5 rounded-xl text-xs font-semibold bg-primary-600 text-white shadow-md shadow-primary-600/15 whitespace-nowrap";
+            topicCards.forEach(card => {
+                const titleText = card.getAttribute('data-title') || '';
+                if (titleText.includes(query)) {
+                    card.style.display = 'block';
+                    visibleCount++;
                 } else {
-                    button.className = "px-4 py-1.5 rounded-xl text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all whitespace-nowrap";
+                    card.style.display = 'none';
                 }
-                button.textContent = cat;
-                container.appendChild(button);
             });
+
+            const badge = document.getElementById('topic-count-badge');
+            badge.innerText = `${visibleCount} Topik Dipaparkan`;
         }
 
-        // Kemaskini Statistik Ringkas
-        function updateStats() {
-            document.getElementById('totalLinksCount').textContent = links.length;
-            const uniqueCats = new Set(links.map(item => item.category)).size;
-            document.getElementById('totalCategoriesCount').textContent = uniqueCats;
-        }
-
-        // Fungsi Carian
-        function filterLinks() {
-            renderLinks();
-        }
-
-        // Tutup/Buka Modal
-        function openAddModal() {
-            document.getElementById('editIndex').value = "";
-            document.getElementById('linkForm').reset();
-            document.getElementById('addModal').classList.remove('hidden');
-        }
-
-        function closeAddModal() {
-            document.getElementById('addModal').classList.add('hidden');
-        }
-
-        // Sunting Pautan Sedia Ada
-        function editLink(index) {
-            const item = links[index];
-            document.getElementById('editIndex').value = index;
-            document.getElementById('linkTitle').value = item.title;
-            document.getElementById('linkUrl').value = item.url;
-            document.getElementById('linkCategory').value = item.category;
-            document.getElementById('linkColor').value = item.color || "blue";
-            document.getElementById('linkDescription').value = item.description || "";
+        // Toggle Link Read Progress
+        function toggleLinkProgress(linkId) {
+            progressState[linkId] = !progressState[linkId];
             
-            document.getElementById('addModal').classList.remove('hidden');
-        }
-
-        // Padam Pautan
-        function deleteLink(index) {
-            if (confirm("Adakah anda pasti mahu memadam bahan rujukan ini?")) {
-                links.splice(index, 1);
-                saveToStorage();
-                renderFilters();
-                renderLinks();
-                updateStats();
-                showToast("Bahan rujukan berjaya dipadam!", "error");
-            }
-        }
-
-        // Simpan Data Baharu / Kemaskini (Borang Modal)
-        function saveLink(event) {
-            event.preventDefault();
+            // Update UI elements
+            const svgTick = document.getElementById(`svg-${linkId}`);
+            const tickBox = document.getElementById(`tick-${linkId}`);
             
-            const editIndexVal = document.getElementById('editIndex').value;
-            const title = document.getElementById('linkTitle').value;
-            const url = document.getElementById('linkUrl').value;
-            const category = document.getElementById('linkCategory').value;
-            const color = document.getElementById('linkColor').value;
-            const description = document.getElementById('linkDescription').value;
-
-            const newLink = { title, url, category, color, description };
-
-            if (editIndexVal !== "") {
-                // Mod sunting
-                links[parseInt(editIndexVal)] = newLink;
-                showToast("Bahan rujukan berjaya dikemaskini!", "success");
+            if (progressState[linkId]) {
+                svgTick.classList.remove('hidden');
+                tickBox.classList.add('border-techBlue-600', 'bg-techBlue-50');
             } else {
-                // Mod tambah baru
-                links.unshift(newLink);
-                showToast("Bahan rujukan baharu berjaya disimpan!", "success");
+                svgTick.classList.add('hidden');
+                tickBox.classList.remove('border-techBlue-600', 'bg-techBlue-50');
             }
 
-            saveToStorage();
-            closeAddModal();
-            renderFilters();
-            renderLinks();
-            updateStats();
+            updateProgressDOM();
         }
 
-        // Sistem Toast Ganti Alert standard
-        function showToast(message, type = "success") {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
-            const toastIcon = document.getElementById('toastIcon');
+        // Calculate and Update Progress Bars & Metrics
+        function updateProgressDOM() {
+            const keys = Object.keys(progressState);
+            const total = keys.length;
+            const completed = keys.filter(k => progressState[k]).length;
+            const percentage = Math.round((completed / total) * 100);
 
-            toastMessage.textContent = message;
+            // Update DOM
+            document.getElementById('overall-progress-text').innerText = `${percentage}%`;
+            document.getElementById('progress-percentage-label').innerText = `${percentage}%`;
+            document.getElementById('completed-modules-count').innerText = `Selesai: ${completed} daripada ${total} modul`;
+            
+            const progressBar = document.getElementById('progress-bar-inner');
+            progressBar.style.width = `${percentage}%`;
+        }
 
-            if (type === "success") {
-                toastIcon.className = "text-emerald-400 text-base";
-                toastIcon.innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
-            } else if (type === "error") {
-                toastIcon.className = "text-rose-400 text-base";
-                toastIcon.innerHTML = `<i class="fa-solid fa-circle-xmark"></i>`;
-            } else {
-                toastIcon.className = "text-amber-400 text-base";
-                toastIcon.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i>`;
-            }
+        // Reset progress trackers
+        function resetProgress() {
+            Object.keys(progressState).forEach(key => {
+                progressState[key] = false;
+                const svgTick = document.getElementById(`svg-${key}`);
+                const tickBox = document.getElementById(`tick-${key}`);
+                if (svgTick) svgTick.classList.add('hidden');
+                if (tickBox) tickBox.classList.remove('border-techBlue-600', 'bg-techBlue-50');
+            });
+            updateProgressDOM();
+        }
 
-            // Animasi masuk
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            toast.classList.add('translate-y-0', 'opacity-100');
-
+        // Toast Notification Trigger
+        function requestNotification(topicName) {
+            const toast = document.getElementById('notification-toast');
+            const msg = document.getElementById('notification-msg');
+            msg.innerText = `Anda akan menerima makluman sejurus sahaja "${topicName}" siap dipasang!`;
+            
+            toast.classList.remove('hidden');
             setTimeout(() => {
-                // Animasi keluar
-                toast.classList.remove('translate-y-0', 'opacity-100');
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
+                toast.classList.add('hidden');
+            }, 4000);
+        }
+
+        // Handle Interactive Form Submission for WhatsApp Redirect
+        function handleWhatsAppSubmit(event) {
+            event.preventDefault();
+            const studentName = document.getElementById('student-name').value;
+            const studentMessage = document.getElementById('student-message').value;
+
+            if (studentName && studentMessage) {
+                // Formatting message to look nice on WhatsApp
+                const phone = "60129669235";
+                const textMessage = `Salam sejahtera Pn Farihan,\n\nSaya *${studentName}*, dari Hub Pembelajaran Interaktif. Saya mempunyai persoalan mengenai Seni Bina Komputer:\n\n_"${studentMessage}"_\n\nMohon tunjuk ajar. Terima kasih!`;
+                
+                // Encode and open link
+                const encodedText = encodeURIComponent(textMessage);
+                const whatsappUrl = `https://wa.me/${phone}?text=${encodedText}`;
+                
+                // Open WhatsApp link in a new window/tab
+                window.open(whatsappUrl, '_blank');
+            }
         }
     </script>
 </body>
