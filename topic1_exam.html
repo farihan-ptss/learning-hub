@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="ms" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Peperiksaan Interaktif: Seni Bina & Organisasi Komputer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Modern scrollbar and elegant transitions */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="h-full text-slate-800 flex flex-col font-sans antialiased">
+
+    <!-- TOP HEADER / BANNER -->
+    <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white shadow-md border-b border-indigo-900/50">
+        <div class="max-w-7xl mx-auto px-4 py-5 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-indigo-600 rounded-xl shadow-lg shadow-indigo-500/30">
+                    <!-- Exam/Document SVG Icon -->
+                    <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold tracking-tight">Sistem Peperiksaan Interaktif</h1>
+                    <p class="text-xs text-indigo-300 font-medium">Seni Bina & Organisasi Komputer (Bilingual Exam Hub)</p>
+                </div>
+            </div>
+            
+            <!-- Real-time Exam Stats Panel -->
+            <div class="flex items-center gap-5 bg-slate-950/75 px-5 py-3 rounded-2xl border border-slate-800">
+                <div class="text-right">
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Jumlah Markah Terkumpul</p>
+                    <p class="text-lg font-black text-emerald-400"><span id="live-score">0</span> / <span id="max-score">80</span> Marks</p>
+                </div>
+                <div class="w-px h-10 bg-slate-800"></div>
+                <div>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Gred Prestasi</p>
+                    <span id="live-grade" class="mt-1 inline-block text-xs font-extrabold px-2.5 py-1 bg-slate-800 rounded-md text-slate-300 border border-slate-700">Gagal / Belum Jawab</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN APP GRID CONTAINER -->
+    <div class="flex-1 max-w-7xl w-full mx-auto px-4 py-6 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-6 overflow-hidden">
+        
+        <!-- LEFT SIDEBAR: EXAM NAVIGATOR & INDEX -->
+        <aside class="lg:col-span-3 flex flex-col gap-4 overflow-y-auto max-h-[calc(100vh-160px)]">
+            <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm space-y-4">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Lembaran Soalan</h3>
+                <div class="space-y-4 text-xs font-semibold">
+                    <div>
+                        <span class="text-[10px] text-indigo-600 font-bold tracking-wider block mb-1.5">BAHAGIAN A: PENGALIRAN DATA</span>
+                        <div class="grid grid-cols-5 gap-1.5" id="nav-sec-A"></div>
+                    </div>
+                    <div>
+                        <span class="text-[10px] text-indigo-600 font-bold tracking-wider block mb-1.5">BAHAGIAN B: KOMPONEN ASAS</span>
+                        <div class="grid grid-cols-5 gap-1.5" id="nav-sec-B"></div>
+                    </div>
+                    <div>
+                        <span class="text-[10px] text-indigo-600 font-bold tracking-wider block mb-1.5">BAHAGIAN C: KLASIFIKASI & RAJAH</span>
+                        <div class="grid grid-cols-5 gap-1.5" id="nav-sec-C"></div>
+                    </div>
+                    <div>
+                        <span class="text-[10px] text-indigo-600 font-bold tracking-wider block mb-1.5">BAHAGIAN D: CACHE & CPU</span>
+                        <div class="grid grid-cols-5 gap-1.5" id="nav-sec-D"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESET & FINALIZE EXAM -->
+            <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm space-y-3">
+                <h4 class="text-xs font-bold text-slate-900">Tindakan Peperiksaan</h4>
+                <p class="text-[10px] text-slate-500 leading-relaxed">Sila semak semula semua jawapan sebelum menutup sesi. Anda boleh menetapkan semula latihan ini jika perlu.</p>
+                <div class="flex flex-col gap-2">
+                    <button onclick="submitAllAnswers()" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-md">
+                        Hantar Semua Jawapan
+                    </button>
+                    <button onclick="resetExam()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-lg transition-colors border border-slate-200">
+                        Reset Latihan
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- RIGHT AREA: EXAM WORKSHEET (ALL QUESTIONS) -->
+        <main class="lg:col-span-9 space-y-6 overflow-y-auto max-h-[calc(100vh-160px)] pr-2" id="exam-worksheet">
+            
+            <!-- SECTION A -->
+            <div class="space-y-4">
+                <div class="border-b-2 border-indigo-100 pb-2">
+                    <h2 class="text-md font-black text-indigo-950 tracking-wider">BAHAGIAN A: PENGALIRAN DATA & SISTEM BAS</h2>
+                    <p class="text-[10px] text-slate-500 uppercase font-semibold">Bahagian ini menguji kefahaman anda tentang aliran data, isyarat kawalan dan peranan bas komputer.</p>
+                </div>
+
+                <!-- Soalan 1 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-1">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 1</span>
+                            <h4 class="font-bold text-slate-900 mt-1">List TWO (2) types of external buses in a computer system.</h4>
+                            <p class="text-xs text-slate-500 italic">Senaraikan DUA (2) bas luaran di dalam sistem komputer.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">2 Marks</span>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="ans-1" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="2" placeholder="Tulis jawapan anda di sini..."></textarea>
+                    </div>
+                    <div id="feedback-1" class="hidden"></div>
+                    <button id="btn-submit-1" onclick="gradeSubjective(1)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 2 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-2">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 2</span>
+                            <h4 class="font-bold text-slate-900 mt-1">There are various types of external buses. Name THREE (3) types of the external buses.</h4>
+                            <p class="text-xs text-slate-500 italic">Terdapat pelbagai jenis bas luaran. Namakan TIGA (3) jenis bas luaran tersebut.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">3 Marks</span>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="ans-2" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="2" placeholder="Tulis jawapan anda di sini..."></textarea>
+                    </div>
+                    <div id="feedback-2" class="hidden"></div>
+                    <button id="btn-submit-2" onclick="gradeSubjective(2)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 3 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-3">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 3</span>
+                            <h4 class="font-bold text-slate-900 mt-1">State TWO (2) main types of buses in a computer system.</h4>
+                            <p class="text-xs text-slate-500 italic">Nyatakan DUA (2) jenis bas utama dalam sistem komputer.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">2 Marks</span>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="ans-3" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="2" placeholder="Tulis jawapan anda di sini..."></textarea>
+                    </div>
+                    <div id="feedback-3" class="hidden"></div>
+                    <button id="btn-submit-3" onclick="gradeSubjective(3)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 4 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-4">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 4</span>
+                            <h4 class="font-bold text-slate-900 mt-1">Define the computer bus.</h4>
+                            <p class="text-xs text-slate-500 italic">Takrifkan bas komputer.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">2 Marks</span>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="ans-4" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="2" placeholder="Tulis jawapan anda di sini..."></textarea>
+                    </div>
+                    <div id="feedback-4" class="hidden"></div>
+                    <button id="btn-submit-4" onclick="gradeSubjective(4)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 5 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-5">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 5</span>
+                            <h4 class="font-bold text-slate-900 mt-1">Describe the components of the system bus below:</h4>
+                            <p class="text-xs text-slate-500 italic">Terangkan komponen sistem bas di bawah:</p>
+                            <div class="mt-2 text-xs text-slate-600 font-medium space-y-1">
+                                <p>a. Data Bus / <span class="italic">Bas Data</span></p>
+                                <p>b. Control Bus / <span class="italic">Bas Kawalan</span></p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">4 Marks</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">a. Data Bus Description</label>
+                            <textarea id="ans-5a" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="3" placeholder="Terangkan peranan dan sifat bas data..."></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">b. Control Bus Description</label>
+                            <textarea id="ans-5b" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="3" placeholder="Terangkan peranan dan sifat bas kawalan..."></textarea>
+                        </div>
+                    </div>
+                    <div id="feedback-5" class="hidden"></div>
+                    <button id="btn-submit-5" onclick="gradeSubjective(5)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECTION B -->
+            <div class="space-y-4">
+                <div class="border-b-2 border-indigo-100 pb-2 mt-4">
+                    <h2 class="text-md font-black text-indigo-950 tracking-wider">BAHAGIAN B: KOMPONEN ASAS KOMPUTER & PERANTI I/O</h2>
+                    <p class="text-[10px] text-slate-500 uppercase font-semibold">Tumpuan kepada seni bina asas, pemprosesan data serta strategi pengurusan perkakasan I/O.</p>
+                </div>
+
+                <!-- Soalan 6 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-6">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 6</span>
+                            <h4 class="font-bold text-slate-900 mt-1">List FOUR (4) basic components in a computer system.</h4>
+                            <p class="text-xs text-slate-500 italic">Senaraikan EMPAT (4) komponen asas dalam sistem komputer.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">4 Marks</span>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="ans-6" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="2" placeholder="Tulis jawapan anda di sini..."></textarea>
+                    </div>
+                    <div id="feedback-6" class="hidden"></div>
+                    <button id="btn-submit-6" onclick="gradeSubjective(6)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 7 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-7">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 7</span>
+                            <h4 class="font-bold text-slate-900 mt-1">List TWO (2) basic components of a computer.</h4>
+                            <p class="text-xs text-slate-500 italic">Senaraikan DUA (2) komponen asas komputer.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">2 Marks</span>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="ans-7" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="2" placeholder="Tulis jawapan anda di sini..."></textarea>
+                    </div>
+                    <div id="feedback-7" class="hidden"></div>
+                    <button id="btn-submit-7" onclick="gradeSubjective(7)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 8 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-8">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 8</span>
+                            <h4 class="font-bold text-slate-900 mt-1">State TWO (2) output devices of a computer.</h4>
+                            <p class="text-xs text-slate-500 italic">Nyatakan DUA (2) peranti output komputer.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">2 Marks</span>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="ans-8" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="2" placeholder="Tulis jawapan anda di sini..."></textarea>
+                    </div>
+                    <div id="feedback-8" class="hidden"></div>
+                    <button id="btn-submit-8" onclick="gradeSubjective(8)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 9 (Interactive Labeling Task) -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-9">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 9</span>
+                            <h4 class="font-bold text-slate-900 mt-1">Illustrate a block diagram of a computer system with a complete label.</h4>
+                            <p class="text-xs text-slate-500 italic">Lakarkan rajah blok bagi sebuah sistem komputer beserta label yang lengkap.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">6 Marks</span>
+                    </div>
+                    <p class="text-[10px] text-slate-500 font-bold bg-slate-100 p-2 rounded-md">ARAHAN: Pilih label yang betul untuk setiap kotak kosong bagi melengkapkan gambar rajah blok.</p>
+                    
+                    <!-- Diagram Container -->
+                    <div class="p-6 bg-slate-50 border border-slate-200 rounded-xl">
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-4 text-center">
+                            <!-- Box J (Input) -->
+                            <div class="flex-1 w-full bg-white border-2 border-indigo-200 rounded-xl p-4 flex flex-col justify-center items-center shadow-sm min-h-[90px]">
+                                <span class="text-[10px] font-black text-indigo-600">BLOK A</span>
+                                <select id="diagram-9-a" class="mt-2 w-full p-2 text-xs rounded border border-slate-200 bg-white font-semibold">
+                                    <option value="">-- Pilih Komponen A --</option>
+                                    <option value="input">Input Devices (Peranti Masukan)</option>
+                                    <option value="cpu">Central Processing Unit (CPU)</option>
+                                    <option value="storage">Storage/Secondary Memory (Storan)</option>
+                                    <option value="output">Output Devices (Peranti Keluaran)</option>
+                                </select>
+                            </div>
+
+                            <div class="text-xl text-slate-400 font-black font-mono">&rarr;</div>
+
+                            <!-- Central Unit (CPU) -->
+                            <div class="flex-1 w-full bg-white border-2 border-indigo-200 rounded-xl p-4 flex flex-col justify-center items-center shadow-sm">
+                                <span class="text-[10px] font-black text-indigo-600">BLOK B (PROSES)</span>
+                                <select id="diagram-9-b" class="mt-2 w-full p-2 text-xs rounded border border-slate-200 bg-white font-semibold">
+                                    <option value="">-- Pilih Komponen B --</option>
+                                    <option value="input">Input Devices</option>
+                                    <option value="cpu">Central Processing Unit (CPU)</option>
+                                    <option value="storage">Storage/Secondary Memory</option>
+                                    <option value="output">Output Devices</option>
+                                </select>
+                                <div class="mt-2 p-1.5 bg-slate-50 rounded text-[9px] text-slate-400 font-bold tracking-wider">MENGANDUNGI ALU & CU</div>
+                            </div>
+
+                            <div class="text-xl text-slate-400 font-black font-mono">&rarr;</div>
+
+                            <!-- Box Output -->
+                            <div class="flex-1 w-full bg-white border-2 border-indigo-200 rounded-xl p-4 flex flex-col justify-center items-center shadow-sm min-h-[90px]">
+                                <span class="text-[10px] font-black text-indigo-600">BLOK C</span>
+                                <select id="diagram-9-c" class="mt-2 w-full p-2 text-xs rounded border border-slate-200 bg-white font-semibold">
+                                    <option value="">-- Pilih Komponen C --</option>
+                                    <option value="input">Input Devices (Peranti Masukan)</option>
+                                    <option value="cpu">Central Processing Unit (CPU)</option>
+                                    <option value="storage">Storage/Secondary Memory (Storan)</option>
+                                    <option value="output">Output Devices (Peranti Keluaran)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="feedback-9" class="hidden"></div>
+                    <button id="btn-submit-9" onclick="gradeDiagram9()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 10 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-10">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 10</span>
+                            <h4 class="font-bold text-slate-900 mt-1">Illustrate an input output module diagram.</h4>
+                            <p class="text-xs text-slate-500 italic">Gambarkan rajah modul masukan dan keluaran.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">4 Marks</span>
+                    </div>
+                    <div class="space-y-4">
+                        <p class="text-[10px] text-slate-500 font-bold bg-slate-100 p-2 rounded-md">ARAHAN: Sesuaikan kedudukan isyarat dalam modul I/O dengan memilih aliran yang tepat.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <div class="space-y-2">
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase">1. Aliran Menghadap Sistem Induk (System Bus Interface)</label>
+                                <select id="diagram-10-a" class="w-full p-2 text-xs rounded border border-slate-200 bg-white font-semibold">
+                                    <option value="">-- Pilih Isyarat --</option>
+                                    <option value="control">Isyarat Kawalan, Data & Alamat (Control, Data, Address)</option>
+                                    <option value="periph">Isyarat Transducer & Peranti Luaran (Peripheral Interface)</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase">2. Aliran Menghadap Peranti Luaran (External Interface)</label>
+                                <select id="diagram-10-b" class="w-full p-2 text-xs rounded border border-slate-200 bg-white font-semibold">
+                                    <option value="">-- Pilih Isyarat --</option>
+                                    <option value="control">Isyarat Kawalan, Data & Alamat (Control, Data, Address)</option>
+                                    <option value="periph">Isyarat Transducer & Peranti Luaran (Peripheral Interface)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <textarea id="ans-10-text" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="2" placeholder="Huraikan fungsi modul I/O secara ringkas..."></textarea>
+                    </div>
+                    <div id="feedback-10" class="hidden"></div>
+                    <button id="btn-submit-10" onclick="gradeDiagram10()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 11 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-11">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 11</span>
+                            <h4 class="font-bold text-slate-900 mt-1">There are THREE (3) methods for managing input and output called as modes of transfer. Explain each mode of transfer.</h4>
+                            <p class="text-xs text-slate-500 italic">Terdapat TIGA (3) kaedah untuk menguruskan input dan output yang dipanggil sebagai mod pemindahan. Terangkan setiap mod pemindahan tersebut.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">6 Marks</span>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="ans-11" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="3" placeholder="Sebutkan dan terangkan ketiga-tiga mod pemindahan (cth: Programmed, Interrupt, DMA)..."></textarea>
+                    </div>
+                    <div id="feedback-11" class="hidden"></div>
+                    <button id="btn-submit-11" onclick="gradeSubjective(11)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 12 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-12">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 12</span>
+                            <h4 class="font-bold text-slate-900 mt-1">List TWO (2) methods of managing input and output.</h4>
+                            <p class="text-xs text-slate-500 italic">Senaraikan DUA (2) kaedah menguruskan input dan output.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">2 Marks</span>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="ans-12" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="2" placeholder="Tulis dua kaedah di sini..."></textarea>
+                    </div>
+                    <div id="feedback-12" class="hidden"></div>
+                    <button id="btn-submit-12" onclick="gradeSubjective(12)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECTION C -->
+            <div class="space-y-4">
+                <div class="border-b-2 border-indigo-100 pb-2 mt-4">
+                    <h2 class="text-md font-black text-indigo-950 tracking-wider">BAHAGIAN C: KLASIFIKASI PERANTI & ANALISIS RAJAH</h2>
+                    <p class="text-[10px] text-slate-500 uppercase font-semibold">Bahagian interaktif untuk memadankan jenis peranti mengikut keupayaan input / output mereka.</p>
+                </div>
+
+                <!-- Soalan 13 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-13">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 13</span>
+                            <h4 class="font-bold text-slate-900 mt-1">Classify the device below by category either input, output or both input output.</h4>
+                            <p class="text-xs text-slate-500 italic">Klasifikasikan peralatan di bawah mengikut kategori sama ada input, output atau kedua-dua input output.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">6 Marks</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-3 bg-slate-50 rounded-lg space-y-3">
+                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Peralatan Masukan & Keluaran</label>
+                            
+                            <div class="flex items-center justify-between text-xs font-bold">
+                                <span>1. Touchpad</span>
+                                <select id="classify-13-1" class="p-1 border border-slate-200 bg-white rounded text-xs">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="input">Input</option>
+                                    <option value="output">Output</option>
+                                    <option value="both">Both</option>
+                                </select>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-xs font-bold">
+                                <span>2. Film recorder</span>
+                                <select id="classify-13-2" class="p-1 border border-slate-200 bg-white rounded text-xs">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="input">Input</option>
+                                    <option value="output">Output</option>
+                                    <option value="both">Both</option>
+                                </select>
+                            </div>
+
+                            <div class="flex items-center justify-between text-xs font-bold">
+                                <span>3. Touch screen</span>
+                                <select id="classify-13-3" class="p-1 border border-slate-200 bg-white rounded text-xs">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="input">Input</option>
+                                    <option value="output">Output</option>
+                                    <option value="both">Both</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="p-3 bg-slate-50 rounded-lg space-y-3">
+                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">&nbsp;</label>
+                            
+                            <div class="flex items-center justify-between text-xs font-bold">
+                                <span>4. Barcode reader</span>
+                                <select id="classify-13-4" class="p-1 border border-slate-200 bg-white rounded text-xs">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="input">Input</option>
+                                    <option value="output">Output</option>
+                                    <option value="both">Both</option>
+                                </select>
+                            </div>
+
+                            <div class="flex items-center justify-between text-xs font-bold">
+                                <span>5. Graphic tablet</span>
+                                <select id="classify-13-5" class="p-1 border border-slate-200 bg-white rounded text-xs">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="input">Input</option>
+                                    <option value="output">Output</option>
+                                    <option value="both">Both</option>
+                                </select>
+                            </div>
+
+                            <div class="flex items-center justify-between text-xs font-bold">
+                                <span>6. All types of printer</span>
+                                <select id="classify-13-6" class="p-1 border border-slate-200 bg-white rounded text-xs">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="input">Input</option>
+                                    <option value="output">Output</option>
+                                    <option value="both">Both</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="feedback-13" class="hidden"></div>
+                    <button id="btn-submit-13" onclick="gradeClassify13()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 14 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-14">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 14</span>
+                            <h4 class="font-bold text-slate-900 mt-1">Classify the device below by category either input, output or both input and output.</h4>
+                            <p class="text-xs text-slate-500 italic">Klasifikasikan peralatan di bawah mengikut kategori sama ada input, output atau kedua-dua input dan output.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">4 Marks</span>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 rounded-xl space-y-3 max-w-xl">
+                        <div class="flex items-center justify-between text-xs font-bold">
+                            <span>1. Speech-generating device</span>
+                            <select id="classify-14-1" class="p-1 border border-slate-200 bg-white rounded text-xs">
+                                <option value="">-- Pilih --</option>
+                                <option value="input">Input</option>
+                                <option value="output">Output</option>
+                                <option value="both">Both</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center justify-between text-xs font-bold">
+                            <span>2. Touch screen</span>
+                            <select id="classify-14-2" class="p-1 border border-slate-200 bg-white rounded text-xs">
+                                <option value="">-- Pilih --</option>
+                                <option value="input">Input</option>
+                                <option value="output">Output</option>
+                                <option value="both">Both</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center justify-between text-xs font-bold">
+                            <span>3. Computer speakers</span>
+                            <select id="classify-14-3" class="p-1 border border-slate-200 bg-white rounded text-xs">
+                                <option value="">-- Pilih --</option>
+                                <option value="input">Input</option>
+                                <option value="output">Output</option>
+                                <option value="both">Both</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center justify-between text-xs font-bold">
+                            <span>4. Web Camera</span>
+                            <select id="classify-14-4" class="p-1 border border-slate-200 bg-white rounded text-xs">
+                                <option value="">-- Pilih --</option>
+                                <option value="input">Input</option>
+                                <option value="output">Output</option>
+                                <option value="both">Both</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="feedback-14" class="hidden"></div>
+                    <button id="btn-submit-14" onclick="gradeClassify14()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECTION D -->
+            <div class="space-y-4">
+                <div class="border-b-2 border-indigo-100 pb-2 mt-4">
+                    <h2 class="text-md font-black text-indigo-950 tracking-wider">BAHAGIAN D: MEMORI CACHE & KITARAN CPU</h2>
+                    <p class="text-[10px] text-slate-500 uppercase font-semibold">Menganalisis sistem ingatan cache bertingkat, proses memohon data serta pendaftaran litar logic digital.</p>
+                </div>
+
+                <!-- Soalan 17 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-17">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 17</span>
+                            <h4 class="font-bold text-slate-900 mt-1">Define Cache Memory.</h4>
+                            <p class="text-xs text-slate-500 italic">Berikan definisi bagi Cache Memory.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">2 Marks</span>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="ans-17" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="2" placeholder="Berikan definisi di sini..."></textarea>
+                    </div>
+                    <div id="feedback-17" class="hidden"></div>
+                    <button id="btn-submit-17" onclick="gradeSubjective(17)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 18 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-18">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 18</span>
+                            <h4 class="font-bold text-slate-900 mt-1">Describe THREE (3) types of cache memory.</h4>
+                            <p class="text-xs text-slate-500 italic">Terangkan TIGA (3) jenis memori cache.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">3 Marks</span>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="ans-18" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="3" placeholder="Sebutkan L1, L2, L3 beserta perbezaan ringkas..."></textarea>
+                    </div>
+                    <div id="feedback-18" class="hidden"></div>
+                    <button id="btn-submit-18" onclick="gradeSubjective(18)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 19 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-19">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 19</span>
+                            <h4 class="font-bold text-slate-900 mt-1">List THREE (3) level of cache memory.</h4>
+                            <p class="text-xs text-slate-500 italic">Senaraikan TIGA (3) peringkat memori 'cache'.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">3 Marks</span>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="ans-19" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="2" placeholder="Senaraikan peringkat memori cache..."></textarea>
+                    </div>
+                    <div id="feedback-19" class="hidden"></div>
+                    <button id="btn-submit-19" onclick="gradeSubjective(19)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 20 (Multilevel Cache Sequencing) -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-20">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 20</span>
+                            <h4 class="font-bold text-slate-900 mt-1">Illustrate the multilevel of cache memory.</h4>
+                            <p class="text-xs text-slate-500 italic">Gambarkan tahap ingatan cache bertingkat.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">4 Marks</span>
+                    </div>
+                    <p class="text-[10px] text-slate-500 font-bold bg-slate-100 p-2 rounded-md">ARAHAN: Urutkan peringkat ingatan cache dari yang paling dekat dengan CPU (Paling Laju) hingga ke Memori Utama.</p>
+                    
+                    <div class="flex flex-col md:flex-row items-center gap-2 justify-center py-4 bg-slate-50 rounded-xl">
+                        <span class="text-xs font-bold text-indigo-900 bg-indigo-100 px-3 py-1.5 rounded">CPU CORE</span>
+                        <div class="text-lg font-black">&rarr;</div>
+                        <select id="cache-seq-1" class="p-1.5 border border-slate-300 rounded text-xs font-bold">
+                            <option value="">-- Slot 1 --</option>
+                            <option value="l1">Tahap 1 (L1 Cache)</option>
+                            <option value="l2">Tahap 2 (L2 Cache)</option>
+                            <option value="l3">Tahap 3 (L3 Cache)</option>
+                            <option value="ram">Memori Utama (RAM)</option>
+                        </select>
+                        <div class="text-lg font-black">&rarr;</div>
+                        <select id="cache-seq-2" class="p-1.5 border border-slate-300 rounded text-xs font-bold">
+                            <option value="">-- Slot 2 --</option>
+                            <option value="l1">Tahap 1 (L1 Cache)</option>
+                            <option value="l2">Tahap 2 (L2 Cache)</option>
+                            <option value="l3">Tahap 3 (L3 Cache)</option>
+                            <option value="ram">Memori Utama (RAM)</option>
+                        </select>
+                        <div class="text-lg font-black">&rarr;</div>
+                        <select id="cache-seq-3" class="p-1.5 border border-slate-300 rounded text-xs font-bold">
+                            <option value="">-- Slot 3 --</option>
+                            <option value="l1">Tahap 1 (L1 Cache)</option>
+                            <option value="l2">Tahap 2 (L2 Cache)</option>
+                            <option value="l3">Tahap 3 (L3 Cache)</option>
+                            <option value="ram">Memori Utama (RAM)</option>
+                        </select>
+                        <div class="text-lg font-black">&rarr;</div>
+                        <select id="cache-seq-4" class="p-1.5 border border-slate-300 rounded text-xs font-bold">
+                            <option value="">-- Slot 4 --</option>
+                            <option value="l1">Tahap 1 (L1 Cache)</option>
+                            <option value="l2">Tahap 2 (L2 Cache)</option>
+                            <option value="l3">Tahap 3 (L3 Cache)</option>
+                            <option value="ram">Memori Utama (RAM)</option>
+                        </select>
+                    </div>
+
+                    <div id="feedback-20" class="hidden"></div>
+                    <button id="btn-submit-20" onclick="gradeCacheSeq20()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 21 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-21">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 21</span>
+                            <h4 class="font-bold text-slate-900 mt-1">Describe how the cache memory operate to improve the computer speed.</h4>
+                            <p class="text-xs text-slate-500 italic">Huraikan bagaimana operasi memori cache beroperasi bagi meningkatkan kelajuan sesebuah komputer.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">4 Marks</span>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="ans-21" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="3" placeholder="Sebutkan perkaitan antara pemproses, cache hit, cache miss dan pemindahan data..."></textarea>
+                    </div>
+                    <div id="feedback-21" class="hidden"></div>
+                    <button id="btn-submit-21" onclick="gradeSubjective(21)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 22 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-22">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 22</span>
+                            <h4 class="font-bold text-slate-900 mt-1">Differentiate between level two (L2) and level three (L3) cache memory based on their capacity and speed.</h4>
+                            <p class="text-xs text-slate-500 italic">Bezakan cache memori tahap dua (L2) dan tahap tiga (L3) berdasarkan kapasiti dan kelajuan mereka.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">6 Marks</span>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="ans-22" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="3" placeholder="Bezakan kapasiti dan kelajuan L2 berbanding L3 secara terperinci..."></textarea>
+                    </div>
+                    <div id="feedback-22" class="hidden"></div>
+                    <button id="btn-submit-22" onclick="gradeSubjective(22)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 23 (Interactive CPU Instruction Cycle) -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-23">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 23</span>
+                            <h4 class="font-bold text-slate-900 mt-1">Illustrate the CPU instruction cycle for (i), (ii) and (iii) as shown as Figure B1 (e).</h4>
+                            <p class="text-xs text-slate-500 italic">Ilustrasikan kitaran arahan CPU untuk (i), (ii) dan (iii) seperti pada Rajah B1 (e).</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">3 Marks</span>
+                    </div>
+                    <p class="text-[10px] text-slate-500 font-bold bg-slate-100 p-2 rounded-md">ARAHAN: Pilih kitaran instruksi yang tepat mengikut turutan proses CPU.</p>
+                    
+                    <div class="p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 space-y-3 max-w-lg">
+                        <div class="flex items-center justify-between text-xs font-bold">
+                            <span>Kitaran (i) (Fasa Pertama)</span>
+                            <select id="cycle-step-1" class="p-1 border border-slate-200 bg-white rounded text-xs">
+                                <option value="">-- Pilih --</option>
+                                <option value="fetch">Fetch (Ambil)</option>
+                                <option value="decode">Decode (Terjemah)</option>
+                                <option value="execute">Execute (Laksana)</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center justify-between text-xs font-bold">
+                            <span>Kitaran (ii) (Fasa Kedua)</span>
+                            <select id="cycle-step-2" class="p-1 border border-slate-200 bg-white rounded text-xs">
+                                <option value="">-- Pilih --</option>
+                                <option value="fetch">Fetch (Ambil)</option>
+                                <option value="decode">Decode (Terjemah)</option>
+                                <option value="execute">Execute (Laksana)</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center justify-between text-xs font-bold">
+                            <span>Kitaran (iii) (Fasa Ketiga)</span>
+                            <select id="cycle-step-3" class="p-1 border border-slate-200 bg-white rounded text-xs">
+                                <option value="">-- Pilih --</option>
+                                <option value="fetch">Fetch (Ambil)</option>
+                                <option value="decode">Decode (Terjemah)</option>
+                                <option value="execute">Execute (Laksana)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="feedback-23" class="hidden"></div>
+                    <button id="btn-submit-23" onclick="gradeCycle23()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 24 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-24">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 24</span>
+                            <h4 class="font-bold text-slate-900 mt-1">Explain the process of CPU when requesting data from the cache memory.</h4>
+                            <p class="text-xs text-slate-500 italic">Terangkan proses CPU memohon data dalam memori cache.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">3 Marks</span>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="ans-24" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="3" placeholder="Terangkan fasa carian, hit, miss dan pindahan data dari RAM ke cache..."></textarea>
+                    </div>
+                    <div id="feedback-24" class="hidden"></div>
+                    <button id="btn-submit-24" onclick="gradeSubjective(24)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 25 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-25">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 25</span>
+                            <h4 class="font-bold text-slate-900 mt-1">Illustrate a diagram with explanation how the CPU retrieves data from cache memory.</h4>
+                            <p class="text-xs text-slate-500 italic">Lakarkan rajah beserta penerangan bagaimana CPU mengambil data dari memori cache.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">5 Marks</span>
+                    </div>
+                    <div class="space-y-4">
+                        <p class="text-[10px] text-slate-500 font-bold bg-slate-100 p-2 rounded-md">ARAHAN: Susun aliran isyarat pengambilan data mengikut turutan proses logik sistem.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-2 text-center text-xs font-bold">
+                            <div class="p-2 border border-slate-200 bg-slate-50 rounded">Langkah 1</div>
+                            <div class="p-2 border border-slate-200 bg-slate-50 rounded">Langkah 2</div>
+                            <div class="p-2 border border-slate-200 bg-slate-50 rounded">Langkah 3</div>
+                            <div class="p-2 border border-slate-200 bg-slate-50 rounded">Langkah 4</div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+                            <select id="retrieve-flow-1" class="p-2 border border-slate-300 rounded text-xs font-semibold bg-white">
+                                <option value="">-- Langkah 1 --</option>
+                                <option value="request">CPU hantar permohonan data</option>
+                                <option value="lookup">Semak dalam Cache</option>
+                                <option value="hit">Jika 'Hit' - Ambil terus dari Cache</option>
+                                <option value="miss">Jika 'Miss' - Ambil dari RAM & salin ke Cache</option>
+                            </select>
+                            <select id="retrieve-flow-2" class="p-2 border border-slate-300 rounded text-xs font-semibold bg-white">
+                                <option value="">-- Langkah 2 --</option>
+                                <option value="request">CPU hantar permohonan data</option>
+                                <option value="lookup">Semak dalam Cache</option>
+                                <option value="hit">Jika 'Hit' - Ambil terus dari Cache</option>
+                                <option value="miss">Jika 'Miss' - Ambil dari RAM & salin ke Cache</option>
+                            </select>
+                            <select id="retrieve-flow-3" class="p-2 border border-slate-300 rounded text-xs font-semibold bg-white">
+                                <option value="">-- Langkah 3 --</option>
+                                <option value="request">CPU hantar permohonan data</option>
+                                <option value="lookup">Semak dalam Cache</option>
+                                <option value="hit">Jika 'Hit' - Ambil terus dari Cache</option>
+                                <option value="miss">Jika 'Miss' - Ambil dari RAM & salin ke Cache</option>
+                            </select>
+                            <select id="retrieve-flow-4" class="p-2 border border-slate-300 rounded text-xs font-semibold bg-white">
+                                <option value="">-- Langkah 4 --</option>
+                                <option value="request">CPU hantar permohonan data</option>
+                                <option value="lookup">Semak dalam Cache</option>
+                                <option value="hit">Jika 'Hit' - Ambil terus dari Cache</option>
+                                <option value="miss">Jika 'Miss' - Ambil dari RAM & salin ke Cache</option>
+                            </select>
+                        </div>
+                        <textarea id="ans-25-text" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="3" placeholder="Tuliskan ulasan huraian lengkap rajah anda di sini..."></textarea>
+                    </div>
+                    <div id="feedback-25" class="hidden"></div>
+                    <button id="btn-submit-25" onclick="gradeRetrieve25()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 27 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-27">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 27</span>
+                            <h4 class="font-bold text-slate-900 mt-1">Determine TWO (2) basic type of register.</h4>
+                            <p class="text-xs text-slate-500 italic">Tentukan DUA (2) jenis daftar asas.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">2 Marks</span>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="ans-27" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="2" placeholder="Tentukan dua kategori utama register komputer..."></textarea>
+                    </div>
+                    <div id="feedback-27" class="hidden"></div>
+                    <button id="btn-submit-27" onclick="gradeSubjective(27)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+
+                <!-- Soalan 28 -->
+                <div class="question-container bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4" id="q-card-28">
+                    <div class="flex justify-between items-start gap-4 border-b border-slate-100 pb-2">
+                        <div>
+                            <span class="text-[10px] text-indigo-600 font-black">SOALAN 28</span>
+                            <h4 class="font-bold text-slate-900 mt-1">Distinguish between Computer Organization and Computer Architecture.</h4>
+                            <p class="text-xs text-slate-500 italic">Bezakan antara Organisasi Komputer dan Seni bina Komputer.</p>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-100">6 Marks</span>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="ans-28" class="w-full p-3 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="3" placeholder="Huraikan perbezaan dari sudut atribut pengaturcaraan berbanding perkakasan sistem..."></textarea>
+                    </div>
+                    <div id="feedback-28" class="hidden"></div>
+                    <button id="btn-submit-28" onclick="gradeSubjective(28)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm">
+                        Hantar Jawapan
+                    </button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-4 mt-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-400">
+            &copy; 2026 Hub Peperiksaan Interaktif Seni Bina Komputer. Semua skema markah dijana secara dinamik berasaskan sukatan rasmi.
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE SCRIPT & SCORING ENGINES -->
+    <script>
+        // Track completed states and scores
+        const questionScores = {};
+        const maxScore = 80;
+
+        // Custom keyword mapping for autograding subjective questions
+        const subjectiveKeywords = {
+            1: {
+                maxMarks: 2,
+                keywords: [
+                    { word: "usb", weight: 1 },
+                    { word: "pci", weight: 1 },
+                    { word: "firewire", weight: 1 },
+                    { word: "sata", weight: 1 },
+                    { word: "thunderbolt", weight: 1 },
+                    { word: "pcmcia", weight: 1 },
+                    { word: "serial", weight: 1 },
+                    { word: "parallel", weight: 1 },
+                    { word: "luaran", weight: 1 },
+                    { word: "external", weight: 1 }
+                ],
+                modelAnswer: "PCI Express, USB, SATA, FireWire, or PCMCIA."
+            },
+            2: {
+                maxMarks: 3,
+                keywords: [
+                    { word: "usb", weight: 1 },
+                    { word: "pci", weight: 1 },
+                    { word: "sata", weight: 1 },
+                    { word: "firewire", weight: 1 },
+                    { word: "thunderbolt", weight: 1 },
+                    { word: "pcmcia", weight: 1 }
+                ],
+                modelAnswer: "USB, PCI Express, FireWire, SATA, etc."
+            },
+            3: {
+                maxMarks: 2,
+                keywords: [
+                    { word: "system", weight: 1 },
+                    { word: "sistem", weight: 1 },
+                    { word: "external", weight: 1 },
+                    { word: "luaran", weight: 1 },
+                    { word: "internal", weight: 1 },
+                    { word: "dalaman", weight: 1 }
+                ],
+                modelAnswer: "System Bus (Bas Sistem) and External Bus / Peripheral Bus (Bas Luaran)."
+            },
+            4: {
+                maxMarks: 2,
+                keywords: [
+                    { word: "communication", weight: 1 },
+                    { word: "komunikasi", weight: 1 },
+                    { word: "pathway", weight: 1 },
+                    { word: "laluan", weight: 1 },
+                    { word: "talian", weight: 1 },
+                    { word: "physical", weight: 1 },
+                    { word: "lines", weight: 1 },
+                    { word: "transfer", weight: 1 },
+                    { word: "pindah", weight: 1 }
+                ],
+                modelAnswer: "A computer bus is a communication pathway/physical lines connecting different computer system components to transmit data, addresses, or control signals."
+            },
+            11: {
+                maxMarks: 6,
+                keywords: [
+                    { word: "programmed", weight: 2 },
+                    { word: "terprogram", weight: 2 },
+                    { word: "interrupt", weight: 2 },
+                    { word: "sampukan", weight: 2 },
+                    { word: "dma", weight: 2 },
+                    { word: "direct memory", weight: 2 }
+                ],
+                modelAnswer: "1) Programmed I/O (CPU polls status), 2) Interrupt-driven I/O (I/O signals CPU), 3) Direct Memory Access (DMA - transfers directly to RAM bypassing active CPU processing)."
+            },
+            12: {
+                maxMarks: 2,
+                keywords: [
+                    { word: "programmed", weight: 1 },
+                    { word: "terprogram", weight: 1 },
+                    { word: "interrupt", weight: 1 },
+                    { word: "sampukan", weight: 1 },
+                    { word: "dma", weight: 1 },
+                    { word: "direct memory", weight: 1 }
+                ],
+                modelAnswer: "Any two: Programmed I/O, Interrupt-driven I/O, DMA."
+            },
+            6: {
+                maxMarks: 4,
+                keywords: [
+                    { word: "input", weight: 1 },
+                    { word: "output", weight: 1 },
+                    { word: "processing", weight: 1 },
+                    { word: "pemprosesan", weight: 1 },
+                    { word: "cpu", weight: 1 },
+                    { word: "storage", weight: 1 },
+                    { word: "ram", weight: 1 },
+                    { word: "memory", weight: 1 },
+                    { word: "memori", weight: 1 }
+                ],
+                modelAnswer: "Input device, Output device, Processing Unit (CPU), and Memory/Storage."
+            },
+            7: {
+                maxMarks: 2,
+                keywords: [
+                    { word: "cpu", weight: 1 },
+                    { word: "memory", weight: 1 },
+                    { word: "memori", weight: 1 },
+                    { word: "i/o", weight: 1 },
+                    { word: "system bus", weight: 1 },
+                    { word: "bas sistem", weight: 1 }
+                ],
+                modelAnswer: "CPU and Main Memory (RAM)."
+            },
+            8: {
+                maxMarks: 2,
+                keywords: [
+                    { word: "printer", weight: 1 },
+                    { word: "pencetak", weight: 1 },
+                    { word: "monitor", weight: 1 },
+                    { word: "skrin", weight: 1 },
+                    { word: "speaker", weight: 1 },
+                    { word: "pembesar suara", weight: 1 },
+                    { word: "projector", weight: 1 },
+                    { word: "projektor", weight: 1 }
+                ],
+                modelAnswer: "Monitor, Printer, Speakers, Projector, etc."
+            },
+            17: {
+                maxMarks: 2,
+                keywords: [
+                    { word: "fast", weight: 1 },
+                    { word: "laju", weight: 1 },
+                    { word: "temporary", weight: 1 },
+                    { word: "sementara", weight: 1 },
+                    { word: "high speed", weight: 1 },
+                    { word: "antara", weight: 1 },
+                    { word: "buffer", weight: 1 }
+                ],
+                modelAnswer: "A small, high-speed temporary memory buffer placed close to or inside the CPU processor to store frequently accessed data."
+            },
+            18: {
+                maxMarks: 3,
+                keywords: [
+                    { word: "l1", weight: 1 },
+                    { word: "l2", weight: 1 },
+                    { word: "l3", weight: 1 },
+                    { word: "level", weight: 1 },
+                    { word: "tahap", weight: 1 }
+                ],
+                modelAnswer: "Level 1 (L1) Cache, Level 2 (L2) Cache, and Level 3 (L3) Cache."
+            },
+            19: {
+                maxMarks: 3,
+                keywords: [
+                    { word: "l1", weight: 1 },
+                    { word: "l2", weight: 1 },
+                    { word: "l3", weight: 1 },
+                    { word: "level", weight: 1 },
+                    { word: "tahap", weight: 1 }
+                ],
+                modelAnswer: "Level 1 (L1), Level 2 (L2), Level 3 (L3)."
+            },
+            21: {
+                maxMarks: 4,
+                keywords: [
+                    { word: "hit", weight: 1.5 },
+                    { word: "miss", weight: 1.5 },
+                    { word: "ram", weight: 1 },
+                    { word: "main memory", weight: 1 },
+                    { word: "salinan", weight: 1 },
+                    { word: "copy", weight: 1 },
+                    { word: "retrieve", weight: 1 },
+                    { word: "ambil", weight: 1 }
+                ],
+                modelAnswer: "CPU checks the cache first (Cache Hit) to retrieve data swiftly. If data is not there (Cache Miss), CPU retrieves it from slower RAM, copies it to cache, and continues processing."
+            },
+            22: {
+                maxMarks: 6,
+                keywords: [
+                    { word: "l2", weight: 1 },
+                    { word: "l3", weight: 1 },
+                    { word: "faster", weight: 1.5 },
+                    { word: "laju", weight: 1.5 },
+                    { word: "larger", weight: 1.5 },
+                    { word: "besar", weight: 1.5 },
+                    { word: "slower", weight: 1.5 },
+                    { word: "lambat", weight: 1.5 },
+                    { word: "smaller", weight: 1.5 },
+                    { word: "kecil", weight: 1.5 }
+                ],
+                modelAnswer: "L2 cache is faster but smaller than L3 cache. L3 cache is shared across multiple processor cores, while L2 is normally core-specific."
+            },
+            24: {
+                maxMarks: 3,
+                keywords: [
+                    { word: "look", weight: 1 },
+                    { word: "cari", weight: 1 },
+                    { word: "hit", weight: 1 },
+                    { word: "miss", weight: 1 },
+                    { word: "retrieve", weight: 1 },
+                    { word: "ram", weight: 1 }
+                ],
+                modelAnswer: "CPU queries the cache. If hit, CPU reads directly from cache. If miss, it fetches data from RAM, writes a copy to cache, and processes it."
+            },
+            27: {
+                maxMarks: 2,
+                keywords: [
+                    { word: "visible", weight: 1 },
+                    { word: "pengguna", weight: 1 },
+                    { word: "control", weight: 1 },
+                    { word: "kawalan", weight: 1 },
+                    { word: "data", weight: 1 },
+                    { word: "address", weight: 1 }
+                ],
+                modelAnswer: "User-Visible Registers and Control/Status Registers."
+            },
+            28: {
+                maxMarks: 6,
+                keywords: [
+                    { word: "architecture", weight: 1.5 },
+                    { word: "senibina", weight: 1.5 },
+                    { word: "programmer", weight: 1.5 },
+                    { word: "organization", weight: 1.5 },
+                    { word: "organisasi", weight: 1.5 },
+                    { word: "hardware", weight: 1.5 },
+                    { word: "perkakasan", weight: 1.5 },
+                    { word: "realisasi", weight: 1.5 },
+                    { word: "implement", weight: 1.5 }
+                ],
+                modelAnswer: "Computer Architecture is system attributes visible to programmer (instruction set, bytes size), while Organization deals with hardware implementation details realizing architecture specifications."
+            }
+        };
+
+        // Initialize Exam Worksheet
+        window.onload = function() {
+            renderExamProgressNavigator();
+        };
+
+        // Build Sidebar Progress Checks
+        const sectionAMembers = [1, 2, 3, 4, 5];
+        const sectionBMembers = [6, 7, 8, 9, 10, 11, 12];
+        const sectionCMembers = [13, 14];
+        const sectionDMembers = [17, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28];
+
+        function renderExamProgressNavigator() {
+            buildNavHTML('nav-sec-A', sectionAMembers);
+            buildNavHTML('nav-sec-B', sectionBMembers);
+            buildNavHTML('nav-sec-C', sectionCMembers);
+            buildNavHTML('nav-sec-D', sectionDMembers);
+        }
+
+        function buildNavHTML(containerId, members) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            members.forEach(id => {
+                const navBtn = document.createElement('button');
+                navBtn.id = `nav-dot-${id}`;
+                navBtn.className = "w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 border border-slate-200 text-slate-500 hover:border-slate-400 transition-colors cursor-pointer text-[10px]";
+                navBtn.innerText = id;
+                navBtn.onclick = () => document.getElementById(`q-card-${id}`).scrollIntoView({ behavior: 'smooth' });
+                container.appendChild(navBtn);
+            });
+        }
+
+        // Live stats update
+        function calculateExamStats() {
+            let totalEarned = 0;
+            const keys = Object.keys(questionScores);
+            keys.forEach(k => {
+                totalEarned += questionScores[k];
+            });
+
+            document.getElementById('live-score').innerText = totalEarned;
+
+            // Simple Malaysian/Grading scale
+            let grade = "Gagal / Belum Jawab";
+            let pct = (totalEarned / maxScore) * 100;
+            if (pct >= 80) grade = "Cemerlang (A) 🏆";
+            else if (pct >= 65) grade = "Kepujian (B) 🌟";
+            else if (pct >= 50) grade = "Lulus (C) 👍";
+            else if (pct > 0) grade = "Gagal (F) 📚";
+
+            const gradeBadge = document.getElementById('live-grade');
+            gradeBadge.innerText = grade;
+            if (pct >= 50) {
+                gradeBadge.className = "mt-1 inline-block text-xs font-extrabold px-2.5 py-1 bg-emerald-950 rounded-md text-emerald-400 border border-emerald-800";
+            } else if (pct > 0) {
+                gradeBadge.className = "mt-1 inline-block text-xs font-extrabold px-2.5 py-1 bg-rose-950 rounded-md text-rose-400 border border-rose-800";
+            } else {
+                gradeBadge.className = "mt-1 inline-block text-xs font-extrabold px-2.5 py-1 bg-slate-800 rounded-md text-slate-300 border border-slate-700";
+            }
+        }
+
+        // Update Question Navigator Dots (Green = answered)
+        function markNavAsCompleted(id) {
+            const dot = document.getElementById(`nav-dot-${id}`);
+            if (dot) {
+                dot.className = "w-8 h-8 rounded-lg flex items-center justify-center bg-indigo-600 border border-indigo-700 text-white font-bold transition-colors cursor-pointer text-[10px]";
+            }
+        }
+
+        // --- SUBSTANTIVE EVALUATION ENGINES ---
+
+        // Evaluation Engine 1: Subjective Keyword Matching
+        function gradeSubjective(qId) {
+            const qSchema = subjectiveKeywords[qId];
+            let userAns = "";
+
+            if (qId === 5) {
+                userAns = document.getElementById('ans-5a').value + " " + document.getElementById('ans-5b').value;
+            } else {
+                userAns = document.getElementById(`ans-${qId}`).value;
+            }
+
+            if (!userAns || userAns.trim() === "") {
+                alert("Sila isi ruang jawapan sebelum menghantar.");
+                return;
+            }
+
+            const lowerAns = userAns.toLowerCase();
+            let score = 0;
+            let keywordsFound = [];
+
+            qSchema.keywords.forEach(kw => {
+                if (lowerAns.includes(kw.word)) {
+                    score += kw.weight;
+                    keywordsFound.push(kw.word);
+                }
+            });
+
+            // Standard capping
+            score = Math.min(qSchema.maxMarks, Math.ceil(score));
+            questionScores[qId] = score;
+
+            // Render feedback & scheme immediately below question
+            const fbBox = document.getElementById(`feedback-${qId}`);
+            fbBox.className = "p-4 rounded-xl space-y-3 block bg-slate-50 border border-slate-200 mt-3";
+            fbBox.innerHTML = `
+                <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                    <span class="text-xs font-bold text-slate-700 uppercase tracking-widest">Penilaian Enjin</span>
+                    <span class="text-xs font-extrabold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">
+                        Markah Anggaran: ${score} / ${qSchema.maxMarks}
+                    </span>
+                </div>
+                <div class="text-xs space-y-1">
+                    <p class="text-slate-600 font-semibold">Kata kunci dikesan: <span class="font-extrabold text-indigo-600">${keywordsFound.length > 0 ? keywordsFound.join(', ') : 'Tiada'}</span></p>
+                </div>
+                <div class="pt-2 border-t border-slate-200">
+                    <p class="text-[10px] uppercase font-extrabold text-indigo-900 tracking-wider">Skema Jawapan Penilai (Model Answer):</p>
+                    <p class="text-xs text-slate-700 leading-relaxed mt-1 font-semibold">${qSchema.modelAnswer}</p>
+                </div>
+            `;
+
+            // Lock Input
+            if (qId === 5) {
+                document.getElementById('ans-5a').disabled = true;
+                document.getElementById('ans-5b').disabled = true;
+            } else {
+                document.getElementById(`ans-${qId}`).disabled = true;
+            }
+            document.getElementById(`btn-submit-${qId}`).className = "hidden";
+
+            markNavAsCompleted(qId);
+            calculateExamStats();
+        }
+
+        // Evaluation Engine 2: Soalan 9 Block Diagram Matcher
+        function gradeDiagram9() {
+            const valA = document.getElementById('diagram-9-a').value;
+            const valB = document.getElementById('diagram-9-b').value;
+            const valC = document.getElementById('diagram-9-c').value;
+
+            if (!valA || !valB || !valC) {
+                alert("Sila pilih label untuk setiap kotak kosong.");
+                return;
+            }
+
+            let correct = 0;
+            if (valA === "input") correct += 2;
+            if (valB === "cpu") correct += 2;
+            if (valC === "output") correct += 2;
+
+            questionScores[9] = correct;
+
+            const fbBox = document.getElementById('feedback-9');
+            fbBox.className = "p-4 rounded-xl space-y-3 block bg-slate-50 border border-slate-200 mt-3";
+            fbBox.innerHTML = `
+                <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                    <span class="text-xs font-bold text-slate-700 uppercase tracking-widest">Penilaian Enjin</span>
+                    <span class="text-xs font-extrabold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">
+                        Markah Anggaran: ${correct} / 6 Marks
+                    </span>
+                </div>
+                <div class="text-xs space-y-1 leading-relaxed">
+                    <p><span class="font-bold">Blok A (Input):</span> ${valA === "input" ? '✅ Betul' : '❌ Salah'}</p>
+                    <p><span class="font-bold">Blok B (Processing):</span> ${valB === "cpu" ? '✅ Betul' : '❌ Salah'}</p>
+                    <p><span class="font-bold">Blok C (Output):</span> ${valC === "output" ? '✅ Betul' : '❌ Salah'}</p>
+                </div>
+                <div class="pt-2 border-t border-slate-200">
+                    <p class="text-[10px] uppercase font-extrabold text-indigo-900 tracking-wider">Skema Jawapan Penilai (Model Answer):</p>
+                    <p class="text-xs text-slate-700 leading-relaxed mt-1 font-semibold">Blok A: Input Devices &rarr; Blok B: CPU &rarr; Blok C: Output Devices.</p>
+                </div>
+            `;
+
+            // Lock Input
+            document.getElementById('diagram-9-a').disabled = true;
+            document.getElementById('diagram-9-b').disabled = true;
+            document.getElementById('diagram-9-c').disabled = true;
+            document.getElementById('btn-submit-9').className = "hidden";
+
+            markNavAsCompleted(9);
+            calculateExamStats();
+        }
+
+        // Evaluation Engine 3: Soalan 10 I/O Module Matcher
+        function gradeDiagram10() {
+            const valA = document.getElementById('diagram-10-a').value;
+            const valB = document.getElementById('diagram-10-b').value;
+            const valText = document.getElementById('ans-10-text').value;
+
+            if (!valA || !valB || !valText || valText.trim() === "") {
+                alert("Sila lengkapkan pilihan isyarat rajah dan tulis huraian ulasan modul I/O.");
+                return;
+            }
+
+            let correct = 0;
+            if (valA === "control") correct += 1;
+            if (valB === "periph") correct += 1;
+
+            // Score explanation
+            const lowerText = valText.toLowerCase();
+            let descScore = 0;
+            if (lowerText.includes("transducer") || lowerText.includes("peranti") || lowerText.includes("device") || lowerText.includes("interface")) {
+                descScore += 1;
+            }
+            if (lowerText.includes("kawalan") || lowerText.includes("data") || lowerText.includes("control") || lowerText.includes("bus")) {
+                descScore += 1;
+            }
+            correct += descScore;
+
+            questionScores[10] = correct;
+
+            const fbBox = document.getElementById('feedback-10');
+            fbBox.className = "p-4 rounded-xl space-y-3 block bg-slate-50 border border-slate-200 mt-3";
+            fbBox.innerHTML = `
+                <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                    <span class="text-xs font-bold text-slate-700 uppercase tracking-widest">Penilaian Enjin</span>
+                    <span class="text-xs font-extrabold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">
+                        Markah Anggaran: ${correct} / 4 Marks
+                    </span>
+                </div>
+                <div class="text-xs space-y-1">
+                    <p><span class="font-bold">1. System Bus Interface:</span> ${valA === "control" ? '✅ Betul' : '❌ Salah'}</p>
+                    <p><span class="font-bold">2. External Interface:</span> ${valB === "periph" ? '✅ Betul' : '❌ Salah'}</p>
+                    <p class="text-slate-500 text-[11px] font-semibold mt-1">Ulasan modul I/O dikesan, ulasan anda dinilai berdasarkan kriteria kata kunci penyelarasan isyarat.</p>
+                </div>
+                <div class="pt-2 border-t border-slate-200">
+                    <p class="text-[10px] uppercase font-extrabold text-indigo-900 tracking-wider">Skema Jawapan Penilai (Model Answer):</p>
+                    <p class="text-xs text-slate-700 leading-relaxed mt-1 font-semibold">
+                        Sisi sistem memproses talian Data, Alamat, Isyarat Kawalan. Sisi peranti luaran (External Interface) disambung ke isyarat peranti periferal untuk menguruskan transducer data.
+                    </p>
+                </div>
+            `;
+
+            // Lock Input
+            document.getElementById('diagram-10-a').disabled = true;
+            document.getElementById('diagram-10-b').disabled = true;
+            document.getElementById('ans-10-text').disabled = true;
+            document.getElementById('btn-submit-10').className = "hidden";
+
+            markNavAsCompleted(10);
+            calculateExamStats();
+        }
+
+        // Evaluation Engine 4: Soalan 13 Classification
+        function gradeClassify13() {
+            const ans1 = document.getElementById('classify-13-1').value;
+            const ans2 = document.getElementById('classify-13-2').value;
+            const ans3 = document.getElementById('classify-13-3').value;
+            const ans4 = document.getElementById('classify-13-4').value;
+            const ans5 = document.getElementById('classify-13-5').value;
+            const ans6 = document.getElementById('classify-13-6').value;
+
+            if (!ans1 || !ans2 || !ans3 || !ans4 || !ans5 || !ans6) {
+                alert("Sila klasifikasikan semua peralatan di bawah.");
+                return;
+            }
+
+            let correct = 0;
+            if (ans1 === "input") correct++;
+            if (ans2 === "output") correct++;
+            if (ans3 === "both") correct++;
+            if (ans4 === "input") correct++;
+            if (ans5 === "input") correct++;
+            if (ans6 === "output") correct++;
+
+            questionScores[13] = correct;
+
+            const fbBox = document.getElementById('feedback-13');
+            fbBox.className = "p-4 rounded-xl space-y-3 block bg-slate-50 border border-slate-200 mt-3";
+            fbBox.innerHTML = `
+                <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                    <span class="text-xs font-bold text-slate-700 uppercase tracking-widest">Penilaian Enjin</span>
+                    <span class="text-xs font-extrabold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">
+                        Markah Anggaran: ${correct} / 6 Marks
+                    </span>
+                </div>
+                <div class="text-xs grid grid-cols-2 gap-2">
+                    <p><span class="font-bold">1. Touchpad:</span> ${ans1 === "input" ? '✅ Input' : '❌ Salah'}</p>
+                    <p><span class="font-bold">2. Film recorder:</span> ${ans2 === "output" ? '✅ Output' : '❌ Salah'}</p>
+                    <p><span class="font-bold">3. Touch screen:</span> ${ans3 === "both" ? '✅ Both' : '❌ Salah'}</p>
+                    <p><span class="font-bold">4. Barcode reader:</span> ${ans4 === "input" ? '✅ Input' : '❌ Salah'}</p>
+                    <p><span class="font-bold">5. Graphic tablet:</span> ${ans5 === "input" ? '✅ Input' : '❌ Salah'}</p>
+                    <p><span class="font-bold">6. Printer:</span> ${ans6 === "output" ? '✅ Output' : '❌ Salah'}</p>
+                </div>
+            `;
+
+            // Lock Input
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById(`classify-13-${i}`).disabled = true;
+            }
+            document.getElementById('btn-submit-13').className = "hidden";
+
+            markNavAsCompleted(13);
+            calculateExamStats();
+        }
+
+        // Evaluation Engine 5: Soalan 14 Classification
+        function gradeClassify14() {
+            const ans1 = document.getElementById('classify-14-1').value;
+            const ans2 = document.getElementById('classify-14-2').value;
+            const ans3 = document.getElementById('classify-14-3').value;
+            const ans4 = document.getElementById('classify-14-4').value;
+
+            if (!ans1 || !ans2 || !ans3 || !ans4) {
+                alert("Sila klasifikasikan semua peralatan.");
+                return;
+            }
+
+            let correct = 0;
+            if (ans1 === "output") correct++;
+            if (ans2 === "both") correct++;
+            if (ans3 === "output") correct++;
+            if (ans4 === "input") correct++;
+
+            questionScores[14] = correct;
+
+            const fbBox = document.getElementById('feedback-14');
+            fbBox.className = "p-4 rounded-xl space-y-3 block bg-slate-50 border border-slate-200 mt-3";
+            fbBox.innerHTML = `
+                <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                    <span class="text-xs font-bold text-slate-700 uppercase tracking-widest">Penilaian Enjin</span>
+                    <span class="text-xs font-extrabold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">
+                        Markah Anggaran: ${correct} / 4 Marks
+                    </span>
+                </div>
+                <div class="text-xs grid grid-cols-2 gap-2">
+                    <p><span class="font-bold">1. Speech-generating:</span> ${ans1 === "output" ? '✅ Output' : '❌ Salah'}</p>
+                    <p><span class="font-bold">2. Touch screen:</span> ${ans2 === "both" ? '✅ Both' : '❌ Salah'}</p>
+                    <p><span class="font-bold">3. Speakers:</span> ${ans3 === "output" ? '✅ Output' : '❌ Salah'}</p>
+                    <p><span class="font-bold">4. Web Camera:</span> ${ans4 === "input" ? '✅ Input' : '❌ Salah'}</p>
+                </div>
+            `;
+
+            // Lock Input
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`classify-14-${i}`).disabled = true;
+            }
+            document.getElementById('btn-submit-14').className = "hidden";
+
+            markNavAsCompleted(14);
+            calculateExamStats();
+        }
+
+        // Evaluation Engine 6: Soalan 20 Cache Multilevel Sequencing
+        function gradeCacheSeq20() {
+            const seq1 = document.getElementById('cache-seq-1').value;
+            const seq2 = document.getElementById('cache-seq-2').value;
+            const seq3 = document.getElementById('cache-seq-3').value;
+            const seq4 = document.getElementById('cache-seq-4').value;
+
+            if (!seq1 || !seq2 || !seq3 || !seq4) {
+                alert("Sila susun keempat-empat kedudukan cache dengan lengkap.");
+                return;
+            }
+
+            let correct = 0;
+            if (seq1 === "l1") correct++;
+            if (seq2 === "l2") correct++;
+            if (seq3 === "l3") correct++;
+            if (seq4 === "ram") correct++;
+
+            questionScores[20] = correct;
+
+            const fbBox = document.getElementById('feedback-20');
+            fbBox.className = "p-4 rounded-xl space-y-3 block bg-slate-50 border border-slate-200 mt-3";
+            fbBox.innerHTML = `
+                <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                    <span class="text-xs font-bold text-slate-700 uppercase tracking-widest">Penilaian Enjin</span>
+                    <span class="text-xs font-extrabold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">
+                        Markah Anggaran: ${correct} / 4 Marks
+                    </span>
+                </div>
+                <div class="text-xs space-y-1">
+                    <p><span class="font-bold">Slot 1 (Paling dalam):</span> ${seq1 === "l1" ? '✅ L1 Cache' : '❌ Salah'}</p>
+                    <p><span class="font-bold">Slot 2:</span> ${seq2 === "l2" ? '✅ L2 Cache' : '❌ Salah'}</p>
+                    <p><span class="font-bold">Slot 3:</span> ${seq3 === "l3" ? '✅ L3 Cache' : '❌ Salah'}</p>
+                    <p><span class="font-bold">Slot 4 (Paling luar):</span> ${seq4 === "ram" ? '✅ RAM' : '❌ Salah'}</p>
+                </div>
+            `;
+
+            document.getElementById('cache-seq-1').disabled = true;
+            document.getElementById('cache-seq-2').disabled = true;
+            document.getElementById('cache-seq-3').disabled = true;
+            document.getElementById('cache-seq-4').disabled = true;
+            document.getElementById('btn-submit-20').className = "hidden";
+
+            markNavAsCompleted(20);
+            calculateExamStats();
+        }
+
+        // Evaluation Engine 7: Soalan 23 Cycle Steps
+        function gradeCycle23() {
+            const step1 = document.getElementById('cycle-step-1').value;
+            const step2 = document.getElementById('cycle-step-2').value;
+            const step3 = document.getElementById('cycle-step-3').value;
+
+            if (!step1 || !step2 || !step3) {
+                alert("Sila lengkapkan pilihan fasa kitaran CPU.");
+                return;
+            }
+
+            let correct = 0;
+            if (step1 === "fetch") correct++;
+            if (step2 === "decode") correct++;
+            if (step3 === "execute") correct++;
+
+            questionScores[23] = correct;
+
+            const fbBox = document.getElementById('feedback-23');
+            fbBox.className = "p-4 rounded-xl space-y-3 block bg-slate-50 border border-slate-200 mt-3";
+            fbBox.innerHTML = `
+                <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                    <span class="text-xs font-bold text-slate-700 uppercase tracking-widest">Penilaian Enjin</span>
+                    <span class="text-xs font-extrabold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">
+                        Markah Anggaran: ${correct} / 3 Marks
+                    </span>
+                </div>
+                <div class="text-xs space-y-1">
+                    <p><span class="font-bold">i. Fasa Pertama:</span> ${step1 === "fetch" ? '✅ Fetch (Ambil)' : '❌ Salah'}</p>
+                    <p><span class="font-bold">ii. Fasa Kedua:</span> ${step2 === "decode" ? '✅ Decode (Terjemah)' : '❌ Salah'}</p>
+                    <p><span class="font-bold">iii. Fasa Ketiga:</span> ${step3 === "execute" ? '✅ Execute (Laksana)' : '❌ Salah'}</p>
+                </div>
+            `;
+
+            document.getElementById('cycle-step-1').disabled = true;
+            document.getElementById('cycle-step-2').disabled = true;
+            document.getElementById('cycle-step-3').disabled = true;
+            document.getElementById('btn-submit-23').className = "hidden";
+
+            markNavAsCompleted(23);
+            calculateExamStats();
+        }
+
+        // Evaluation Engine 8: Soalan 25 Retrieval Flow Matching
+        function gradeRetrieve25() {
+            const flow1 = document.getElementById('retrieve-flow-1').value;
+            const flow2 = document.getElementById('retrieve-flow-2').value;
+            const flow3 = document.getElementById('retrieve-flow-3').value;
+            const flow4 = document.getElementById('retrieve-flow-4').value;
+            const explanation = document.getElementById('ans-25-text').value;
+
+            if (!flow1 || !flow2 || !flow3 || !flow4 || !explanation || explanation.trim() === "") {
+                alert("Sila lengkapkan turutan langkah logik rajah dan berikan ulasan ringkas.");
+                return;
+            }
+
+            let score = 0;
+            if (flow1 === "request") score += 1;
+            if (flow2 === "lookup") score += 1;
+            if (flow3 === "hit") score += 1;
+            if (flow4 === "miss") score += 1;
+
+            const lowerExp = explanation.toLowerCase();
+            let expMarks = 0;
+            if (lowerExp.includes("hit") || lowerExp.includes("miss") || lowerExp.includes("retrieve") || lowerExp.includes("ram") || lowerExp.includes("salin")) {
+                expMarks = 1;
+            }
+            score += expMarks;
+
+            // Cap max marks to 5
+            score = Math.min(5, score);
+            questionScores[25] = score;
+
+            const fbBox = document.getElementById('feedback-25');
+            fbBox.className = "p-4 rounded-xl space-y-3 block bg-slate-50 border border-slate-200 mt-3";
+            fbBox.innerHTML = `
+                <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                    <span class="text-xs font-bold text-slate-700 uppercase tracking-widest">Penilaian Enjin</span>
+                    <span class="text-xs font-extrabold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">
+                        Markah Anggaran: ${score} / 5 Marks
+                    </span>
+                </div>
+                <div class="text-xs space-y-1 leading-relaxed">
+                    <p><span class="font-bold">Langkah 1:</span> ${flow1 === "request" ? '✅ Betul' : '❌ Salah'}</p>
+                    <p><span class="font-bold">Langkah 2:</span> ${flow2 === "lookup" ? '✅ Betul' : '❌ Salah'}</p>
+                    <p><span class="font-bold">Langkah 3:</span> ${flow3 === "hit" ? '✅ Betul' : '❌ Salah'}</p>
+                    <p><span class="font-bold">Langkah 4:</span> ${flow4 === "miss" ? '✅ Betul' : '❌ Salah'}</p>
+                    <p class="text-slate-500 font-semibold mt-1">Ulasan and dinilai berdasarkan turutan logic fasa carian cache CPU.</p>
+                </div>
+                <div class="pt-2 border-t border-slate-200">
+                    <p class="text-[10px] uppercase font-extrabold text-indigo-900 tracking-wider">Skema Jawapan Penilai (Model Answer):</p>
+                    <p class="text-xs text-slate-700 leading-relaxed mt-1 font-semibold">
+                        Turutan: CPU Minta data &rarr; Semak Cache &rarr; Hit (Ambil dari cache) &rarr; Miss (Ambil dari RAM & salin ke cache).
+                    </p>
+                </div>
+            `;
+
+            document.getElementById('retrieve-flow-1').disabled = true;
+            document.getElementById('retrieve-flow-2').disabled = true;
+            document.getElementById('retrieve-flow-3').disabled = true;
+            document.getElementById('retrieve-flow-4').disabled = true;
+            document.getElementById('ans-25-text').disabled = true;
+            document.getElementById('btn-submit-25').className = "hidden";
+
+            markNavAsCompleted(25);
+            calculateExamStats();
+        }
+
+        // Submits and grades all remaining unanswered questions automatically so students get an overall grade.
+        function submitAllAnswers() {
+            // Check subjective ids
+            const keys = Object.keys(subjectiveKeywords);
+            keys.forEach(k => {
+                const btn = document.getElementById(`btn-submit-${k}`);
+                if (btn && btn.className !== "hidden") {
+                    // Pre-fill dummy text if empty to evaluate safely
+                    const area = document.getElementById(`ans-${k}`);
+                    if (area && area.value.trim() === "") {
+                        area.value = "[Tiada Jawapan Dijawab]";
+                    }
+                    if (k == 5) {
+                        if (document.getElementById('ans-5a').value.trim() === "") document.getElementById('ans-5a').value = "[Tiada]";
+                        if (document.getElementById('ans-5b').value.trim() === "") document.getElementById('ans-5b').value = "[Tiada]";
+                    }
+                    gradeSubjective(k);
+                }
+            });
+
+            // Check diagram 9
+            const btn9 = document.getElementById('btn-submit-9');
+            if (btn9 && btn9.className !== "hidden") {
+                if (!document.getElementById('diagram-9-a').value) document.getElementById('diagram-9-a').value = "input";
+                if (!document.getElementById('diagram-9-b').value) document.getElementById('diagram-9-b').value = "cpu";
+                if (!document.getElementById('diagram-9-c').value) document.getElementById('diagram-9-c').value = "output";
+                gradeDiagram9();
+            }
+
+            // Check diagram 10
+            const btn10 = document.getElementById('btn-submit-10');
+            if (btn10 && btn10.className !== "hidden") {
+                if (!document.getElementById('diagram-10-a').value) document.getElementById('diagram-10-a').value = "control";
+                if (!document.getElementById('diagram-10-b').value) document.getElementById('diagram-10-b').value = "periph";
+                if (document.getElementById('ans-10-text').value.trim() === "") document.getElementById('ans-10-text').value = "[Tiada]";
+                gradeDiagram10();
+            }
+
+            // Check classify 13
+            const btn13 = document.getElementById('btn-submit-13');
+            if (btn13 && btn13.className !== "hidden") {
+                for (let i = 1; i <= 6; i++) {
+                    if (!document.getElementById(`classify-13-${i}`).value) document.getElementById(`classify-13-${i}`).value = "input";
+                }
+                gradeClassify13();
+            }
+
+            // Check classify 14
+            const btn14 = document.getElementById('btn-submit-14');
+            if (btn14 && btn14.className !== "hidden") {
+                for (let i = 1; i <= 4; i++) {
+                    if (!document.getElementById(`classify-14-${i}`).value) document.getElementById(`classify-14-${i}`).value = "input";
+                }
+                gradeClassify14();
+            }
+
+            // Check cache 20
+            const btn20 = document.getElementById('btn-submit-20');
+            if (btn20 && btn20.className !== "hidden") {
+                if (!document.getElementById('cache-seq-1').value) document.getElementById('cache-seq-1').value = "l1";
+                if (!document.getElementById('cache-seq-2').value) document.getElementById('cache-seq-2').value = "l2";
+                if (!document.getElementById('cache-seq-3').value) document.getElementById('cache-seq-3').value = "l3";
+                if (!document.getElementById('cache-seq-4').value) document.getElementById('cache-seq-4').value = "ram";
+                gradeCacheSeq20();
+            }
+
+            // Check cycle 23
+            const btn23 = document.getElementById('btn-submit-23');
+            if (btn23 && btn23.className !== "hidden") {
+                if (!document.getElementById('cycle-step-1').value) document.getElementById('cycle-step-1').value = "fetch";
+                if (!document.getElementById('cycle-step-2').value) document.getElementById('cycle-step-2').value = "decode";
+                if (!document.getElementById('cycle-step-3').value) document.getElementById('cycle-step-3').value = "execute";
+                gradeCycle23();
+            }
+
+            // Check retrieve 25
+            const btn25 = document.getElementById('btn-submit-25');
+            if (btn25 && btn25.className !== "hidden") {
+                if (!document.getElementById('retrieve-flow-1').value) document.getElementById('retrieve-flow-1').value = "request";
+                if (!document.getElementById('retrieve-flow-2').value) document.getElementById('retrieve-flow-2').value = "lookup";
+                if (!document.getElementById('retrieve-flow-3').value) document.getElementById('retrieve-flow-3').value = "hit";
+                if (!document.getElementById('retrieve-flow-4').value) document.getElementById('retrieve-flow-4').value = "miss";
+                if (document.getElementById('ans-25-text').value.trim() === "") document.getElementById('ans-25-text').value = "[Tiada]";
+                gradeRetrieve25();
+            }
+
+            alert("Semua soalan telah dihantar & dinilai. Sila rujuk keputusan markah anda di papan skor atas skrin.");
+        }
+
+        // Reset the exam session
+        function resetExam() {
+            if (confirm("Adakah anda mahu menetapkan semula keseluruhan latihan peperiksaan? Semua kemajuan akan dipadam.")) {
+                window.location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
