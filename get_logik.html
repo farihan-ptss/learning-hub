@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="ms" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Pembelajaran Interaktif: Get Logik & Aljabar Boolean</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter & Fira Code) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        /* Custom glow effects for digital aesthetic */
+        .glow-green {
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+        .glow-red {
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+        .wire-active {
+            stroke: #10b981;
+            stroke-dasharray: 8;
+            animation: flow 1s linear infinite;
+        }
+        .wire-inactive {
+            stroke: #64748b;
+        }
+        @keyframes flow {
+            to {
+                stroke-dashoffset: -16;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between">
+
+    <!-- Header / Navigasi -->
+    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-emerald-500 text-slate-900 p-2 rounded-lg font-bold text-xl tracking-wider shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-microchip"></i> LogikX
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-white tracking-tight leading-none">Hub Get Logik</h1>
+                    <span class="text-xs text-slate-400">Aljabar Boolean Interaktif</span>
+                </div>
+            </div>
+            <nav class="hidden md:flex space-x-1">
+                <button onclick="switchTab('pengenalan')" id="btn-pengenalan" class="nav-btn px-4 py-2 rounded-md text-sm font-medium transition-colors text-emerald-400 bg-slate-800">
+                    <i class="fa-solid fa-book-open mr-1.5"></i> Pengenalan
+                </button>
+                <button onclick="switchTab('eksplorasi')" id="btn-eksplorasi" class="nav-btn px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-300 hover:text-white hover:bg-slate-800">
+                    <i class="fa-solid fa-gamepad mr-1.5"></i> Eksplorasi Get
+                </button>
+                <button onclick="switchTab('sandbox')" id="btn-sandbox" class="nav-btn px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-300 hover:text-white hover:bg-slate-800">
+                    <i class="fa-solid fa-vials mr-1.5"></i> Sandbox Mini
+                </button>
+                <button onclick="switchTab('kuiz')" id="btn-kuiz" class="nav-btn px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-300 hover:text-white hover:bg-slate-800">
+                    <i class="fa-solid fa-graduation-cap mr-1.5"></i> Uji Minda (Kuiz)
+                </button>
+            </nav>
+            <div class="md:hidden">
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-toggle" class="text-slate-400 hover:text-white p-2 rounded-md">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Dropdown Nav -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-slate-800 bg-slate-950 px-4 py-3 space-y-2">
+            <button onclick="switchTab('pengenalan'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800 block">
+                <i class="fa-solid fa-book-open mr-2 text-emerald-400"></i> Pengenalan
+            </button>
+            <button onclick="switchTab('eksplorasi'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800 block">
+                <i class="fa-solid fa-gamepad mr-2 text-emerald-400"></i> Eksplorasi Get
+            </button>
+            <button onclick="switchTab('sandbox'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800 block">
+                <i class="fa-solid fa-vials mr-2 text-emerald-400"></i> Sandbox Mini
+            </button>
+            <button onclick="switchTab('kuiz'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800 block">
+                <i class="fa-solid fa-graduation-cap mr-2 text-emerald-400"></i> Uji Minda (Kuiz)
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- TAB 1: PENGENALAN -->
+        <section id="tab-pengenalan" class="tab-content space-y-8">
+            <div class="bg-gradient-to-r from-emerald-950/40 via-slate-900 to-slate-900 border border-emerald-500/20 rounded-2xl p-6 sm:p-10 shadow-xl relative overflow-hidden">
+                <div class="absolute right-0 top-0 opacity-10 pointer-events-none transform translate-x-12 -translate-y-6">
+                    <i class="fa-solid fa-network-wired text-[15rem]"></i>
+                </div>
+                <div class="max-w-3xl">
+                    <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">Topik 2.2: Aljabar Boolean & Get Logik</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-4 tracking-tight">Mentafsir Operasi dengan Aljabar Boolean</h2>
+                    <p class="text-slate-300 mt-4 text-base sm:text-lg leading-relaxed">
+                        Sistem komputer yang kita gunakan hari ini dibina di atas jutaan suis elektronik kecil yang dipanggil <strong class="text-emerald-400">get logik</strong>. Get-get ini memproses maklumat binari (<span class="text-emerald-400 font-semibold">1</span> dan <span class="text-slate-400 font-semibold">0</span>) menggunakan peraturan matematik khas iaitu <strong class="text-white">Aljabar Boolean</strong>.
+                    </p>
+                    <div class="mt-8 flex flex-wrap gap-4">
+                        <button onclick="switchTab('eksplorasi')" class="bg-emerald-500 hover:bg-emerald-600 text-slate-900 font-bold px-6 py-3 rounded-lg shadow-lg shadow-emerald-500/25 transition duration-200 flex items-center">
+                            Mula Belajar Interaktif <i class="fa-solid fa-circle-arrow-right ml-2 text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Standard Pembelajaran Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-slate-800/50 border border-slate-700/60 p-5 rounded-xl">
+                    <div class="text-emerald-400 text-2xl mb-3"><i class="fa-solid fa-microchip"></i></div>
+                    <h3 class="font-bold text-white text-base">2.2.1 Takrifan Get Logik</h3>
+                    <p class="text-slate-400 text-xs mt-2 leading-relaxed">Mentakrifkan get logik sebagai blok binaan asas bagi litar digital elektronik.</p>
+                </div>
+                <div class="bg-slate-800/50 border border-slate-700/60 p-5 rounded-xl">
+                    <div class="text-emerald-400 text-2xl mb-3"><i class="fa-solid fa-gears"></i></div>
+                    <h3 class="font-bold text-white text-base">2.2.2 Operasi Get</h3>
+                    <p class="text-slate-400 text-xs mt-2 leading-relaxed">Menerangkan bagaimana isyarat input diproses menghasilkan isyarat output tunggal.</p>
+                </div>
+                <div class="bg-slate-800/50 border border-slate-700/60 p-5 rounded-xl">
+                    <div class="text-emerald-400 text-2xl mb-3"><i class="fa-solid fa-draw-polygon"></i></div>
+                    <h3 class="font-bold text-white text-base">2.2.3 Lukisan Simbol</h3>
+                    <p class="text-slate-400 text-xs mt-2 leading-relaxed">Mengenal pasti dan melakar simbol standard bagi 7 jenis get logik asas.</p>
+                </div>
+                <div class="bg-slate-800/50 border border-slate-700/60 p-5 rounded-xl">
+                    <div class="text-emerald-400 text-2xl mb-3"><i class="fa-solid fa-table"></i></div>
+                    <h3 class="font-bold text-white text-base">2.2.4 Jadual Kebenaran</h3>
+                    <p class="text-slate-400 text-xs mt-2 leading-relaxed">Menganalisis jadual kebenaran untuk setiap kombinasi input yang mungkin.</p>
+                </div>
+            </div>
+
+            <!-- Definisi Asas -->
+            <div class="bg-slate-800/30 border border-slate-800 p-6 sm:p-8 rounded-xl space-y-6">
+                <h3 class="text-xl font-bold text-white flex items-center">
+                    <span class="bg-emerald-500/10 text-emerald-400 p-2 rounded-lg mr-3"><i class="fa-solid fa-circle-info"></i></span>
+                    Bagaimana Get Logik Berfungsi?
+                </h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <div class="space-y-4">
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                            Setiap get logik menerima isyarat input dalam bentuk voltan elektrik (<strong>voltan tinggi = 1</strong> atau <strong>voltan rendah = 0</strong>). Get memproses input ini mengikut fungsi logik yang spesifik dan mengeluarkan keputusan akhir tunggal (Output 1 atau 0).
+                        </p>
+                        <div class="bg-slate-900/80 p-4 rounded-lg border border-slate-700/50">
+                            <h4 class="text-emerald-400 font-bold text-sm mb-2"><i class="fa-solid fa-lightbulb mr-2"></i>Analog Analogi Lampu:</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                Fikirkan get logik seperti suis lampu di rumah anda. Suis yang dipasang secara **bersiri** (satu demi satu) berfungsi seperti get **AND** (kedua-dua suis mesti ditekan). Manakala suis yang dipasang secara **selari** bertindak seperti get **OR** (mana-mana suis ditekan akan menyalakan lampu).
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 p-6 rounded-xl border border-slate-800 flex justify-around items-center">
+                        <div class="text-center">
+                            <div class="text-4xl font-extrabold text-red-500 mb-1">0</div>
+                            <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">LOGIK LOW</span>
+                            <p class="text-[10px] text-slate-500 mt-1">VOLTAN RENDAH (OFF)</p>
+                        </div>
+                        <div class="h-12 w-px bg-slate-800"></div>
+                        <div class="text-center">
+                            <div class="text-4xl font-extrabold text-emerald-400 mb-1">1</div>
+                            <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">LOGIK HIGH</span>
+                            <p class="text-[10px] text-slate-500 mt-1">VOLTAN TINGGI (ON)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: EKSPLORASI INTERAKTIF -->
+        <section id="tab-eksplorasi" class="tab-content hidden space-y-6">
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- Sidebar Gate Selector -->
+                <div class="w-full lg:w-1/4 flex flex-row lg:flex-col gap-2 overflow-x-auto pb-4 lg:pb-0 scrollbar-none">
+                    <button onclick="selectGate('NOT')" id="btn-gate-NOT" class="gate-selector-btn flex-1 lg:flex-initial flex items-center justify-between px-4 py-3 rounded-xl border transition-all text-left font-semibold text-sm whitespace-nowrap">
+                        <span>Get TAK (NOT)</span>
+                        <span class="ml-2 bg-slate-800 text-slate-400 px-2 py-0.5 rounded text-xs">Asas</span>
+                    </button>
+                    <button onclick="selectGate('AND')" id="btn-gate-AND" class="gate-selector-btn flex-1 lg:flex-initial flex items-center justify-between px-4 py-3 rounded-xl border transition-all text-left font-semibold text-sm whitespace-nowrap">
+                        <span>Get DAN (AND)</span>
+                        <span class="ml-2 bg-slate-800 text-slate-400 px-2 py-0.5 rounded text-xs">Asas</span>
+                    </button>
+                    <button onclick="selectGate('OR')" id="btn-gate-OR" class="gate-selector-btn flex-1 lg:flex-initial flex items-center justify-between px-4 py-3 rounded-xl border transition-all text-left font-semibold text-sm whitespace-nowrap">
+                        <span>Get ATAU (OR)</span>
+                        <span class="ml-2 bg-slate-800 text-slate-400 px-2 py-0.5 rounded text-xs">Asas</span>
+                    </button>
+                    <button onclick="selectGate('NAND')" id="btn-gate-NAND" class="gate-selector-btn flex-1 lg:flex-initial flex items-center justify-between px-4 py-3 rounded-xl border transition-all text-left font-semibold text-sm whitespace-nowrap">
+                        <span>Get TAK-DAN (NAND)</span>
+                        <span class="ml-2 bg-slate-800 text-slate-400 px-2 py-0.5 rounded text-xs">Terbitan</span>
+                    </button>
+                    <button onclick="selectGate('NOR')" id="btn-gate-NOR" class="gate-selector-btn flex-1 lg:flex-initial flex items-center justify-between px-4 py-3 rounded-xl border transition-all text-left font-semibold text-sm whitespace-nowrap">
+                        <span>Get TAK-ATAU (NOR)</span>
+                        <span class="ml-2 bg-slate-800 text-slate-400 px-2 py-0.5 rounded text-xs">Terbitan</span>
+                    </button>
+                    <button onclick="selectGate('XOR')" id="btn-gate-XOR" class="gate-selector-btn flex-1 lg:flex-initial flex items-center justify-between px-4 py-3 rounded-xl border transition-all text-left font-semibold text-sm whitespace-nowrap">
+                        <span>Get XOR (Ex-OR)</span>
+                        <span class="ml-2 bg-slate-800 text-slate-400 px-2 py-0.5 rounded text-xs">Khas</span>
+                    </button>
+                    <button onclick="selectGate('XNOR')" id="btn-gate-XNOR" class="gate-selector-btn flex-1 lg:flex-initial flex items-center justify-between px-4 py-3 rounded-xl border transition-all text-left font-semibold text-sm whitespace-nowrap">
+                        <span>Get XNOR (Ex-NOR)</span>
+                        <span class="ml-2 bg-slate-800 text-slate-400 px-2 py-0.5 rounded text-xs">Khas</span>
+                    </button>
+                </div>
+
+                <!-- Main Display Panel -->
+                <div class="flex-1 bg-slate-800/40 border border-slate-700/60 rounded-2xl p-6 flex flex-col justify-between">
+                    <!-- Gate Details & Equation -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-6 border-b border-slate-700/50">
+                        <div>
+                            <h3 id="explorer-gate-title" class="text-2xl font-bold text-white">Get DAN (AND)</h3>
+                            <p id="explorer-gate-desc" class="text-slate-400 text-sm mt-2 leading-relaxed">
+                                Menghasilkan output 1 (Tinggi) jika dan hanya jika semua isyarat input adalah 1. Sekiranya ada mana-mana input bernilai 0, output akan menjadi 0.
+                            </p>
+                        </div>
+                        <div class="flex flex-col md:items-end justify-center">
+                            <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Persamaan Boolean:</span>
+                            <div id="explorer-gate-equation" class="code-font text-2xl font-bold text-emerald-400 mt-1">F = A • B</div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Workspace -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 py-8 items-center">
+                        
+                        <!-- Inputs & SVG Circuit (Left/Middle) -->
+                        <div class="lg:col-span-7 flex flex-col items-center">
+                            <span class="text-xs text-slate-500 font-semibold mb-4 uppercase">Simulasi Isyarat & Gambar Rajah Skematik</span>
+                            
+                            <div class="w-full max-w-md bg-slate-900 rounded-xl p-6 border border-slate-800 relative flex flex-col items-center justify-center min-h-[250px]">
+                                <!-- Floating Input Controls inside simulator container -->
+                                <div class="absolute left-4 top-1/2 -translate-y-1/2 space-y-8 flex flex-col">
+                                    <div id="input-control-A" class="flex items-center space-x-2">
+                                        <span class="font-bold text-xs text-slate-400 w-4">A:</span>
+                                        <button onclick="toggleInput('A')" id="btn-toggle-a" class="w-12 h-6 rounded-full bg-slate-700 relative transition-colors duration-200 focus:outline-none">
+                                            <span class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-200"></span>
+                                        </button>
+                                        <span id="label-val-a" class="font-bold text-xs">0</span>
+                                    </div>
+                                    <div id="input-control-B" class="flex items-center space-x-2">
+                                        <span class="font-bold text-xs text-slate-400 w-4">B:</span>
+                                        <button onclick="toggleInput('B')" id="btn-toggle-b" class="w-12 h-6 rounded-full bg-slate-700 relative transition-colors duration-200 focus:outline-none">
+                                            <span class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-200"></span>
+                                        </button>
+                                        <span id="label-val-b" class="font-bold text-xs">0</span>
+                                    </div>
+                                </div>
+
+                                <!-- Logic Gate Dynamic SVG -->
+                                <div class="w-48 h-32 flex items-center justify-center ml-10">
+                                    <svg id="svg-gate-container" viewBox="0 0 100 60" class="w-full h-full overflow-visible">
+                                        <!-- Dynamically generated SVG depending on selection -->
+                                    </svg>
+                                </div>
+
+                                <!-- Floating Output indicator -->
+                                <div class="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col items-center">
+                                    <span class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Keluaran (Y)</span>
+                                    <div id="output-led" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl transition-all duration-300 mt-2">
+                                        0
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-4 text-center">
+                                <i class="fa-solid fa-circle-info mr-1 text-emerald-400"></i> Klik suis input <strong>A</strong> dan <strong>B</strong> di sebelah kiri untuk melihat aliran arus isyarat logik secara langsung.
+                            </p>
+                        </div>
+
+                        <!-- Interactive Truth Table (Right) -->
+                        <div class="lg:col-span-5 flex flex-col">
+                            <span class="text-xs text-slate-500 font-semibold mb-4 uppercase text-center lg:text-left">Jadual Kebenaran</span>
+                            <div class="bg-slate-900 rounded-xl overflow-hidden border border-slate-800">
+                                <table class="w-full text-center text-sm">
+                                    <thead>
+                                        <tr class="bg-slate-800 text-slate-300 font-bold border-b border-slate-700">
+                                            <th class="py-3 px-2">A</th>
+                                            <th class="py-3 px-2" id="th-input-b">B</th>
+                                            <th class="py-3 px-2 text-emerald-400">Y (Output)</th>
+                                            <th class="py-3 px-2 text-slate-400">Pilih</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="truth-table-body" class="divide-y divide-slate-800/80">
+                                        <!-- Dynamic rows generated by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: SANDBOX -->
+        <section id="tab-sandbox" class="tab-content hidden space-y-6">
+            <div class="bg-slate-800/30 border border-slate-800 rounded-2xl p-6">
+                <div class="max-w-3xl mb-6">
+                    <h3 class="text-2xl font-bold text-white">Taman Permainan Get (Sandbox Mini)</h3>
+                    <p class="text-slate-400 text-sm mt-2">
+                        Gunakan litar ringkas di bawah untuk bereksperimen dengan pelbagai jenis get. Anda boleh menukar jenis get pada litar secara terus menggunakan menu pilihan, menukar input, dan melihat output yang terhasil.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                    <!-- Configurator Panel -->
+                    <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-4">
+                        <h4 class="font-bold text-white text-sm border-b border-slate-800 pb-2">Konfigurasi Litar</h4>
+                        
+                        <div>
+                            <label class="block text-xs text-slate-400 font-bold mb-2">PILIH GET UTAMA:</label>
+                            <select id="sandbox-gate-select" onchange="updateSandbox()" class="w-full bg-slate-800 border border-slate-700 rounded-lg py-2 px-3 text-sm text-white focus:outline-none focus:border-emerald-500">
+                                <option value="AND">AND (DAN)</option>
+                                <option value="OR">OR (ATAU)</option>
+                                <option value="NOT">NOT (TAK)</option>
+                                <option value="NAND">NAND (TAK-DAN)</option>
+                                <option value="NOR">NOR (TAK-ATAU)</option>
+                                <option value="XOR">XOR</option>
+                                <option value="XNOR">XNOR</option>
+                            </select>
+                        </div>
+
+                        <div class="pt-2">
+                            <span class="text-xs text-slate-400 font-bold block mb-2">KEDUDUKAN INPUT SEMASA:</span>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center bg-slate-800/50 px-3 py-2 rounded-lg">
+                                    <span class="text-sm font-semibold">Input A</span>
+                                    <button id="sandbox-val-A" onclick="toggleSandboxInput('A')" class="bg-slate-700 hover:bg-slate-600 px-3 py-1 rounded text-xs font-bold text-white transition">0</button>
+                                </div>
+                                <div id="sandbox-input-b-row" class="flex justify-between items-center bg-slate-800/50 px-3 py-2 rounded-lg">
+                                    <span class="text-sm font-semibold">Input B</span>
+                                    <button id="sandbox-val-B" onclick="toggleSandboxInput('B')" class="bg-slate-700 hover:bg-slate-600 px-3 py-1 rounded text-xs font-bold text-white transition">0</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Visualization Panel -->
+                    <div class="md:col-span-2 bg-slate-950 border border-slate-800 p-6 rounded-xl flex flex-col items-center justify-center min-h-[300px] relative overflow-hidden">
+                        <!-- Canvas simulation logic dynamic representation -->
+                        <div class="w-full flex items-center justify-between max-w-md">
+                            <!-- Input Nodes -->
+                            <div class="flex flex-col gap-12" id="sandbox-nodes-inputs">
+                                <div class="flex items-center space-x-3">
+                                    <div class="h-4 w-4 rounded-full bg-slate-500" id="node-a-glow"></div>
+                                    <div>
+                                        <p class="text-xs text-slate-400">Input A</p>
+                                        <p class="font-bold text-lg" id="sandbox-text-a">0</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-3" id="sandbox-node-b-container">
+                                    <div class="h-4 w-4 rounded-full bg-slate-500" id="node-b-glow"></div>
+                                    <div>
+                                        <p class="text-xs text-slate-400">Input B</p>
+                                        <p class="font-bold text-lg" id="sandbox-text-b">0</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Big Schematic representation -->
+                            <div class="flex-1 flex justify-center items-center px-4">
+                                <div class="bg-slate-900 border border-slate-700 p-4 rounded-xl shadow-lg flex flex-col items-center text-center">
+                                    <span class="text-[10px] text-slate-400 font-mono tracking-widest font-bold">SIMBOLOGI</span>
+                                    <div class="h-20 w-32 flex items-center justify-center my-2" id="sandbox-svg-holder">
+                                        <!-- Inject Sandbox specific Gate SVG here -->
+                                    </div>
+                                    <span class="text-xs font-extrabold text-emerald-400" id="sandbox-gate-name-label">GET AND</span>
+                                </div>
+                            </div>
+
+                            <!-- Output node -->
+                            <div class="flex flex-col items-center text-center">
+                                <div class="h-10 w-10 rounded-full flex items-center justify-center font-bold text-xl text-slate-900 transition-all duration-300" id="sandbox-node-out">
+                                    0
+                                </div>
+                                <p class="text-xs text-slate-400 mt-2">Output Y</p>
+                                <p class="text-[10px] text-emerald-400 font-bold" id="sandbox-bool-eq">F = A • B</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: KUIZ INTERAKTIF -->
+        <section id="tab-kuiz" class="tab-content hidden space-y-6">
+            <div id="quiz-intro-card" class="bg-slate-800/30 border border-slate-800 p-8 rounded-2xl max-w-2xl mx-auto text-center space-y-6">
+                <div class="text-emerald-400 text-6xl"><i class="fa-solid fa-graduation-cap"></i></div>
+                <h3 class="text-2xl font-bold text-white">Uji Kefahaman Anda</h3>
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                    Uji kemahiran anda dalam menterjemah dan menganalisis get logik serta jadual kebenaran. Kuiz ini mempunyai 5 soalan interaktif yang diselaraskan dengan sukatan pelajaran subjek sains komputer digital.
+                </p>
+                <button onclick="startQuiz()" class="bg-emerald-500 hover:bg-emerald-600 text-slate-900 font-bold px-8 py-3 rounded-xl transition duration-200 shadow-lg shadow-emerald-500/25">
+                    Mula Kuiz Sekarang
+                </button>
+            </div>
+
+            <!-- Quiz In-Progress Area -->
+            <div id="quiz-workspace" class="hidden bg-slate-800/40 border border-slate-700/60 p-6 sm:p-8 rounded-2xl max-w-3xl mx-auto space-y-6">
+                <!-- Quiz Header Progress -->
+                <div class="flex justify-between items-center border-b border-slate-700 pb-4">
+                    <span class="text-xs text-slate-400 font-mono tracking-wider">Soalan <span id="quiz-current-num">1</span> daripada 5</span>
+                    <div class="w-1/2 bg-slate-700 h-2 rounded-full overflow-hidden">
+                        <div id="quiz-progress-bar" class="bg-emerald-500 h-full transition-all duration-300" style="width: 20%;"></div>
+                    </div>
+                </div>
+
+                <!-- Quiz Question Statement -->
+                <div class="space-y-4">
+                    <h4 id="quiz-question-text" class="text-lg font-bold text-white leading-relaxed">Persoalan di sini?</h4>
+                    <!-- Optional Graphic / Truth Table visualizer within specific questions -->
+                    <div id="quiz-visual-asset" class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex justify-center items-center hidden min-h-[100px]">
+                        <!-- Dynamic visual component (SVG / Grid Table) -->
+                    </div>
+                </div>
+
+                <!-- Options -->
+                <div id="quiz-options-container" class="grid grid-cols-1 gap-3 pt-4">
+                    <!-- Dynamic choices buttons injected by JS -->
+                </div>
+
+                <!-- Controls & Navigation -->
+                <div class="flex justify-between items-center pt-6 border-t border-slate-700">
+                    <div id="quiz-feedback-box" class="text-sm font-semibold"></div>
+                    <button id="btn-quiz-next" onclick="nextQuestion()" class="hidden bg-slate-700 hover:bg-emerald-500 hover:text-slate-900 text-white font-bold px-6 py-2 rounded-lg transition duration-150">
+                        Seterusnya <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Results (Completed Score Card) -->
+            <div id="quiz-result-card" class="hidden bg-slate-800/40 border border-slate-700/60 p-8 rounded-2xl max-w-lg mx-auto text-center space-y-6">
+                <div class="inline-flex items-center justify-center h-24 w-24 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-5xl">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                <h3 class="text-3xl font-black text-white">Keputusan Kuiz Anda</h3>
+                <div class="p-6 bg-slate-950 rounded-xl border border-slate-800 max-w-xs mx-auto">
+                    <p class="text-xs text-slate-400 font-semibold tracking-wider uppercase">SKOR PERATUSAN</p>
+                    <p class="text-5xl font-extrabold text-emerald-400 mt-2" id="quiz-score-percent">100%</p>
+                    <p class="text-sm text-slate-300 mt-2" id="quiz-score-ratio">5 / 5 betul</p>
+                </div>
+                <p id="quiz-feedback-evaluation" class="text-slate-300 text-sm leading-relaxed max-w-sm mx-auto">
+                    Syabas! Anda mempunyai pemahaman yang sangat kukuh tentang fungsi dan operasi get logik.
+                </p>
+                <div class="flex justify-center space-x-3 pt-4">
+                    <button onclick="startQuiz()" class="bg-slate-700 hover:bg-slate-600 text-white font-bold px-5 py-2.5 rounded-lg text-sm transition">
+                        <i class="fa-solid fa-arrow-rotate-left mr-1.5"></i> Cuba Lagi
+                    </button>
+                    <button onclick="switchTab('eksplorasi')" class="bg-emerald-500 hover:bg-emerald-600 text-slate-900 font-bold px-5 py-2.5 rounded-lg text-sm transition">
+                        Kembali Mengulang Kaji
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-slate-950/70 py-6 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 space-y-2">
+            <p>© 2026 Hub Pembelajaran Get Logik (LogikX). Dibina untuk Sukatan Pendidikan Sains Komputer.</p>
+            <p class="flex justify-center space-x-4">
+                <span class="hover:text-slate-300 cursor-pointer"><i class="fa-solid fa-circle-check text-emerald-400 mr-1"></i> Boolean Algebra</span>
+                <span class="hover:text-slate-300 cursor-pointer"><i class="fa-solid fa-circle-check text-emerald-400 mr-1"></i> Get Logik Asas</span>
+                <span class="hover:text-slate-300 cursor-pointer"><i class="fa-solid fa-circle-check text-emerald-400 mr-1"></i> Jadual Kebenaran</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Logic Hub Core Script -->
+    <script>
+        // Database of gates definitions, formulas, truth tables and SVG markup
+        const GATE_DATA = {
+            NOT: {
+                name: "Get TAK (NOT)",
+                desc: "Get TAK ialah songsang (inverter). Ia hanya menerima satu input. Outputnya sentiasa bertentangan dengan input yang dimasukkan.",
+                equation: "Y = Ā (atau A')",
+                inputs: ['A'],
+                outputs: (A) => A === 1 ? 0 : 1,
+                truthTable: [
+                    { A: 0, Y: 1 },
+                    { A: 1, Y: 0 }
+                ],
+                // SVG Draw function (takes dynamic state)
+                getSVG: (inputs, output) => {
+                    const activeA = inputs.A === 1 ? 'wire-active' : 'wire-inactive';
+                    const activeY = output === 1 ? 'wire-active' : 'wire-inactive';
+                    const colorA = inputs.A === 1 ? '#10b981' : '#64748b';
+                    const colorY = output === 1 ? '#10b981' : '#64748b';
+                    return `
+                        <!-- Input Line A -->
+                        <line x1="5" y1="30" x2="35" y2="30" class="${activeA}" stroke-width="2.5" />
+                        <!-- NOT Symbol -->
+                        <polygon points="35,18 65,30 35,42" fill="#1e293b" stroke="#f8fafc" stroke-width="2.5" />
+                        <circle cx="68" cy="30" r="3.5" fill="#1e293b" stroke="#f8fafc" stroke-width="2.5" />
+                        <!-- Output Line Y -->
+                        <line x1="72.5" y1="30" x2="95" y2="30" class="${activeY}" stroke-width="2.5" />
+                        
+                        <!-- Pulse Dots -->
+                        <circle cx="5" cy="30" r="4" fill="${colorA}" />
+                        <circle cx="95" cy="30" r="4" fill="${colorY}" />
+                        <text x="5" y="22" fill="#94a3b8" font-size="6" font-family="sans-serif">A</text>
+                        <text x="91" y="22" fill="#10b981" font-size="6" font-family="sans-serif" font-weight="bold">Y</text>
+                    `;
+                }
+            },
+            AND: {
+                name: "Get DAN (AND)",
+                desc: "Get DAN menghasilkan output 1 (Tinggi) jika dan hanya jika semua isyarat input adalah 1. Sekiranya ada mana-mana input bernilai 0, output akan menjadi 0.",
+                equation: "Y = A • B",
+                inputs: ['A', 'B'],
+                outputs: (A, B) => A && B ? 1 : 0,
+                truthTable: [
+                    { A: 0, B: 0, Y: 0 },
+                    { A: 0, B: 1, Y: 0 },
+                    { A: 1, B: 0, Y: 0 },
+                    { A: 1, B: 1, Y: 1 }
+                ],
+                getSVG: (inputs, output) => {
+                    const activeA = inputs.A === 1 ? 'wire-active' : 'wire-inactive';
+                    const activeB = inputs.B === 1 ? 'wire-active' : 'wire-inactive';
+                    const activeY = output === 1 ? 'wire-active' : 'wire-inactive';
+                    const colorA = inputs.A === 1 ? '#10b981' : '#64748b';
+                    const colorB = inputs.B === 1 ? '#10b981' : '#64748b';
+                    const colorY = output === 1 ? '#10b981' : '#64748b';
+                    return `
+                        <!-- Inputs -->
+                        <line x1="5" y1="20" x2="35" y2="20" class="${activeA}" stroke-width="2.5" />
+                        <line x1="5" y1="40" x2="35" y2="40" class="${activeB}" stroke-width="2.5" />
+                        <!-- AND Symbol -->
+                        <path d="M35,12 L50,12 A18,18 0 0,1 50,48 L35,48 Z" fill="#1e293b" stroke="#f8fafc" stroke-width="2.5" />
+                        <!-- Output Line Y -->
+                        <line x1="68" y1="30" x2="95" y2="30" class="${activeY}" stroke-width="2.5" />
+                        
+                        <!-- Pulse Dots -->
+                        <circle cx="5" cy="20" r="4" fill="${colorA}" />
+                        <circle cx="5" cy="40" r="4" fill="${colorB}" />
+                        <circle cx="95" cy="30" r="4" fill="${colorY}" />
+                        <text x="5" y="12" fill="#94a3b8" font-size="6" font-family="sans-serif">A</text>
+                        <text x="5" y="50" fill="#94a3b8" font-size="6" font-family="sans-serif">B</text>
+                        <text x="91" y="22" fill="#10b981" font-size="6" font-family="sans-serif" font-weight="bold">Y</text>
+                    `;
+                }
+            },
+            OR: {
+                name: "Get ATAU (OR)",
+                desc: "Get ATAU menghasilkan output 1 jika sekurang-kurangnya satu input adalah 1. Ia hanya menghasilkan output 0 apabila semua input adalah 0.",
+                equation: "Y = A + B",
+                inputs: ['A', 'B'],
+                outputs: (A, B) => A || B ? 1 : 0,
+                truthTable: [
+                    { A: 0, B: 0, Y: 0 },
+                    { A: 0, B: 1, Y: 1 },
+                    { A: 1, B: 0, Y: 1 },
+                    { A: 1, B: 1, Y: 1 }
+                ],
+                getSVG: (inputs, output) => {
+                    const activeA = inputs.A === 1 ? 'wire-active' : 'wire-inactive';
+                    const activeB = inputs.B === 1 ? 'wire-active' : 'wire-inactive';
+                    const activeY = output === 1 ? 'wire-active' : 'wire-inactive';
+                    const colorA = inputs.A === 1 ? '#10b981' : '#64748b';
+                    const colorB = inputs.B === 1 ? '#10b981' : '#64748b';
+                    const colorY = output === 1 ? '#10b981' : '#64748b';
+                    return `
+                        <!-- Inputs -->
+                        <line x1="5" y1="20" x2="35" y2="20" class="${activeA}" stroke-width="2.5" />
+                        <line x1="5" y1="40" x2="35" y2="40" class="${activeB}" stroke-width="2.5" />
+                        <!-- OR Symbol -->
+                        <path d="M30,12 C38,12 43,15 68,30 C43,45 38,48 30,48 C36,36 36,24 30,12 Z" fill="#1e293b" stroke="#f8fafc" stroke-width="2.5" stroke-linejoin="round" />
+                        <!-- Output Line Y -->
+                        <line x1="68" y1="30" x2="95" y2="30" class="${activeY}" stroke-width="2.5" />
+                        
+                        <!-- Pulse Dots -->
+                        <circle cx="5" cy="20" r="4" fill="${colorA}" />
+                        <circle cx="5" cy="40" r="4" fill="${colorB}" />
+                        <circle cx="95" cy="30" r="4" fill="${colorY}" />
+                        <text x="5" y="12" fill="#94a3b8" font-size="6" font-family="sans-serif">A</text>
+                        <text x="5" y="50" fill="#94a3b8" font-size="6" font-family="sans-serif">B</text>
+                        <text x="91" y="22" fill="#10b981" font-size="6" font-family="sans-serif" font-weight="bold">Y</text>
+                    `;
+                }
+            },
+            NAND: {
+                name: "Get TAK-DAN (NAND)",
+                desc: "Gabungan get AND dan NOT. Menghasilkan output terbalik dari Get AND. Output akan bernilai 0 hanya sekiranya kedua-dua input bernilai 1.",
+                equation: "Y = A • B (Dipenafi)",
+                inputs: ['A', 'B'],
+                outputs: (A, B) => A && B ? 0 : 1,
+                truthTable: [
+                    { A: 0, B: 0, Y: 1 },
+                    { A: 0, B: 1, Y: 1 },
+                    { A: 1, B: 0, Y: 1 },
+                    { A: 1, B: 1, Y: 0 }
+                ],
+                getSVG: (inputs, output) => {
+                    const activeA = inputs.A === 1 ? 'wire-active' : 'wire-inactive';
+                    const activeB = inputs.B === 1 ? 'wire-active' : 'wire-inactive';
+                    const activeY = output === 1 ? 'wire-active' : 'wire-inactive';
+                    const colorA = inputs.A === 1 ? '#10b981' : '#64748b';
+                    const colorB = inputs.B === 1 ? '#10b981' : '#64748b';
+                    const colorY = output === 1 ? '#10b981' : '#64748b';
+                    return `
+                        <!-- Inputs -->
+                        <line x1="5" y1="20" x2="35" y2="20" class="${activeA}" stroke-width="2.5" />
+                        <line x1="5" y1="40" x2="35" y2="40" class="${activeB}" stroke-width="2.5" />
+                        <!-- NAND Symbol -->
+                        <path d="M35,12 L47,12 A18,18 0 0,1 47,48 L35,48 Z" fill="#1e293b" stroke="#f8fafc" stroke-width="2.5" />
+                        <circle cx="68" cy="30" r="3.5" fill="#1e293b" stroke="#f8fafc" stroke-width="2.5" />
+                        <!-- Output Line Y -->
+                        <line x1="72" y1="30" x2="95" y2="30" class="${activeY}" stroke-width="2.5" />
+                        
+                        <!-- Pulse Dots -->
+                        <circle cx="5" cy="20" r="4" fill="${colorA}" />
+                        <circle cx="5" cy="40" r="4" fill="${colorB}" />
+                        <circle cx="95" cy="30" r="4" fill="${colorY}" />
+                        <text x="5" y="12" fill="#94a3b8" font-size="6" font-family="sans-serif">A</text>
+                        <text x="5" y="50" fill="#94a3b8" font-size="6" font-family="sans-serif">B</text>
+                        <text x="91" y="22" fill="#10b981" font-size="6" font-family="sans-serif" font-weight="bold">Y</text>
+                    `;
+                }
+            },
+            NOR: {
+                name: "Get TAK-ATAU (NOR)",
+                desc: "Gabungan get OR dan NOT. Menghasilkan output terbalik dari Get OR. Output akan bernilai 1 jika dan hanya jika semua input bernilai 0.",
+                equation: "Y = A + B (Dipenafi)",
+                inputs: ['A', 'B'],
+                outputs: (A, B) => A || B ? 0 : 1,
+                truthTable: [
+                    { A: 0, B: 0, Y: 1 },
+                    { A: 0, B: 1, Y: 0 },
+                    { A: 1, B: 0, Y: 0 },
+                    { A: 1, B: 1, Y: 0 }
+                ],
+                getSVG: (inputs, output) => {
+                    const activeA = inputs.A === 1 ? 'wire-active' : 'wire-inactive';
+                    const activeB = inputs.B === 1 ? 'wire-active' : 'wire-inactive';
+                    const activeY = output === 1 ? 'wire-active' : 'wire-inactive';
+                    const colorA = inputs.A === 1 ? '#10b981' : '#64748b';
+                    const colorB = inputs.B === 1 ? '#10b981' : '#64748b';
+                    const colorY = output === 1 ? '#10b981' : '#64748b';
+                    return `
+                        <!-- Inputs -->
+                        <line x1="5" y1="20" x2="32" y2="20" class="${activeA}" stroke-width="2.5" />
+                        <line x1="5" y1="40" x2="32" y2="40" class="${activeB}" stroke-width="2.5" />
+                        <!-- NOR Symbol -->
+                        <path d="M28,12 C36,12 41,15 64,30 C41,45 36,48 28,48 C34,36 34,24 28,12 Z" fill="#1e293b" stroke="#f8fafc" stroke-width="2.5" stroke-linejoin="round" />
+                        <circle cx="68" cy="30" r="3.5" fill="#1e293b" stroke="#f8fafc" stroke-width="2.5" />
+                        <!-- Output Line Y -->
+                        <line x1="72" y1="30" x2="95" y2="30" class="${activeY}" stroke-width="2.5" />
+                        
+                        <!-- Pulse Dots -->
+                        <circle cx="5" cy="20" r="4" fill="${colorA}" />
+                        <circle cx="5" cy="40" r="4" fill="${colorB}" />
+                        <circle cx="95" cy="30" r="4" fill="${colorY}" />
+                        <text x="5" y="12" fill="#94a3b8" font-size="6" font-family="sans-serif">A</text>
+                        <text x="5" y="50" fill="#94a3b8" font-size="6" font-family="sans-serif">B</text>
+                        <text x="91" y="22" fill="#10b981" font-size="6" font-family="sans-serif" font-weight="bold">Y</text>
+                    `;
+                }
+            },
+            XOR: {
+                name: "Get Eksklusif-ATAU (XOR)",
+                desc: "Menghasilkan output 1 sekiranya salah satu input bernilai 1 secara eksklusif. Jika kedua-dua input mempunyai isyarat digital yang sama (kedua-dua 0 atau kedua-dua 1), output bernilai 0.",
+                equation: "Y = A ⊕ B",
+                inputs: ['A', 'B'],
+                outputs: (A, B) => A !== B ? 1 : 0,
+                truthTable: [
+                    { A: 0, B: 0, Y: 0 },
+                    { A: 0, B: 1, Y: 1 },
+                    { A: 1, B: 0, Y: 1 },
+                    { A: 1, B: 1, Y: 0 }
+                ],
+                getSVG: (inputs, output) => {
+                    const activeA = inputs.A === 1 ? 'wire-active' : 'wire-inactive';
+                    const activeB = inputs.B === 1 ? 'wire-active' : 'wire-inactive';
+                    const activeY = output === 1 ? 'wire-active' : 'wire-inactive';
+                    const colorA = inputs.A === 1 ? '#10b981' : '#64748b';
+                    const colorB = inputs.B === 1 ? '#10b981' : '#64748b';
+                    const colorY = output === 1 ? '#10b981' : '#64748b';
+                    return `
+                        <!-- Inputs -->
+                        <line x1="5" y1="20" x2="35" y2="20" class="${activeA}" stroke-width="2.5" />
+                        <line x1="5" y1="40" x2="35" y2="40" class="${activeB}" stroke-width="2.5" />
+                        <!-- XOR Line Component -->
+                        <path d="M25,12 C31,24 31,36 25,48" fill="none" stroke="#f8fafc" stroke-width="2.5" />
+                        <!-- OR-like Body -->
+                        <path d="M30,12 C38,12 43,15 68,30 C43,45 38,48 30,48 C36,36 36,24 30,12 Z" fill="#1e293b" stroke="#f8fafc" stroke-width="2.5" stroke-linejoin="round" />
+                        <!-- Output Line Y -->
+                        <line x1="68" y1="30" x2="95" y2="30" class="${activeY}" stroke-width="2.5" />
+                        
+                        <!-- Pulse Dots -->
+                        <circle cx="5" cy="20" r="4" fill="${colorA}" />
+                        <circle cx="5" cy="40" r="4" fill="${colorB}" />
+                        <circle cx="95" cy="30" r="4" fill="${colorY}" />
+                        <text x="5" y="12" fill="#94a3b8" font-size="6" font-family="sans-serif">A</text>
+                        <text x="5" y="50" fill="#94a3b8" font-size="6" font-family="sans-serif">B</text>
+                        <text x="91" y="22" fill="#10b981" font-size="6" font-family="sans-serif" font-weight="bold">Y</text>
+                    `;
+                }
+            },
+            XNOR: {
+                name: "Get Eksklusif-TAK-ATAU (XNOR)",
+                desc: "Get songsang kepada get XOR. Ia bertindak sebagai pengesan kesamaan. Output bernilai 1 jika kedua-dua input adalah sama (0-0 atau 1-1).",
+                equation: "Y = A ⊙ B",
+                inputs: ['A', 'B'],
+                outputs: (A, B) => A === B ? 1 : 0,
+                truthTable: [
+                    { A: 0, B: 0, Y: 1 },
+                    { A: 0, B: 1, Y: 0 },
+                    { A: 1, B: 0, Y: 0 },
+                    { A: 1, B: 1, Y: 1 }
+                ],
+                getSVG: (inputs, output) => {
+                    const activeA = inputs.A === 1 ? 'wire-active' : 'wire-inactive';
+                    const activeB = inputs.B === 1 ? 'wire-active' : 'wire-inactive';
+                    const activeY = output === 1 ? 'wire-active' : 'wire-inactive';
+                    const colorA = inputs.A === 1 ? '#10b981' : '#64748b';
+                    const colorB = inputs.B === 1 ? '#10b981' : '#64748b';
+                    const colorY = output === 1 ? '#10b981' : '#64748b';
+                    return `
+                        <!-- Inputs -->
+                        <line x1="5" y1="20" x2="32" y2="20" class="${activeA}" stroke-width="2.5" />
+                        <line x1="5" y1="40" x2="32" y2="40" class="${activeB}" stroke-width="2.5" />
+                        <!-- XOR Line Component -->
+                        <path d="M22,12 C28,24 28,36 22,48" fill="none" stroke="#f8fafc" stroke-width="2.5" />
+                        <!-- OR-like Body with Bubble -->
+                        <path d="M27,12 C35,12 40,15 63,30 C40,45 35,48 27,48 C33,36 33,24 27,12 Z" fill="#1e293b" stroke="#f8fafc" stroke-width="2.5" stroke-linejoin="round" />
+                        <circle cx="67" cy="30" r="3.5" fill="#1e293b" stroke="#f8fafc" stroke-width="2.5" />
+                        <!-- Output Line Y -->
+                        <line x1="71" y1="30" x2="95" y2="30" class="${activeY}" stroke-width="2.5" />
+                        
+                        <!-- Pulse Dots -->
+                        <circle cx="5" cy="20" r="4" fill="${colorA}" />
+                        <circle cx="5" cy="40" r="4" fill="${colorB}" />
+                        <circle cx="95" cy="30" r="4" fill="${colorY}" />
+                        <text x="5" y="12" fill="#94a3b8" font-size="6" font-family="sans-serif">A</text>
+                        <text x="5" y="50" fill="#94a3b8" font-size="6" font-family="sans-serif">B</text>
+                        <text x="91" y="22" fill="#10b981" font-size="6" font-family="sans-serif" font-weight="bold">Y</text>
+                    `;
+                }
+            }
+        };
+
+        // State variables
+        let activeTab = 'pengenalan';
+        let currentGateKey = 'AND';
+        let currentInputs = { A: 0, B: 0 };
+        
+        let sandboxInputs = { A: 0, B: 0 };
+
+        // Toggle Tabs Setup
+        function switchTab(tabId) {
+            activeTab = tabId;
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            // Update Navigation state
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-emerald-400', 'bg-slate-800');
+                btn.classList.add('text-slate-300', 'hover:text-white', 'hover:bg-slate-800');
+            });
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('text-emerald-400', 'bg-slate-800');
+                activeBtn.classList.remove('text-slate-300', 'hover:text-white', 'hover:bg-slate-800');
+            }
+            
+            // Initialization on Tab Change
+            if (tabId === 'eksplorasi') {
+                selectGate(currentGateKey);
+            } else if (tabId === 'sandbox') {
+                updateSandbox();
+            }
+        }
+
+        // Toggle Mobile Menu
+        const mobileToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        function toggleMobileMenu() {
+            mobileMenu.classList.add('hidden');
+        }
+
+        /* ---------------- EKSPLORASI GATE LOGIC LOGIC ---------------- */
+        function selectGate(gateKey) {
+            currentGateKey = gateKey;
+            const gate = GATE_DATA[gateKey];
+            
+            // Highlight selector button
+            document.querySelectorAll('.gate-selector-btn').forEach(btn => {
+                btn.classList.remove('border-emerald-500', 'bg-emerald-500/10', 'text-emerald-400');
+                btn.classList.add('border-slate-800', 'text-slate-300', 'bg-transparent');
+            });
+            const targetBtn = document.getElementById(`btn-gate-${gateKey}`);
+            if (targetBtn) {
+                targetBtn.classList.add('border-emerald-500', 'bg-emerald-500/10', 'text-emerald-400');
+                targetBtn.classList.remove('border-slate-800', 'text-slate-300');
+            }
+
+            // Update details
+            document.getElementById('explorer-gate-title').innerText = gate.name;
+            document.getElementById('explorer-gate-desc').innerText = gate.desc;
+            document.getElementById('explorer-gate-equation').innerText = gate.equation;
+
+            // Handle UI inputs visibility (NOT has 1 input only)
+            const inputBControl = document.getElementById('input-control-B');
+            const thInputB = document.getElementById('th-input-b');
+            if (gate.inputs.length === 1) {
+                inputBControl.style.opacity = '0';
+                inputBControl.style.pointerEvents = 'none';
+                if (thInputB) thInputB.style.display = 'none';
+            } else {
+                inputBControl.style.opacity = '1';
+                inputBControl.style.pointerEvents = 'auto';
+                if (thInputB) thInputB.style.display = '';
+            }
+
+            // Update interactive outputs & visualizer
+            calculateExplorerOutputs();
+            generateTruthTable();
+        }
+
+        function toggleInput(node) {
+            currentInputs[node] = currentInputs[node] === 1 ? 0 : 1;
+            
+            // Sync with styling toggles
+            const btn = document.getElementById(`btn-toggle-${node.toLowerCase()}`);
+            const span = btn.querySelector('span');
+            const label = document.getElementById(`label-val-${node.toLowerCase()}`);
+            
+            if (currentInputs[node] === 1) {
+                btn.classList.remove('bg-slate-700');
+                btn.classList.add('bg-emerald-500');
+                span.style.transform = 'translateX(24px)';
+                label.innerText = '1';
+                label.className = 'font-bold text-xs text-emerald-400';
+            } else {
+                btn.classList.remove('bg-emerald-500');
+                btn.classList.add('bg-slate-700');
+                span.style.transform = 'translateX(0px)';
+                label.innerText = '0';
+                label.className = 'font-bold text-xs text-slate-500';
+            }
+
+            calculateExplorerOutputs();
+            highlightTruthTableActiveRow();
+        }
+
+        function calculateExplorerOutputs() {
+            const gate = GATE_DATA[currentGateKey];
+            let outVal = 0;
+            if (gate.inputs.length === 1) {
+                outVal = gate.outputs(currentInputs.A);
+            } else {
+                outVal = gate.outputs(currentInputs.A, currentInputs.B);
+            }
+
+            // Update LED indicator
+            const led = document.getElementById('output-led');
+            led.innerText = outVal;
+            if (outVal === 1) {
+                led.className = "w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl transition-all duration-300 mt-2 bg-emerald-500 text-slate-900 glow-green";
+            } else {
+                led.className = "w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl transition-all duration-300 mt-2 bg-slate-800 text-slate-500 border border-slate-700";
+            }
+
+            // Redraw SVG with correct signals
+            const svgContainer = document.getElementById('svg-gate-container');
+            svgContainer.innerHTML = gate.getSVG(currentInputs, outVal);
+        }
+
+        function generateTruthTable() {
+            const gate = GATE_DATA[currentGateKey];
+            const tbody = document.getElementById('truth-table-body');
+            tbody.innerHTML = '';
+
+            gate.truthTable.forEach((row, idx) => {
+                const isSingleInput = gate.inputs.length === 1;
+                const tr = document.createElement('tr');
+                tr.id = `tt-row-${idx}`;
+                tr.className = "cursor-pointer transition-colors duration-150 hover:bg-slate-800/40 text-slate-300";
+                tr.onclick = () => selectTruthTableInputs(row, idx);
+
+                let cellsHTML = `
+                    <td class="py-3 px-2 font-mono font-bold">${row.A}</td>
+                    ${isSingleInput ? '' : `<td class="py-3 px-2 font-mono font-bold">${row.B}</td>`}
+                    <td class="py-3 px-2 font-mono font-bold ${row.Y === 1 ? 'text-emerald-400' : 'text-slate-500'}">${row.Y}</td>
+                    <td class="py-2 px-2">
+                        <button class="bg-slate-800 hover:bg-emerald-500 hover:text-slate-950 px-2.5 py-1 rounded text-[10px] font-bold text-slate-400 uppercase tracking-widest transition">
+                            Uji
+                        </button>
+                    </td>
+                `;
+                tr.innerHTML = cellsHTML;
+                tbody.appendChild(tr);
+            });
+
+            highlightTruthTableActiveRow();
+        }
+
+        function selectTruthTableInputs(row, idx) {
+            // Programmatically set inputs from clicking truth table row
+            if (currentInputs.A !== row.A) toggleInput('A');
+            if (GATE_DATA[currentGateKey].inputs.length > 1 && currentInputs.B !== row.B) toggleInput('B');
+            highlightTruthTableActiveRow();
+        }
+
+        function highlightTruthTableActiveRow() {
+            const gate = GATE_DATA[currentGateKey];
+            let activeIdx = 0;
+            
+            if (gate.inputs.length === 1) {
+                activeIdx = currentInputs.A;
+            } else {
+                // Determine row index matching [0,0 -> 0; 0,1 -> 1; 1,0 -> 2; 1,1 -> 3]
+                activeIdx = (currentInputs.A << 1) | currentInputs.B;
+            }
+
+            // Highlight in HTML Table representation
+            gate.truthTable.forEach((_, idx) => {
+                const tr = document.getElementById(`tt-row-${idx}`);
+                if (tr) {
+                    if (idx === activeIdx) {
+                        tr.className = "bg-emerald-500/10 text-emerald-300 font-bold border-l-4 border-emerald-500";
+                    } else {
+                        tr.className = "cursor-pointer transition hover:bg-slate-800/40 text-slate-400 border-l-4 border-transparent";
+                    }
+                }
+            });
+        }
+
+
+        /* ---------------- SANDBOX SIMULATOR MINI ---------------- */
+        function toggleSandboxInput(node) {
+            sandboxInputs[node] = sandboxInputs[node] === 1 ? 0 : 1;
+            updateSandbox();
+        }
+
+        function updateSandbox() {
+            const selectedGateKey = document.getElementById('sandbox-gate-select').value;
+            const gate = GATE_DATA[selectedGateKey];
+            
+            // Handle single input visibility for sandbox
+            const bNodeContainer = document.getElementById('sandbox-node-b-container');
+            const bInputRow = document.getElementById('sandbox-input-b-row');
+            if (gate.inputs.length === 1) {
+                bNodeContainer.style.opacity = '0';
+                bInputRow.style.opacity = '0.3';
+                bInputRow.style.pointerEvents = 'none';
+            } else {
+                bNodeContainer.style.opacity = '1';
+                bInputRow.style.opacity = '1';
+                bInputRow.style.pointerEvents = 'auto';
+            }
+
+            // Sync values text representation
+            document.getElementById('sandbox-text-a').innerText = sandboxInputs.A;
+            document.getElementById('sandbox-text-b').innerText = sandboxInputs.B;
+            
+            document.getElementById('sandbox-val-A').innerText = sandboxInputs.A;
+            document.getElementById('sandbox-val-A').className = sandboxInputs.A === 1 ? "bg-emerald-500 px-3 py-1 rounded text-xs font-bold text-slate-900 transition shadow-lg shadow-emerald-500/20" : "bg-slate-700 hover:bg-slate-600 px-3 py-1 rounded text-xs font-bold text-white transition";
+            
+            document.getElementById('sandbox-val-B').innerText = sandboxInputs.B;
+            document.getElementById('sandbox-val-B').className = sandboxInputs.B === 1 ? "bg-emerald-500 px-3 py-1 rounded text-xs font-bold text-slate-900 transition shadow-lg shadow-emerald-500/20" : "bg-slate-700 hover:bg-slate-600 px-3 py-1 rounded text-xs font-bold text-white transition";
+
+            // Node Glow styling
+            const nodeA = document.getElementById('node-a-glow');
+            const nodeB = document.getElementById('node-b-glow');
+            nodeA.className = sandboxInputs.A === 1 ? 'h-4 w-4 rounded-full bg-emerald-500 shadow-md shadow-emerald-500' : 'h-4 w-4 rounded-full bg-slate-600';
+            nodeB.className = sandboxInputs.B === 1 ? 'h-4 w-4 rounded-full bg-emerald-500 shadow-md shadow-emerald-500' : 'h-4 w-4 rounded-full bg-slate-600';
+
+            // Calculate output
+            let outputVal = 0;
+            if (gate.inputs.length === 1) {
+                outputVal = gate.outputs(sandboxInputs.A);
+            } else {
+                outputVal = gate.outputs(sandboxInputs.A, sandboxInputs.B);
+            }
+
+            // Output node visual state
+            const outNode = document.getElementById('sandbox-node-out');
+            outNode.innerText = outputVal;
+            if (outputVal === 1) {
+                outNode.className = "h-10 w-10 rounded-full flex items-center justify-center font-bold text-xl bg-emerald-500 text-slate-950 glow-green";
+            } else {
+                outNode.className = "h-10 w-10 rounded-full flex items-center justify-center font-bold text-xl bg-slate-800 text-slate-500 border border-slate-700";
+            }
+
+            // Text configuration
+            document.getElementById('sandbox-gate-name-label').innerText = gate.name.toUpperCase();
+            document.getElementById('sandbox-bool-eq').innerText = gate.equation;
+
+            // Render standard schematic symbol inside sandbox holder
+            document.getElementById('sandbox-svg-holder').innerHTML = `
+                <svg viewBox="0 0 100 60" class="w-full h-full overflow-visible">
+                    ${gate.getSVG(sandboxInputs, outputVal)}
+                </svg>
+            `;
+        }
+
+
+        /* ---------------- INTERACTIVE KUIZ ENGINE ---------------- */
+        const QUIZ_QUESTIONS = [
+            {
+                type: 'text',
+                question: "1. Manakah antara berikut mentakrifkan fungsi get logik dengan betul?",
+                choices: [
+                    "Satu peranti penyimpanan yang menyimpan fail multimedia secara berstruktur.",
+                    "Satu blok binaan litar elektronik digital asas yang memproses satu atau lebih input untuk menghasilkan output tunggal berdasarkan Aljabar Boolean.",
+                    "Sejenis kabel penghantaran rangkaian berkelajuan tinggi bernilai tinggi.",
+                    "Perisian sistem pengendalian untuk komputer mikro."
+                ],
+                answer: 1,
+                feedback: "Betul! Get logik ialah blok binaan asas yang memproses input binari menjadi satu output berdasarkan fungsi logik."
+            },
+            {
+                type: 'symbol',
+                question: "2. Apakah nama get logik yang diwakili oleh persamaan Boolean berikut: Y = A ⊕ B?",
+                choices: [
+                    "Get TAK-ATAU (NOR)",
+                    "Get ATAU (OR)",
+                    "Get Eksklusif-ATAU (XOR)",
+                    "Get Eksklusif-TAK-ATAU (XNOR)"
+                ],
+                answer: 2,
+                feedback: "Tepat sekali! Persamaan Y = A ⊕ B ialah kod standard untuk get Eksklusif-ATAU (XOR)."
+            },
+            {
+                type: 'table',
+                question: "3. Perhatikan Jadual Kebenaran di bawah. Apakah jenis get logik yang sepadan dengan jadual ini?",
+                table: [
+                    { A: 0, B: 0, Y: 1 },
+                    { A: 0, B: 1, Y: 1 },
+                    { A: 1, B: 0, Y: 1 },
+                    { A: 1, B: 1, Y: 0 }
+                ],
+                choices: [
+                    "Get DAN (AND)",
+                    "Get TAK-DAN (NAND)",
+                    "Get ATAU (OR)",
+                    "Get TAK-ATAU (NOR)"
+                ],
+                answer: 1,
+                feedback: "Hebat! Litar ini hanya memberikan output 0 apabila kedua-dua input bernilai 1. Ini menunjukkan fungsi Get TAK-DAN (NAND)."
+            },
+            {
+                type: 'text',
+                question: "4. Apakah output (Y) bagi litar Get TAK-ATAU (NOR) apabila kedua-dua Input A dan B adalah 0?",
+                choices: [
+                    "Y = 0",
+                    "Y = 1",
+                    "Y = Tidak menentu",
+                    "Y = -1"
+                ],
+                answer: 1,
+                feedback: "Cemerlang! Get NOR menyongsangkan output Get OR. Bagi input (0,0), get OR menghasilkan 0, maka songsangannya (NOR) memberikan nilai 1."
+            },
+            {
+                type: 'text',
+                question: "5. Manakah antara get logik berikut yang hanya memerlukan SATU input sahaja?",
+                choices: [
+                    "Get DAN (AND)",
+                    "Get ATAU (OR)",
+                    "Get TAK-DAN (NAND)",
+                    "Get TAK (NOT)"
+                ],
+                answer: 3,
+                feedback: "Luar biasa! Get TAK (NOT) / Inverter adalah satu-satunya get asas yang hanya menerima satu isyarat input sahaja."
+            }
+        ];
+
+        let quizIndex = 0;
+        let quizScore = 0;
+        let hasAnsweredCurrent = false;
+
+        function startQuiz() {
+            quizIndex = 0;
+            quizScore = 0;
+            hasAnsweredCurrent = false;
+            
+            document.getElementById('quiz-intro-card').classList.add('hidden');
+            document.getElementById('quiz-result-card').classList.add('hidden');
+            document.getElementById('quiz-workspace').classList.remove('hidden');
+            
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            hasAnsweredCurrent = false;
+            const q = QUIZ_QUESTIONS[quizIndex];
+            
+            // Progress Bar / Title info
+            document.getElementById('quiz-current-num').innerText = quizIndex + 1;
+            const percentage = ((quizIndex + 1) / QUIZ_QUESTIONS.length) * 100;
+            document.getElementById('quiz-progress-bar').style.width = `${percentage}%`;
+
+            // Setup question texts
+            document.getElementById('quiz-question-text').innerText = q.question;
+
+            // Visual layout setups
+            const visualAsset = document.getElementById('quiz-visual-asset');
+            if (q.type === 'table') {
+                visualAsset.classList.remove('hidden');
+                
+                let tableHTML = `
+                    <table class="text-xs text-center border-collapse border border-slate-700 min-w-[200px]">
+                        <thead>
+                            <tr class="bg-slate-800 text-slate-300">
+                                <th class="border border-slate-700 px-3 py-1">A</th>
+                                <th class="border border-slate-700 px-3 py-1">B</th>
+                                <th class="border border-slate-700 px-3 py-1 text-emerald-400">Y (Output)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                q.table.forEach(r => {
+                    tableHTML += `
+                        <tr class="border-b border-slate-800">
+                            <td class="border border-slate-700 px-3 py-1 font-bold font-mono">${r.A}</td>
+                            <td class="border border-slate-700 px-3 py-1 font-bold font-mono">${r.B}</td>
+                            <td class="border border-slate-700 px-3 py-1 font-bold font-mono text-emerald-400">${r.Y}</td>
+                        </tr>
+                    `;
+                });
+                tableHTML += `</tbody></table>`;
+                visualAsset.innerHTML = tableHTML;
+            } else {
+                visualAsset.classList.add('hidden');
+            }
+
+            // Create choices buttons dynamically
+            const optContainer = document.getElementById('quiz-options-container');
+            optContainer.innerHTML = '';
+
+            q.choices.forEach((choice, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "quiz-choice-btn w-full text-left bg-slate-900 border border-slate-800 hover:border-slate-700 p-4 rounded-xl text-sm font-medium text-slate-300 transition-all flex items-center justify-between";
+                btn.innerHTML = `
+                    <span>${choice}</span>
+                    <span class="icon-indicator h-5 w-5 rounded-full border border-slate-700 flex items-center justify-center text-xs"></span>
+                `;
+                btn.onclick = () => submitAnswer(idx, btn);
+                optContainer.appendChild(btn);
+            });
+
+            // Clear feedback container
+            const fbBox = document.getElementById('quiz-feedback-box');
+            fbBox.innerHTML = '';
+            document.getElementById('btn-quiz-next').classList.add('hidden');
+        }
+
+        function submitAnswer(selectedIdx, btnElement) {
+            if (hasAnsweredCurrent) return;
+            hasAnsweredCurrent = true;
+
+            const q = QUIZ_QUESTIONS[quizIndex];
+            const feedbackBox = document.getElementById('quiz-feedback-box');
+            const btns = document.querySelectorAll('.quiz-choice-btn');
+
+            if (selectedIdx === q.answer) {
+                // Correct path
+                quizScore++;
+                btnElement.className = "quiz-choice-btn w-full text-left bg-emerald-500/10 border-2 border-emerald-500 p-4 rounded-xl text-sm font-bold text-emerald-400 flex items-center justify-between shadow-lg shadow-emerald-500/10";
+                btnElement.querySelector('.icon-indicator').innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
+                btnElement.querySelector('.icon-indicator').className = "icon-indicator h-5 w-5 bg-emerald-500 text-slate-900 rounded-full flex items-center justify-center text-xs";
+                
+                feedbackBox.innerHTML = `<span class="text-emerald-400"><i class="fa-solid fa-square-check mr-1.5"></i> Betul!</span>`;
+            } else {
+                // Wrong path
+                btnElement.className = "quiz-choice-btn w-full text-left bg-red-500/10 border-2 border-red-500 p-4 rounded-xl text-sm font-bold text-red-400 flex items-center justify-between shadow-lg shadow-red-500/10";
+                btnElement.querySelector('.icon-indicator').innerHTML = `<i class="fa-solid fa-circle-xmark"></i>`;
+                btnElement.querySelector('.icon-indicator').className = "icon-indicator h-5 w-5 bg-red-500 text-slate-950 rounded-full flex items-center justify-center text-xs";
+
+                // Highlight correct selection
+                const correctBtn = btns[q.answer];
+                correctBtn.className = "quiz-choice-btn w-full text-left bg-emerald-500/10 border-2 border-emerald-500/60 p-4 rounded-xl text-sm font-bold text-emerald-400 flex items-center justify-between";
+                correctBtn.querySelector('.icon-indicator').innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
+                correctBtn.querySelector('.icon-indicator').className = "icon-indicator h-5 w-5 bg-emerald-500/30 text-emerald-400 rounded-full flex items-center justify-center text-xs";
+
+                feedbackBox.innerHTML = `<span class="text-red-400"><i class="fa-solid fa-circle-exclamation mr-1.5"></i> Jawapan kurang tepat!</span>`;
+            }
+
+            // Lock other choices from trigger hover state transformations
+            btns.forEach(btn => {
+                btn.style.pointerEvents = 'none';
+            });
+
+            // Show next navigation button
+            const nextBtn = document.getElementById('btn-quiz-next');
+            nextBtn.classList.remove('hidden');
+            if (quizIndex === QUIZ_QUESTIONS.length - 1) {
+                nextBtn.innerHTML = `Lihat Keputusan <i class="fa-solid fa-award ml-1"></i>`;
+            } else {
+                nextBtn.innerHTML = `Seterusnya <i class="fa-solid fa-arrow-right ml-1"></i>`;
+            }
+        }
+
+        function nextQuestion() {
+            if (quizIndex < QUIZ_QUESTIONS.length - 1) {
+                quizIndex++;
+                renderQuizQuestion();
+            } else {
+                // Show result screen
+                document.getElementById('quiz-workspace').classList.add('hidden');
+                document.getElementById('quiz-result-card').classList.remove('hidden');
+
+                // Update scoreboard data
+                const percentage = Math.round((quizScore / QUIZ_QUESTIONS.length) * 100);
+                document.getElementById('quiz-score-percent').innerText = `${percentage}%`;
+                document.getElementById('quiz-score-ratio').innerText = `${quizScore} / ${QUIZ_QUESTIONS.length} soalan betul`;
+
+                let evaluation = "";
+                if (percentage === 100) {
+                    evaluation = "Tahniah! Pencapaian sempurna! Anda telah menguasai sukatan Aljabar Boolean & Get Logik sepenuhnya.";
+                } else if (percentage >= 80) {
+                    evaluation = "Sangat Bagus! Anda mempunyai kefahaman yang amat kukuh pada standard pembelajaran ini.";
+                } else if (percentage >= 50) {
+                    evaluation = "Bagus! Anda berada di landasan yang betul. Cuba lakukan sedikit lagi ulang kaji pada Eksplorasi Get untuk memahami dengan lebih baik.";
+                } else {
+                    evaluation = "Jangan putus asa! Rujuk semula bahagian Pengenalan dan luangkan sedikit masa di halaman Eksplorasi Interaktif, kemudian cuba lagi.";
+                }
+                document.getElementById('quiz-feedback-evaluation').innerText = evaluation;
+            }
+        }
+
+        // Initialize setup on page load
+        window.onload = () => {
+            switchTab('pengenalan');
+        }
+    </script>
+</body>
+</html>

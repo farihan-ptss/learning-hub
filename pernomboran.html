@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="ms" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Pembelajaran Sistem Nombor Interaktif</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- MathJax for rendering LaTeX math formulas -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/dist/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Header / Navigasi Utama -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-indigo-600 to-violet-500 text-white p-2 rounded-xl shadow-md">
+                    <i data-lucide="binary" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">NumeraSains</h1>
+                    <p class="text-xs text-slate-500 font-medium">Hub Interaktif Sistem Nombor</p>
+                </div>
+            </div>
+            <nav class="hidden md:flex space-x-1 bg-slate-100 p-1 rounded-xl">
+                <button onclick="switchTab('definisi')" id="tab-definisi" class="tab-btn px-4 py-2 text-sm font-medium rounded-lg bg-white text-slate-900 shadow-sm transition-all duration-200">
+                    <span class="flex items-center space-x-2">
+                        <i data-lucide="book-open" class="w-4 h-4"></i>
+                        <span>1. Pengenalan & Definisi</span>
+                    </span>
+                </button>
+                <button onclick="switchTab('penukaran')" id="tab-penukaran" class="tab-btn px-4 py-2 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 transition-all duration-200">
+                    <span class="flex items-center space-x-2">
+                        <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                        <span>2. Penukar Asas</span>
+                    </span>
+                </button>
+                <button onclick="switchTab('aritmetik')" id="tab-aritmetik" class="tab-btn px-4 py-2 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 transition-all duration-200">
+                    <span class="flex items-center space-x-2">
+                        <i data-lucide="calculator" class="w-4 h-4"></i>
+                        <span>3. Operasi Aritmetik</span>
+                    </span>
+                </button>
+                <button onclick="switchTab('kuiz')" id="tab-kuiz" class="tab-btn px-4 py-2 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 transition-all duration-200">
+                    <span class="flex items-center space-x-2">
+                        <i data-lucide="trophy" class="w-4 h-4"></i>
+                        <span>4. Kuiz Cabaran</span>
+                    </span>
+                </button>
+            </nav>
+            <div class="md:hidden">
+                <select onchange="switchTab(this.value)" class="bg-slate-100 border-0 rounded-lg text-sm font-medium py-2 px-3 focus:ring-2 focus:ring-indigo-500">
+                    <option value="definisi">1. Pengenalan & Definisi</option>
+                    <option value="penukaran">2. Penukar Asas</option>
+                    <option value="aritmetik">3. Operasi Aritmetik</option>
+                    <option value="kuiz">4. Kuiz Cabaran</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- ================= PANEL 1: DEFINISI & PENGENALAN ================= -->
+        <section id="panel-definisi" class="tab-panel space-y-8">
+            <div class="bg-gradient-to-r from-indigo-900 to-slate-900 rounded-3xl p-8 text-white relative overflow-hidden shadow-xl">
+                <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
+                    <i data-lucide="cpu" class="w-64 h-64"></i>
+                </div>
+                <div class="max-w-2xl">
+                    <span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Subtopik 2.1</span>
+                    <h2 class="text-3xl font-extrabold mt-3 tracking-tight">Sistem Nombor Perduaan, Perlapanan, Perpuluhan & Perpuluhan Enam Belas</h2>
+                    <p class="text-slate-300 mt-2 text-base leading-relaxed">Sistem komputer memproses data dalam pelbagai bentuk asas nombor. Mari kita fahami perbezaan dan kegunaan empat sistem nombor utama ini melalui visualisasi interaktif di bawah.</p>
+                </div>
+            </div>
+
+            <!-- Grid Definisi 4 Asas -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Perpuluhan -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-all duration-200 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 mb-4 font-bold text-lg">10</div>
+                        <h3 class="text-lg font-bold text-slate-900">Sistem Perpuluhan</h3>
+                        <p class="text-xs text-indigo-600 font-semibold mb-2">Decimal (Asas 10)</p>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">Sistem nombor harian kita. Menggunakan sepuluh digit unik untuk mewakili nilai.</p>
+                    </div>
+                    <div>
+                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 mb-3">
+                            <span class="text-xs text-slate-500 block mb-1">Digit yang digunakan:</span>
+                            <span class="code-font text-sm font-bold tracking-wider text-slate-700">0, 1, 2, 3, 4, 5, 6, 7, 8, 9</span>
+                        </div>
+                        <span class="text-xs text-slate-400">Contoh: $145_{10}$</span>
+                    </div>
+                </div>
+
+                <!-- Perduaan -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-all duration-200 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-cyan-50 flex items-center justify-center text-cyan-600 mb-4 font-bold text-lg">2</div>
+                        <h3 class="text-lg font-bold text-slate-900">Sistem Perduaan</h3>
+                        <p class="text-xs text-cyan-600 font-semibold mb-2">Binary (Asas 2)</p>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">Bahasa asas bagi perkakasan komputer digital (isyarat ON dan OFF).</p>
+                    </div>
+                    <div>
+                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 mb-3">
+                            <span class="text-xs text-slate-500 block mb-1">Digit yang digunakan:</span>
+                            <span class="code-font text-sm font-bold tracking-wider text-slate-700">0, 1</span>
+                        </div>
+                        <span class="text-xs text-slate-400">Contoh: $10010001_2$</span>
+                    </div>
+                </div>
+
+                <!-- Perlapanan -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-all duration-200 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 mb-4 font-bold text-lg">8</div>
+                        <h3 class="text-lg font-bold text-slate-900">Sistem Perlapanan</h3>
+                        <p class="text-xs text-emerald-600 font-semibold mb-2">Octal (Asas 8)</p>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">Digunakan untuk meringkaskan kod perduaan yang panjang agar mudah dibaca manusia.</p>
+                    </div>
+                    <div>
+                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 mb-3">
+                            <span class="text-xs text-slate-500 block mb-1">Digit yang digunakan:</span>
+                            <span class="code-font text-sm font-bold tracking-wider text-slate-700">0, 1, 2, 3, 4, 5, 6, 7</span>
+                        </div>
+                        <span class="text-xs text-slate-400">Contoh: $221_8$</span>
+                    </div>
+                </div>
+
+                <!-- Heksadesimal -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-all duration-200 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-rose-50 flex items-center justify-center text-rose-600 mb-4 font-bold text-lg">16</div>
+                        <h3 class="text-lg font-bold text-slate-900">Sistem Perpuluhan 16</h3>
+                        <p class="text-xs text-rose-600 font-semibold mb-2">Hexadecimal (Asas 16)</p>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">Digunakan secara meluas untuk mewakili alamat memori (RAM) dan kod warna HTML (RGB).</p>
+                    </div>
+                    <div>
+                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 mb-3">
+                            <span class="text-xs text-slate-500 block mb-1">Digit yang digunakan:</span>
+                            <span class="code-font text-xs font-bold tracking-wider text-slate-700">0-9, A(10), B(11), C(12), D(13), E(14), F(15)</span>
+                        </div>
+                        <span class="text-xs text-slate-400">Contoh: $91_{16}$</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualisasi Nilai Tempat Interaktif -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+                <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-6 pb-6 border-b border-slate-100">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900">Simulasi Interaktif: Mekanisme Nilai Tempat</h3>
+                        <p class="text-slate-500 text-sm mt-1">Ubah suis perduaan di bawah untuk melihat bagaimana nilai perpuluhan dibina daripada gabungan nilai tempat asas 2.</p>
+                    </div>
+                    <div class="mt-4 lg:mt-0 bg-indigo-50 text-indigo-700 px-4 py-2 rounded-xl border border-indigo-100 flex items-center space-x-2">
+                        <i data-lucide="info" class="w-4 h-4"></i>
+                        <span class="text-sm font-semibold">Formula: $\sum (Digit \times Asas^{Kedudukan})$</span>
+                    </div>
+                </div>
+
+                <!-- Switch Interaktif (Asas 2) -->
+                <div class="grid grid-cols-8 gap-4 mb-6">
+                    <!-- Sediakan 8 bit -->
+                    <template id="bit-template">
+                        <div class="flex flex-col items-center p-3 rounded-xl border transition-all duration-200 select-none cursor-pointer">
+                            <span class="text-xs text-slate-400 font-bold mb-1">2<sup><span class="bit-pos"></span></sup></span>
+                            <span class="text-xs text-slate-500 font-bold mb-2 bit-val"></span>
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shadow-sm transition-all duration-150 bit-btn"></div>
+                        </div>
+                    </template>
+                    <div id="bit-container" class="col-span-8 grid grid-cols-4 sm:grid-cols-8 gap-3"></div>
+                </div>
+
+                <!-- Paparan Hasil Dinamik -->
+                <div class="bg-slate-50 rounded-xl p-6 border border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Hasil Pengiraan Sistem Perduaan ($Asas\ 2$)</span>
+                        <div class="flex items-baseline space-x-2 mt-2">
+                            <span id="binary-str" class="text-2xl md:text-3xl font-extrabold text-cyan-600 code-font">00000000</span>
+                            <span class="text-sm font-semibold text-slate-500"><sub>2</sub></span>
+                        </div>
+                        <p id="math-expression" class="text-sm text-slate-500 mt-2 italic"></p>
+                    </div>
+                    <div class="border-t md:border-t-0 md:border-l border-slate-200 pt-4 md:pt-0 md:pl-6 flex flex-col justify-center">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Nilai dalam Perpuluhan ($Asas\ 10$)</span>
+                        <div class="flex items-baseline space-x-2 mt-2">
+                            <span id="decimal-val" class="text-3xl md:text-4xl font-black text-indigo-600 code-font">0</span>
+                            <span class="text-sm font-semibold text-slate-500"><sub>10</sub></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PANEL 2: PENUKAR ASAS INTERAKTIF ================= -->
+        <section id="panel-penukaran" class="tab-panel hidden space-y-8">
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-slate-900">Enjin Penukar Asas Pintar</h2>
+                    <p class="text-slate-500 text-sm mt-1">Masukkan sebarang nombor pada mana-mana asas di bawah. Sistem akan menukar nombor tersebut secara automatik ke semua asas lain berserta jalan kerja dan pengiraan matematik yang lengkap!</p>
+                </div>
+
+                <!-- Input Field Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Input Perpuluhan -->
+                    <div class="relative bg-slate-50 p-4 rounded-xl border-2 border-transparent focus-within:border-indigo-500 transition-all duration-150">
+                        <label class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Perpuluhan (Asas 10)</label>
+                        <div class="flex items-center space-x-2 mt-1">
+                            <input type="text" id="input-dec" placeholder="Cth: 255" class="bg-transparent text-xl font-bold text-slate-800 w-full outline-none code-font" oninput="convertFrom('dec', this.value)">
+                            <span class="text-xs font-medium text-slate-400"><sub>10</sub></span>
+                        </div>
+                        <span id="err-dec" class="text-[10px] text-rose-500 absolute bottom-1 left-4 font-semibold hidden">Input Asas 10 tidak sah!</span>
+                    </div>
+
+                    <!-- Input Perduaan -->
+                    <div class="relative bg-slate-50 p-4 rounded-xl border-2 border-transparent focus-within:border-cyan-500 transition-all duration-150">
+                        <label class="text-xs font-bold text-cyan-600 uppercase tracking-wider">Perduaan (Asas 2)</label>
+                        <div class="flex items-center space-x-2 mt-1">
+                            <input type="text" id="input-bin" placeholder="Cth: 11111111" class="bg-transparent text-xl font-bold text-slate-800 w-full outline-none code-font" oninput="convertFrom('bin', this.value)">
+                            <span class="text-xs font-medium text-slate-400"><sub>2</sub></span>
+                        </div>
+                        <span id="err-bin" class="text-[10px] text-rose-500 absolute bottom-1 left-4 font-semibold hidden">Gunakan 0 dan 1 sahaja!</span>
+                    </div>
+
+                    <!-- Input Perlapanan -->
+                    <div class="relative bg-slate-50 p-4 rounded-xl border-2 border-transparent focus-within:border-emerald-500 transition-all duration-150">
+                        <label class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Perlapanan (Asas 8)</label>
+                        <div class="flex items-center space-x-2 mt-1">
+                            <input type="text" id="input-oct" placeholder="Cth: 377" class="bg-transparent text-xl font-bold text-slate-800 w-full outline-none code-font" oninput="convertFrom('oct', this.value)">
+                            <span class="text-xs font-medium text-slate-400"><sub>8</sub></span>
+                        </div>
+                        <span id="err-oct" class="text-[10px] text-rose-500 absolute bottom-1 left-4 font-semibold hidden">Gunakan digit 0-7 sahaja!</span>
+                    </div>
+
+                    <!-- Input Heksadesimal -->
+                    <div class="relative bg-slate-50 p-4 rounded-xl border-2 border-transparent focus-within:border-rose-500 transition-all duration-150">
+                        <label class="text-xs font-bold text-rose-600 uppercase tracking-wider">Perpuluhan 16 (Asas 16)</label>
+                        <div class="flex items-center space-x-2 mt-1">
+                            <input type="text" id="input-hex" placeholder="Cth: FF" class="bg-transparent text-xl font-bold text-slate-800 w-full outline-none uppercase code-font" oninput="convertFrom('hex', this.value)">
+                            <span class="text-xs font-medium text-slate-400"><sub>16</sub></span>
+                        </div>
+                        <span id="err-hex" class="text-[10px] text-rose-500 absolute bottom-1 left-4 font-semibold hidden">Gunakan 0-9 dan A-F sahaja!</span>
+                    </div>
+                </div>
+
+                <!-- Butang Set Semula -->
+                <div class="flex justify-end mt-4">
+                    <button onclick="clearConvertor()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold rounded-xl flex items-center space-x-2 transition-all duration-150">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        <span>Set Semula</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Jalan Kerja & Algoritma Penukaran -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="p-2 rounded-lg bg-indigo-50 text-indigo-600">
+                        <i data-lucide="book-open-check" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900">Jalan Kerja Penukaran Langkah Demi Langkah</h3>
+                        <p class="text-slate-500 text-xs">Pilih penterjemahan jalan kerja yang anda ingin analisa</p>
+                    </div>
+                </div>
+
+                <div class="flex border-b border-slate-200 mb-6 overflow-x-auto custom-scrollbar">
+                    <button onclick="switchWorkMethod('decToAll')" id="btn-work-decToAll" class="work-tab-btn py-3 px-4 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600 whitespace-nowrap">Asas 10 $\rightarrow$ Asas Lain</button>
+                    <button onclick="switchWorkMethod('allToDec')" id="btn-work-allToDec" class="work-tab-btn py-3 px-4 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-900 whitespace-nowrap">Asas Lain $\rightarrow$ Asas 10</button>
+                    <button onclick="switchWorkMethod('binToOctHex')" id="btn-work-binToOctHex" class="work-tab-btn py-3 px-4 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-900 whitespace-nowrap">Kumpulan Bit (Asas 2 $\leftrightarrow$ 8 & 16)</button>
+                </div>
+
+                <!-- Konten Kerja Dinamik -->
+                <div id="work-content" class="space-y-6">
+                    <!-- Content injected by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PANEL 3: OPERASI ARITMETIK ================= -->
+        <section id="panel-aritmetik" class="tab-panel hidden space-y-8">
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-slate-900">Operasi Aritmetik Merentas Asas Nombor</h2>
+                    <p class="text-slate-500 text-sm mt-1">Hasilkan soalan tambah atau tolak bagi sistem nombor kegemaran anda. Lihat simulasi matematik menegak serta penjelasan kaedah kumpul semula (carry/borrow).</p>
+                </div>
+
+                <!-- Konfigurasi Operasi -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-slate-50 p-6 rounded-xl border border-slate-100 mb-6">
+                    <!-- Pilih Asas -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Asas Nombor</label>
+                        <select id="arith-base" onchange="setupArithmeticInputs()" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="2">Asas 2 (Perduaan)</option>
+                            <option value="8">Asas 8 (Perlapanan)</option>
+                            <option value="16">Asas 16 (Heksadesimal)</option>
+                        </select>
+                    </div>
+
+                    <!-- Pilih Operasi -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Operasi</label>
+                        <select id="arith-op" onchange="calculateArithmetic()" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="+">Penambahan (+)</option>
+                            <option value="-">Penolakan (-)</option>
+                        </select>
+                    </div>
+
+                    <!-- Nombor Pertama (A) -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Nombor Pertama (A)</label>
+                        <input type="text" id="arith-num1" value="1101" oninput="calculateArithmetic()" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold code-font focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+
+                    <!-- Nombor Kedua (B) -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Nombor Kedua (B)</label>
+                        <input type="text" id="arith-num2" value="1011" oninput="calculateArithmetic()" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold code-font focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                </div>
+
+                <!-- ralat paparan -->
+                <div id="arith-error" class="hidden bg-rose-50 text-rose-700 p-4 rounded-xl border border-rose-100 flex items-center space-x-2 text-sm font-medium mb-6">
+                    <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                    <span id="arith-err-msg">Nombor yang dimasukkan tidak sepadan dengan asas terpilih!</span>
+                </div>
+
+                <!-- Paparan Simulasi Menegak & Penjelasan -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Bentuk Lazim Menegak -->
+                    <div class="lg:col-span-5 bg-slate-950 text-slate-100 rounded-2xl p-8 flex flex-col justify-center items-center shadow-inner relative overflow-hidden">
+                        <div class="absolute top-4 left-4 bg-slate-800 text-slate-300 text-[10px] uppercase font-bold tracking-widest px-2 py-1 rounded">Bentuk Lazim</div>
+                        
+                        <div class="w-full max-w-xs space-y-4 font-mono text-2xl md:text-3xl text-right pr-6 mt-4">
+                            <!-- Carry/Borrow row -->
+                            <div id="carry-row" class="text-amber-400 text-base h-6 font-bold tracking-widest pr-1"></div>
+                            
+                            <!-- Num 1 -->
+                            <div id="disp-num1" class="tracking-widest">1101</div>
+                            
+                            <!-- Operator and Num 2 -->
+                            <div id="disp-num2" class="border-b-4 border-slate-700 pb-2 tracking-widest">
+                                <span class="float-left text-slate-500 text-xl font-sans font-bold select-none" id="disp-op">+</span>
+                                <span>1011</span>
+                            </div>
+                            
+                            <!-- Result -->
+                            <div id="disp-res" class="text-emerald-400 font-extrabold tracking-widest pt-2">11000</div>
+                        </div>
+
+                        <!-- Badge Asas Nombor -->
+                        <div class="absolute bottom-4 right-4 text-xs font-bold text-slate-500">
+                            Asas <span id="disp-base-sub">2</span>
+                        </div>
+                    </div>
+
+                    <!-- Huraian Terperinci -->
+                    <div class="lg:col-span-7 space-y-4">
+                        <h4 class="text-base font-bold text-slate-900 flex items-center space-x-2">
+                            <i data-lucide="help-circle" class="w-5 h-5 text-indigo-500"></i>
+                            <span>Huraian Langkah Demi Langkah:</span>
+                        </h4>
+                        <div class="bg-slate-50 border border-slate-100 rounded-xl p-6 space-y-4" id="arith-explanation">
+                            <!-- Diisi oleh JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PANEL 4: KUIZ CABARAN ================= -->
+        <section id="panel-kuiz" class="tab-panel hidden space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Panel Statistik & Progress -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 h-fit lg:sticky lg:top-24">
+                    <h3 class="text-lg font-bold text-slate-900 mb-4">Profil Prestasi</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 bg-indigo-50 rounded-xl border border-indigo-100">
+                            <div class="flex items-center space-x-2">
+                                <i data-lucide="award" class="w-5 h-5 text-indigo-600"></i>
+                                <span class="text-sm font-semibold text-slate-700">Skor Terkumpul</span>
+                            </div>
+                            <span id="quiz-score" class="text-lg font-bold text-indigo-600">0</span>
+                        </div>
+
+                        <div class="flex items-center justify-between p-3 bg-emerald-50 rounded-xl border border-emerald-100">
+                            <div class="flex items-center space-x-2">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i>
+                                <span class="text-sm font-semibold text-slate-700">Betul Berturut-turut</span>
+                            </div>
+                            <span id="quiz-streak" class="text-lg font-bold text-emerald-600">0</span>
+                        </div>
+
+                        <button onclick="resetQuizStats()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-lg transition-all duration-150">
+                            Set Semula Prestasi
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Kad Kuiz / Cabaran Semasa -->
+                <div class="lg:col-span-3 bg-white rounded-2xl p-8 shadow-sm border border-slate-200 min-h-[400px] flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+                            <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest" id="quiz-level-badge">Tahap: Sederhana</span>
+                            <span class="text-xs font-medium text-slate-400">Topik: ASK Subtopik 2.1</span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-slate-900 mb-4" id="quiz-question">Sila mulakan soalan untuk belajar!</h3>
+                        
+                        <!-- Pilihan Jawapan -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6" id="quiz-options-container">
+                            <!-- Diisi oleh JS -->
+                        </div>
+                    </div>
+
+                    <!-- Maklumbalas dan Butang Tindakan -->
+                    <div>
+                        <!-- Box Maklumbalas Betul/Salah -->
+                        <div id="quiz-feedback" class="hidden p-4 rounded-xl mb-4 text-sm font-semibold flex items-center space-x-2">
+                            <i id="feedback-icon" class="w-5 h-5"></i>
+                            <span id="feedback-text"></span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <button onclick="revealExplanation()" id="quiz-btn-hint" class="hidden text-sm font-bold text-indigo-600 hover:text-indigo-800 transition-all duration-150">
+                                Papar Jalan Kerja?
+                            </button>
+                            <button onclick="generateQuestion()" id="quiz-btn-next" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl flex items-center space-x-2 transition-all duration-150 shadow-md shadow-indigo-100 ml-auto">
+                                <span id="btn-next-text">Seterusnya</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+
+                        <!-- Jalan Kerja / Pembelajaran Tersembunyi -->
+                        <div id="quiz-explanation-box" class="hidden mt-6 p-6 bg-slate-50 border border-slate-100 rounded-xl space-y-4">
+                            <h4 class="font-bold text-slate-800">Penjelasan Matematik:</h4>
+                            <div id="quiz-explanation-text" class="text-sm text-slate-600 leading-relaxed"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 py-6 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs">
+            <p>© 2026 NumeraSains. Direka bentuk khas sebagai alat bantu mengajar interaktif mata pelajaran Asas Sains Komputer (ASK).</p>
+        </div>
+    </footer>
+
+    <!-- JS Logic Core -->
+    <script>
+        // === GLOBAL NAVIGATION CONTROL ===
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'text-slate-900', 'shadow-sm');
+                btn.classList.add('text-slate-600', 'hover:text-slate-900');
+            });
+
+            document.getElementById(`panel-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600', 'hover:text-slate-900');
+                activeBtn.classList.add('bg-white', 'text-slate-900', 'shadow-sm');
+            }
+
+            // Trigger re-render of dynamic visual assets if needed
+            if (tabId === 'definisi') {
+                renderBitSwitches();
+            } else if (tabId === 'penukaran') {
+                triggerConversionSample();
+            } else if (tabId === 'aritmetik') {
+                calculateArithmetic();
+            } else if (tabId === 'kuiz') {
+                if(!currentQuestion) generateQuestion();
+            }
+            
+            // Re-render LaTeX
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        // === 1. INTERACTIVE PLACE VALUE LOGIC ===
+        let activeBits = [0, 0, 0, 0, 0, 0, 0, 0]; // 8-bit binary representation (MSB to LSB)
+
+        function renderBitSwitches() {
+            const container = document.getElementById('bit-container');
+            container.innerHTML = '';
+            const template = document.getElementById('bit-template');
+
+            for (let i = 7; i >= 0; i--) {
+                const clone = template.content.cloneNode(true);
+                const bitBtn = clone.querySelector('.bit-btn');
+                const bitPos = clone.querySelector('.bit-pos');
+                const bitVal = clone.querySelector('.bit-val');
+                const wrapper = clone.querySelector('.flex');
+
+                bitPos.textContent = i;
+                bitVal.textContent = Math.pow(2, i);
+
+                // Set initial active/inactive state
+                updateBitVisual(bitBtn, wrapper, activeBits[7 - i], i);
+
+                wrapper.addEventListener('click', () => {
+                    activeBits[7 - i] = activeBits[7 - i] === 1 ? 0 : 1;
+                    updateBitVisual(bitBtn, wrapper, activeBits[7 - i], i);
+                    updateInteractiveCalculation();
+                });
+
+                container.appendChild(clone);
+            }
+            updateInteractiveCalculation();
+        }
+
+        function updateBitVisual(btn, wrapper, state, index) {
+            if (state === 1) {
+                btn.textContent = '1';
+                btn.className = 'w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shadow-sm transition-all duration-150 bit-btn bg-cyan-500 text-white';
+                wrapper.className = 'flex flex-col items-center p-3 rounded-xl border transition-all duration-200 select-none cursor-pointer border-cyan-300 bg-cyan-50/50';
+            } else {
+                btn.textContent = '0';
+                btn.className = 'w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shadow-sm transition-all duration-150 bit-btn bg-slate-200 text-slate-600';
+                wrapper.className = 'flex flex-col items-center p-3 rounded-xl border transition-all duration-200 select-none cursor-pointer border-slate-200 bg-white hover:bg-slate-50';
+            }
+        }
+
+        function updateInteractiveCalculation() {
+            const binaryStr = activeBits.join('');
+            const decimalVal = parseInt(binaryStr, 2);
+
+            document.getElementById('binary-str').textContent = binaryStr;
+            document.getElementById('decimal-val').textContent = decimalVal;
+
+            // Generate formula representation
+            let activeTerms = [];
+            for (let i = 7; i >= 0; i--) {
+                if (activeBits[7 - i] === 1) {
+                    activeTerms.push(`(1 \\times 2^{${i}})`);
+                }
+            }
+            const expressionStr = activeTerms.length > 0 
+                ? `$${activeTerms.join(' + ')} = ${decimalVal}_{10}$`
+                : `$0_{10}$`;
+
+            const exprContainer = document.getElementById('math-expression');
+            exprContainer.innerHTML = `Huraian Matematik: ${expressionStr}`;
+
+            if (window.MathJax && MathJax.typesetPromise) {
+                MathJax.typesetPromise([exprContainer]);
+            }
+        }
+
+
+        // === 2. SMART CONVERSION ENGINE ===
+        let currentConvMethod = 'decToAll';
+        let currentDecimalValue = 0;
+
+        function convertFrom(source, value) {
+            // Reset errors
+            hideErrors();
+            let decimalVal = 0;
+
+            if (value.trim() === '') {
+                clearAllInputsExcept(source);
+                updateWorkings(0);
+                return;
+            }
+
+            try {
+                if (source === 'dec') {
+                    if (!/^\d+$/.test(value)) throw new Error();
+                    decimalVal = parseInt(value, 10);
+                } else if (source === 'bin') {
+                    if (!/^[01]+$/.test(value)) throw new Error();
+                    decimalVal = parseInt(value, 2);
+                } else if (source === 'oct') {
+                    if (!/^[0-7]+$/.test(value)) throw new Error();
+                    decimalVal = parseInt(value, 8);
+                } else if (source === 'hex') {
+                    if (!/^[0-9A-Fa-f]+$/.test(value)) throw new Error();
+                    decimalVal = parseInt(value, 16);
+                }
+
+                if (isNaN(decimalVal) || decimalVal < 0) throw new Error();
+
+                currentDecimalValue = decimalVal;
+
+                // Update other fields
+                if (source !== 'dec') document.getElementById('input-dec').value = decimalVal;
+                if (source !== 'bin') document.getElementById('input-bin').value = decimalVal.toString(2);
+                if (source !== 'oct') document.getElementById('input-oct').value = decimalVal.toString(8);
+                if (source !== 'hex') document.getElementById('input-hex').value = decimalVal.toString(16).toUpperCase();
+
+                updateWorkings(decimalVal);
+
+            } catch (err) {
+                document.getElementById(`err-${source}`).classList.remove('hidden');
+            }
+        }
+
+        function clearAllInputsExcept(exception) {
+            const inputs = ['dec', 'bin', 'oct', 'hex'];
+            inputs.forEach(i => {
+                if (i !== exception) {
+                    document.getElementById(`input-${i}`).value = '';
+                }
+            });
+            currentDecimalValue = 0;
+        }
+
+        function clearConvertor() {
+            ['dec', 'bin', 'oct', 'hex'].forEach(i => {
+                document.getElementById(`input-${i}`).value = '';
+            });
+            hideErrors();
+            currentDecimalValue = 0;
+            updateWorkings(0);
+        }
+
+        function hideErrors() {
+            ['dec', 'bin', 'oct', 'hex'].forEach(i => {
+                document.getElementById(`err-${i}`).classList.add('hidden');
+            });
+        }
+
+        function switchWorkMethod(method) {
+            currentConvMethod = method;
+            document.querySelectorAll('.work-tab-btn').forEach(btn => {
+                btn.classList.remove('border-indigo-600', 'text-indigo-600');
+                btn.classList.add('border-transparent', 'text-slate-500');
+            });
+            document.getElementById(`btn-work-${method}`).classList.add('border-indigo-600', 'text-indigo-600');
+            updateWorkings(currentDecimalValue);
+        }
+
+        function triggerConversionSample() {
+            document.getElementById('input-dec').value = '45';
+            convertFrom('dec', '45');
+        }
+
+        function updateWorkings(decimalVal) {
+            const container = document.getElementById('work-content');
+            container.innerHTML = '';
+
+            if (decimalVal === 0) {
+                container.innerHTML = `<div class="text-center text-slate-400 py-8 text-sm">Masukkan nombor untuk menghasilkan jalan kerja dinamik di sini.</div>`;
+                return;
+            }
+
+            if (currentConvMethod === 'decToAll') {
+                container.innerHTML = generateDecToAllWorkings(decimalVal);
+            } else if (currentConvMethod === 'allToDec') {
+                container.innerHTML = generateAllToDecWorkings(decimalVal);
+            } else {
+                container.innerHTML = generateBinToOctHexGroupWorkings(decimalVal);
+            }
+
+            if (window.MathJax) {
+                MathJax.typesetPromise([container]);
+            }
+        }
+
+        function generateDecToAllWorkings(dec) {
+            // Successive division algorithm visualizer
+            const binDigits = dec.toString(2);
+            const octDigits = dec.toString(8);
+            const hexDigits = dec.toString(16).toUpperCase();
+
+            let binSteps = getDivisionSteps(dec, 2);
+            let octSteps = getDivisionSteps(dec, 8);
+            let hexSteps = getDivisionSteps(dec, 16);
+
+            return `
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-cyan-50/50 p-5 rounded-xl border border-cyan-100">
+                        <h4 class="font-bold text-cyan-800 text-sm mb-3">Ke Asas 2 (Pembahagian dengan 2)</h4>
+                        <div class="space-y-1.5 text-xs font-mono mb-4 text-slate-700">
+                            ${binSteps.map(step => `<div>${step.num} &divide; 2 = <b>${step.quotient}</b> baki <span class="text-indigo-600 font-bold">${step.rem}</span></div>`).join('')}
+                        </div>
+                        <p class="text-xs text-slate-600">Membaca baki dari bawah ke atas:</p>
+                        <div class="mt-2 text-sm font-bold text-cyan-600 font-mono">$${dec}_{10} = ${binDigits}_2$</div>
+                    </div>
+
+                    <div class="bg-emerald-50/50 p-5 rounded-xl border border-emerald-100">
+                        <h4 class="font-bold text-emerald-800 text-sm mb-3">Ke Asas 8 (Pembahagian dengan 8)</h4>
+                        <div class="space-y-1.5 text-xs font-mono mb-4 text-slate-700">
+                            ${octSteps.map(step => `<div>${step.num} &divide; 8 = <b>${step.quotient}</b> baki <span class="text-indigo-600 font-bold">${step.rem}</span></div>`).join('')}
+                        </div>
+                        <p class="text-xs text-slate-600">Membaca baki dari bawah ke atas:</p>
+                        <div class="mt-2 text-sm font-bold text-emerald-600 font-mono">$${dec}_{10} = ${octDigits}_8$</div>
+                    </div>
+
+                    <div class="bg-rose-50/50 p-5 rounded-xl border border-rose-100">
+                        <h4 class="font-bold text-rose-800 text-sm mb-3">Ke Asas 16 (Pembahagian dengan 16)</h4>
+                        <div class="space-y-1.5 text-xs font-mono mb-4 text-slate-700">
+                            ${hexSteps.map(step => `<div>${step.num} &divide; 16 = <b>${step.quotient}</b> baki <span class="text-rose-600 font-bold">${step.rem} (${translateHexVal(step.rem)})</span></div>`).join('')}
+                        </div>
+                        <p class="text-xs text-slate-600">Membaca baki dari bawah ke atas:</p>
+                        <div class="mt-2 text-sm font-bold text-rose-600 font-mono">$${dec}_{10} = ${hexDigits}_{16}$</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function translateHexVal(rem) {
+            const hexMap = { 10:'A', 11:'B', 12:'C', 13:'D', 14:'E', 15:'F' };
+            return hexMap[rem] ? hexMap[rem] : rem;
+        }
+
+        function getDivisionSteps(num, base) {
+            let steps = [];
+            let current = num;
+            if (current === 0) {
+                steps.push({ num: 0, quotient: 0, rem: 0 });
+                return steps;
+            }
+            while (current > 0) {
+                let quotient = Math.floor(current / base);
+                let rem = current % base;
+                steps.push({ num: current, quotient: quotient, rem: rem });
+                current = quotient;
+            }
+            return steps;
+        }
+
+        function generateAllToDecWorkings(dec) {
+            const bin = dec.toString(2);
+            const oct = dec.toString(8);
+            const hex = dec.toString(16).toUpperCase();
+
+            // Expand bin
+            let binExpansion = bin.split('').map((digit, idx) => {
+                const pos = bin.length - 1 - idx;
+                return `(${digit} \\times 2^{${pos}})`;
+            }).join(' + ');
+
+            // Expand oct
+            let octExpansion = oct.split('').map((digit, idx) => {
+                const pos = oct.length - 1 - idx;
+                return `(${digit} \\times 8^{${pos}})`;
+            }).join(' + ');
+
+            // Expand hex
+            let hexExpansion = hex.split('').map((digit, idx) => {
+                const pos = hex.length - 1 - idx;
+                const decVal = parseInt(digit, 16);
+                return `(${decVal} \\times 16^{${pos}})`;
+            }).join(' + ');
+
+            return `
+                <div class="space-y-6">
+                    <div class="bg-indigo-50/50 p-5 rounded-xl border border-indigo-100">
+                        <h4 class="font-bold text-indigo-900 text-sm mb-2">Penukaran Perduaan ke Perpuluhan ($Asas\ 2 \rightarrow 10$)</h4>
+                        <div class="overflow-x-auto text-sm leading-relaxed p-2 text-slate-700">
+                            $$${bin}_2 = ${binExpansion}$$
+                            $$= ${dec}_{10}$$
+                        </div>
+                    </div>
+
+                    <div class="bg-indigo-50/50 p-5 rounded-xl border border-indigo-100">
+                        <h4 class="font-bold text-indigo-900 text-sm mb-2">Penukaran Perlapanan ke Perpuluhan ($Asas\ 8 \rightarrow 10$)</h4>
+                        <div class="overflow-x-auto text-sm leading-relaxed p-2 text-slate-700">
+                            $$${oct}_8 = ${octExpansion}$$
+                            $$= ${dec}_{10}$$
+                        </div>
+                    </div>
+
+                    <div class="bg-indigo-50/50 p-5 rounded-xl border border-indigo-100">
+                        <h4 class="font-bold text-indigo-900 text-sm mb-2">Penukaran Perpuluhan 16 ke Perpuluhan ($Asas\ 16 \rightarrow 10$)</h4>
+                        <div class="overflow-x-auto text-sm leading-relaxed p-2 text-slate-700">
+                            $$${hex}_{16} = ${hexExpansion}$$
+                            $$= ${dec}_{10}$$
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateBinToOctHexGroupWorkings(dec) {
+            const bin = dec.toString(2);
+            
+            // Format to 3-digit groups (octal)
+            let paddedBinOct = bin;
+            while (paddedBinOct.length % 3 !== 0) paddedBinOct = '0' + paddedBinOct;
+            let groups3 = [];
+            for (let i = 0; i < paddedBinOct.length; i += 3) {
+                groups3.push(paddedBinOct.substring(i, i+3));
+            }
+
+            // Format to 4-digit groups (hex)
+            let paddedBinHex = bin;
+            while (paddedBinHex.length % 4 !== 0) paddedBinHex = '0' + paddedBinHex;
+            let groups4 = [];
+            for (let i = 0; i < paddedBinHex.length; i += 4) {
+                groups4.push(paddedBinHex.substring(i, i+4));
+            }
+
+            const octDigits = groups3.map(g => parseInt(g, 2).toString(8)).join('');
+            const hexDigits = groups4.map(g => parseInt(g, 2).toString(16).toUpperCase()).join('');
+
+            return `
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Kumpulan 3 Bit (Asas 8) -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                        <h4 class="font-bold text-slate-900 text-sm mb-4">Pengumpulan 3 Bit (Perduaan $\leftrightarrow$ Perlapanan)</h4>
+                        <p class="text-xs text-slate-500 mb-4">Kumpulkan bit-bit perduaan dari kanan ke kiri kepada kumpulan 3 bit. Tukar setiap kumpulan ke digit perlapanan setara.</p>
+                        
+                        <div class="flex items-center justify-center space-x-2 font-mono text-sm mb-4">
+                            ${groups3.map((g, idx) => `
+                                <div class="flex flex-col items-center bg-cyan-100/50 border border-cyan-200 p-2.5 rounded-lg">
+                                    <span class="text-cyan-800 font-bold">${g}</span>
+                                    <span class="text-xs text-slate-400 mt-1">&darr;</span>
+                                    <span class="text-indigo-600 font-extrabold mt-1 text-base">${parseInt(g,2)}</span>
+                                </div>
+                            `).join('<span class="text-slate-300 font-bold">+</span>')}
+                        </div>
+
+                        <div class="text-xs text-slate-600 text-center">
+                            Setara dengan: <b class="text-sm font-bold text-slate-800">$${octDigits}_8$</b>
+                        </div>
+                    </div>
+
+                    <!-- Kumpulan 4 Bit (Asas 16) -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                        <h4 class="font-bold text-slate-900 text-sm mb-4">Pengumpulan 4 Bit (Perduaan $\leftrightarrow$ Heksadesimal)</h4>
+                        <p class="text-xs text-slate-500 mb-4">Kumpulkan bit-bit perduaan dari kanan ke kiri kepada kumpulan 4 bit. Tukar setiap kumpulan ke digit heksadesimal setara.</p>
+                        
+                        <div class="flex items-center justify-center space-x-2 font-mono text-sm mb-4">
+                            ${groups4.map((g, idx) => `
+                                <div class="flex flex-col items-center bg-rose-100/50 border border-rose-200 p-2.5 rounded-lg">
+                                    <span class="text-rose-800 font-bold">${g}</span>
+                                    <span class="text-xs text-slate-400 mt-1">&darr;</span>
+                                    <span class="text-indigo-600 font-extrabold mt-1 text-base">${parseInt(g,2).toString(16).toUpperCase()}</span>
+                                </div>
+                            `).join('<span class="text-slate-300 font-bold">+</span>')}
+                        </div>
+
+                        <div class="text-xs text-slate-600 text-center">
+                            Setara dengan: <b class="text-sm font-bold text-slate-800">$${hexDigits}_{16}$</b>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+
+        // === 3. ARITHMETIC OPERATION ENGINE ===
+        function setupArithmeticInputs() {
+            const base = parseInt(document.getElementById('arith-base').value);
+            const num1Input = document.getElementById('arith-num1');
+            const num2Input = document.getElementById('arith-num2');
+
+            if (base === 2) {
+                num1Input.value = '1101';
+                num2Input.value = '1011';
+            } else if (base === 8) {
+                num1Input.value = '75';
+                num2Input.value = '26';
+            } else if (base === 16) {
+                num1Input.value = 'A4';
+                num2Input.value = '4B';
+            }
+            calculateArithmetic();
+        }
+
+        function calculateArithmetic() {
+            const base = parseInt(document.getElementById('arith-base').value);
+            const op = document.getElementById('arith-op').value;
+            const strNum1 = document.getElementById('arith-num1').value.trim().toUpperCase();
+            const strNum2 = document.getElementById('arith-num2').value.trim().toUpperCase();
+
+            const errDiv = document.getElementById('arith-error');
+            errDiv.classList.add('hidden');
+
+            // Validate base characters
+            const baseRegexMap = {
+                2: /^[01]+$/,
+                8: /^[0-7]+$/,
+                16: /^[0-9A-F]+$/
+            };
+
+            if (!baseRegexMap[base].test(strNum1) || !baseRegexMap[base].test(strNum2)) {
+                errDiv.classList.remove('hidden');
+                document.getElementById('arith-err-msg').textContent = `Format input tidak sah untuk Asas ${base}!`;
+                return;
+            }
+
+            const val1 = parseInt(strNum1, base);
+            const val2 = parseInt(strNum2, base);
+
+            if (op === '-' && val1 < val2) {
+                errDiv.classList.remove('hidden');
+                document.getElementById('arith-err-msg').textContent = "Nilai nombor pertama mestilah lebih besar untuk mengelakkan nilai negatif dalam pengiraan asas asas.";
+                return;
+            }
+
+            const resVal = op === '+' ? (val1 + val2) : (val1 - val2);
+            const strRes = resVal.toString(base).toUpperCase();
+
+            // Display in dynamic elements
+            document.getElementById('disp-num1').textContent = strNum1;
+            document.getElementById('disp-num2').textContent = strNum2;
+            document.getElementById('disp-op').textContent = op;
+            document.getElementById('disp-res').textContent = strRes;
+            document.getElementById('disp-base-sub').textContent = base;
+
+            // Generate carries / borrows row
+            let carryBorrowMarkup = generateCarriesOrBorrows(strNum1, strNum2, base, op);
+            document.getElementById('carry-row').innerHTML = carryBorrowMarkup;
+
+            // Explain workings
+            generateArithmeticExplanation(strNum1, strNum2, base, op, strRes);
+        }
+
+        function generateCarriesOrBorrows(n1, n2, base, op) {
+            // Simple visualizer for carry/borrow digits
+            let carryRow = [];
+            const len = Math.max(n1.length, n2.length);
+            
+            // Decimal parse for step logic
+            let dec1 = parseInt(n1, base);
+            let dec2 = parseInt(n2, base);
+
+            if (op === '+') {
+                // Calculate carry values
+                let carry = 0;
+                let num1Padded = n1.padStart(len, '0');
+                let num2Padded = n2.padStart(len, '0');
+                
+                for (let i = len - 1; i >= 0; i--) {
+                    let sum = parseInt(num1Padded[i], base) + parseInt(num2Padded[i], base) + carry;
+                    if (sum >= base) {
+                        carry = 1;
+                        carryRow.unshift('1');
+                    } else {
+                        carry = 0;
+                        carryRow.unshift('&nbsp;');
+                    }
+                }
+                // shift left for carry display alignment
+                carryRow.push('&nbsp;'); // align right with vertical visualizer
+            } else {
+                // Borrows marker
+                for(let i=0; i <= len; i++) {
+                    carryRow.push('&nbsp;');
+                }
+            }
+            return carryRow.join('');
+        }
+
+        function generateArithmeticExplanation(n1, n2, base, op, result) {
+            const container = document.getElementById('arith-explanation');
+            container.innerHTML = '';
+
+            let dec1 = parseInt(n1, base);
+            let dec2 = parseInt(n2, base);
+            let decRes = op === '+' ? (dec1 + dec2) : (dec1 - dec2);
+
+            let html = `
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    Kaedah termudah untuk mengesahkan jawapan adalah menukarnya ke asas perpuluhan dahulu:
+                    $$${n1}_{${base}} + ${n2}_{${base}} \\Rightarrow ${dec1}_{10} ${op} ${dec2}_{10} = ${decRes}_{10}$$
+                    Seterusnya, tukarkan hasil perpuluhan $${decRes}_{10}$ kembali ke Asas $${base}$, menghasilkan $${result}_{${base}}$.
+                </p>
+                <div class="pt-4 border-t border-slate-200">
+                    <h5 class="font-bold text-slate-800 text-xs uppercase tracking-wider mb-2">Simulasi Pengiraan Lajur:</h5>
+            `;
+
+            // Step-by-step column-wise explanation
+            let num1Padded = n1.padStart(Math.max(n1.length, n2.length), '0');
+            let num2Padded = n2.padStart(Math.max(n1.length, n2.length), '0');
+            let carry = 0;
+
+            let stepDescriptions = [];
+
+            if (op === '+') {
+                for (let i = num1Padded.length - 1; i >= 0; i--) {
+                    let val1 = parseInt(num1Padded[i], base);
+                    let val2 = parseInt(num2Padded[i], base);
+                    let sum = val1 + val2 + carry;
+                    let nextCarry = Math.floor(sum / base);
+                    let rem = sum % base;
+
+                    let explanationStr = `Lajur ${num1Padded.length - i} (Kanan ke Kiri): $${val1.toString(base).toUpperCase()} + ${val2.toString(base).toUpperCase()}${carry > 0 ? ' + (bawa ke atas ' + carry + ')' : ''}$`;
+                    explanationStr += ` = $${sum.toString(base).toUpperCase()}_{${base}}$`;
+
+                    if (sum >= base) {
+                        explanationStr += `. Oleh sebab nilai melebihi asas, tulis baki $${rem.toString(base).toUpperCase()}_{${base}}$ dan bawa ke atas $${nextCarry}$ ke lajur sebelah kiri.`;
+                    } else {
+                        explanationStr += `. Tulis $${sum.toString(base).toUpperCase()}_{${base}}$.`;
+                    }
+                    
+                    carry = nextCarry;
+                    stepDescriptions.unshift(explanationStr);
+                }
+                if (carry > 0) {
+                    stepDescriptions.push(`Baki akhir dibawa ke depan sekali: Tulis $${carry}$.`);
+                }
+            } else {
+                // Subtraction borrows simulation explanation
+                let borrows = Array(num1Padded.length).fill(0);
+                let digits1 = num1Padded.split('').map(c => parseInt(c, base));
+                let digits2 = num2Padded.split('').map(c => parseInt(c, base));
+
+                for (let i = digits1.length - 1; i >= 0; i--) {
+                    let d1 = digits1[i];
+                    let d2 = digits2[i];
+
+                    if (d1 < d2) {
+                        // Borrow from left
+                        let borrowIdx = i - 1;
+                        while (borrowIdx >= 0 && digits1[borrowIdx] === 0) {
+                            borrowIdx--;
+                        }
+                        if (borrowIdx >= 0) {
+                            digits1[borrowIdx]--;
+                            // cascades 10s down
+                            for (let j = borrowIdx + 1; j < i; j++) {
+                                digits1[j] += base - 1;
+                            }
+                            d1 += base;
+                        }
+                    }
+                    let diff = d1 - d2;
+                    let explanationStr = `Lajur ${digits1.length - i}: $${d1.toString(base).toUpperCase()} - ${d2.toString(base).toUpperCase()} = ${diff.toString(base).toUpperCase()}_{${base}}$`;
+                    if (d1 > parseInt(num1Padded[i], base)) {
+                        explanationStr += ` (setelah meminjam $1$ nilai asas dari kiri)`;
+                    }
+                    stepDescriptions.unshift(explanationStr);
+                }
+            }
+
+            html += `<ol class="list-decimal pl-5 text-xs text-slate-600 space-y-2 font-medium">`;
+            stepDescriptions.forEach(desc => {
+                html += `<li>${desc}</li>`;
+            });
+            html += `</ol></div>`;
+
+            container.innerHTML = html;
+
+            if (window.MathJax) {
+                MathJax.typesetPromise([container]);
+            }
+        }
+
+
+        // === 4. KUIZ MINDACABARAN LOGIC ===
+        let currentQuestion = null;
+        let score = 0;
+        let streak = 0;
+
+        const quizLevels = ['Sederhana', 'Tinggi'];
+
+        function generateQuestion() {
+            // Reset state
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById('quiz-explanation-box').classList.add('hidden');
+            document.getElementById('quiz-btn-hint').classList.add('hidden');
+
+            const type = Math.floor(Math.random() * 3); // 0: Conversion, 1: Arithmetic Addition, 2: Subtraction
+            const bases = [2, 8, 10, 16];
+            const baseFrom = bases[Math.floor(Math.random() * bases.length)];
+            let basesTo = bases.filter(b => b !== baseFrom);
+            const baseTo = basesTo[Math.floor(Math.random() * basesTo.length)];
+
+            if (type === 0) {
+                // Conversion Question
+                const decVal = Math.floor(Math.random() * 60) + 10; // Random decimal between 10 and 70
+                const numFrom = decVal.toString(baseFrom).toUpperCase();
+                const correctAns = decVal.toString(baseTo).toUpperCase();
+
+                currentQuestion = {
+                    q: `Tukarkan nombor $${numFrom}_{${baseFrom}}$ kepada nilai setara dalam sistem Asas $${baseTo}$.`,
+                    ans: correctAns,
+                    opts: generateOptions(correctAns, baseTo),
+                    exp: `Langkah kerja:<br>1. Tukar $${numFrom}_{${baseFrom}}$ ke perpuluhan dahulu: $${decVal}_{10}$ (jika belum).<br>2. Seterusnya tukar perpuluhan $${decVal}_{10}$ ke asas target $${baseTo}$ untuk menghasilkan $${correctAns}_{${baseTo}}$.`
+                };
+            } else if (type === 1) {
+                // Arithmetic Addition
+                const base = [2, 8, 16][Math.floor(Math.random() * 3)];
+                const v1 = Math.floor(Math.random() * 15) + 5;
+                const v2 = Math.floor(Math.random() * 15) + 5;
+                const n1 = v1.toString(base).toUpperCase();
+                const n2 = v2.toString(base).toUpperCase();
+                const correctAns = (v1 + v2).toString(base).toUpperCase();
+
+                currentQuestion = {
+                    q: `Hitung operasi penambahan berikut:<br><span class="code-font font-bold text-lg text-slate-700">$${n1}_{${base}} + ${n2}_{${base}}$</span>`,
+                    ans: correctAns,
+                    opts: generateOptions(correctAns, base),
+                    exp: `Operasi Penambahan Asas $${base}$:<br>Tukar ke perpuluhan: $${v1}_{10} + ${v2}_{10} = ${(v1+v2)}_{10}$.<br>Tukarkan ${(v1+v2)} kembali ke Asas $${base}$ $\\Rightarrow$ $${correctAns}_{${base}}$.`
+                };
+            } else {
+                // Arithmetic Subtraction
+                const base = [2, 8, 16][Math.floor(Math.random() * 3)];
+                const v1 = Math.floor(Math.random() * 20) + 15;
+                const v2 = Math.floor(Math.random() * 12) + 2;
+                const n1 = v1.toString(base).toUpperCase();
+                const n2 = v2.toString(base).toUpperCase();
+                const correctAns = (v1 - v2).toString(base).toUpperCase();
+
+                currentQuestion = {
+                    q: `Hitung operasi penolakan berikut:<br><span class="code-font font-bold text-lg text-slate-700">$${n1}_{${base}} - ${n2}_{${base}}$</span>`,
+                    ans: correctAns,
+                    opts: generateOptions(correctAns, base),
+                    exp: `Operasi Penolakan Asas $${base}$:<br>Tukar ke perpuluhan: $${v1}_{10} - ${v2}_{10} = ${(v1-v2)}_{10}$.<br>Tukarkan ${(v1-v2)} kembali ke Asas $${base}$ $\\Rightarrow$ $${correctAns}_{${base}}$.`
+                };
+            }
+
+            // Render Question Text
+            const questionContainer = document.getElementById('quiz-question');
+            questionContainer.innerHTML = currentQuestion.q;
+
+            // Render Options
+            const optsContainer = document.getElementById('quiz-options-container');
+            optsContainer.innerHTML = '';
+
+            currentQuestion.opts.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "quiz-opt-btn border-2 border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/50 p-4 rounded-xl text-left font-bold font-mono text-slate-700 transition-all duration-150 flex justify-between items-center";
+                btn.innerHTML = `<span>$${opt}$</span><i data-lucide="circle" class="w-4 h-4 text-slate-300"></i>`;
+                btn.onclick = () => checkAnswer(opt, btn);
+                optsContainer.appendChild(btn);
+            });
+
+            // Update Icons on freshly generated elements
+            lucide.createIcons();
+
+            if (window.MathJax) {
+                MathJax.typesetPromise([questionContainer, optsContainer]);
+            }
+        }
+
+        function generateOptions(correct, base) {
+            let options = [correct];
+            let val = parseInt(correct, base);
+
+            // Generate 3 distractors
+            while (options.length < 4) {
+                let offset = Math.floor(Math.random() * 10) - 5;
+                if (offset === 0) offset = 1;
+                let testVal = Math.abs(val + offset);
+                let testStr = testVal.toString(base).toUpperCase();
+                if (!options.includes(testStr)) {
+                    options.push(testStr);
+                }
+            }
+
+            // Shuffle array
+            return options.sort(() => Math.random() - 0.5);
+        }
+
+        function checkAnswer(selected, selectedBtn) {
+            const feedbackBox = document.getElementById('quiz-feedback');
+            const feedbackIcon = document.getElementById('feedback-icon');
+            const feedbackText = document.getElementById('feedback-text');
+            const hintBtn = document.getElementById('quiz-btn-hint');
+
+            // Disable all other options
+            document.querySelectorAll('.quiz-opt-btn').forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('opacity-60');
+            });
+
+            selectedBtn.classList.remove('opacity-60');
+
+            if (selected === currentQuestion.ans) {
+                // Correct Answer
+                feedbackBox.className = "p-4 rounded-xl mb-4 text-sm font-semibold flex items-center space-x-2 bg-emerald-50 text-emerald-800 border border-emerald-200 animate-bounce";
+                feedbackIcon.setAttribute('data-lucide', 'check-circle-2');
+                feedbackText.textContent = "Tahniah! Jawapan anda adalah betul dan tepat.";
+                selectedBtn.className = "quiz-opt-btn border-2 border-emerald-500 bg-emerald-50 p-4 rounded-xl text-left font-bold font-mono text-emerald-800 transition-all duration-150 flex justify-between items-center";
+                selectedBtn.innerHTML += ` <i data-lucide="check" class="w-5 h-5 text-emerald-600"></i>`;
+
+                score += 10;
+                streak += 1;
+            } else {
+                // Incorrect Answer
+                feedbackBox.className = "p-4 rounded-xl mb-4 text-sm font-semibold flex items-center space-x-2 bg-rose-50 text-rose-800 border border-rose-200";
+                feedbackIcon.setAttribute('data-lucide', 'x-circle');
+                feedbackText.textContent = `Jawapan kurang tepat. Nilai sebenar ialah: ${currentQuestion.ans}`;
+                selectedBtn.className = "quiz-opt-btn border-2 border-rose-500 bg-rose-50 p-4 rounded-xl text-left font-bold font-mono text-rose-800 transition-all duration-150 flex justify-between items-center";
+                selectedBtn.innerHTML += ` <i data-lucide="x" class="w-5 h-5 text-rose-600"></i>`;
+                
+                streak = 0;
+            }
+
+            // Show Statistics update
+            document.getElementById('quiz-score').textContent = score;
+            document.getElementById('quiz-streak').textContent = streak;
+
+            feedbackBox.classList.remove('hidden');
+            hintBtn.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function revealExplanation() {
+            const expBox = document.getElementById('quiz-explanation-box');
+            const expText = document.getElementById('quiz-explanation-text');
+
+            expText.innerHTML = currentQuestion.exp;
+            expBox.classList.remove('hidden');
+
+            if (window.MathJax) {
+                MathJax.typesetPromise([expText]);
+            }
+        }
+
+        function resetQuizStats() {
+            score = 0;
+            streak = 0;
+            document.getElementById('quiz-score').textContent = 0;
+            document.getElementById('quiz-streak').textContent = 0;
+            generateQuestion();
+        }
+
+
+        // === BOOTSTRAP INITIALIZATION ===
+        window.addEventListener('DOMContentLoaded', () => {
+            // Initialize Lucide icons
+            lucide.createIcons();
+            
+            // Build the Place Value switches representation
+            renderBitSwitches();
+
+            // Set dynamic conversion sample values
+            triggerConversionSample();
+        });
+    </script>
+</body>
+</html>
