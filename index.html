@@ -330,29 +330,45 @@
                     </div>
                 </div>
 
-                <!-- TOPIK 3: UNDER CONSTRUCTION -->
-                <div class="topic-card bg-white/70 backdrop-blur-xs border border-slate-200 rounded-3xl p-6 sm:p-8 hover:shadow-md transition duration-300 relative group opacity-90" data-title="operating systems os">
-                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+                <!-- TOPIK 3: ACTIVE (INDIGO & CYAN GRADIENT) -->
+                <div class="topic-card bg-gradient-to-br from-indigo-50/90 via-blue-50/70 to-cyan-50/85 border border-indigo-200 rounded-3xl p-6 sm:p-8 hover:shadow-xl hover:border-indigo-300 transition-all duration-300 relative group" data-title="operating systems os">
+                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6 relative z-10">
                         <div class="flex items-start space-x-4">
-                            <div class="w-12 h-12 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500">
-                                <span class="font-extrabold text-lg">03</span>
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-100 border border-indigo-200 flex items-center justify-center text-indigo-600 shrink-0 shadow-sm">
+                                <span class="font-extrabold text-lg text-indigo-700">03</span>
                             </div>
                             <div>
-                                <h3 class="text-xl font-bold text-slate-800">Operating Systems</h3>
-                                <p class="text-sm text-slate-500 mt-1">Memahami interaksi perkakasan komputer dengan sistem operasi melalui penjadualan proses dan pengurusan memori maya.</p>
+                                <h3 class="text-xl font-bold text-slate-900 group-hover:text-indigo-700 transition">Operating Systems</h3>
+                                <p class="text-sm text-slate-600 mt-1">Memahami interaksi perkakasan komputer dengan sistem operasi melalui penjadualan proses dan pengurusan memori maya.</p>
                             </div>
                         </div>
-                        <span class="inline-flex self-start px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-600 border border-amber-200">Dalam Pembinaan</span>
+                        <span class="inline-flex self-start px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200 shadow-xs">Aktif</span>
                     </div>
 
-                    <!-- Under Construction Placeholder -->
-                    <div class="mt-6 border border-dashed border-slate-300 rounded-2xl p-6 text-center bg-white/80">
-                        <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center mx-auto mb-3">
-                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    <!-- Hub Links Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 relative z-10">
+                        
+                        <!-- Link 8 -->
+                        <div class="bg-white/90 border border-indigo-200 rounded-2xl p-4 flex flex-col justify-between hover:border-indigo-400 hover:bg-white hover:shadow-md transition duration-200 group/link">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs font-semibold text-indigo-600 tracking-wider">MODUL 3.1</span>
+                                    <button onclick="toggleLinkProgress('link8')" id="tick-link8" class="w-5 h-5 rounded-md border border-indigo-300 bg-white flex items-center justify-center hover:bg-indigo-50 transition">
+                                        <svg class="w-3.5 h-3.5 text-techBlue-600 hidden" id="svg-link8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                    </button>
+                                </div>
+                                <h4 class="text-sm font-bold text-slate-800 group-hover/link:text-indigo-700 transition">Operating Systems Fundamentals</h4>
+                                <p class="text-xs text-slate-500 mt-1">Pengenalan terperinci kepada konsep sistem operasi, penjadualan proses, serta pengurusan sumber perkakasan.</p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-indigo-100 flex justify-between items-center">
+                                <span class="text-xs text-slate-400">farihan-ptss.github.io</span>
+                                <a href="https://farihan-ptss.github.io/learning-hub/os.html" target="_blank" class="inline-flex items-center space-x-1 text-xs text-indigo-700 hover:text-indigo-800 font-semibold hover:underline">
+                                    <span>Buka Hub</span>
+                                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                                </a>
+                            </div>
                         </div>
-                        <p class="text-sm font-semibold text-slate-800">Hub Pembelajaran Sedang Dibangunkan</p>
-                        <p class="text-xs text-slate-500 mt-1 max-w-md mx-auto">Visualisasi penjadualan proses (Round Robin, FIFO) serta pengurusan memori virtual sedang dalam pembinaan.</p>
-                        <button onclick="requestNotification('Operating Systems')" class="mt-4 px-4 py-1.5 bg-slate-100/90 border border-slate-200 text-xs text-slate-600 rounded-lg hover:bg-slate-200/80 transition shadow-xs">Maklumkan Saya Apabila Siap</button>
+
                     </div>
                 </div>
 
@@ -545,7 +561,8 @@
             link4: false,
             link5: false,
             link6: false,
-            link7: false
+            link7: false,
+            link8: false
         };
 
         // Initialize state or layout
