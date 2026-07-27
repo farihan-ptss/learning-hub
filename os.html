@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Pembelajaran Sistem Pengendalian</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tone.js for Sound Effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        /* Perspective for 3D flip card effect */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Smooth scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Pulse highlight for game feedback */
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .animate-correct {
+            animation: correctPulse 0.4s ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-indigo-100 selection:text-indigo-700">
+
+    <!-- Navigation Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo & Title -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-md shadow-indigo-200">
+                        <i class="fa-solid fa-laptop-code text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold text-slate-800 leading-tight">Hub Pembelajaran OS</h1>
+                        <p class="text-xs text-indigo-600 font-medium">Sistem Pengendalian Komputer</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs (Desktop) -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2 bg-slate-100 p-1 rounded-xl">
+                    <button onclick="switchTab('notes')" id="nav-notes" class="nav-btn px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 bg-white text-indigo-600 shadow-sm">
+                        <i class="fa-solid fa-book-open mr-2"></i>Nota Pengajian
+                    </button>
+                    <button onclick="switchTab('flashcards')" id="nav-flashcards" class="nav-btn px-4 py-2 text-sm font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-all duration-200">
+                        <i class="fa-solid fa-clone mr-2"></i>Kad Imbasan
+                    </button>
+                    <button onclick="switchTab('memory-game')" id="nav-memory-game" class="nav-btn px-4 py-2 text-sm font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-all duration-200">
+                        <i class="fa-solid fa-puzzle-piece mr-2"></i>Padanan Memori
+                    </button>
+                    <button onclick="switchTab('sorter-game')" id="nav-sorter-game" class="nav-btn px-4 py-2 text-sm font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-all duration-200">
+                        <i class="fa-solid fa-layer-group mr-2"></i>Pengasing OS
+                    </button>
+                </nav>
+
+                <!-- Audio Toggle & Mobile Menu Toggle -->
+                <div class="flex items-center space-x-2">
+                    <button id="sound-btn" onclick="toggleSound()" class="p-2 text-slate-500 hover:text-indigo-600 hover:bg-slate-100 rounded-lg transition" title="Togol Bunyi">
+                        <i class="fa-solid fa-volume-high text-lg" id="sound-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs (Mobile Bottom/Sub-header) -->
+        <div class="md:hidden border-t border-slate-100 bg-white px-2 py-2 flex justify-around text-xs font-semibold overflow-x-auto">
+            <button onclick="switchTab('notes')" id="mob-nav-notes" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-600">
+                <i class="fa-solid fa-book-open block text-center mb-0.5"></i>Nota
+            </button>
+            <button onclick="switchTab('flashcards')" id="mob-nav-flashcards" class="px-3 py-1.5 rounded-lg text-slate-600">
+                <i class="fa-solid fa-clone block text-center mb-0.5"></i>Imbasan
+            </button>
+            <button onclick="switchTab('memory-game')" id="mob-nav-memory-game" class="px-3 py-1.5 rounded-lg text-slate-600">
+                <i class="fa-solid fa-puzzle-piece block text-center mb-0.5"></i>Memori
+            </button>
+            <button onclick="switchTab('sorter-game')" id="mob-nav-sorter-game" class="px-3 py-1.5 rounded-lg text-slate-600">
+                <i class="fa-solid fa-layer-group block text-center mb-0.5"></i>Pengasing
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <!-- ==================== TAB 1: NOTA PENGAJIAN ==================== -->
+        <section id="tab-notes" class="tab-content space-y-8">
+            <!-- Hero Banner -->
+            <div class="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
+                <div class="absolute right-0 top-0 -mr-16 -mt-16 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="relative z-10 max-w-2xl">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-white/20 text-white backdrop-blur-md mb-4">
+                        <i class="fa-solid fa-graduation-cap mr-2"></i>Modul Pengajian Komputer
+                    </span>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight mb-3">Unit 3: Sistem Pengendalian</h2>
+                    <p class="text-blue-100 text-sm sm:text-base leading-relaxed">
+                        Fahami peranan penting Sistem Pengendalian (OS), ciri-ciri perbandingan Windows dan Linux, serta perkhidmatan asas yang ditawarkan dalam ekosistem komputer.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quick Subtopic Jump Buttons -->
+            <div class="flex flex-wrap gap-2 sm:gap-3">
+                <a href="#section-31" class="px-4 py-2 bg-white border border-slate-200 hover:border-indigo-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 shadow-sm hover:shadow transition flex items-center">
+                    <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center mr-2 text-xs">3.1</span>
+                    Pengenalan Sistem Pengendalian
+                </a>
+                <a href="#section-32" class="px-4 py-2 bg-white border border-slate-200 hover:border-indigo-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 shadow-sm hover:shadow transition flex items-center">
+                    <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center mr-2 text-xs">3.2</span>
+                    Ciri-Ciri OS (Windows vs Linux)
+                </a>
+                <a href="#section-33" class="px-4 py-2 bg-white border border-slate-200 hover:border-indigo-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 shadow-sm hover:shadow transition flex items-center">
+                    <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center mr-2 text-xs">3.3</span>
+                    Perkhidmatan Sistem Pengendalian
+                </a>
+            </div>
+
+            <!-- SECTION 3.1 -->
+            <div id="section-31" class="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm">
+                <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
+                    <span class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-lg">3.1</span>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800">Pengenalan kepada Sistem Pengendalian</h3>
+                        <p class="text-xs text-slate-500">Introduction to Operating Systems</p>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- 3.1.1 Definisi -->
+                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200/60">
+                        <div class="flex items-center space-x-2 text-indigo-700 font-bold mb-2">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <h4>3.1.1 Definisi Sistem Pengendalian dalam Sistem Komputer</h4>
+                        </div>
+                        <p class="text-slate-700 text-sm leading-relaxed mb-4">
+                            <strong>Sistem Pengendalian (Operating System / OS)</strong> ialah perisian sistem terpenting yang bertindak sebagai <em>antaramuka (interface)</em> di antara pengguna/perisian aplikasi dan peranti keras (hardware) komputer.
+                        </p>
+
+                        <!-- Diagram Interactive Concept -->
+                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-center my-4 text-xs font-semibold">
+                            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center justify-center">
+                                <i class="fa-solid fa-user text-2xl text-amber-500 mb-1"></i>
+                                <span>Pengguna (User)</span>
+                            </div>
+                            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center justify-center">
+                                <i class="fa-solid fa-window-restore text-2xl text-emerald-500 mb-1"></i>
+                                <span>Aplikasi (Apps)</span>
+                            </div>
+                            <div class="bg-indigo-600 text-white p-3 rounded-xl shadow-md flex flex-col items-center justify-center ring-4 ring-indigo-100">
+                                <i class="fa-solid fa-microchip text-2xl mb-1"></i>
+                                <span>Sistem Pengendalian (OS)</span>
+                            </div>
+                            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center justify-center">
+                                <i class="fa-solid fa-hard-drive text-2xl text-blue-500 mb-1"></i>
+                                <span>Peranti Keras (Hardware)</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-white p-4 rounded-xl border border-slate-200">
+                                <h5 class="font-bold text-slate-800 text-sm mb-1 flex items-center">
+                                    <i class="fa-solid fa-check-circle text-emerald-500 mr-2"></i>Tugas Utama OS
+                                </h5>
+                                <ul class="list-disc list-inside text-xs text-slate-600 space-y-1">
+                                    <li>Menguruskan sumber perkakasan (CPU, Memori RAM, Storan).</li>
+                                    <li>Menyediakan platform untuk menjalankan aplikasi.</li>
+                                    <li>Mengurus fail dan direktori penyimpanan data.</li>
+                                    <li>Menyediakan antaramuka pengguna (GUI / CLI).</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl border border-slate-200">
+                                <h5 class="font-bold text-slate-800 text-sm mb-1 flex items-center">
+                                    <i class="fa-solid fa-lightbulb text-amber-500 mr-2"></i>Contoh OS Popular
+                                </h5>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    <strong>Komputer Meja & Laptop:</strong> Microsoft Windows, Linux (Ubuntu, Fedora, Mint), macOS.<br>
+                                    <strong>Peranti Mudah Alih:</strong> Android, iOS.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3.2 -->
+            <div id="section-32" class="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm">
+                <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
+                    <span class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-lg">3.2</span>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800">Ciri-ciri Sistem Pengendalian (Windows vs Linux)</h3>
+                        <p class="text-xs text-slate-500">Explain operating system features</p>
+                    </div>
+                </div>
+
+                <p class="text-sm text-slate-600 mb-6">
+                    Setiap sistem pengendalian mempunyai reka bentuk dan pendekatan berbeza. Berikut adalah perbandingan mendalam bagi <strong>Windows</strong> dan <strong>Linux</strong> mengikut 4 ciri utama:
+                </p>
+
+                <!-- Comparison Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- a. User Interface & Desktop Management -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 hover:border-indigo-300 transition">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500 text-white flex items-center justify-center text-sm font-bold">a</div>
+                            <h4 class="font-bold text-slate-800">Antaramuka Pengguna & Pengurusan Desktop</h4>
+                        </div>
+                        <div class="space-y-3 text-xs">
+                            <div class="bg-white p-3 rounded-xl border border-blue-100">
+                                <span class="font-bold text-blue-600 block mb-1"><i class="fa-brands fa-windows mr-1"></i>Windows</span>
+                                <p class="text-slate-600">
+                                    Antaramuka Grafik (GUI) yang seragam, intuitif, dan mudah dipelajari. Menggunakan <em>Start Menu</em>, <em>Taskbar</em>, dan rekabentuk konsisten (Aero / Fluent Design).
+                                </p>
+                            </div>
+                            <div class="bg-white p-3 rounded-xl border border-orange-100">
+                                <span class="font-bold text-orange-600 block mb-1"><i class="fa-brands fa-linux mr-1"></i>Linux</span>
+                                <p class="text-slate-600">
+                                    Menawarkan pelbagai Persekitaran Desktop (Desktop Environments - DE) yang boleh dipilih pengguna seperti <strong>GNOME</strong>, <strong>KDE Plasma</strong>, dan <strong>XFCE</strong>. Menyokong Antaramuka Talian Arahan (CLI - Terminal) yang sangat berkuasa.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- b. Software & Application Compatibility -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 hover:border-indigo-300 transition">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center text-sm font-bold">b</div>
+                            <h4 class="font-bold text-slate-800">Keserasian Perisian & Aplikasi</h4>
+                        </div>
+                        <div class="space-y-3 text-xs">
+                            <div class="bg-white p-3 rounded-xl border border-blue-100">
+                                <span class="font-bold text-blue-600 block mb-1"><i class="fa-brands fa-windows mr-1"></i>Windows</span>
+                                <p class="text-slate-600">
+                                    Sokongan perisian komersial yang amat luas. Majoriti permainan video (PC Games), Microsoft Office, dan aplikasi profesional (Adobe Creative Cloud) dibina khas untuk format <code>.exe</code> / <code>.msi</code>.
+                                </p>
+                            </div>
+                            <div class="bg-white p-3 rounded-xl border border-orange-100">
+                                <span class="font-bold text-orange-600 block mb-1"><i class="fa-brands fa-linux mr-1"></i>Linux</span>
+                                <p class="text-slate-600">
+                                    Menggunakan perisian sumber terbuka (Open Source) seperti LibreOffice, GIMP. Pemasangan perisian dilakukan melalui Pengurus Pakej (APT, YUM, Snap, Flatpak). Boleh menjalankan fail Windows menggunakan lapisan keserasian seperti <strong>Wine</strong> atau <strong>Proton</strong>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- c. Customization & Flexibility -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 hover:border-indigo-300 transition">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <div class="w-8 h-8 rounded-lg bg-violet-500 text-white flex items-center justify-center text-sm font-bold">c</div>
+                            <h4 class="font-bold text-slate-800">Kebolehsesuaian & Fleksibiliti</h4>
+                        </div>
+                        <div class="space-y-3 text-xs">
+                            <div class="bg-white p-3 rounded-xl border border-blue-100">
+                                <span class="font-bold text-blue-600 block mb-1"><i class="fa-brands fa-windows mr-1"></i>Windows</span>
+                                <p class="text-slate-600">
+                                    Kebolehsesuaian terhad kepada tetapan rasmi OS, tema warna, dan tetapan Registry. Kod sumber adalah proprietari (tertutup).
+                                </p>
+                            </div>
+                            <div class="bg-white p-3 rounded-xl border border-orange-100">
+                                <span class="font-bold text-orange-600 block mb-1"><i class="fa-brands fa-linux mr-1"></i>Linux</span>
+                                <p class="text-slate-600">
+                                    Sangat fleksibel dan berkuasa tinggi! Disebabkan sifat Sumber Terbuka (Open Source), pengguna boleh mengubah suai keseluruhan kernel, antaramuka, skrip automatik, dan komponen sistem mengikut kehendak.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- d. Security & Stability -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 hover:border-indigo-300 transition">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <div class="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center text-sm font-bold">d</div>
+                            <h4 class="font-bold text-slate-800">Keselamatan & Kestabilan</h4>
+                        </div>
+                        <div class="space-y-3 text-xs">
+                            <div class="bg-white p-3 rounded-xl border border-blue-100">
+                                <span class="font-bold text-blue-600 block mb-1"><i class="fa-brands fa-windows mr-1"></i>Windows</span>
+                                <p class="text-slate-600">
+                                    Sering menjadi sasaran perisian dengki (malware/virus) kerana populasi pengguna yang besar. Memerlukan kemas kini keselamatan berkala (Windows Update) dan antivirus terbina (Windows Defender).
+                                </p>
+                            </div>
+                            <div class="bg-white p-3 rounded-xl border border-orange-100">
+                                <span class="font-bold text-orange-600 block mb-1"><i class="fa-brands fa-linux mr-1"></i>Linux</span>
+                                <p class="text-slate-600">
+                                    Kestabilan tahap tinggi (kerap digunakan pada pelayan/server utama dunia). Model kebenaran pengguna teras (Root vs Regular user) menjadikannya sangat selamat daripada jangkitan virus secara automatik.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- SECTION 3.3 -->
+            <div id="section-33" class="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm">
+                <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
+                    <span class="w-10 h-10 rounded-xl bg-violet-100 text-violet-700 flex items-center justify-center font-bold text-lg">3.3</span>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800">Perkhidmatan Sistem Pengendalian (Operating System Services)</h3>
+                        <p class="text-xs text-slate-500">Explain operating system services in computer systems</p>
+                    </div>
+                </div>
+
+                <!-- Windows & Linux Services Tab System -->
+                <div class="space-y-6">
+                    <!-- Tab Selector Buttons -->
+                    <div class="flex border-b border-slate-200 space-x-4 text-sm font-semibold">
+                        <button onclick="toggleServiceTab('windows')" id="btn-serv-win" class="pb-3 border-b-2 border-indigo-600 text-indigo-600 flex items-center space-x-2">
+                            <i class="fa-brands fa-windows text-lg"></i>
+                            <span>3.3.1 Perkhidmatan Windows</span>
+                        </button>
+                        <button onclick="toggleServiceTab('linux')" id="btn-serv-lin" class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center space-x-2">
+                            <i class="fa-brands fa-linux text-lg"></i>
+                            <span>3.3.2 Perkhidmatan Linux</span>
+                        </button>
+                    </div>
+
+                    <!-- WINDOWS SERVICES CONTENT -->
+                    <div id="serv-win-content" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                        <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-4">
+                            <div class="flex items-center space-x-2 text-blue-800 font-bold text-sm mb-2">
+                                <i class="fa-solid fa-folder-tree"></i>
+                                <span>a. Pengurusan & Organisasi Sistem Fail</span>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Menggunakan sistem fail <strong>NTFS</strong> (New Technology File System) yang menyokong kawalan kebenaran fail, penyulitan (encryption), dan pemulihan jurnal. Juga menyokong <strong>FAT32 / exFAT</strong> untuk pemacu kilat (USB).
+                            </p>
+                        </div>
+
+                        <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-4">
+                            <div class="flex items-center space-x-2 text-blue-800 font-bold text-sm mb-2">
+                                <i class="fa-solid fa-plug"></i>
+                                <span>b. Pengurusan Peranti & Sokongan Pemacu</span>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Menggunakan <strong>Device Manager</strong> untuk memantau perkakasan. Menyokong teknologi <strong>Plug and Play (PnP)</strong> di mana Windows memasang pemacu peranti (driver) secara automatik apabila peranti baharu disambung.
+                            </p>
+                        </div>
+
+                        <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-4">
+                            <div class="flex items-center space-x-2 text-blue-800 font-bold text-sm mb-2">
+                                <i class="fa-solid fa-network-wired"></i>
+                                <span>c. Rangkaian & Kesambungan Internet</span>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Dilengkapi sokongan penuh stack <strong>TCP/IP</strong>, <em>Network and Sharing Center</em>, sambungan Wi-Fi visual, dan perkongsian fail folder menggunakan protokol SMB/CIFS.
+                            </p>
+                        </div>
+
+                        <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-4">
+                            <div class="flex items-center space-x-2 text-blue-800 font-bold text-sm mb-2">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                <span>d. Keselamatan & Kawalan Capaian</span>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Mempunyai <strong>User Account Control (UAC)</strong> untuk menghalang perubahan sistem tanpa kebenaran, <strong>Windows Defender Antivirus</strong>, BitLocker Drive Encryption, dan Windows Firewall.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <!-- LINUX SERVICES CONTENT (Hidden by default) -->
+                    <div id="serv-lin-content" class="grid grid-cols-1 sm:grid-cols-2 gap-4 hidden">
+
+                        <div class="bg-orange-50/50 border border-orange-100 rounded-xl p-4">
+                            <div class="flex items-center space-x-2 text-orange-800 font-bold text-sm mb-2">
+                                <i class="fa-solid fa-folder-tree"></i>
+                                <span>a. Pengurusan Sistem Fail & Kebenaran</span>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Menggunakan sistem fail <strong>ext4</strong>, Btrfs, atau XFS. Kawalan kebenaran ketat berasaskan 3 peringkat: <strong>Owner, Group, dan Others</strong> serta hak akses <em>Read (r), Write (w), Execute (x)</em> melalui arahan <code>chmod</code> & <code>chown</code>.
+                            </p>
+                        </div>
+
+                        <div class="bg-orange-50/50 border border-orange-100 rounded-xl p-4">
+                            <div class="flex items-center space-x-2 text-orange-800 font-bold text-sm mb-2">
+                                <i class="fa-solid fa-microchip"></i>
+                                <span>b. Pengurusan Peranti & Modul Kernel</span>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Menganggap semua peranti sebagai fail dalam direktori <code>/dev</code>. Memuatkan pemacu peranti secara dinamik sebagai <strong>Kernel Modules</strong> menggunakan arahan seperti <code>lsmod</code> dan <code>modprobe</code>.
+                            </p>
+                        </div>
+
+                        <div class="bg-orange-50/50 border border-orange-100 rounded-xl p-4">
+                            <div class="flex items-center space-x-2 text-orange-800 font-bold text-sm mb-2">
+                                <i class="fa-solid fa-terminal"></i>
+                                <span>c. Rangkaian & Alat Kesambungan</span>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Dilengkapi alat talian arahan (CLI) berkuasa tinggi untuk rangkaian seperti <strong>SSH</strong> (kawalan jarak jauh selamat), <code>ip</code>, <code>ifconfig</code>, <code>netstat</code>, serta tembok api <code>iptables</code> / <code>ufw</code>.
+                            </p>
+                        </div>
+
+                        <div class="bg-orange-50/50 border border-orange-100 rounded-xl p-4">
+                            <div class="flex items-center space-x-2 text-orange-800 font-bold text-sm mb-2">
+                                <i class="fa-solid fa-user-shield"></i>
+                                <span>d. Keselamatan & Mekanisme Kawalan Capaian</span>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Menggunakan mekanisme kebenaran pentadbir <code>sudo</code> (Superuser Do) untuk tugas sensitif, serta modul keselamatan gred industri seperti <strong>SELinux</strong> dan <strong>AppArmor</strong> pada peringkat kernel.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 2: KAD IMBASAN ==================== -->
+        <section id="tab-flashcards" class="tab-content hidden space-y-6">
+            <div class="text-center max-w-2xl mx-auto">
+                <h2 class="text-2xl font-bold text-slate-800">Kad Imbasan Ulang Kaji</h2>
+                <p class="text-xs text-slate-500 mt-1">Klik pada kad untuk mendedahkan jawapan. Gunakan ini untuk menguji ingatan anda sebelum permainan!</p>
+            </div>
+
+            <!-- Flashcard Container -->
+            <div class="max-w-xl mx-auto">
+                <div id="flashcard" onclick="flipFlashcard()" class="perspective-1000 cursor-pointer h-72 sm:h-80 w-full group">
+                    <div id="flashcard-inner" class="relative w-full h-full transform-style-3d transition-transform duration-500 rounded-3xl shadow-xl border border-slate-200 bg-white flex flex-col justify-between p-6 sm:p-8 text-center">
+                        
+                        <!-- Front Face -->
+                        <div class="absolute inset-0 backface-hidden p-6 sm:p-8 flex flex-col justify-between items-center bg-gradient-to-br from-white to-indigo-50/50 rounded-3xl border border-indigo-100">
+                            <span id="fc-category" class="px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-semibold rounded-full">Subtopik 3.1</span>
+                            <div class="my-auto">
+                                <p class="text-xs font-bold text-indigo-500 uppercase tracking-wider mb-2">SOALAN</p>
+                                <h3 id="fc-question" class="text-lg sm:text-xl font-bold text-slate-800 leading-relaxed">Apakah definisi Sistem Pengendalian (OS)?</h3>
+                            </div>
+                            <p class="text-xs text-slate-400 flex items-center"><i class="fa-solid fa-hand-pointer mr-1.5"></i>Klik untuk lihat jawapan</p>
+                        </div>
+
+                        <!-- Back Face -->
+                        <div class="absolute inset-0 backface-hidden rotate-y-180 p-6 sm:p-8 flex flex-col justify-between items-center bg-indigo-600 text-white rounded-3xl">
+                            <span class="px-3 py-1 bg-white/20 text-white text-xs font-semibold rounded-full">JAWAPAN</span>
+                            <div class="my-auto">
+                                <p id="fc-answer" class="text-sm sm:text-base font-medium leading-relaxed">
+                                    Perisian sistem utama yang bertindak sebagai perantara di antara pengguna/aplikasi dengan peranti keras komputer.
+                                </p>
+                            </div>
+                            <p class="text-xs text-indigo-200 flex items-center"><i class="fa-solid fa-rotate-left mr-1.5"></i>Klik untuk pusing balik</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Flashcard Controls -->
+                <div class="flex items-center justify-between mt-6 px-4">
+                    <button onclick="prevFlashcard()" class="px-4 py-2 bg-white border border-slate-200 hover:border-indigo-300 rounded-xl text-xs font-bold text-slate-700 shadow-sm transition flex items-center">
+                        <i class="fa-solid fa-arrow-left mr-2"></i>Sebelum
+                    </button>
+                    <span id="fc-counter" class="text-xs font-bold text-slate-500">Kad 1 / 8</span>
+                    <button onclick="nextFlashcard()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-md transition flex items-center">
+                        Seterusnya<i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 3: PERMAINAN PADANAN MEMORI ==================== -->
+        <section id="tab-memory-game" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 border-b border-slate-100 pb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800 flex items-center">
+                            <i class="fa-solid fa-puzzle-piece text-indigo-600 mr-2"></i>Permainan Padanan Memori OS
+                        </h2>
+                        <p class="text-xs text-slate-500">Cari dan padankan konsep OS dengan istilah/definisi yang betul.</p>
+                    </div>
+
+                    <!-- Scoreboard -->
+                    <div class="flex items-center space-x-4 bg-slate-50 px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold">
+                        <div>
+                            <span class="text-slate-400 block">LANGKAH</span>
+                            <span id="mem-moves" class="text-indigo-600 text-base font-extrabold">0</span>
+                        </div>
+                        <div class="h-6 w-px bg-slate-200"></div>
+                        <div>
+                            <span class="text-slate-400 block">MASA</span>
+                            <span id="mem-timer" class="text-indigo-600 text-base font-extrabold">00:00</span>
+                        </div>
+                        <div class="h-6 w-px bg-slate-200"></div>
+                        <div>
+                            <span class="text-slate-400 block">PADANAN</span>
+                            <span id="mem-matches" class="text-emerald-600 text-base font-extrabold">0 / 6</span>
+                        </div>
+                        <button onclick="initMemoryGame()" class="ml-2 p-2 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-lg transition" title="Mula Semula">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Memory Cards Grid -->
+                <div id="memory-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mt-6">
+                    <!-- Cards dynamically injected via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 4: PERMAINAN PENGASING OS ==================== -->
+        <section id="tab-sorter-game" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 border-b border-slate-100 pb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800 flex items-center">
+                            <i class="fa-solid fa-layer-group text-indigo-600 mr-2"></i>Cabaran Pengasing Ciri: Windows vs Linux
+                        </h2>
+                        <p class="text-xs text-slate-500">Uji ingatan anda! Pilih atau seret ciri/perkhidmatan di bawah ke dalam zon yang betul.</p>
+                    </div>
+
+                    <!-- Scoreboard -->
+                    <div class="flex items-center space-x-4 bg-slate-50 px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold">
+                        <div>
+                            <span class="text-slate-400 block">SKOR</span>
+                            <span id="sort-score" class="text-indigo-600 text-base font-extrabold">0</span>
+                        </div>
+                        <div class="h-6 w-px bg-slate-200"></div>
+                        <div>
+                            <span class="text-slate-400 block">BENTENG</span>
+                            <span id="sort-streak" class="text-amber-500 text-base font-extrabold">🔥 0</span>
+                        </div>
+                        <button onclick="initSorterGame()" class="ml-2 p-2 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-lg transition" title="Main Semula">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Active Card Container -->
+                <div class="my-6 flex flex-col items-center justify-center">
+                    <div id="sorter-card" class="bg-gradient-to-r from-slate-800 to-indigo-900 text-white rounded-2xl p-6 sm:p-8 max-w-md w-full shadow-lg text-center transform transition-all duration-300">
+                        <span id="sorter-category" class="text-[10px] font-bold uppercase tracking-widest text-indigo-300 bg-indigo-950/60 px-3 py-1 rounded-full border border-indigo-700/50 inline-block mb-3">Item Ciri</span>
+                        <h3 id="sorter-title" class="text-lg sm:text-xl font-bold mb-2">Sistem Fail NTFS</h3>
+                        <p id="sorter-desc" class="text-xs text-indigo-200 leading-relaxed">Menyokong kawalan kebenaran fail, penyulitan BitLocker & pemulihan jurnal.</p>
+                    </div>
+
+                    <p class="text-xs text-slate-400 mt-3 flex items-center">
+                        <i class="fa-solid fa-arrow-down-long mr-1.5 animate-bounce"></i>Pilih kategori OS yang betul untuk item di atas:
+                    </p>
+                </div>
+
+                <!-- Bucket Selection Buttons -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                    <!-- Windows Bucket -->
+                    <button onclick="classifyItem('windows')" class="p-5 rounded-2xl border-2 border-blue-200 hover:border-blue-500 bg-blue-50/50 hover:bg-blue-100/50 text-left transition flex items-center space-x-4 group">
+                        <div class="w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center text-2xl shadow-md group-hover:scale-110 transition-transform">
+                            <i class="fa-brands fa-windows"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-blue-900 text-base">Microsoft Windows</h4>
+                            <p class="text-xs text-blue-700">Proprietari, GUI seragam, .exe, Plug & Play</p>
+                        </div>
+                    </button>
+
+                    <!-- Linux Bucket -->
+                    <button onclick="classifyItem('linux')" class="p-5 rounded-2xl border-2 border-orange-200 hover:border-orange-500 bg-orange-50/50 hover:bg-orange-100/50 text-left transition flex items-center space-x-4 group">
+                        <div class="w-12 h-12 rounded-xl bg-orange-500 text-white flex items-center justify-center text-2xl shadow-md group-hover:scale-110 transition-transform">
+                            <i class="fa-brands fa-linux"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-orange-900 text-base">Linux OS</h4>
+                            <p class="text-xs text-orange-700">Sumber Terbuka, GNOME/KDE, ext4, sudo</p>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Feedback Toast Message -->
+                <div id="sorter-feedback" class="text-center font-bold text-sm min-h-[24px] mt-4"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 space-y-2">
+            <p class="font-medium">Hub Pembelajaran Interaktif Sistem Pengendalian (OS) &copy; 2026</p>
+            <p class="text-slate-400">Direka khas untuk pembelajaran berasaskan memori dan kefahaman murid.</p>
+        </div>
+    </footer>
+
+    <script>
+        /* ==================== STATE MANAGEMENT & UTILS ==================== */
+        let soundEnabled = true;
+        let synth = null;
+
+        // Initialize Audio Tone.js on first user interaction
+        function initAudio() {
+            if (!synth) {
+                synth = new Tone.Synth().toDestination();
+            }
+        }
+
+        function playSound(type) {
+            if (!soundEnabled) return;
+            initAudio();
+            try {
+                const now = Tone.now();
+                if (type === 'flip') {
+                    synth.triggerAttackRelease("C5", "8n", now);
+                } else if (type === 'correct') {
+                    synth.triggerAttackRelease("E5", "16n", now);
+                    synth.triggerAttackRelease("G5", "16n", now + 0.1);
+                } else if (type === 'wrong') {
+                    synth.triggerAttackRelease("A3", "8n", now);
+                } else if (type === 'win') {
+                    synth.triggerAttackRelease("C5", "16n", now);
+                    synth.triggerAttackRelease("E5", "16n", now + 0.1);
+                    synth.triggerAttackRelease("G5", "16n", now + 0.2);
+                    synth.triggerAttackRelease("C6", "8n", now + 0.3);
+                }
+            } catch(e) { console.log(e); }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const icon = document.getElementById('sound-icon');
+            if (soundEnabled) {
+                icon.className = 'fa-solid fa-volume-high text-lg';
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark text-lg text-slate-400';
+            }
+        }
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            playSound('flip');
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            // Update Navigation Button Active States
+            const tabs = ['notes', 'flashcards', 'memory-game', 'sorter-game'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`nav-${t}`);
+                const mobBtn = document.getElementById(`mob-nav-${t}`);
+                if (t === tabId) {
+                    if(btn) btn.className = 'nav-btn px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 bg-white text-indigo-600 shadow-sm';
+                    if(mobBtn) mobBtn.className = 'px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-600 font-bold';
+                } else {
+                    if(btn) btn.className = 'nav-btn px-4 py-2 text-sm font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-all duration-200';
+                    if(mobBtn) mobBtn.className = 'px-3 py-1.5 rounded-lg text-slate-600';
+                }
+            });
+
+            // Initialize game state on tab open if needed
+            if (tabId === 'memory-game' && memoryCards.length === 0) {
+                initMemoryGame();
+            } else if (tabId === 'sorter-game' && !sorterCurrentItem) {
+                initSorterGame();
+            }
+        }
+
+        // Section 3.3 Service Sub-tab Switcher
+        function toggleServiceTab(type) {
+            playSound('flip');
+            const winContent = document.getElementById('serv-win-content');
+            const linContent = document.getElementById('serv-lin-content');
+            const btnWin = document.getElementById('btn-serv-win');
+            const btnLin = document.getElementById('btn-serv-lin');
+
+            if (type === 'windows') {
+                winContent.classList.remove('hidden');
+                linContent.classList.add('hidden');
+                btnWin.className = "pb-3 border-b-2 border-indigo-600 text-indigo-600 flex items-center space-x-2 font-bold";
+                btnLin.className = "pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center space-x-2 font-medium";
+            } else {
+                winContent.classList.add('hidden');
+                linContent.classList.remove('hidden');
+                btnLin.className = "pb-3 border-b-2 border-orange-600 text-orange-600 flex items-center space-x-2 font-bold";
+                btnWin.className = "pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center space-x-2 font-medium";
+            }
+        }
+
+
+        /* ==================== FLASHCARDS LOGIC ==================== */
+        const flashcardData = [
+            { category: 'Subtopik 3.1.1', q: 'Apakah definisi Sistem Pengendalian (Operating System)?', a: 'Perisian sistem utama yang mengurus perkakasan dan perisian serta bertindak sebagai perantara dengan pengguna.' },
+            { category: 'Subtopik 3.2.1a', q: 'Apakah ciri utama Antaramuka Pengguna (UI) Linux?', a: 'Menyokong pelbagai Persekitaran Desktop (GNOME, KDE) dan Talian Arahan (CLI) yang berkuasa.' },
+            { category: 'Subtopik 3.2.1b', q: 'Bagaimanakah Windows mengendalikan keserasian perisian?', a: 'Menyokong perisian komersial secara meluas seperti Microsoft Office dan permainan PC (.exe / .msi).' },
+            { category: 'Subtopik 3.2.1c', q: 'Mengapakah Linux disifatkan sangat fleksibel?', a: 'Sebab ia berasaskan Sumber Terbuka (Open Source), membolehkan pengguna mengubah suai kod kernel & sistem.' },
+            { category: 'Subtopik 3.3.1a', q: 'Apakah sistem fail utama yang digunakan oleh Windows?', a: 'NTFS (New Technology File System) yang menyokong kebenaran fail dan penyulitan.' },
+            { category: 'Subtopik 3.3.1b', q: 'Apakah fungsi perkhidmatan Plug and Play (PnP) pada Windows?', a: 'Mengeset dan memasang pemacu peranti (drivers) secara automatik apabila peranti dipasang.' },
+            { category: 'Subtopik 3.3.2a', q: 'Apakah 3 peringkat kebenaran sistem fail dalam Linux?', a: 'Owner (Pemilik), Group (Kumpulan), dan Others (Lain-lain) - dicapai melalui arahan chmod.' },
+            { category: 'Subtopik 3.3.2d', q: 'Apakah fungsi arahan "sudo" dalam Linux?', a: 'Memberikan kebenaran sementara sebagai Pentadbir Sistem (Superuser) untuk tugasan sensitif.' }
+        ];
+
+        let fcIndex = 0;
+        let fcFlipped = false;
+
+        function updateFlashcardUI() {
+            const data = flashcardData[fcIndex];
+            document.getElementById('fc-category').innerText = data.category;
+            document.getElementById('fc-question').innerText = data.q;
+            document.getElementById('fc-answer').innerText = data.a;
+            document.getElementById('fc-counter').innerText = `Kad ${fcIndex + 1} / ${flashcardData.length}`;
+
+            // Reset flip position
+            const inner = document.getElementById('flashcard-inner');
+            inner.classList.remove('rotate-y-180');
+            fcFlipped = false;
+        }
+
+        function flipFlashcard() {
+            playSound('flip');
+            const inner = document.getElementById('flashcard-inner');
+            fcFlipped = !fcFlipped;
+            if (fcFlipped) {
+                inner.classList.add('rotate-y-180');
+            } else {
+                inner.classList.remove('rotate-y-180');
+            }
+        }
+
+        function nextFlashcard() {
+            playSound('flip');
+            fcIndex = (fcIndex + 1) % flashcardData.length;
+            updateFlashcardUI();
+        }
+
+        function prevFlashcard() {
+            playSound('flip');
+            fcIndex = (fcIndex - 1 + flashcardData.length) % flashcardData.length;
+            updateFlashcardUI();
+        }
+
+
+        /* ==================== MEMORY MATCH GAME LOGIC ==================== */
+        const memoryPairs = [
+            { concept: 'NTFS', match: 'Sistem Fail Windows' },
+            { concept: 'ext4', match: 'Sistem Fail Linux' },
+            { concept: 'Plug & Play', match: 'Automatik Pemacu Windows' },
+            { concept: 'sudo', match: 'Kebenaran Superuser Linux' },
+            { concept: 'GNOME / KDE', match: 'Persekitaran Desktop Linux' },
+            { concept: 'UAC', match: 'Kawalan Akaun Windows' }
+        ];
+
+        let memoryCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let moves = 0;
+        let timerSeconds = 0;
+        let timerInterval = null;
+
+        function initMemoryGame() {
+            playSound('flip');
+            clearInterval(timerInterval);
+            timerSeconds = 0;
+            moves = 0;
+            matchedPairs = 0;
+            flippedCards = [];
+
+            document.getElementById('mem-moves').innerText = '0';
+            document.getElementById('mem-timer').innerText = '00:00';
+            document.getElementById('mem-matches').innerText = `0 / ${memoryPairs.length}`;
+
+            // Create Deck (Doubled for pairs)
+            let deck = [];
+            memoryPairs.forEach((pair, idx) => {
+                deck.push({ id: idx, text: pair.concept, type: 'concept' });
+                deck.push({ id: idx, text: pair.match, type: 'match' });
+            });
+
+            // Shuffle
+            deck.sort(() => Math.random() - 0.5);
+            memoryCards = deck;
+
+            // Render
+            const grid = document.getElementById('memory-grid');
+            grid.innerHTML = '';
+            deck.forEach((card, i) => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'mem-card h-28 bg-white border-2 border-slate-200 rounded-2xl flex items-center justify-center p-3 text-center cursor-pointer shadow-sm hover:border-indigo-400 transition transform hover:-translate-y-0.5 select-none';
+                cardEl.dataset.index = i;
+                cardEl.onclick = () => handleMemoryCardClick(i);
+                cardEl.innerHTML = `<i class="fa-solid fa-question text-2xl text-slate-300"></i>`;
+                grid.appendChild(cardEl);
+            });
+
+            // Start Timer
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+                const secs = String(timerSeconds % 60).padStart(2, '0');
+                document.getElementById('mem-timer').innerText = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function handleMemoryCardClick(index) {
+            if (flippedCards.length >= 2) return;
+            const cardEl = document.querySelectorAll('.mem-card')[index];
+            if (cardEl.classList.contains('matched') || flippedCards.includes(index)) return;
+
+            playSound('flip');
+            flippedCards.push(index);
+            const cardData = memoryCards[index];
+
+            // Reveal card
+            cardEl.className = 'mem-card h-28 bg-indigo-600 text-white border-2 border-indigo-700 rounded-2xl flex items-center justify-center p-3 text-center font-bold text-xs sm:text-sm shadow-md select-none animate-correct';
+            cardEl.innerText = cardData.text;
+
+            if (flippedCards.length === 2) {
+                moves++;
+                document.getElementById('mem-moves').innerText = moves;
+
+                const card1 = memoryCards[flippedCards[0]];
+                const card2 = memoryCards[flippedCards[1]];
+
+                if (card1.id === card2.id) {
+                    // Match found
+                    playSound('correct');
+                    matchedPairs++;
+                    document.getElementById('mem-matches').innerText = `${matchedPairs} / ${memoryPairs.length}`;
+
+                    const el1 = document.querySelectorAll('.mem-card')[flippedCards[0]];
+                    const el2 = document.querySelectorAll('.mem-card')[flippedCards[1]];
+
+                    el1.className = 'mem-card h-28 bg-emerald-500 text-white border-2 border-emerald-600 rounded-2xl flex items-center justify-center p-3 text-center font-bold text-xs sm:text-sm shadow-md matched select-none';
+                    el2.className = 'mem-card h-28 bg-emerald-500 text-white border-2 border-emerald-600 rounded-2xl flex items-center justify-center p-3 text-center font-bold text-xs sm:text-sm shadow-md matched select-none';
+
+                    flippedCards = [];
+
+                    // Check Win Condition
+                    if (matchedPairs === memoryPairs.length) {
+                        clearInterval(timerInterval);
+                        playSound('win');
+                        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                    }
+                } else {
+                    // Not matched
+                    playSound('wrong');
+                    setTimeout(() => {
+                        const el1 = document.querySelectorAll('.mem-card')[flippedCards[0]];
+                        const el2 = document.querySelectorAll('.mem-card')[flippedCards[1]];
+
+                        if (el1 && !el1.classList.contains('matched')) {
+                            el1.className = 'mem-card h-28 bg-white border-2 border-slate-200 rounded-2xl flex items-center justify-center p-3 text-center cursor-pointer shadow-sm hover:border-indigo-400 transition select-none';
+                            el1.innerHTML = `<i class="fa-solid fa-question text-2xl text-slate-300"></i>`;
+                        }
+                        if (el2 && !el2.classList.contains('matched')) {
+                            el2.className = 'mem-card h-28 bg-white border-2 border-slate-200 rounded-2xl flex items-center justify-center p-3 text-center cursor-pointer shadow-sm hover:border-indigo-400 transition select-none';
+                            el2.innerHTML = `<i class="fa-solid fa-question text-2xl text-slate-300"></i>`;
+                        }
+                        flippedCards = [];
+                    }, 1000);
+                }
+            }
+        }
+
+
+        /* ==================== OS SORTER GAME LOGIC ==================== */
+        const sorterItems = [
+            { title: 'Sistem Fail NTFS', desc: 'Menyokong kawalan kebenaran fail, penyulitan BitLocker & pemulihan jurnal.', os: 'windows', cat: 'Sistem Fail' },
+            { title: 'Sistem Fail ext4', desc: 'Sistem fail lalai dengan kawalan kebenaran Owner/Group/Others.', os: 'linux', cat: 'Sistem Fail' },
+            { title: 'Teknologi Plug and Play (PnP)', desc: 'Memuatkan pemacu peranti secara automatik apabila dicucuk.', os: 'windows', cat: 'Pengurusan Peranti' },
+            { title: 'Modul Kernel (/dev)', desc: 'Menganggap peranti sebagai fail dan mengurus pemacu menerusi lsmod & modprobe.', os: 'linux', cat: 'Pengurusan Peranti' },
+            { title: 'Persekitaran Desktop GNOME / KDE', desc: 'Pilihan antaramuka grafik bebas yang fleksibel.', os: 'linux', cat: 'Antaramuka Pengguna' },
+            { title: 'User Account Control (UAC)', desc: 'Menghalang perubahan sistem tanpa kebenaran pentadbir.', os: 'windows', cat: 'Keselamatan' },
+            { title: 'Arahan "sudo"', desc: 'Memberi kebenaran pentadbir sementara untuk arahan sensitif.', os: 'linux', cat: 'Keselamatan' },
+            { title: 'Pemasangan Fail .exe & .msi', desc: 'Format standard bagi perisian komersial.', os: 'windows', cat: 'Keserasian Aplikasi' },
+            { title: 'Kebenaran chmod & chown', desc: 'Kawalan capaian fail berasaskan hak rwx.', os: 'linux', cat: 'Keselamatan' },
+            { title: 'Windows Defender Antivirus', desc: 'Sistem perlindungan ancaman siber terbina dalam OS.', os: 'windows', cat: 'Keselamatan' }
+        ];
+
+        let sorterDeck = [];
+        let sorterCurrentItem = null;
+        let sorterScore = 0;
+        let sorterStreak = 0;
+
+        function initSorterGame() {
+            sorterScore = 0;
+            sorterStreak = 0;
+            document.getElementById('sort-score').innerText = '0';
+            document.getElementById('sort-streak').innerText = '🔥 0';
+            document.getElementById('sorter-feedback').innerText = '';
+
+            // Clone and shuffle deck
+            sorterDeck = [...sorterItems].sort(() => Math.random() - 0.5);
+            nextSorterItem();
+        }
+
+        function nextSorterItem() {
+            if (sorterDeck.length === 0) {
+                // Deck finished
+                playSound('win');
+                confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+                document.getElementById('sorter-title').innerText = '🎉 Tahniah!';
+                document.getElementById('sorter-desc').innerText = `Anda telah berjaya mengasingkan semua ciri! SKOR AKHIR: ${sorterScore}`;
+                document.getElementById('sorter-category').innerText = 'SELESAI';
+                document.getElementById('sorter-feedback').innerHTML = '<span class="text-emerald-600">Sempurna! Klik butang muat semula untuk main lagi.</span>';
+                sorterCurrentItem = null;
+                return;
+            }
+
+            sorterCurrentItem = sorterDeck.pop();
+            document.getElementById('sorter-title').innerText = sorterCurrentItem.title;
+            document.getElementById('sorter-desc').innerText = sorterCurrentItem.desc;
+            document.getElementById('sorter-category').innerText = sorterCurrentItem.cat;
+
+            // Card animation
+            const card = document.getElementById('sorter-card');
+            card.classList.remove('scale-95', 'opacity-50');
+            card.classList.add('animate-correct');
+            setTimeout(() => card.classList.remove('animate-correct'), 300);
+        }
+
+        function classifyItem(chosenOS) {
+            if (!sorterCurrentItem) return;
+
+            const feedback = document.getElementById('sorter-feedback');
+
+            if (chosenOS === sorterCurrentItem.os) {
+                // Correct
+                playSound('correct');
+                sorterScore += 10 + (sorterStreak * 2);
+                sorterStreak++;
+                feedback.innerHTML = `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check mr-1"></i>Tepat Sekali! (${sorterCurrentItem.title} ialah ciri ${chosenOS.toUpperCase()})</span>`;
+            } else {
+                // Wrong
+                playSound('wrong');
+                sorterStreak = 0;
+                feedback.innerHTML = `<span class="text-rose-500 font-bold"><i class="fa-solid fa-circle-xmark mr-1"></i>Kurang Tepat! (${sorterCurrentItem.title} sebenarnya ialah ciri ${sorterCurrentItem.os.toUpperCase()})</span>`;
+            }
+
+            document.getElementById('sort-score').innerText = sorterScore;
+            document.getElementById('sort-streak').innerText = `🔥 ${sorterStreak}`;
+
+            // Load next item
+            nextSorterItem();
+        }
+
+        /* ==================== INITIALIZATION ==================== */
+        window.onload = function() {
+            updateFlashcardUI();
+        };
+    </script>
+</body>
+</html>
