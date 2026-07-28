@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Pembelajaran Interaktif: Set Arahan & Bahasa Perhimpunan</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        code, pre, .font-mono { font-family: 'Fira Code', monospace; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Header / Navigation -->
+    <header class="bg-white/90 backdrop-blur border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 p-2 rounded-lg text-white shadow-md shadow-indigo-100">
+                    <i class="fa-solid fa-microchip text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg text-slate-900 leading-none">Hub Pembelajaran Bahasa Perhimpunan EASY68K</h1>
+                    <p class="text-xs text-indigo-600 font-medium mt-0.5">Seni Bina Pemproses Motorola 68000 & Set Arahan EASY68K</p>
+                </div>
+            </div>
+            
+            <!-- Nav Tabs -->
+            <nav class="flex space-x-1 sm:space-x-2">
+                <button onclick="switchTab('theory')" id="btn-theory" class="nav-tab px-3 py-2 rounded-lg text-sm font-semibold transition bg-indigo-600 text-white shadow-sm flex items-center space-x-2">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span class="hidden sm:inline">1. Nota & Teori EASY68K</span>
+                </button>
+                <button onclick="switchTab('simulator')" id="btn-simulator" class="nav-tab px-3 py-2 rounded-lg text-sm font-semibold transition bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center space-x-2">
+                    <i class="fa-solid fa-terminal"></i>
+                    <span class="hidden sm:inline">2. Simulator EASY68K</span>
+                </button>
+                <button onclick="switchTab('examples')" id="btn-examples" class="nav-tab px-3 py-2 rounded-lg text-sm font-semibold transition bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center space-x-2">
+                    <i class="fa-solid fa-code"></i>
+                    <span class="hidden sm:inline">3. Galeri Kod Pelbagai Data</span>
+                </button>
+                <button onclick="switchTab('quiz')" id="btn-quiz" class="nav-tab px-3 py-2 rounded-lg text-sm font-semibold transition bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center space-x-2">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span class="hidden sm:inline">4. Kuiz EASY68K</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- TAB 1: NOTA & TEORI -->
+        <section id="tab-theory" class="tab-content space-y-8">
+            <!-- Intro Banner -->
+            <div class="bg-gradient-to-r from-amber-50 to-indigo-50 border border-amber-200 rounded-2xl p-6 relative overflow-hidden shadow-sm">
+                <div class="relative z-10">
+                    <span class="bg-amber-100 text-amber-800 border border-amber-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Modul Khas EASY68K</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-2">Seni Bina Motorola 68000, Set Arahan & Mod Pengalamatan EASY68K</h2>
+                    <p class="text-slate-600 text-sm sm:text-base mt-2 max-w-3xl leading-relaxed">
+                        Penguasaan Bahasa Perhimpunan Motorola 68000 menggunakan simulator <strong>EASY68K</strong>. Pelajari penggunaan penentu saiz data (<code>.B</code>, <code>.W</code>, <code>.L</code>), format nombor bervariasi, serta mod pengalamatan daftar, ingatan dan penuding.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Section 4.1.1 Definisi EASY68K -->
+            <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                <h3 class="text-xl font-bold text-amber-700 flex items-center mb-4">
+                    <i class="fa-solid fa-cubes text-amber-600 mr-2"></i> 4.1.1 Definisi & Saiz Data Dalam EASY68K
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <!-- ISA Card -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                        <div class="text-amber-800 font-bold text-base mb-2 flex items-center">
+                            <i class="fa-solid fa-microchip mr-2 text-sm text-amber-600"></i> Set Arahan (ISA) 68000
+                        </div>
+                        <p class="text-slate-600 text-xs leading-relaxed">
+                            Set arahan pemproses <strong>Motorola 68000</strong> berasaskan seni bina 32-bit dalaman dengan daftar data 32-bit (<code>D0-D7</code>) dan daftar alamat 32-bit (<code>A0-A7</code>).
+                        </p>
+                    </div>
+
+                    <!-- Machine Language Card -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                        <div class="text-emerald-800 font-bold text-base mb-2 flex items-center">
+                            <i class="fa-solid fa-binary mr-2 text-sm text-emerald-600"></i> Bahasa Mesin 68k
+                        </div>
+                        <p class="text-slate-600 text-xs leading-relaxed">
+                            Kod biner 16-bit hingga 64-bit yang dihasilkan oleh perisian <strong>EASY68K Assembler</strong> untuk dilaksanakan secara terus oleh pemproses 68000.
+                        </p>
+                    </div>
+
+                    <!-- Assembly Language Card -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                        <div class="text-indigo-800 font-bold text-base mb-2 flex items-center">
+                            <i class="fa-solid fa-code mr-2 text-sm text-indigo-600"></i> Bahasa Perhimpunan EASY68K
+                        </div>
+                        <p class="text-slate-600 text-xs leading-relaxed">
+                            Sintaks arahan berstruktur: <code class="text-amber-700 font-semibold">OPCODE.SIZE SOURCE, DESTINATION</code><br>
+                            Contoh: <code class="text-emerald-700 font-semibold">MOVE.L #$12345678, D0</code>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Data Sizes & Types Section -->
+                <div class="bg-indigo-50/50 p-5 rounded-xl border border-indigo-200">
+                    <h4 class="text-base font-bold text-indigo-900 mb-3 flex items-center">
+                        <i class="fa-solid fa-database mr-2 text-indigo-600"></i> Penentu Saiz Data (Data Size Specifiers) & Format Literal
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs mb-4">
+                        <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm">
+                            <span class="font-bold text-amber-700 block text-sm mb-1">.B (Byte - 8 Bit)</span>
+                            <p class="text-slate-600 leading-relaxed">Mengendalikan 8-bit terbawah (Bits 0-7). Nilai: 0 hingga 255 (Unsigned) atau -128 hingga +127 (Signed).</p>
+                            <code class="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-mono block mt-2 font-bold">MOVE.B #100, D0</code>
+                        </div>
+                        <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm">
+                            <span class="font-bold text-amber-700 block text-sm mb-1">.W (Word - 16 Bit)</span>
+                            <p class="text-slate-600 leading-relaxed">Saiz lalai (*Default*). Mengendalikan 16-bit terbawah (Bits 0-15). Nilai: 0 hingga 65,535.</p>
+                            <code class="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-mono block mt-2 font-bold">ADD.W #$00FF, D1</code>
+                        </div>
+                        <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm">
+                            <span class="font-bold text-amber-700 block text-sm mb-1">.L (Long Word - 32 Bit)</span>
+                            <p class="text-slate-600 leading-relaxed">Mengendalikan keseluruhan 32-bit register (Bits 0-31). Nilai: 0 hingga 4,294,967,295.</p>
+                            <code class="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-mono block mt-2 font-bold">MOVE.L #%10101010, D2</code>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-800 text-xs font-mono text-slate-200 shadow-inner">
+                        <strong class="text-amber-400 block mb-1">Simbol Format Nombor dalam EASY68K:</strong>
+                        <ul class="list-disc list-inside space-y-1 text-slate-300">
+                            <li><code class="text-amber-300 font-bold">#100</code> &rarr; Nombor Perpuluhan (*Decimal*)</li>
+                            <li><code class="text-emerald-300 font-bold">#$FF</code> &rarr; Nombor Heksadesimal (*Hexadecimal* - didahului simbol <code>$</code>)</li>
+                            <li><code class="text-cyan-300 font-bold">#%11001100</code> &rarr; Nombor Biner (*Binary* - didahului simbol <code>%</code>)</li>
+                            <li><code class="text-purple-300 font-bold">#'A'</code> &rarr; Aksara ASCII (*Character Literal* - dipetik dengan <code>'</code>)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4.1.2 & 4.1.3 Mod Pengalamatan EASY68K -->
+            <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                <h3 class="text-xl font-bold text-amber-700 flex items-center mb-4">
+                    <i class="fa-solid fa-diagram-project text-amber-600 mr-2"></i> 4.1.2 & 4.1.3 Mod Pengalamatan Lengkap EASY68K (Motorola 68000)
+                </h3>
+                <p class="text-slate-600 text-sm mb-4">
+                    Setiap arahan EASY68K menggunakan sintaks <code class="text-amber-800 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Arahan.Saiz Sumber, Destinasi</code>. Berikut ialah senarai penuh mod pengalamatan bersama formula <strong>Alamat Berkesan (Effective Address - EA)</strong>:
+                </p>
+
+                <div class="overflow-x-auto border border-slate-200 rounded-lg">
+                    <table class="w-full text-left text-sm text-slate-700 border-collapse">
+                        <thead class="bg-slate-100 text-slate-900 font-bold uppercase text-xs border-b border-slate-200">
+                            <tr>
+                                <th class="p-3 border-r border-slate-200">Mod Pengalamatan EASY68K</th>
+                                <th class="p-3 border-r border-slate-200">Format Arahan Sample</th>
+                                <th class="p-3 border-r border-slate-200">Formula / EA</th>
+                                <th class="p-3">Keterangan Operasi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 font-mono text-xs">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-semibold text-slate-900 border-r border-slate-200">1. Immediate (Serta-merta)</td>
+                                <td class="p-3 text-indigo-700 font-bold border-r border-slate-200">MOVE.B #100, D0<br>MOVE.L #$12345678, D1<br>MOVE.B #'A', D2</td>
+                                <td class="p-3 text-amber-700 font-bold border-r border-slate-200">EA = Instruction Stream</td>
+                                <td class="p-3 text-slate-600">Data tetap diletakkan terus selepas opcode dalam arahan. Menyokong pelbagai format (#Decimal, #$Hex, #%Bin, #'Char').</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-semibold text-slate-900 border-r border-slate-200">2. Data Register Direct</td>
+                                <td class="p-3 text-indigo-700 font-bold border-r border-slate-200">ADD.W D1, D0<br>MOVE.L D0, D3</td>
+                                <td class="p-3 text-amber-700 font-bold border-r border-slate-200">EA = Data Register (D0-D7)</td>
+                                <td class="p-3 text-slate-600">Data berada terus di dalam daftar data CPU. Capaian terpantas tanpa melibatkan RAM.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-semibold text-slate-900 border-r border-slate-200">3. Address Register Direct</td>
+                                <td class="p-3 text-indigo-700 font-bold border-r border-slate-200">MOVEA.L A0, A1<br>LEA $2000, A0</td>
+                                <td class="p-3 text-amber-700 font-bold border-r border-slate-200">EA = Address Register (A0-A7)</td>
+                                <td class="p-3 text-slate-600">Digunakan khas untuk memindahkan atau mengubah alamat memori di dalam daftar alamat.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-semibold text-slate-900 border-r border-slate-200">4. Absolute Direct (Terus / Mutlak)</td>
+                                <td class="p-3 text-indigo-700 font-bold border-r border-slate-200">MOVE.W $1000, D0<br>MOVE.B D0, $2000</td>
+                                <td class="p-3 text-amber-700 font-bold border-r border-slate-200">EA = $1000 / $2000</td>
+                                <td class="p-3 text-slate-600">Alamat memori dinyatakan secara tepat dan tetap di dalam arahan.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-semibold text-slate-900 border-r border-slate-200">5. Address Register Indirect</td>
+                                <td class="p-3 text-indigo-700 font-bold border-r border-slate-200">MOVE.W (A0), D0<br>MOVE.B D1, (A1)</td>
+                                <td class="p-3 text-amber-700 font-bold border-r border-slate-200">EA = (A0)</td>
+                                <td class="p-3 text-slate-600">Daftar alamat A0 mengandungi penuding (*pointer*) ke lokasi memori RAM tempat data berada.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-semibold text-slate-900 border-r border-slate-200">6. Indirect with Post-Increment</td>
+                                <td class="p-3 text-indigo-700 font-bold border-r border-slate-200">MOVE.B (A0)+, D0<br>MOVE.L (A0)+, D1</td>
+                                <td class="p-3 text-amber-700 font-bold border-r border-slate-200">EA = (A0), kemudian<br>A0 = A0 + Saiz (.B=1, .W=2, .L=4)</td>
+                                <td class="p-3 text-slate-600">Membaca data dari memori (A0), kemudian automatik menambah nilai A0 mengikut saiz data. Sangat berguna untuk tatasusunan (*array*).</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-semibold text-slate-900 border-r border-slate-200">7. Indirect with Pre-Decrement</td>
+                                <td class="p-3 text-indigo-700 font-bold border-r border-slate-200">MOVE.W -(A0), D0<br>MOVE.L -(A7), D0</td>
+                                <td class="p-3 text-amber-700 font-bold border-r border-slate-200">A0 = A0 - Saiz dahulu,<br>kemudian EA = (A0)</td>
+                                <td class="p-3 text-slate-600">Menolak nilai A0 mengikut saiz data terlebih dahulu, kemudian membaca/menulis memori. Digunakan untuk operasi Tindanan (*Stack*).</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-semibold text-slate-900 border-r border-slate-200">8. Indirect with Displacement</td>
+                                <td class="p-3 text-indigo-700 font-bold border-r border-slate-200">MOVE.W 8(A0), D0<br>MOVE.B -4(A0), D1</td>
+                                <td class="p-3 text-amber-700 font-bold border-r border-slate-200">EA = (A0) + Offset</td>
+                                <td class="p-3 text-slate-600">Alamat berkesan dikira dengan menambah nilai anjakan offset (contoh: +8 atau -4) kepada alamat dalam A0.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-semibold text-slate-900 border-r border-slate-200">9. Indirect with Index</td>
+                                <td class="p-3 text-indigo-700 font-bold border-r border-slate-200">MOVE.W 4(A0, D1.W), D0</td>
+                                <td class="p-3 text-amber-700 font-bold border-r border-slate-200">EA = (A0) + (D1) + Offset</td>
+                                <td class="p-3 text-slate-600">Menggabungkan daftar alamat, daftar indeks data, dan offset untuk capaian struktur data kompaun/matriks.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Section 4.1.4 Analisis & Pengenalpastian Arahan EASY68K -->
+            <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-6">
+                <div>
+                    <h3 class="text-xl font-bold text-amber-700 flex items-center mb-2">
+                        <i class="fa-solid fa-magnifying-glass-chart text-amber-600 mr-2"></i> 4.1.4 Panduan Analisis Arahan: Kenal Pasti Saiz Data, Jenis Data & Mod Pengalamatan
+                    </h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Setiap arahan EASY68K boleh dianalisis berdasarkan 4 langkah utama:
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-4 text-xs">
+                        <div class="bg-slate-50 p-3.5 rounded-lg border border-slate-200">
+                            <span class="text-amber-800 font-bold block mb-1">Langkah 1: Opcode</span>
+                            <p class="text-slate-600">Tentukan jenis operasi (contoh: <code>MOVE</code>, <code>ADD</code>, <code>SUB</code>, <code>MULU</code>, <code>AND</code>).</p>
+                        </div>
+                        <div class="bg-slate-50 p-3.5 rounded-lg border border-slate-200">
+                            <span class="text-emerald-800 font-bold block mb-1">Langkah 2: Saiz Data</span>
+                            <p class="text-slate-600">Semak akhiran saiz: <code>.B</code> (Byte/8-bit), <code>.W</code> (Word/16-bit), <code>.L</code> (Long Word/32-bit). *Default ialah <code>.W</code>.</p>
+                        </div>
+                        <div class="bg-slate-50 p-3.5 rounded-lg border border-slate-200">
+                            <span class="text-indigo-800 font-bold block mb-1">Langkah 3: Format Data</span>
+                            <p class="text-slate-600">Kenal pasti format: <code>#100</code> (Perpuluhan), <code>#$FF</code> (Hex), <code>#%1010</code> (Biner), <code>#'A'</code> (ASCII), atau Daftar/Memori.</p>
+                        </div>
+                        <div class="bg-slate-50 p-3.5 rounded-lg border border-slate-200">
+                            <span class="text-purple-800 font-bold block mb-1">Langkah 4: Mod Pengalamatan</span>
+                            <p class="text-slate-600">Kenal pasti mod bagi **Sumber (Source)** dan **Destinasi (Destination)**.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jadual Komprehensif Analisis Arahan -->
+                <div class="overflow-x-auto border border-slate-200 rounded-lg">
+                    <h4 class="text-sm font-bold text-indigo-900 p-3 bg-indigo-50 border-b border-slate-200 flex items-center">
+                        <i class="fa-solid fa-list-check mr-2 text-indigo-600"></i> Jadual Analisis Lengkap Contoh Arahan EASY68K
+                    </h4>
+                    <table class="w-full text-left text-xs text-slate-700 border-collapse">
+                        <thead class="bg-slate-100 text-slate-900 font-bold uppercase border-b border-slate-200">
+                            <tr>
+                                <th class="p-2.5 border-r border-slate-200">Arahan EASY68K</th>
+                                <th class="p-2.5 border-r border-slate-200">Saiz Data & Bit</th>
+                                <th class="p-2.5 border-r border-slate-200">Format / Jenis Data</th>
+                                <th class="p-2.5 border-r border-slate-200">Mod Pengalamatan Sumber</th>
+                                <th class="p-2.5">Mod Pengalamatan Destinasi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 font-mono">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-2.5 text-indigo-800 font-bold border-r border-slate-200">MOVE.B #100, D0</td>
+                                <td class="p-2.5 border-r border-slate-200"><span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold">.B (Byte - 8-bit)</span></td>
+                                <td class="p-2.5 text-indigo-700 border-r border-slate-200">Nombor Perpuluhan (Decimal)</td>
+                                <td class="p-2.5 text-slate-700 border-r border-slate-200">Immediate Addressing</td>
+                                <td class="p-2.5 text-slate-700">Data Register Direct (D0)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-2.5 text-indigo-800 font-bold border-r border-slate-200">ADD.W #$1A2B, D1</td>
+                                <td class="p-2.5 border-r border-slate-200"><span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-bold">.W (Word - 16-bit)</span></td>
+                                <td class="p-2.5 text-indigo-700 border-r border-slate-200">Nombor Heksadesimal (#$)</td>
+                                <td class="p-2.5 text-slate-700 border-r border-slate-200">Immediate Addressing</td>
+                                <td class="p-2.5 text-slate-700">Data Register Direct (D1)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-2.5 text-indigo-800 font-bold border-r border-slate-200">SUB.L #%11001100, D2</td>
+                                <td class="p-2.5 border-r border-slate-200"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">.L (Long - 32-bit)</span></td>
+                                <td class="p-2.5 text-indigo-700 border-r border-slate-200">Nombor Biner (#%)</td>
+                                <td class="p-2.5 text-slate-700 border-r border-slate-200">Immediate Addressing</td>
+                                <td class="p-2.5 text-slate-700">Data Register Direct (D2)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-2.5 text-indigo-800 font-bold border-r border-slate-200">MOVE.B #'M', D3</td>
+                                <td class="p-2.5 border-r border-slate-200"><span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold">.B (Byte - 8-bit)</span></td>
+                                <td class="p-2.5 text-indigo-700 border-r border-slate-200">Aksara ASCII (#'Char')</td>
+                                <td class="p-2.5 text-slate-700 border-r border-slate-200">Immediate Addressing</td>
+                                <td class="p-2.5 text-slate-700">Data Register Direct (D3)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-2.5 text-indigo-800 font-bold border-r border-slate-200">MOVE.W (A0), D0</td>
+                                <td class="p-2.5 border-r border-slate-200"><span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-bold">.W (Word - 16-bit)</span></td>
+                                <td class="p-2.5 text-indigo-700 border-r border-slate-200">Kandungan Memori RAM</td>
+                                <td class="p-2.5 text-slate-700 border-r border-slate-200">Address Register Indirect</td>
+                                <td class="p-2.5 text-slate-700">Data Register Direct (D0)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-2.5 text-indigo-800 font-bold border-r border-slate-200">MOVE.B (A0)+, D1</td>
+                                <td class="p-2.5 border-r border-slate-200"><span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold">.B (Byte - 8-bit)</span></td>
+                                <td class="p-2.5 text-indigo-700 border-r border-slate-200">Kandungan Memori (Autoincrement +1)</td>
+                                <td class="p-2.5 text-slate-700 border-r border-slate-200">Indirect with Post-Increment</td>
+                                <td class="p-2.5 text-slate-700">Data Register Direct (D1)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-2.5 text-indigo-800 font-bold border-r border-slate-200">MOVE.L -(A2), D2</td>
+                                <td class="p-2.5 border-r border-slate-200"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">.L (Long - 32-bit)</span></td>
+                                <td class="p-2.5 text-indigo-700 border-r border-slate-200">Kandungan Memori (Autodecrement -4)</td>
+                                <td class="p-2.5 text-slate-700 border-r border-slate-200">Indirect with Pre-Decrement</td>
+                                <td class="p-2.5 text-slate-700">Data Register Direct (D2)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-2.5 text-indigo-800 font-bold border-r border-slate-200">MOVE.W 8(A0), D3</td>
+                                <td class="p-2.5 border-r border-slate-200"><span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-bold">.W (Word - 16-bit)</span></td>
+                                <td class="p-2.5 text-indigo-700 border-r border-slate-200">Memori dengan Anjakan Offset (+8)</td>
+                                <td class="p-2.5 text-slate-700 border-r border-slate-200">Indirect with Displacement</td>
+                                <td class="p-2.5 text-slate-700">Data Register Direct (D3)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-2.5 text-indigo-800 font-bold border-r border-slate-200">ADD.W 4(A0, D1.W), D0</td>
+                                <td class="p-2.5 border-r border-slate-200"><span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-bold">.W (Word - 16-bit)</span></td>
+                                <td class="p-2.5 text-indigo-700 border-r border-slate-200">Memori Matriks / Tatasusunan</td>
+                                <td class="p-2.5 text-slate-700 border-r border-slate-200">Indirect with Index</td>
+                                <td class="p-2.5 text-slate-700">Data Register Direct (D0)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-2.5 text-indigo-800 font-bold border-r border-slate-200">MOVE.W D1, $2000</td>
+                                <td class="p-2.5 border-r border-slate-200"><span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-bold">.W (Word - 16-bit)</span></td>
+                                <td class="p-2.5 text-indigo-700 border-r border-slate-200">Nilai Daftar Data D1</td>
+                                <td class="p-2.5 text-slate-700 border-r border-slate-200">Data Register Direct</td>
+                                <td class="p-2.5 text-slate-700">Absolute Direct ($2000)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Alat Latih Diri Interaktif / Interactive Drill -->
+                <div class="bg-indigo-50/60 p-5 rounded-xl border border-indigo-200">
+                    <h4 class="text-sm font-bold text-amber-800 mb-2 flex items-center">
+                        <i class="fa-solid fa-flask text-amber-600 mr-2"></i> Alat Interaktif: Pilih Arahan Untuk Menyemak Analisis Unsur
+                    </h4>
+                    <p class="text-xs text-slate-600 mb-4">Klik pada mana-mana sampel arahan di bawah untuk melihat bedah siasat terperinci:</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <button onclick="inspectInstruction('ex1')" class="btn-inspect px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-indigo-600 text-white shadow-sm hover:bg-indigo-700">MOVE.B #100, D0</button>
+                        <button onclick="inspectInstruction('ex2')" class="btn-inspect px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-white text-slate-700 border border-slate-300 hover:bg-slate-100">MOVE.W #$1A2B, D1</button>
+                        <button onclick="inspectInstruction('ex3')" class="btn-inspect px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-white text-slate-700 border border-slate-300 hover:bg-slate-100">MOVE.L (A0)+, D2</button>
+                        <button onclick="inspectInstruction('ex4')" class="btn-inspect px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-white text-slate-700 border border-slate-300 hover:bg-slate-100">ADD.W 8(A0), D0</button>
+                        <button onclick="inspectInstruction('ex5')" class="btn-inspect px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-white text-slate-700 border border-slate-300 hover:bg-slate-100">MOVE.B #'A', (A1)</button>
+                    </div>
+
+                    <!-- Display Card Analysis Result -->
+                    <div id="inspector-card" class="bg-white p-4 rounded-lg border border-slate-200 font-mono text-xs shadow-sm">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: GALERI CONTOH KOD EASY68K BERPELBAGAI DATA -->
+        <section id="tab-examples" class="tab-content hidden space-y-6">
+            <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center">
+                    <i class="fa-solid fa-code text-amber-600 mr-3"></i> Galeri Contoh Kod EASY68K Pelbagai Jenis Data & Operasi
+                </h2>
+                <p class="text-slate-600 text-sm mb-6">
+                    Penerokaan pelbagai kombinasi jenis data (Byte <code>.B</code>, Word <code>.W</code>, Long Word <code>.L</code>), format nombor (#Dec, #$Hex, #%Bin, #'Char'), serta operasi aritmetik, logik, dan anjakan EASY68K.
+                </p>
+
+                <!-- Filter Buttons -->
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <button onclick="filterExamples('all')" class="ex-filter px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white shadow-sm">Semua</button>
+                    <button onclick="filterExamples('data-types')" class="ex-filter px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200">Pelbagai Format Data</button>
+                    <button onclick="filterExamples('arithmetic')" class="ex-filter px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200">Aritmetik (.B/.W/.L)</button>
+                    <button onclick="filterExamples('logic')" class="ex-filter px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200">Logik & Bitwise</button>
+                    <button onclick="filterExamples('shift')" class="ex-filter px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200">Anjakan & Putaran</button>
+                </div>
+
+                <!-- Examples Cards Container -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="examples-grid">
+                    
+                    <!-- Ex 1 Data Types -->
+                    <div class="ex-card data-types bg-white border border-slate-200 shadow-sm rounded-xl p-5">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-bold text-amber-800">1. [Data Format] Gabungan Perpuluhan, Hex, Biner & ASCII</span>
+                            <span class="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded border border-amber-200">Literal Data</span>
+                        </div>
+                        <pre class="bg-slate-900 p-3 rounded-lg text-amber-300 text-xs font-mono mb-3">
+* Memuatkan Pelbagai Format Data ke Daftar
+    ORG    $1000
+START:
+    MOVE.B #255, D0         * Decimal (Byte 8-bit)
+    MOVE.W #$FF00, D1       * Hexadecimal (Word 16-bit)
+    MOVE.L #%10101010, D2   * Binary (Long Word 32-bit)
+    MOVE.B #'M', D3         * ASCII Character 'M' (Nilai 77)
+    
+    SIMHALT
+    END    START
+                        </pre>
+                        <p class="text-xs text-slate-600">
+                            <strong>Penerangan:</strong> Simbol <code>#</code> menandakan nilai tetap. Simbol <code>$</code> untuk Hex, <code>%</code> untuk Biner, dan <code>' '</code> untuk aksara ASCII.
+                        </p>
+                    </div>
+
+                    <!-- Ex 2 Byte Arithmetic -->
+                    <div class="ex-card arithmetic bg-white border border-slate-200 shadow-sm rounded-xl p-5">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-bold text-amber-800">2. [Aritmetik Byte .B] Operasi 8-bit (ADD.B / SUB.B)</span>
+                            <span class="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded border border-amber-200">Saiz Byte</span>
+                        </div>
+                        <pre class="bg-slate-900 p-3 rounded-lg text-amber-300 text-xs font-mono mb-3">
+* Penambahan & Penolakan Saiz Byte (.B)
+    ORG    $1000
+START:
+    MOVE.B #150, D0     * D0 = 150
+    MOVE.B #75, D1      * D1 = 75
+    ADD.B  D1, D0       * D0 = 150 + 75 = 225
+    SUB.B  #25, D0      * D0 = 225 - 25 = 200
+    
+    SIMHALT
+    END    START
+                        </pre>
+                        <p class="text-xs text-slate-600">
+                            <strong>Penerangan:</strong> Penentu saiz <code>.B</code> hanya mengubah 8-bit terbawah daftar tanpa menjejaskan bit 8-31 pada daftar data D0.
+                        </p>
+                    </div>
+
+                    <!-- Ex 3 Long Word Arithmetic -->
+                    <div class="ex-card arithmetic bg-white border border-slate-200 shadow-sm rounded-xl p-5">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-bold text-amber-800">3. [Aritmetik Long .L] Nombor Besar (ADD.L / SUB.L)</span>
+                            <span class="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded border border-amber-200">Saiz 32-Bit</span>
+                        </div>
+                        <pre class="bg-slate-900 p-3 rounded-lg text-amber-300 text-xs font-mono mb-3">
+* Operasi Long Word 32-bit (.L)
+    ORG    $1000
+START:
+    MOVE.L #$000F4240, D0   * D0 = 1,000,000 (Decimal)
+    MOVE.L #$0007A120, D1   * D1 = 500,000 (Decimal)
+    ADD.L  D1, D0           * D0 = 1,500,000
+    SUB.L  #$000186A0, D0   * D0 = 1,500,000 - 100,000
+    
+    SIMHALT
+    END    START
+                        </pre>
+                        <p class="text-xs text-slate-600">
+                            <strong>Penerangan:</strong> Penentu <code>.L</code> memroses nilai 32-bit secara penuh. Sangat berguna untuk pengiraan alamat ingatan dan nilai nombor berskala besar.
+                        </p>
+                    </div>
+
+                    <!-- Ex 4 MULU & DIVU Unsigned -->
+                    <div class="ex-card arithmetic bg-white border border-slate-200 shadow-sm rounded-xl p-5">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-bold text-amber-800">4. [Darab & Bahagi] MULU & DIVU (Unsigned)</span>
+                            <span class="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded border border-amber-200">MULU / DIVU</span>
+                        </div>
+                        <pre class="bg-slate-900 p-3 rounded-lg text-amber-300 text-xs font-mono mb-3">
+* Pendaraban & Pembahagian Nombor Positif
+    ORG    $1000
+START:
+    MOVE.W #120, D0     * D0 = 120 (16-bit)
+    MULU   #10, D0      * D0 = 120 * 10 = 1200 (Hasil 32-bit)
+
+    MOVE.L #105, D1     * D1 = 105 (32-bit)
+    DIVU   #10, D1      * D1 = 105 / 10
+                        * Low Word D1  = 10 (Hasil Bahagi)
+                        * High Word D1 = 5  (Baki)
+    SIMHALT
+    END    START
+                        </pre>
+                        <p class="text-xs text-slate-600">
+                            <strong>Penerangan:</strong> <code>MULU</code> mendarab 16-bit x 16-bit menjadi 32-bit. <code>DIVU</code> membahagi 32-bit dengan 16-bit, menyimpan **Hasil Bahagi** di 16-bit bawah dan **Baki** di 16-bit atas.
+                        </p>
+                    </div>
+
+                    <!-- Ex 5 Logic Bitwise Masking -->
+                    <div class="ex-card logic bg-white border border-slate-200 shadow-sm rounded-xl p-5">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-bold text-emerald-800">5. [Logik Bitwise] Masking & Invert (AND, OR, EOR, NOT)</span>
+                            <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded border border-emerald-200">Operasi Bit</span>
+                        </div>
+                        <pre class="bg-slate-900 p-3 rounded-lg text-emerald-300 text-xs font-mono mb-3">
+* Operasi Masking & Manipulasi Bit
+    ORG    $1000
+START:
+    MOVE.B #%11111100, D0
+    AND.B  #%00001111, D0  * Masking: D0 = %00001100 (Pemadaman Bit)
+    
+    OR.B   #%10000000, D0  * Set Bit: D0 = %10001100
+    EOR.B  #%11111111, D0  * XOR Invert: Terbalikkan semua bit
+    NOT.B  D0              * Terbalikkan semula bit D0
+    
+    SIMHALT
+    END    START
+                        </pre>
+                        <p class="text-xs text-slate-600">
+                            <strong>Penerangan:</strong> <code>AND</code> digunakan untuk *bit masking* (padam bit ke 0), <code>OR</code> untuk set bit ke 1, <code>EOR</code> (Exclusive OR) untuk menterbalikkan bit pilihan.
+                        </p>
+                    </div>
+
+                    <!-- Ex 6 Bit Manipulation Instructions (BSET, BCLR, BTST) -->
+                    <div class="ex-card logic bg-white border border-slate-200 shadow-sm rounded-xl p-5">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-bold text-emerald-800">6. [Khas Bit 68k] BSET, BCLR, BCHG, BTST</span>
+                            <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded border border-emerald-200">Daftar Bit</span>
+                        </div>
+                        <pre class="bg-slate-900 p-3 rounded-lg text-emerald-300 text-xs font-mono mb-3">
+* Arahan Manipulasi Bit Spesifik
+    ORG    $1000
+START:
+    MOVE.B #%00000000, D0
+    BSET   #3, D0       * Set bit ke-3 menjadi 1 -> D0 = %00001000
+    BSET   #0, D0       * Set bit ke-0 menjadi 1 -> D0 = %00001001
+    BCLR   #3, D0       * Clear bit ke-3 -> D0 = %00000001
+    BCHG   #0, D0       * Tukar (toggle) bit ke-0 -> D0 = %00000000
+    
+    SIMHALT
+    END    START
+                        </pre>
+                        <p class="text-xs text-slate-600">
+                            <strong>Penerangan:</strong> Arahan khas 68000 untuk mengubahsuai bit secara spesifik mengikut nombor indeks bit (0 hingga 7 untuk Byte, 0 hingga 31 untuk Long Word).
+                        </p>
+                    </div>
+
+                    <!-- Ex 7 Shift and Rotate -->
+                    <div class="ex-card shift bg-white border border-slate-200 shadow-sm rounded-xl p-5">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-bold text-cyan-800">7. [Anjakan & Putaran] LSL, LSR, ROL, ROR</span>
+                            <span class="text-[10px] bg-cyan-100 text-cyan-800 font-bold px-2 py-0.5 rounded border border-cyan-200">Shift & Rotate</span>
+                        </div>
+                        <pre class="bg-slate-900 p-3 rounded-lg text-cyan-300 text-xs font-mono mb-3">
+* Anjakan Logik & Putaran Bit
+    ORG    $1000
+START:
+    MOVE.B #%00000101, D0  * D0 = 5
+    LSL.B  #2, D0          * Anjak Kiri 2 bit (Darab 4) -> D0 = 20
+    
+    MOVE.B #80, D1         * D1 = 80
+    LSR.B  #3, D1          * Anjak Kanan 3 bit (Bahagi 8) -> D1 = 10
+    
+    ROL.B  #1, D0          * Putar Kiri 1 bit
+    ROR.B  #1, D0          * Putar Kanan 1 bit
+    SIMHALT
+    END    START
+                        </pre>
+                        <p class="text-xs text-slate-600">
+                            <strong>Penerangan:</strong> <code>LSL #n</code> darab nilai dengan $2^n$, manakala <code>LSR #n</code> bahagi nilai dengan $2^n$. <code>ROL</code> dan <code>ROR</code> memutar bit tanpa kehilangan bit.
+                        </p>
+                    </div>
+
+                    <!-- Ex 8 Complete Executable Program with TRAP #15 -->
+                    <div class="ex-card data-types arithmetic logic bg-white border border-slate-200 shadow-sm rounded-xl p-5">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-bold text-indigo-900">8. [Program Lengkap] Pemprosesan Tatasusunan & Output Console</span>
+                            <span class="text-[10px] bg-indigo-100 text-indigo-800 font-bold px-2 py-0.5 rounded border border-indigo-200">Program EASY68K</span>
+                        </div>
+                        <pre class="bg-slate-900 p-3 rounded-lg text-indigo-300 text-xs font-mono mb-3">
+* Program EASY68K: Pengiraan Jumlah Tatasusunan (Array)
+    ORG    $1000
+START:
+    LEA    NOMBOR, A0   * Memuatkan Alamat Tatasusunan ke A0
+    CLR.L  D0           * D0 = 0 (Pemegang Jumlah)
+    MOVE.W #3, D1       * Pembolehubah Gelung (4 Elemen)
+
+GELUNG:
+    ADD.W  (A0)+, D0    * Tambah nilai (A0) ke D0 & Post-Increment A0
+    SUBQ.W #1, D1       * Tolak 1 dari Kaunter
+    BPL    GELUNG       * Ulang jika positif
+
+    * Paparkan Jumlah ke Skrin Output EASY68K
+    MOVE.L D0, D1       * Pindah hasil ke D1
+    MOVE.B #3, D0       * Task 3: Cetak Integer
+    TRAP   #15          * Makro I/O EASY68K
+    
+    SIMHALT
+
+NOMBOR: DC.W  10, 25, 40, 15  * Data Tatasusunan
+    END    START
+                        </pre>
+                        <p class="text-xs text-slate-600">
+                            <strong>Penerangan:</strong> Menggunakan mod pengalamatan <code>(A0)+</code> (Post-increment) untuk membaca data tatasusunan <code>DC.W</code> secara berturutan dan memaparkan output menggunakan <code>TRAP #15</code>.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: KUIZ INTERAKTIF EASY68K -->
+        <section id="tab-quiz" class="tab-content hidden space-y-6">
+            <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900 flex items-center">
+                            <i class="fa-solid fa-circle-question text-purple-600 mr-3"></i> Ujian Pengukuhan EASY68K
+                        </h2>
+                        <p class="text-slate-600 text-sm">Uji kefahaman anda berkenaan Saiz Data (.B, .W, .L), Mod Pengalamatan, dan Operasi Motorola 68000.</p>
+                    </div>
+                    <div class="bg-indigo-50 border border-indigo-200 px-4 py-2 rounded-xl text-right">
+                        <span class="text-xs text-indigo-700 font-medium block">Skor Semasa</span>
+                        <span id="quiz-score" class="text-xl font-bold text-amber-700">0 / 4</span>
+                    </div>
+                </div>
+
+                <!-- Quiz Container -->
+                <div class="space-y-6" id="quiz-container">
+                    
+                    <!-- Question 1 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
+                        <p class="text-sm font-bold text-slate-900 mb-3">
+                            1. Apakah maksud mod pengalamatan bagi arahan EASY68K berikut: <code class="text-indigo-700 bg-white px-2 py-0.5 rounded border border-slate-300">MOVE.W (A0)+, D0</code>?
+                        </p>
+                        <div class="space-y-2 text-xs">
+                            <button onclick="checkAnswer(1, 'A', false, this)" class="w-full text-left p-3 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition font-medium">
+                                A) Address Register Direct - Nilai A0 dipindahkan terus ke D0.
+                            </button>
+                            <button onclick="checkAnswer(1, 'B', true, this)" class="w-full text-left p-3 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition font-medium">
+                                B) Address Register Indirect with Post-Increment - Data dibaca dari memori (A0), kemudian nilai A0 ditambah 2 (Word).
+                            </button>
+                            <button onclick="checkAnswer(1, 'C', false, this)" class="w-full text-left p-3 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition font-medium">
+                                C) Immediate Addressing - Memindahkan alamat A0 secara serta-merta.
+                            </button>
+                        </div>
+                        <div id="q1-feedback" class="mt-3 text-xs hidden p-3 rounded-lg"></div>
+                    </div>
+
+                    <!-- Question 2 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
+                        <p class="text-sm font-bold text-slate-900 mb-3">
+                            2. Jika register <code class="text-indigo-700 bg-white px-2 py-0.5 rounded border border-slate-300">D0 = $12345678</code>, apakah kandungan <code class="text-indigo-700 bg-white px-2 py-0.5 rounded border border-slate-300">D0</code> selepas arahan <code class="text-indigo-700 bg-white px-2 py-0.5 rounded border border-slate-300">MOVE.B #$FF, D0</code> dilaksanakan?
+                        </p>
+                        <div class="space-y-2 text-xs">
+                            <button onclick="checkAnswer(2, 'A', false, this)" class="w-full text-left p-3 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition font-medium">
+                                A) $000000FF
+                            </button>
+                            <button onclick="checkAnswer(2, 'B', true, this)" class="w-full text-left p-3 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition font-medium">
+                                B) $123456FF (Kerana .B hanya menukar Byte bawah)
+                            </button>
+                            <button onclick="checkAnswer(2, 'C', false, this)" class="w-full text-left p-3 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition font-medium">
+                                C) $FF345678
+                            </button>
+                        </div>
+                        <div id="q2-feedback" class="mt-3 text-xs hidden p-3 rounded-lg"></div>
+                    </div>
+
+                    <!-- Question 3 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
+                        <p class="text-sm font-bold text-slate-900 mb-3">
+                            3. Arahan EASY68K manakah yang membahagi nombor 32-bit dalam register dengan nombor 16-bit dan menyimpan **baki pembahagian** di bahagian High Word?
+                        </p>
+                        <div class="space-y-2 text-xs">
+                            <button onclick="checkAnswer(3, 'A', true, this)" class="w-full text-left p-3 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition font-medium">
+                                A) DIVU (Unsigned Division)
+                            </button>
+                            <button onclick="checkAnswer(3, 'B', false, this)" class="w-full text-left p-3 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition font-medium">
+                                B) MULU (Unsigned Multiplication)
+                            </button>
+                            <button onclick="checkAnswer(3, 'C', false, this)" class="w-full text-left p-3 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition font-medium">
+                                C) SUB.L (Long Word Subtraction)
+                            </button>
+                        </div>
+                        <div id="q3-feedback" class="mt-3 text-xs hidden p-3 rounded-lg"></div>
+                    </div>
+
+                    <!-- Question 4 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
+                        <p class="text-sm font-bold text-slate-900 mb-3">
+                            4. Simbol manakah yang digunakan dalam EASY68K untuk menandakan nombor **Biner (Binary)**?
+                        </p>
+                        <div class="space-y-2 text-xs">
+                            <button onclick="checkAnswer(4, 'A', false, this)" class="w-full text-left p-3 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition font-medium">
+                                A) Simbol dollar ($)
+                            </button>
+                            <button onclick="checkAnswer(4, 'B', true, this)" class="w-full text-left p-3 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition font-medium">
+                                B) Simbol peratus (%)
+                            </button>
+                            <button onclick="checkAnswer(4, 'C', false, this)" class="w-full text-left p-3 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition font-medium">
+                                C) Simbol pagar (#)
+                            </button>
+                        </div>
+                        <div id="q4-feedback" class="mt-3 text-xs hidden p-3 rounded-lg"></div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+        Hub Pembelajaran Interaktif EASY68K Bahasa Melayu &copy; 2026 - Seni Bina Motorola 68000
+    </footer>
+
+    <!-- JavaScript Simulator & Logic -->
+    <script>
+        // State Machine EASY68K Registers (D0 - D3)
+        let cpu = {
+            D0: 0,
+            D1: 0,
+            D2: 0,
+            D3: 0,
+            ZF: 0,
+            CF: 0,
+            SF: 0
+        };
+
+        // Navigation Tabs Switcher
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-tab').forEach(el => {
+                el.classList.remove('bg-indigo-600', 'text-white', 'shadow-sm');
+                el.classList.add('bg-slate-100', 'text-slate-700');
+            });
+
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            activeBtn.classList.remove('bg-slate-100', 'text-slate-700');
+            activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-sm');
+        }
+
+        // Render Bit Grid Display for D0 (Byte Bawah)
+        function renderBitGrid() {
+            const grid = document.getElementById('bit-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            const binStr = (cpu.D0 & 0xFF).toString(2).padStart(8, '0');
+            
+            for (let i = 0; i < 8; i++) {
+                const bitVal = binStr[i];
+                const bitBox = document.createElement('div');
+                bitBox.className = `p-1 rounded text-[11px] font-bold border ${bitVal === '1' ? 'bg-amber-100 border-amber-400 text-amber-900 shadow-sm' : 'bg-slate-100 border-slate-300 text-slate-400'}`;
+                bitBox.innerHTML = `<div>${bitVal}</div><div class="text-[8px] text-slate-500 font-normal">b${7-i}</div>`;
+                grid.appendChild(bitBox);
+            }
+        }
+
+        // Update UI Display
+        function updateUI() {
+            const updateReg = (idHex, idDec, val) => {
+                const elHex = document.getElementById(idHex);
+                const elDec = document.getElementById(idDec);
+                if (!elHex || !elDec) return;
+                const hexVal = (val >>> 0).toString(16).toUpperCase().padStart(8, '0');
+                elHex.innerText = `0x${hexVal}`;
+                elDec.innerText = `Dec: ${(val >>> 0)}`;
+            };
+
+            updateReg('reg-d0', 'reg-d0-dec', cpu.D0);
+            updateReg('reg-d1', 'reg-d1-dec', cpu.D1);
+            updateReg('reg-d2', 'reg-d2-dec', cpu.D2);
+            updateReg('reg-d3', 'reg-d3-dec', cpu.D3);
+
+            // Flags
+            const flagZ = document.getElementById('flag-zf');
+            const flagC = document.getElementById('flag-cf');
+            const flagS = document.getElementById('flag-sf');
+            if (flagZ) flagZ.innerText = cpu.ZF;
+            if (flagC) flagC.innerText = cpu.CF;
+            if (flagS) flagS.innerText = cpu.SF;
+
+            renderBitGrid();
+        }
+
+        function logMessage(msg) {
+            const logEl = document.getElementById('sim-log');
+            if (!logEl) return;
+            const entry = document.createElement('div');
+            entry.className = 'py-0.5 border-b border-slate-200';
+            entry.innerHTML = `<span class="text-slate-400">[${new Date().toLocaleTimeString()}]</span> ${msg}`;
+            logEl.appendChild(entry);
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        function resetSimulator() {
+            cpu = { D0: 0, D1: 0, D2: 0, D3: 0, ZF: 0, CF: 0, SF: 0 };
+            updateUI();
+            const logEl = document.getElementById('sim-log');
+            if (logEl) logEl.innerHTML = '<div class="text-slate-500">[Sistem EASY68K] Simulator direset. Sedia untuk pelaksanaan.</div>';
+        }
+
+        // Parse EASY68K Operand Values (#100, #$FF, #%1100, #'A', D0-D3)
+        function parseOperandValue(op) {
+            if (!op) return 0;
+            op = op.trim();
+
+            if (op.toUpperCase() === 'D0') return cpu.D0;
+            if (op.toUpperCase() === 'D1') return cpu.D1;
+            if (op.toUpperCase() === 'D2') return cpu.D2;
+            if (op.toUpperCase() === 'D3') return cpu.D3;
+
+            // Immediate value check (starts with #)
+            if (op.startsWith('#')) {
+                let valStr = op.slice(1).trim();
+                if (valStr.startsWith('$')) return parseInt(valStr.slice(1), 16) || 0;
+                if (valStr.startsWith('%')) return parseInt(valStr.slice(1), 2) || 0;
+                if (valStr.startsWith("'") && valStr.endsWith("'")) return valStr.charCodeAt(1) || 0;
+                return parseInt(valStr, 10) || 0;
+            }
+
+            return parseInt(op, 10) || 0;
+        }
+
+        // Set EASY68K Register Value respecting size (.B, .W, .L)
+        function setRegisterValue(reg, val, size) {
+            reg = reg.trim().toUpperCase();
+            let currentVal = cpu[reg] || 0;
+
+            if (size === 'B') {
+                val = (currentVal & 0xFFFFFF00) | (val & 0xFF);
+            } else if (size === 'W') {
+                val = (currentVal & 0xFFFF0000) | (val & 0xFFFF);
+            } else { // Long Word .L
+                val = val >>> 0;
+            }
+
+            if (reg === 'D0') cpu.D0 = val;
+            else if (reg === 'D1') cpu.D1 = val;
+            else if (reg === 'D2') cpu.D2 = val;
+            else if (reg === 'D3') cpu.D3 = val;
+
+            // Update Flags
+            cpu.ZF = (val === 0) ? 1 : 0;
+            cpu.SF = (val & 0x80000000) ? 1 : 0;
+        }
+
+        // Execute Line EASY68K
+        function executeLine(line) {
+            line = line.split('*')[0].trim();
+            line = line.split(';')[0].trim();
+            if (!line) return;
+
+            const parts = line.split(/\s+/);
+            const fullCmd = parts[0].toUpperCase();
+            
+            if (['ORG', 'START:', 'END', 'SIMHALT'].includes(fullCmd)) return;
+
+            const cmdParts = fullCmd.split('.');
+            const cmd = cmdParts[0];
+            const size = cmdParts[1] || 'W';
+
+            const rest = parts.slice(1).join(' ').split(',');
+            const src = rest[0] ? rest[0].trim() : null;
+            const dest = rest[1] ? rest[1].trim() : null;
+
+            let valSrc = parseOperandValue(src);
+            let valDest = parseOperandValue(dest);
+
+            switch (cmd) {
+                case 'MOVE':
+                case 'MOVEA':
+                    setRegisterValue(dest, valSrc, size);
+                    logMessage(`MOVE.${size} ${src}, ${dest} &rarr; ${dest} = ${valSrc}`);
+                    break;
+                case 'ADD':
+                    let sum = valDest + valSrc;
+                    setRegisterValue(dest, sum, size);
+                    logMessage(`ADD.${size} ${src}, ${dest} &rarr; Hasil = ${sum}`);
+                    break;
+                case 'SUB':
+                    let diff = valDest - valSrc;
+                    setRegisterValue(dest, diff, size);
+                    logMessage(`SUB.${size} ${src}, ${dest} &rarr; Hasil = ${diff}`);
+                    break;
+                case 'MULU':
+                    let mulRes = (valDest & 0xFFFF) * (valSrc & 0xFFFF);
+                    setRegisterValue(dest, mulRes, 'L');
+                    logMessage(`MULU ${src}, ${dest} &rarr; Hasil 32-bit = ${mulRes}`);
+                    break;
+                case 'DIVU':
+                    if (valSrc === 0) {
+                        logMessage(`<span class="text-rose-600 font-bold">Ralat: Pembahagian dengan 0!</span>`);
+                        return;
+                    }
+                    let quot = Math.floor((valDest >>> 0) / (valSrc & 0xFFFF));
+                    let rem = (valDest >>> 0) % (valSrc & 0xFFFF);
+                    let divRes = ((rem & 0xFFFF) << 16) | (quot & 0xFFFF);
+                    setRegisterValue(dest, divRes, 'L');
+                    logMessage(`DIVU ${src}, ${dest} &rarr; Hasil = ${quot}, Baki = ${rem}`);
+                    break;
+                case 'AND':
+                    let andRes = valDest & valSrc;
+                    setRegisterValue(dest, andRes, size);
+                    logMessage(`AND.${size} ${src}, ${dest} &rarr; Bitwise DAN = ${andRes}`);
+                    break;
+                case 'OR':
+                    let orRes = valDest | valSrc;
+                    setRegisterValue(dest, orRes, size);
+                    logMessage(`OR.${size} ${src}, ${dest} &rarr; Bitwise ATAU = ${orRes}`);
+                    break;
+                case 'EOR':
+                    let eorRes = valDest ^ valSrc;
+                    setRegisterValue(dest, eorRes, size);
+                    logMessage(`EOR.${size} ${src}, ${dest} &rarr; Bitwise XOR = ${eorRes}`);
+                    break;
+                case 'NOT':
+                    let notRes = ~valSrc;
+                    setRegisterValue(src, notRes, size);
+                    logMessage(`NOT.${size} ${src} &rarr; Bitwise NOT`);
+                    break;
+                case 'LSL':
+                    let lslRes = valDest << valSrc;
+                    setRegisterValue(dest, lslRes, size);
+                    logMessage(`LSL.${size} ${src}, ${dest} &rarr; Anjak Kiri ${valSrc} bit`);
+                    break;
+                case 'LSR':
+                    let lsrRes = valDest >>> valSrc;
+                    setRegisterValue(dest, lsrRes, size);
+                    logMessage(`LSR.${size} ${src}, ${dest} &rarr; Anjak Kanan ${valSrc} bit`);
+                    break;
+                default:
+                    logMessage(`<span class="text-amber-700 font-medium">Arahan "${fullCmd}" diproses dalam EASY68K.</span>`);
+            }
+            updateUI();
+        }
+
+        function runAssembly() {
+            resetSimulator();
+            const el = document.getElementById('assembly-code');
+            if (!el) return;
+            const code = el.value;
+            const lines = code.split('\n');
+            lines.forEach(line => executeLine(line));
+        }
+
+        function loadSampleCode(type) {
+            const editor = document.getElementById('assembly-code');
+            if (!editor) return;
+            if (type === 'easy68k_types') {
+                editor.value = `* Demostrasi Pelbagai Saiz Data & Format Nombor\nMOVE.B  #100, D0         * Byte: Perpuluhan\nMOVE.W  #$1A2B, D1       * Word: Hexadecimal\nMOVE.L  #%111100001100, D2 * Long Word: Binary\nMOVE.B  #'A', D3         * Byte: Aksara ASCII\nADD.B   #15, D0          * D0 = 100 + 15 = 115`;
+            } else if (type === 'easy68k_formats') {
+                editor.value = `* Format Literal Nombor EASY68K\nMOVE.B  #255, D0         * Perpuluhan #255\nMOVE.B  #$FF, D1         * Hexadecimal #$FF\nMOVE.B  #%11111111, D2   * Binary #%11111111\n* Ketiga-tiga daftar mengandungi nilai 255 yang sama!`;
+            } else if (type === 'easy68k_arith') {
+                editor.value = `* Aritmetik EASY68K (MULU & DIVU)\nMOVE.W  #120, D0        * D0 = 120\nMULU    #10, D0         * D0 = 1200\nMOVE.L  #105, D1        * D1 = 105\nDIVU    #10, D1         * Hasil = 10, Baki = 5`;
+            } else if (type === 'easy68k_logic') {
+                editor.value = `* Operasi Logik EASY68K (Masking & Bitwise)\nMOVE.B  #%11111100, D0\nAND.B   #%00001111, D0  * D0 = %00001100\nOR.B    #%10000000, D0  * D0 = %10001100\nEOR.B   #%11111111, D0  * Invert Bit`;
+            } else if (type === 'easy68k_shift') {
+                editor.value = `* Anjakan Bit EASY68K (LSL & LSR)\nMOVE.B  #%00000101, D0  * D0 = 5\nLSL.B   #2, D0          * Anjak Kiri 2 bit (5 * 4 = 20)\nMOVE.B  #80, D1         * D1 = 80\nLSR.B   #3, D1          * Anjak Kanan 3 bit (80 / 8 = 10)`;
+            }
+            resetSimulator();
+        }
+
+        // Examples Filter Logic
+        function filterExamples(cat) {
+            document.querySelectorAll('.ex-filter').forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-sm');
+                btn.classList.add('bg-slate-100', 'text-slate-700');
+            });
+            event.target.classList.remove('bg-slate-100', 'text-slate-700');
+            event.target.classList.add('bg-indigo-600', 'text-white', 'shadow-sm');
+
+            document.querySelectorAll('.ex-card').forEach(card => {
+                if (cat === 'all' || card.classList.contains(cat)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Quiz Logic
+        let score = 0;
+        let answered = {};
+
+        function checkAnswer(qId, choice, isCorrect, btn) {
+            if (answered[qId]) return;
+            answered[qId] = true;
+
+            const feedbackEl = document.getElementById(`q${qId}-feedback`);
+            feedbackEl.classList.remove('hidden');
+
+            if (isCorrect) {
+                score++;
+                btn.classList.remove('bg-white', 'hover:bg-slate-100');
+                btn.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                feedbackEl.className = "mt-3 text-xs p-3 rounded-lg bg-emerald-50 border border-emerald-300 text-emerald-900";
+                feedbackEl.innerHTML = `<strong>Tepat!</strong> Jawapan anda betul.`;
+            } else {
+                btn.classList.remove('bg-white', 'hover:bg-slate-100');
+                btn.classList.add('bg-rose-100', 'border-rose-400', 'text-rose-900', 'font-bold');
+                feedbackEl.className = "mt-3 text-xs p-3 rounded-lg bg-rose-50 border border-rose-300 text-rose-900";
+                feedbackEl.innerHTML = `<strong>Kurang Tepat.</strong> Sila rujuk nota Tab 1 untuk pemahaman lanjut.`;
+            }
+
+            document.getElementById('quiz-score').innerText = `${score} / 4`;
+        }
+
+        function inspectInstruction(key) {
+            const card = document.getElementById('inspector-card');
+            if (!card) return;
+            const data = {
+                'ex1': {
+                    code: 'MOVE.B #100, D0',
+                    opcode: 'MOVE (Memindahkan data)',
+                    size: '.B (Byte - 8-Bit / Bits 0-7 sahaja)',
+                    format: 'Nombor Perpuluhan (Decimal Literal #100)',
+                    srcMode: 'Immediate Addressing (#100 diletakkan terus dalam arahan)',
+                    destMode: 'Data Register Direct (D0)',
+                    notes: 'Hanya 8-bit terbawah daftar D0 akan dikemas kini dengan nilai 100. Bit 8-31 pada D0 kekal tidak berubah.'
+                },
+                'ex2': {
+                    code: 'MOVE.W #$1A2B, D1',
+                    opcode: 'MOVE (Memindahkan data)',
+                    size: '.W (Word - 16-Bit / Bits 0-15)',
+                    format: 'Nombor Heksadesimal (#$1A2B)',
+                    srcMode: 'Immediate Addressing (#$)',
+                    destMode: 'Data Register Direct (D1)',
+                    notes: '16-bit terbawah daftar D1 dikemas kini dengan 0x1A2B. Bit 16-31 pada D1 kekal.'
+                },
+                'ex3': {
+                    code: 'MOVE.L (A0)+, D2',
+                    opcode: 'MOVE (Memindahkan data)',
+                    size: '.L (Long Word - 32-Bit / Bits 0-31)',
+                    format: 'Nilai Memori RAM di lokasi (A0)',
+                    srcMode: 'Address Register Indirect with Post-Increment ((A0)+)',
+                    destMode: 'Data Register Direct (D2)',
+                    notes: 'Membaca 4-byte (32-bit) data dari lokasi memori A0 ke D2. Selepas pemindahan, nilai A0 bertambah secara automatik (+4).'
+                },
+                'ex4': {
+                    code: 'ADD.W 8(A0), D0',
+                    opcode: 'ADD (Penambahan Aritmetik)',
+                    size: '.W (Word - 16-Bit)',
+                    format: 'Nilai Memori RAM pada alamat (A0 + 8)',
+                    srcMode: 'Address Register Indirect with Displacement (8(A0))',
+                    destMode: 'Data Register Direct (D0)',
+                    notes: 'Alamat Berkesan dikira sebagai EA = A0 + 8. Data 16-bit dibaca dari EA dan ditambah kepada D0.'
+                },
+                'ex5': {
+                    code: "MOVE.B #'A', (A1)",
+                    opcode: 'MOVE (Memindahkan data)',
+                    size: '.B (Byte - 8-Bit)',
+                    format: "Aksara ASCII Literal #'A' (Nilai ASCII 65 / $41)",
+                    srcMode: 'Immediate Addressing',
+                    destMode: 'Address Register Indirect ((A1))',
+                    notes: 'Nilai ASCII 65 ditulis terus ke lokasi ingatan RAM yang ditunjuk oleh penuding A1.'
+                }
+            };
+
+            const item = data[key];
+            if (!item) return;
+
+            card.innerHTML = `
+                <div class="text-indigo-900 font-bold text-sm mb-3 pb-2 border-b border-slate-200 flex justify-between items-center">
+                    <span><i class="fa-solid fa-code text-indigo-600 mr-2"></i>Bedah Siasat Arahan: <span class="text-amber-800">${item.code}</span></span>
+                    <span class="text-xs font-normal text-slate-500">EASY68K Assembler</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-slate-700">
+                    <div><strong class="text-indigo-700">1. Opcode:</strong> ${item.opcode}</div>
+                    <div><strong class="text-amber-700">2. Saiz Data:</strong> ${item.size}</div>
+                    <div><strong class="text-emerald-700">3. Format Data:</strong> ${item.format}</div>
+                    <div><strong class="text-purple-700">4. Mod Sumber (Source):</strong> ${item.srcMode}</div>
+                    <div><strong class="text-slate-900">5. Mod Destinasi:</strong> ${item.destMode}</div>
+                </div>
+                <div class="mt-3 p-2.5 bg-slate-50 rounded-lg border border-slate-200 text-slate-600">
+                    <strong class="text-amber-800">Ulasan Operasi:</strong> ${item.notes}
+                </div>
+            `;
+        }
+
+        // Initial setup on load
+        window.onload = function() {
+            renderBitGrid();
+            updateUI();
+            inspectInstruction('ex1');
+        };
+    </script>
+</body>
+</html>
