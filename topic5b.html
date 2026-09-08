@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hub Pembelajaran Interaktif: Troubleshooting Komputer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            tech: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
+              900: '#14532d',
+            },
+            brand: {
+              primary: '#3b82f6',
+              secondary: '#6366f1',
+              dark: '#0f172a',
+              card: '#1e293b'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    .custom-glow {
+      box-shadow: 0 0 25px -5px rgba(59, 130, 246, 0.25);
+    }
+    .badge-pulse {
+      animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulse-ring {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .4; }
+    }
+  </style>
+</head>
+
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col selection:bg-blue-500 selection:text-white">
+
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-900/80 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchMainTab('learning')">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/30 text-white font-black text-xl">
+          ⚡
+        </div>
+        <div>
+          <span class="text-xs uppercase tracking-widest font-bold text-blue-400 block">Modul 5.4</span>
+          <h1 class="font-bold text-base sm:text-lg text-white leading-tight">Hub Troubleshooting IT</h1>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center space-x-2">
+        <button onclick="switchMainTab('simulator')" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition flex items-center space-x-1.5">
+          <span>🛠️</span>
+          <span class="hidden sm:inline">Makmal</span> Simulasi
+        </button>
+        <button onclick="switchMainTab('quiz')" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/30 hover:bg-purple-500/20 transition flex items-center space-x-1.5">
+          <span>📝</span>
+          <span class="hidden sm:inline">Ujian</span> Kuiz
+        </button>
+        <button onclick="switchMainTab('beep')" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500/20 transition flex items-center space-x-1.5">
+          <span>🔊</span>
+          <span class="hidden sm:inline">Synthesizer</span> Beep POST
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-800 rounded-2xl p-6 relative overflow-hidden custom-glow">
+      <div class="relative z-10 max-w-3xl">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-medium mb-3">
+          <span class="w-2 h-2 rounded-full bg-blue-400 animate-ping"></span>
+          <span>Silibus Standard DVM / SKM / SPM Sains Komputer</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-2">
+          Panduan Diagnostik & Penyelesaian Masalah IT
+        </h2>
+        <p class="text-sm sm:text-base text-slate-400 mb-5 leading-relaxed">
+          Kuasai kemahiran menyelesaikan isu <strong>Perkakasan (Hardware)</strong>, <strong>Perisian (Software)</strong>, dan <strong>Rangkaian (Networking)</strong> secara interaktif melalui simulasi, visualisasi, dan ujian senario sebenar.
+        </p>
+
+        <!-- Search Bar with Instant Filter -->
+        <div class="relative max-w-xl">
+          <input 
+            type="text" 
+            id="searchInput" 
+            oninput="handleSearch(this.value)"
+            placeholder="Cari simptom atau perkataan kunci (cth: BSOD, RAM, 169.254, PSU, Beep, Overheating)..." 
+            class="w-full pl-11 pr-10 py-3 bg-slate-950/80 border border-slate-700 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-slate-100 placeholder-slate-500 transition"
+          >
+          <svg class="w-5 h-5 absolute left-3.5 top-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-3 text-slate-400 hover:text-white text-xs bg-slate-800 px-2 py-1 rounded">
+            ✕
+          </button>
+        </div>
+      </div>
+      <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+    </div>
+
+    <div class="flex border-b border-slate-800 space-x-2 sm:space-x-4 overflow-x-auto pb-1 text-sm font-medium">
+      <button onclick="switchMainTab('learning')" id="tab-btn-learning" class="nav-tab px-4 py-2.5 rounded-xl border border-transparent text-blue-400 bg-slate-900 border-slate-800 flex items-center space-x-2 whitespace-nowrap">
+        <span>📚</span>
+        <span>Modul Pembelajaran</span>
+      </button>
+      <button onclick="switchMainTab('simulator')" id="tab-btn-simulator" class="nav-tab px-4 py-2.5 rounded-xl border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 flex items-center space-x-2 whitespace-nowrap">
+        <span>💻</span>
+        <span>Makmal Terminal & Diagnostik</span>
+      </button>
+      <button onclick="switchMainTab('beep')" id="tab-btn-beep" class="nav-tab px-4 py-2.5 rounded-xl border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 flex items-center space-x-2 whitespace-nowrap">
+        <span>🔔</span>
+        <span>BIOS POST Beep Lab</span>
+      </button>
+      <button onclick="switchMainTab('quiz')" id="tab-btn-quiz" class="nav-tab px-4 py-2.5 rounded-xl border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 flex items-center space-x-2 whitespace-nowrap">
+        <span>🏆</span>
+        <span>Kuiz Senario Interaktif</span>
+      </button>
+    </div>
+
+    <div id="view-learning" class="space-y-6">
+      
+      <!-- Subtopic Category Tabs -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <!-- 5.4.1 -->
+        <button onclick="setCategory('hardware')" id="cat-hardware" class="category-card p-4 rounded-xl border border-blue-500/50 bg-blue-950/20 text-left transition relative overflow-hidden group">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-bold uppercase tracking-wider text-blue-400">Bahagian 5.4.1</span>
+            <span class="text-xl">🖲️</span>
+          </div>
+          <h3 class="font-bold text-white text-base">Hardware Issues</h3>
+          <p class="text-xs text-slate-400 mt-1">Processor, RAM, Storan, I/O, PSU & Periferal</p>
+        </button>
+
+        <!-- 5.4.2 -->
+        <button onclick="setCategory('software')" id="cat-software" class="category-card p-4 rounded-xl border border-slate-800 bg-slate-900/40 text-left transition relative overflow-hidden group hover:border-slate-700">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Bahagian 5.4.2</span>
+            <span class="text-xl">💿</span>
+          </div>
+          <h3 class="font-bold text-white text-base">Software Issues</h3>
+          <p class="text-xs text-slate-400 mt-1">Ralat OS, Keserasian Aplikasi, Driver & Keselamatan</p>
+        </button>
+
+        <!-- 5.4.3 -->
+        <button onclick="setCategory('networking')" id="cat-networking" class="category-card p-4 rounded-xl border border-slate-800 bg-slate-900/40 text-left transition relative overflow-hidden group hover:border-slate-700">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Bahagian 5.4.3</span>
+            <span class="text-xl">🌐</span>
+          </div>
+          <h3 class="font-bold text-white text-base">Networking Issues</h3>
+          <p class="text-xs text-slate-400 mt-1">Ketersambungan Kabel, Wi-Fi, IP & DNS</p>
+        </button>
+      </div>
+
+      <!-- Main Learning Modules Content Container -->
+      <div id="moduleContentList" class="space-y-4">
+        <!-- Content will be injected dynamically by JavaScript -->
+      </div>
+    </div>
+
+    <div id="view-simulator" class="hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+          <div>
+            <h3 class="text-lg font-bold text-white flex items-center space-x-2">
+              <span>🖥️</span>
+              <span>Makmal Diagnostik & Terminal Simulasi Interaktif</span>
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-400">
+              Pilih kes kerosakan sebenar, kemudian jalankan arahan diagnostik atau pilih tindakan pembaikan yang tepat.
+            </p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <label for="simCaseSelect" class="text-xs font-semibold text-slate-300">Pilih Senario Kes:</label>
+            <select id="simCaseSelect" onchange="loadSimCase(this.value)" class="bg-slate-950 border border-slate-700 text-xs text-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <option value="net_apipa">1. [Networking] Sambungan Terputus (IP 169.254.x.x)</option>
+              <option value="soft_bsod">2. [Software] Blue Screen (SFC / DISM Repair)</option>
+              <option value="hard_disk">3. [Hardware] Fail Rosak / Raw Filesystem (CHKDSK)</option>
+              <option value="net_dns">4. [Networking] Boleh Ping IP tetapi Web Browser Tak Buka (DNS Ralat)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Case Brief Banner -->
+        <div id="caseBriefBox" class="my-4 p-4 rounded-xl bg-blue-950/30 border border-blue-800/40 text-sm">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Terminal Window GUI -->
+        <div class="rounded-xl overflow-hidden border border-slate-700 bg-black shadow-2xl font-mono text-xs sm:text-sm">
+          <!-- Terminal Header -->
+          <div class="bg-slate-800 px-4 py-2 flex items-center justify-between border-b border-slate-700">
+            <div class="flex items-center space-x-2">
+              <div class="w-3 h-3 rounded-full bg-red-500 inline-block"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500 inline-block"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500 inline-block"></div>
+              <span class="ml-2 text-slate-300 font-semibold text-xs">Administrator: Windows Command Prompt (Cmd.exe)</span>
+            </div>
+            <button onclick="clearTerminal()" class="text-slate-400 hover:text-slate-200 text-xs">Padam Skrin (CLS)</button>
+          </div>
+
+          <!-- Terminal Output Area -->
+          <div id="terminalOutput" class="p-4 h-72 overflow-y-auto space-y-2 text-slate-200">
+            <div class="text-slate-400">Microsoft Windows [Version 10.0.19045.3803]</div>
+            <div class="text-slate-400">(c) Microsoft Corporation. Hak cipta terpelihara.</div>
+            <div class="text-emerald-400 pt-2">Taip arahan atau klik butang cadangan arahan di bawah untuk mendiagnosis isu.</div>
+          </div>
+
+          <!-- Command Input -->
+          <div class="border-t border-slate-800 bg-slate-950 p-3 flex items-center space-x-2">
+            <span class="text-emerald-400 font-bold">C:\Windows\System32&gt;</span>
+            <input 
+              type="text" 
+              id="cmdInput" 
+              onkeydown="if(event.key === 'Enter') executeCmd()"
+              placeholder="Taip arahan di sini (cth: ipconfig, ping 8.8.8.8, sfc /scannow)..." 
+              class="flex-1 bg-transparent border-none text-white focus:outline-none font-mono text-xs sm:text-sm"
+            >
+            <button onclick="executeCmd()" class="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded font-sans text-xs font-semibold">
+              Jalankan
+            </button>
+          </div>
+        </div>
+
+        <!-- Shortcut command chips -->
+        <div class="mt-4 flex flex-wrap items-center gap-2">
+          <span class="text-xs text-slate-400 font-sans">Cadangan Arahan Cepat:</span>
+          <button onclick="sendQuickCmd('ipconfig /all')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-mono">ipconfig /all</button>
+          <button onclick="sendQuickCmd('ipconfig /renew')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-mono">ipconfig /renew</button>
+          <button onclick="sendQuickCmd('ping 8.8.8.8')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-mono">ping 8.8.8.8</button>
+          <button onclick="sendQuickCmd('ping google.com')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-mono">ping google.com</button>
+          <button onclick="sendQuickCmd('sfc /scannow')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-mono">sfc /scannow</button>
+          <button onclick="sendQuickCmd('chkdsk C: /f')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-mono">chkdsk C: /f</button>
+          <button onclick="sendQuickCmd('nslookup google.com')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-mono">nslookup google.com</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-beep" class="hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+        <div class="max-w-2xl">
+          <div class="flex items-center space-x-2 text-amber-400 text-xs font-bold uppercase tracking-wider mb-2">
+            <span>🔊 Makmal Audio Interaktif</span>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Simulasi Kod Beep POST (Power-On Self-Test)</h3>
+          <p class="text-sm text-slate-400 mb-6">
+            Apabila komputer dihidupkan, BIOS/UEFI menjalankan POST untuk menguji perkakasan kritikal (CPU, RAM, GPU). Jika berlaku ralat perkakasan sebelum paparan skrin menyala, buzzer mengeluarkan kod beep diagnostik.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Beep Player Cards -->
+          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 transition flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/60">POST Berjaya (Normal)</span>
+                <span class="text-xs text-slate-500">Standard AMI/Award</span>
+              </div>
+              <h4 class="font-bold text-white text-base">1 Beep Pendek</h4>
+              <p class="text-xs text-slate-400 mt-1">Sistem melepasi ujian POST dengan lancar tanpa sebarang kegagalan perkakasan dikesan.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+              <span class="text-xs text-slate-400">Punca: Tiada kerosakan</span>
+              <button onclick="playBeepSequence([200])" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold flex items-center space-x-1 shadow-lg shadow-emerald-600/20">
+                <span>▶ Main Bunyi</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 transition flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-red-400 bg-red-950/60 px-2 py-0.5 rounded border border-red-800/60">5.4.1(a) Memory Issue</span>
+                <span class="text-xs text-slate-500">AMI BIOS</span>
+              </div>
+              <h4 class="font-bold text-white text-base">Beep Berterusan / Berulang</h4>
+              <p class="text-xs text-slate-400 mt-1">Modul RAM tidak dikesan, longgar, pin kotor, atau litar memori rosak sepenuhnya.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+              <span class="text-xs text-slate-400">Tindakan: Cuci pin RAM / Uji slot</span>
+              <button onclick="playBeepSequence([350, 350, 350, 350, 350])" class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg text-xs font-bold flex items-center space-x-1 shadow-lg shadow-red-600/20">
+                <span>▶ Main Bunyi</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 transition flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-800/60">5.4.1(c) Kad Paparan (GPU)</span>
+                <span class="text-xs text-slate-500">Award / Phoenix BIOS</span>
+              </div>
+              <h4 class="font-bold text-white text-base">1 Panjang, 2 Pendek</h4>
+              <p class="text-xs text-slate-400 mt-1">Kegagalan Kad Paparan (Video Card Failure) atau monitor tidak bersambung dengan betul ke GPU.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+              <span class="text-xs text-slate-400">Tindakan: Periksa PCIe / Kabel HDMI</span>
+              <button onclick="playBeepSequence([800, 200, 200])" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-bold flex items-center space-x-1 shadow-lg shadow-amber-600/20">
+                <span>▶ Main Bunyi</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 transition flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-red-400 bg-red-950/60 px-2 py-0.5 rounded border border-red-800/60">5.4.1(a) Processor Issue</span>
+                <span class="text-xs text-slate-500">AMI BIOS</span>
+              </div>
+              <h4 class="font-bold text-white text-base">5 Beep Pendek</h4>
+              <p class="text-xs text-slate-400 mt-1">Kegagalan Pemproses (CPU Failure), pin soket bengkok, atau CPU terlampau panas (thermal shutdown).</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+              <span class="text-xs text-slate-400">Tindakan: Semak thermal paste & kipas</span>
+              <button onclick="playBeepSequence([180, 180, 180, 180, 180])" class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg text-xs font-bold flex items-center space-x-1 shadow-lg shadow-red-600/20">
+                <span>▶ Main Bunyi</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="mt-6 p-4 rounded-xl bg-slate-950/50 border border-slate-800 text-xs text-slate-400 flex items-start space-x-3">
+          <span class="text-lg">💡</span>
+          <div>
+            <strong class="text-slate-200">Nota Juruteknik:</strong> Tiada bunyi langsung semasa but (No POST, No Beep, No Fan) biasanya menandakan masalah pada <strong>5.4.1(d) Power Supply Unit (PSU)</strong> atau suis kabel kuasa motherboard terputus.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-quiz" class="hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+        
+        <!-- Quiz Header / Status -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-slate-800 gap-3">
+          <div>
+            <h3 class="text-lg font-bold text-white">Kuiz Kemahiran Troubleshooting IT</h3>
+            <p class="text-xs text-slate-400">Uji kefahaman anda menyelesaikan masalah perkakasan, perisian, dan rangkaian.</p>
+          </div>
+          <div class="flex items-center space-x-3">
+            <span class="text-xs text-slate-400">Skor Anda:</span>
+            <span id="quizScoreText" class="text-sm font-extrabold px-3 py-1 rounded bg-blue-600/20 border border-blue-500/40 text-blue-400">0 / 0</span>
+          </div>
+        </div>
+
+        <!-- Question Card Container -->
+        <div id="quizContainer" class="py-4 space-y-6">
+          <!-- Dynamically populated -->
+        </div>
+
+        <div class="pt-4 border-t border-slate-800 flex justify-end">
+          <button onclick="resetQuiz()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold">
+            🔄 Mulakan Semula Kuiz
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="mt-auto border-t border-slate-800 bg-slate-950 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div>Hub Pembelajaran Interaktif Silibus 5.4 Troubleshooting Komputer</div>
+      <div class="flex items-center space-x-4">
+        <span>Hardware (5.4.1)</span>
+        <span>•</span>
+        <span>Software (5.4.2)</span>
+        <span>•</span>
+        <span>Networking (5.4.3)</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Master data array covering 5.4.1, 5.4.2, 5.4.3 comprehensively
+    const topicsData = [
+      // 5.4.1 HARDWARE
+      {
+        id: "5.4.1.a",
+        category: "hardware",
+        code: "5.4.1 (a)",
+        title: "Processor (CPU) & Memory (RAM) Issues",
+        icon: "🧠",
+        summary: "Isu berkaitan kepanasan lampau (overheating), kegagalan slot memori, dan ralat pemprosesan data kritikal.",
+        symptoms: [
+          "Komputer terpadam tiba-tiba (thermal throttling / shut down automatik bawah beban tinggi).",
+          "Komputer mengeluarkan bunyi 'Beep berterusan' semasa hidup dan tiada paparan keluar (Black screen).",
+          "Blue Screen of Death (BSOD) kerap dengan kod 'MEMORY_MANAGEMENT' atau 'IRQL_NOT_LESS_OR_EQUAL'.",
+          "Kipas CPU berpusing pada kelajuan maksimum secara berterusan (bising)."
+        ],
+        causes: [
+          "Thermal paste antara CPU dan Heatsink telah kering atau mengeras.",
+          "Habuk menyekat sirip penyejuk (heatsink fins) dan kipas penyejuk gagal berfungsi.",
+          "Modul RAM longgar daripada slot DIMM atau terdapat pengoksidaan/kekotoran pada pin kuprum RAM.",
+          "Incompatible RAM timing / voltan berbeza antara dua kepingan RAM (Dual-channel mismatch)."
+        ],
+        steps: [
+          { step: "Langkah 1: Periksa Suhu CPU", detail: "Masuk ke BIOS/UEFI Setup (tekan DEL/F2) dan lihat 'Hardware Monitor'. Jika suhu melangkaui 80°C–90°C ketika idle, sistem mengalami thermal issue." },
+          { step: "Langkah 2: Servis Heatsink & Thermal Paste", detail: "Tanggalkan heatsink, bersihkan thermal paste lama dengan Isopropyl Alcohol (IPA > 90%), dan sapu thermal paste berkualiti sebesar sebutir kacang di tengah die CPU." },
+          { step: "Langkah 3: Pembersihan & Reseat Modul RAM", detail: "Keluarkan modul RAM, bersihkan pin emas perlahan-lahan menggunakan getah pemadam pensel lembut. Masukkan semula ke dalam slot sehingga kedua-dua klip berbunyi 'klik'." },
+          { step: "Langkah 4: Jalankan Windows Memory Diagnostic", detail: "Tekan Win + R, taip mdsched.exe dan pilih 'Restart now and check for problems' untuk mengimbas kerosakan sel mikroskopik RAM." }
+        ],
+        tools: ["Thermal Paste (Arctic MX-4/Noctua)", "Pembersih Isopropyl Alcohol (IPA)", "Pemadam getah pensel lembut", "Windows Memory Diagnostic Tool / MemTest86"]
+      },
+      {
+        id: "5.4.1.b",
+        category: "hardware",
+        code: "5.4.1 (b)",
+        title: "Storage Devices & File Systems",
+        icon: "💾",
+        summary: "Kerosakan fizikal piring cakera keras (HDD), kegagalan sel flash SSD, serta kerosakan integriti sistem fail (NTFS/FAT32/exFAT).",
+        symptoms: [
+          "Bunyi ketukan berulang-ulang 'Click of Death' daripada cakera keras (HDD mekanikal).",
+          "Mesej BIOS: 'No Boot Device Found' atau 'Reboot and Select proper Boot device'.",
+          "Pemacu storan menjadi 'RAW Filesystem' dan sistem operasi meminta untuk format.",
+          "Prestasi penggunaan disk mencecah 100% secara berterusan di Task Manager walaupun tiada aplikasi berat."
+        ],
+        causes: [
+          "Bad sectors (sektor rosak fizikal atau logikal) pada permukaan piring magnetik HDD.",
+          "Kabel data SATA / kabel kuasa longgar, rosak, atau slot M.2 NVMe tercabut skru penahan.",
+          "Kerosakan sistem fail berpunca daripada gangguan elektrik mengejut semasa penulisan data.",
+          "Jangka hayat sel flash NAND SSD telah mencapai had ketahanan penulisan (TBW - Terabytes Written)."
+        ],
+        steps: [
+          { step: "Langkah 1: Pemeriksaan Fizikal & Kabel", detail: "Matikan suis kuasa, buka casing dan periksa sambungan kabel SATA serta kabel kuasa. Pasangkan kabel SATA ke port SATA berbeza pada motherboard." },
+          { step: "Langkah 2: Semakan Status Kesihatan S.M.A.R.T", detail: "Gunakan utiliti perisian seperti CrystalDiskInfo untuk membaca parameter S.M.A.R.T (Reallocated Sectors Count, Uncorrectable Sector Count)." },
+          { step: "Langkah 3: Membaiki Integriti Sistem Fail (CHKDSK)", detail: "Buka Command Prompt sebagai Administrator dan laksanakan: chkdsk C: /f /r untuk mengesan dan memulihkan sektor rosak serta membaiki metadata sistem fail." },
+          { step: "Langkah 4: Penyediaan Sandaran (Backup) Segera", detail: "Jika cakera mula berbunyi klik fizikal, elakkan format semula; segera lakukan klon pemacu atau salin fail penting sebelum ketua pembaca (read/write head) hancur sepenuhnya." }
+        ],
+        tools: ["Kabel SATA gantian", "CrystalDiskInfo (S.M.A.R.T reader)", "Arahan Windows CHKDSK", "Perisian Partition Wizard / Diskpart"]
+      },
+      {
+        id: "5.4.1.c",
+        category: "hardware",
+        code: "5.4.1 (c)",
+        title: "Input & Output (I/O) Devices",
+        icon: "⌨️",
+        summary: "Gangguan fungsi papan kekunci, tetikus, monitor, pencetak, dan audio luaran.",
+        symptoms: [
+          "Papan kekunci menaip aksara berulang kali atau kekunci tertentu langsung tidak bertindak.",
+          "Monitor menunjukkan 'No Signal Detected' walaupun lampu CPU menyala dan kipas berpusing.",
+          "Tetikus melompat-lompat atau klik dua kali (double clicking) secara tidak sengaja.",
+          "Pencetak terhenti di barisan giliran (print spooler hung / error printing)."
+        ],
+        causes: [
+          "Sisa habuk, serpihan makanan, atau tumpahan cecair di bawah suis papan kekunci.",
+          "Kabel paparan (HDMI / DisplayPort / VGA) rosak, pin bengkok, atau tersalah cucuk ke port motherboard dan bukannya kad grafik berasingan (Dedicated GPU).",
+          "Port USB motherboard mengalami lonjakan voltan (overcurrent) atau pin penyambung USB fizikal patah.",
+          "Servis Print Spooler sistem operasi mengalami 'crash' akibat fail cetakan rosak."
+        ],
+        steps: [
+          { step: "Langkah 1: Kaedah Isolasi Port USB", detail: "Tanggalkan peranti input daripada port USB sedia ada dan pasang ke port USB belakang (terus pada motherboard) bagi memintas kegagalan port USB panel hadapan casing." },
+          { step: "Langkah 2: Uji Paparan & Saluran Input Monitor", detail: "Pastikan kabel monitor disambungkan kepada port kad grafik berasingan (bukan port onboard jika ada GPU). Periksa menu monitor (OSD) bahawa sumber input adalah betul (HDMI 1 / DP)." },
+          { step: "Langkah 3: Reset Servis Print Spooler", detail: "Buka Services.msc, cari 'Print Spooler', klik kanan dan pilih 'Restart'. Padam fail tertunggak di folder C:\\Windows\\System32\\spool\\PRINTERS." },
+          { step: "Langkah 4: Ujian Peranti pada Komputer Lain", detail: "Sambungkan peranti ke komputer lain untuk menentukan sama ada kecacatan berpunca daripada perkakasan itu sendiri atau OS tempatan." }
+        ],
+        tools: ["Kabel HDMI/DP gantian", "Pemampat Udara (Compressed Air duster)", "Multimeter / USB Port Tester", "Device Manager"]
+      },
+      {
+        id: "5.4.1.d",
+        category: "hardware",
+        code: "5.4.1 (d)",
+        title: "Power Supply Unit (PSU) Issues",
+        icon: "⚡",
+        summary: "Isu pembekalan arus elektrik yang tidak stabil, kegagalan rail 12V/5V/3.3V, atau unit bekalan kuasa mati sepenuhnya.",
+        symptoms: [
+          "Komputer langsung tiada tanda hidup (tiada lampu LED indikator, kipas tidak berpusing).",
+          "Komputer dimatikan secara rawak (random reboot) apabila melancarkan permainan video atau aplikasi berat 3D.",
+          "Bau hangit terbakar atau bunyi letupan kecil (pop) keluar dari bahagian belakang casing.",
+          "Lampu motherboard berkelip-kelip tetapi sistem enggan hidup apabila punat kuasa ditekan."
+        ],
+        causes: [
+          "Kapasitor di dalam PSU bocor atau meletup akibat voltan lonjakan (power surge).",
+          "Kapasiti watt PSU tidak mencukupi untuk menampung keperluan komponen CPU dan kad grafik moden.",
+          "Suis kuasa di belakang PSU berada pada kedudukan '0' (OFF) atau fius dalam palam 3-pin terputus.",
+          "Penyambung 24-pin ATX atau 8-pin EPS CPU tidak dimasukkan rapat pada motherboard."
+        ],
+        steps: [
+          { step: "Langkah 1: Pemeriksaan Asas Palam Kuasa", detail: "Pastikan kabel kuasa 3-pin dipasang ketat, suis soket dinding berfungsi (uji dengan lampu meja), dan suis rocker belakang PSU berada pada kedudukan 'I' (ON)." },
+          { step: "Langkah 2: Ujian Klip Kertas (Paperclip Test)", detail: "Cabut semua kabel PSU daripada komponen. Pada soket 24-pin ATX, sambungkan pin hijau (PS_ON) dengan mana-mana pin hitam (Ground) menggunakan wayar/klip kertas. Hidupkan suis; jika kipas PSU tidak berpusing, PSU sah rosak." },
+          { step: "Langkah 3: Ujian Voltan Menggunakan Multimeter / PSU Tester", detail: "Ukur bacaan voltan: wayar kuning (+12V ±5%), wayar merah (+5V ±5%), dan wayar jingga (+3.3V ±5%). Voltan yang drop di bawah toleransi menandakan kegagalan regulator." },
+          { step: "Langkah 4: Semak Punat Kuasa Casing (Front Panel Header)", detail: "Gunakan pemutar skru rata untuk menyentuhkan dua pin 'Power Switch' pada motherboard secara pintas (short) bagi memastikan bukan butang casing fizikal yang rosak." }
+        ],
+        tools: ["PSU Tester Digital", "Multimeter Digital", "Klip kertas penebat", "Unit Perlindungan Lonjakan (Surge Protector)"]
+      },
+      {
+        id: "5.4.1.e",
+        category: "hardware",
+        code: "5.4.1 (e)",
+        title: "Peripheral Components (Kad Tambahan, Web-Cam, Audio)",
+        icon: "🔌",
+        summary: "Konflik dan kerosakan kad sambungan PCI Express (Kad Rangkaian, Kad Bunyi, Kad Penangkapan Video) serta aksesori USB periferal.",
+        symptoms: [
+          "Kamera web atau mikrofon tidak dikesan oleh aplikasi persidangan video (cth: Teams/Zoom).",
+          "Kad Wi-Fi PCIe hilang daripada Network Connections selepas komputer kembali daripada mod Sleep.",
+          "Kualiti audio berdengung (audio buzzing / ground loop hum) apabila fon kepala disambungkan.",
+          "Mesej sistem: 'USB Device Overcurrent Status Detected - System Will Shut Down After 15 Seconds'."
+        ],
+        causes: [
+          "Kad tambahan PCIe tidak dimasukkan dengan ketat atau tidak dikunci skru pada casis komputer.",
+          "Tetapan privasi sistem operasi Windows menyekat akses aplikasi kepada mikrofon dan kamera web.",
+          "Litar pintas pada port USB periferal menyebabkan sistem mengaktifkan perlindungan overcurrent.",
+          "Bekalan kuasa bas USB tidak mencukupi untuk peranti periferal yang memerlukan kuasa tinggi (cth: External HDD tanpa adapter)."
+        ],
+        steps: [
+          { step: "Langkah 1: Cabut Semua Periferal Satu Persatu", detail: "Lakukan proses penyingkiran (isolation). Cabut semua perkakasan luar kecuali papan kekunci dan tetikus untuk mengasingkan periferal yang bermasalah." },
+          { step: "Langkah 2: Semak Tetapan Kebenaran Privasi OS", detail: "Pergi ke Windows Settings -> Privacy & Security -> Camera / Microphone, dan pastikan suis 'Let apps access your camera' dihidupkan." },
+          { step: "Langkah 3: Bersihkan dan Pasang Semula Kad PCIe", detail: "Tanggalkan kad PCIe yang bermasalah, bersihkan habuk pada slot PCIe motherboard dengan udara termampat, dan pasang semula ke slot lain jika tersedia." },
+          { step: "Langkah 4: Gunakan Powered USB Hub", detail: "Bagi peranti USB yang memerlukan arus tinggi, sambungkan melalui USB Hub yang mempunyai sumber kuasa penyesuai dinding (external power adapter) tersendiri." }
+        ],
+        tools: ["Pemampat Udara", "Kabel penyambung USB berkualiti", "Powered USB Hub"]
+      },
+
+      // 5.4.2 SOFTWARE
+      {
+        id: "5.4.2.a",
+        category: "software",
+        code: "5.4.2 (a)",
+        title: "Operating System (OS) Errors & Boot Failures",
+        icon: "🪟",
+        summary: "Kerosakan Master Boot Record (MBR), Boot Configuration Data (BCD), skrin biru (BSOD), dan kitaran but berulang (Boot Loop).",
+        symptoms: [
+          "Skrin Biru BSOD dengan kod ralat: 'CRITICAL_PROCESS_DIED' atau 'INACCESSIBLE_BOOT_DEVICE'.",
+          "Windows tersekat pada logo animasi lingkaran berpusing tanpa henti (Infinite Loading Screen).",
+          "Ralat 'Bootmgr is missing' atau 'Your PC did not start correctly' semasa but semula.",
+          "Windows tiba-tiba membeku (freeze) sepenuhnya dan tiada tindak balas daripada Ctrl+Alt+Del."
+        ],
+        causes: [
+          "Fail integriti sistem Windows rosak akibat penutupan komputer secara paksa (force power off).",
+          "Kemas kini sistem Windows (Windows Update) terganggu atau mengandungi pepijat kestabilan.",
+          "Pendaftaran pangkalan data sistem (Windows Registry) rosak akibat gangguan malware atau perisian pembersih pihak ketiga.",
+          "Kegagalan struktur jadual partisi fail boot (EFI Partition / BCD store)."
+        ],
+        steps: [
+          { step: "Langkah 1: Masuk ke Mod Selamat (Safe Mode)", detail: "Mulakan Windows Recovery Environment (WinRE) dengan mematikan komputer 3 kali berturut-turut semasa but. Pilih Troubleshoot -> Advanced Options -> Startup Settings -> Tekan 4 untuk Safe Mode." },
+          { step: "Langkah 2: Jalankan Utiliti Baiki Fail Sistem (SFC & DISM)", detail: "Buka Command Prompt sebagai pentadbir: Laksanakan 'DISM /Online /Cleanup-Image /RestoreHealth', diikuti 'sfc /scannow' untuk membaiki fail sistem yang rosak dari imej sumber Microsoft." },
+          { step: "Langkah 3: Pembaikan BCD / Bootloader", detail: "Dalam pemulihan arahan cmd WinRE, laksanakan arahan: bootrec /fixmbr, bootrec /fixboot, bootrec /rebuildbcd." },
+          { step: "Langkah 4: Lakukan 'System Restore'", detail: "Gunakan 'System Restore' untuk mengembalikan tetapan dan registry Windows ke tarikh sebelum isu berlaku tanpa memadamkan dokumen peribadi pengguna." }
+        ],
+        tools: ["Pemacu USB Pemasangan Windows (WinPE Media)", "Arahan SFC & DISM", "System Restore Point"]
+      },
+      {
+        id: "5.4.2.b",
+        category: "software",
+        code: "5.4.2 (b)",
+        title: "Application & Compatibility Issues",
+        icon: "📦",
+        summary: "Aplikasi crash semasa dibuka, kegagalan kebergantungan runtime perpustakaan (DLL missing), dan konflik versi Windows.",
+        symptoms: [
+          "Aplikasi terus tertutup (crash to desktop) tanpa mesej ralat sejurus dibuka.",
+          "Timbul pop-up ralat: 'The program can't start because MSVCP140.dll is missing from your computer'.",
+          "Perisian warisan lama (Legacy App) tidak boleh dipasang pada sistem operasi Windows 10/11 64-bit.",
+          "Aplikasi membeku dan Task Manager memaparkan status 'Not Responding'."
+        ],
+        causes: [
+          "Pakej pakej sokongan Visual C++ Redistributable atau fail .NET Framework belum dipasang.",
+          "Aplikasi direka untuk versi kernel Windows lama (Windows XP/7) dan tidak serasi dengan kawalan keselamatan moden UAC.",
+          "Konflik fail konfigurasi atau pangkalan data aplikasi rosak dalam folder %AppData%.",
+          "Kekurangan kebenaran hak pentadbir (Administrator privileges) untuk menulis data ke folder Program Files."
+        ],
+        steps: [
+          { step: "Langkah 1: Jalankan dalam Mod Keserasian (Compatibility Mode)", detail: "Klik kanan pada fail .exe aplikasi -> Properties -> Tab 'Compatibility'. Tandakan 'Run this program in compatibility mode for' dan pilih Windows 7/8. Tandakan juga 'Run this program as an administrator'." },
+          { step: "Langkah 2: Pasang Pakej Visual C++ AIO", detail: "Pasang semua pakej Visual C++ Redistributable (2008 hingga 2022 versi x86 dan x64) daripada laman rasmi sokongan Microsoft." },
+          { step: "Langkah 3: Lakukan Pemulaan Bersih (Clean Boot)", detail: "Taip msconfig -> Tab Services -> Tandakan 'Hide all Microsoft services' -> Klik 'Disable all'. Ini membantu mengasingkan aplikasi latar belakang yang menimbulkan konflik." },
+          { step: "Langkah 4: Pasang Semula Aplikasi Secara Bersih", detail: "Nyahpasang (uninstall) aplikasi, padam sisa folder dalam %LocalAppData% dan %AppData%, kemudian pasang semula versi terkini." }
+        ],
+        tools: ["Microsoft Visual C++ Redistributable AIO", "MSConfig (Clean Boot)", "Event Viewer (Application Logs)"]
+      },
+      {
+        id: "5.4.2.c",
+        category: "software",
+        code: "5.4.2 (c)",
+        title: "Device Drivers & Firmware (BIOS/UEFI)",
+        icon: "⚙️",
+        summary: "Kegagalan komunikasi antara perkakasan fizikal dan sistem operasi akibat fail pemacu usang, rosak, atau salah versi.",
+        symptoms: [
+          "Tanda seru kuning (Yellow Exclamation Mark) muncul di Device Manager bersebelahan nama perkakasan.",
+          "Resolusi skrin terkunci pada 800x600 atau 1024x768 dan pilihan resolusi sebenar tidak boleh dipilih.",
+          "BSOD dengan nama fail pemacu seperti 'nvlddmkm.sys' (NVIDIA), 'atikmdag.sys' (AMD), atau 'rtwlanu.sys' (Realtek Wi-Fi).",
+          "Komputer tidak mengesan pemproses generasi baharu walaupun soket sepadan."
+        ],
+        causes: [
+          "Pemandu peranti (driver) tidak serasi selepas kemas kini Windows Update secara automatik.",
+          "Driver lama tidak dinyahpasang dengan bersih menyebabkan konflik fail perpustakaan registry.",
+          "Versi firmware BIOS/UEFI terlalu lama dan tidak menyokong perkakasan baharu atau mengandungi pepijat kestabilan mikrokod CPU."
+        ],
+        steps: [
+          { step: "Langkah 1: Periksa Status di Device Manager", detail: "Tekan Win + X -> Device Manager. Cari peranti yang bertanda seru kuning atau bertanda soal (Unknown Device). Klik kanan dan pilih Properties untuk membaca 'Code Error' (cth: Code 43 atau Code 10)." },
+          { step: "Langkah 2: Lakukan 'Roll Back Driver'", detail: "Jika ralat berlaku selepas kemas kini: Klik kanan peranti -> Properties -> Tab 'Driver' -> Klik butang 'Roll Back Driver' untuk kembali ke versi pemacu stabil terdahulu." },
+          { step: "Langkah 3: Nyahpasang Menggunakan DDU (Display Driver Uninstaller)", detail: "Bagi pemacu kad grafik yang kerap crash, boot ke Safe Mode dan gunakan utiliti DDU untuk memadam setiap sisa fail pemacu grafik sebelum memasang fail pemandu baharu yang dimuat turun dari laman pengeluar." },
+          { step: "Langkah 4: Kemas Kini Firmware BIOS/UEFI", detail: "Muat turun fail BIOS dari laman web rasmi motherboard, letakkan dalam pemacu USB berformat FAT32, masuk ke BIOS dan gunakan utiliti seperti EZ Flash / Q-Flash untuk mengemas kini." }
+        ],
+        tools: ["Device Manager", "Display Driver Uninstaller (DDU)", "Laman Sokongan Pengeluar Asal (OEM Support)"]
+      },
+      {
+        id: "5.4.2.d",
+        category: "software",
+        code: "5.4.2 (d)",
+        title: "Security Troubleshooting (Malware, Spyware, Ransomware)",
+        icon: "🛡️",
+        summary: "Ancaman jangkitan perisian hasad, aktiviti perlombongan kripto tersembunyi, penyulitan fail tanpa kebenaran, dan keselamatan pelayar.",
+        symptoms: [
+          "Pelayar web (Browser) kerap mengalihkan laman web (redirect) ke laman iklan mencurigakan dan enjin carian bertukar sendiri.",
+          "Semua fail dokumen peribadi (.docx, .pdf, .jpg) berubah sambungan (extension) pelik dan nota wang tebusan muncul (Ransomware).",
+          "Penggunaan pemproses (CPU) dan kad grafik (GPU) melonjak kepada 100% sebaik sahaja komputer dibuka (Cryptomining Malware).",
+          "Windows Defender atau Antivirus dimatikan secara paksa oleh sistem dan tidak boleh diaktifkan semula."
+        ],
+        causes: [
+          "Memuat turun fail daripada sumber tidak sah (cetak rompak / crack / torrent) yang disuntik trojan.",
+          "Membuka pautan pancingan data (phishing) atau lampiran emel berpenyakit (macro virus).",
+          "Sistem operasi dan perisian aplikasi tidak dikemas kini dengan tampalan keselamatan (security patch) terkini."
+        ],
+        steps: [
+          { step: "Langkah 1: Putuskan Hubungan Rangkaian Segera", detail: "Cabut kabel LAN Ethernet dan matikan Wi-Fi serta-merta untuk menghentikan komunikasi botnet keluar atau penyebaran jangkitan ke komputer lain di rangkaian setempat." },
+          { step: "Langkah 2: Boot ke Safe Mode with Networking", detail: "Nyahaktifkan permulaan perisian hasad dengan masuk ke mod selamat Windows Safe Mode." },
+          { step: "Langkah 3: Jalankan Imbasan Mendalam (Offline Scan)", detail: "Gunakan Windows Defender Offline Scan atau perisian pengimbas kedua bereputasi tinggi (seperti Malwarebytes Free). Lakukan full scan untuk membersihkan trojan, adware, dan rootkit." },
+          { step: "Langkah 4: Semak Task Manager & Startup Tab", detail: "Buka Task Manager -> Tab 'Startup Apps'. Matikan aplikasi mencurigakan tanpa penerbit sah (Unknown publisher) dan periksa tab 'Details' untuk proses mencurigakan." }
+        ],
+        tools: ["Windows Defender Offline Scan", "Malwarebytes", "Sysinternals Process Explorer & Autoruns"]
+      },
+
+      // 5.4.3 NETWORKING
+      {
+        id: "5.4.3.a",
+        category: "networking",
+        code: "5.4.3 (a)",
+        title: "Network Connectivity Issues",
+        icon: "🌐",
+        summary: "Isu kegagalan sambungan fizikal kabel Ethernet, konfigurasi alamat IP (APIPA), gateway, kegagalan penyelesaian nama hos (DNS), dan isyarat Wi-Fi.",
+        symptoms: [
+          "Ikon rangkaian memaparkan 'No Internet, Secured' atau 'Unidentified Network' dengan tanda seru kuning.",
+          "Komputer menerima alamat IP automatik 169.254.x.x (APIPA - Automatic Private IP Addressing).",
+          "Boleh melakukan ping ke alamat IP pelayan (cth: ping 8.8.8.8 berjaya), tetapi pelayar gagal memuatkan laman web (DNS failure).",
+          "Kelajuan internet teramat perlahan atau sambungan kerap putus (High Packet Loss)."
+        ],
+        causes: [
+          "Kabel rangkaian UTP RJ45 longgar, susunan pin salah (T568A vs T568B), atau kabel terpicit/patah di dalam.",
+          "Pelayan DHCP (penghala/router) kehabisan alamat IP atau perkhidmatan DHCP Client pada PC terhenti.",
+          "Konflik Alamat IP (IP Address Conflict) apabila dua peranti diberikan IP statik yang sama di dalam rangkaian setempat.",
+          "Pelayan DNS (Domain Name System) pembekal perkhidmatan internet (ISP) mengalami gangguan operasi.",
+          "Halangan fizikal atau gangguan interferens frekuensi radio (2.4GHz microwave/Bluetooth) pada isyarat Wi-Fi."
+        ],
+        steps: [
+          { step: "Langkah 1: Pemeriksaan Fizikal & Lampu Penunjuk (Link Lights)", detail: "Periksa port LAN belakang komputer. Pastikan lampu LED oren/hijau berkelip menandakan ada sambungan fizikal dengan suis/router." },
+          { step: "Langkah 2: Pelepasan & Pembaharuan Alamat IP (DHCP Release/Renew)", detail: "Buka Command Prompt sebagai Admin dan taip: 'ipconfig /release' kemudian 'ipconfig /renew' untuk memohon alamat IP baharu daripada router." },
+          { step: "Langkah 3: Ujian Aliran Ping Berperingkat (Layer by Layer)", detail: "1. Uji NIC tempatan: ping 127.0.0.1\n2. Uji sambungan router: ping [IP Default Gateway contoh: 192.168.1.1]\n3. Uji sambungan luar: ping 8.8.8.8\n4. Uji resolusi DNS: ping google.com." },
+          { step: "Langkah 4: Flush DNS Cache & Reset TCP/IP Stack", detail: "Laksanakan arahan: 'ipconfig /flushdns' diikuti 'netsh int ip reset' dan 'netsh winsock reset', kemudian but semula komputer." }
+        ],
+        tools: ["Cable Tester (RJ45)", "Windows Command Prompt (ipconfig, ping, tracert, nslookup)", "Penghala Wi-Fi Analyzer App"]
+      }
+    ];
+
+    // Quiz Questions Pool
+    const quizQuestions = [
+      {
+        id: 1,
+        category: "5.4.1 (a) Hardware",
+        question: "Sebuah komputer mati secara tiba-tiba selepas 15 minit digunakan untuk kerja rendering video 4K. Apabila diperiksa di BIOS, bacaan suhu CPU menunjukkan 95°C. Apakah tindakan pembaikan yang paling tepat?",
+        options: [
+          "Format semula cakera keras dan pasang Windows versi baharu.",
+          "Tukar kabel rangkaian UTP RJ-45 kepada Cat 6.",
+          "Bersihkan heatsink daripada habuk, gantikan thermal paste baharu, dan pastikan kipas penyejuk berfungsi.",
+          "Tingkatkan resolusi monitor kepada 4K."
+        ],
+        answer: 2,
+        explanation: "Suhu 95°C menunjukkan masalah thermal throttling/shutdown akibat kegagalan sistem penyejukan CPU. Menggantikan thermal paste dan membersihkan heatsink adalah SOP penyelesaian masalah perkakasan 5.4.1(a)."
+      },
+      {
+        id: 2,
+        category: "5.4.3 (a) Networking",
+        question: "Pengguna mendapati komputer pejabatnya memaparkan 'Unidentified Network' dan arahan 'ipconfig' menunjukkan alamat IPv4 ialah 169.254.45.120. Apakah punca utama isu ini?",
+        options: [
+          "Pelayan DNS sedang dibaik pulih.",
+          "Komputer gagal mendapatkan alamat IP daripada pelayan DHCP lalu menggunakan APIPA.",
+          "Kabel HDMI longgar.",
+          "Kad grafik mengalami masalah pemandu (driver)."
+        ],
+        answer: 1,
+        explanation: "Alamat dalam julat 169.254.0.1 hingga 169.254.255.254 ialah alamat APIPA (Automatic Private IP Addressing) yang diberikan secara automatik oleh Windows apabila pelayan DHCP tidak dapat dihubungi."
+      },
+      {
+        id: 3,
+        category: "5.4.2 (a) Software",
+        question: "Komputer mengalami Blue Screen (BSOD) berulang kali selepas pengguna mematikan suis soket dinding secara paksa semasa Windows sedang mengemas kini. Antara arahan Command Prompt berikut, yang manakah digunakan untuk membaiki fail integriti sistem yang rosak?",
+        options: [
+          "format C: /q",
+          "sfc /scannow dan DISM /Online /Cleanup-Image /RestoreHealth",
+          "ipconfig /flushdns",
+          "ping 127.0.0.1"
+        ],
+        answer: 1,
+        explanation: "SFC (System File Checker) mengimbas dan membaiki fail sistem Windows yang rosak daripada stor imej tempatan, manakala DISM memulihkan imej komponen Windows daripada sumber rasmi Microsoft."
+      },
+      {
+        id: 4,
+        category: "5.4.1 (d) Hardware",
+        question: "Semasa menguji Power Supply Unit (PSU) yang mencurigakan menggunakan 'Paperclip Test', dua pin manakah pada soket 24-pin ATX yang perlu dipintaskan (short) untuk menghidupkan bekalan kuasa?",
+        options: [
+          "Pin Merah (+5V) dan Pin Kuning (+12V)",
+          "Pin Hijau (PS_ON) dan mana-mana Pin Hitam (Ground/GND)",
+          "Pin Biru (-12V) dan Pin Jingga (+3.3V)",
+          "Pin Kelabu (Power Good) dan Pin Ungu (+5VSB)"
+        ],
+        answer: 1,
+        explanation: "Memintaskan wayar Hijau (Power Supply On) dengan wayar Hitam (Ground) menghantar isyarat hidup kepada litar logik PSU tanpa memerlukan motherboard."
+      },
+      {
+        id: 5,
+        category: "5.4.3 (a) Networking",
+        question: "Pengguna boleh berjaya melakukan 'ping 8.8.8.8', tetapi apabila menaip 'google.com' di pelayar web timbul ralat 'Server IP address could not be found'. Apakah puncanya?",
+        options: [
+          "Kabel Ethernet terputus sepenuhnya.",
+          "Kad grafik komputer mengalami kerosakan perkakasan.",
+          "Kegagalan fungsi pelayan DNS (Domain Name System) dalam menterjemah nama domain kepada alamat IP.",
+          "Power Supply Unit tidak memberikan watt yang mencukupi."
+        ],
+        answer: 2,
+        explanation: "Jika ping ke IP luar berjaya, lapisan fizikal dan routing IP berfungsi. Kegagalan membuka nama domain bermaksud perkhidmatan penamaan DNS gagal berfungsi."
+      }
+    ];
+  </script>
+
+  <script>
+    let activeCategory = 'all';
+    let userQuizAnswers = {};
+
+    // Initializing the application on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderModuleList(topicsData);
+      initSimulator();
+      renderQuiz();
+    });
+
+    // Tab switching logic
+    function switchMainTab(tabName) {
+      const views = ['learning', 'simulator', 'beep', 'quiz'];
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        const btn = document.getElementById(`tab-btn-${v}`);
+        if (v === tabName) {
+          el.classList.remove('hidden');
+          btn.classList.remove('text-slate-400', 'border-transparent');
+          btn.classList.add('text-blue-400', 'bg-slate-900', 'border-slate-800');
+        } else {
+          el.classList.add('hidden');
+          btn.classList.add('text-slate-400', 'border-transparent');
+          btn.classList.remove('text-blue-400', 'bg-slate-900', 'border-slate-800');
+        }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Category filter button for learning modules
+    function setCategory(cat) {
+      activeCategory = cat;
+      const cats = ['hardware', 'software', 'networking'];
+      cats.forEach(c => {
+        const btn = document.getElementById(`cat-${c}`);
+        if (c === cat) {
+          btn.classList.add('border-blue-500/70', 'bg-blue-950/30');
+          btn.classList.remove('border-slate-800', 'bg-slate-900/40');
+        } else {
+          btn.classList.remove('border-blue-500/70', 'bg-blue-950/30');
+          btn.classList.add('border-slate-800', 'bg-slate-900/40');
+        }
+      });
+      filterAndRender();
+    }
+
+    // Dynamic search filtering
+    function handleSearch(query) {
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (query.trim().length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+      filterAndRender();
+    }
+
+    function clearSearch() {
+      const searchInput = document.getElementById('searchInput');
+      searchInput.value = '';
+      document.getElementById('clearSearchBtn').classList.add('hidden');
+      filterAndRender();
+    }
+
+    function filterAndRender() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      let filtered = topicsData;
+
+      if (activeCategory !== 'all') {
+        filtered = filtered.filter(item => item.category === activeCategory);
+      }
+
+      if (query) {
+        filtered = filtered.filter(item => {
+          return item.title.toLowerCase().includes(query) ||
+                 item.code.toLowerCase().includes(query) ||
+                 item.summary.toLowerCase().includes(query) ||
+                 item.symptoms.some(s => s.toLowerCase().includes(query)) ||
+                 item.causes.some(c => c.toLowerCase().includes(query)) ||
+                 item.steps.some(st => st.detail.toLowerCase().includes(query) || st.step.toLowerCase().includes(query));
+        });
+      }
+
+      renderModuleList(filtered);
+    }
+
+    function renderModuleList(items) {
+      const container = document.getElementById('moduleContentList');
+      if (items.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 border border-dashed border-slate-800 rounded-2xl bg-slate-900/40">
+            <span class="text-4xl block mb-2">🔍</span>
+            <h4 class="text-slate-200 font-bold text-base">Tiada Topik Ditemui</h4>
+            <p class="text-xs text-slate-400 mt-1">Cuba cari perkataan kunci lain seperti 'RAM', 'BSOD', 'IP', atau 'Heatsink'.</p>
+            <button onclick="clearSearch(); setCategory('all');" class="mt-4 px-3 py-1.5 bg-blue-600/30 text-blue-400 border border-blue-500/40 rounded-lg text-xs font-semibold hover:bg-blue-600/50">Reset Tapisan</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = items.map(item => `
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 sm:p-6 transition hover:border-slate-700 shadow-xl" id="card-${item.id}">
+          
+          <!-- Header of Topic -->
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-4">
+            <div class="flex items-start space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-2xl flex-shrink-0">
+                ${item.icon}
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <span class="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider ${
+                    item.category === 'hardware' ? 'bg-blue-900/60 text-blue-300 border border-blue-700/50' :
+                    item.category === 'software' ? 'bg-emerald-900/60 text-emerald-300 border border-emerald-700/50' :
+                    'bg-amber-900/60 text-amber-300 border border-amber-700/50'
+                  }">${item.code}</span>
+                  <span class="text-xs text-slate-400 capitalize">${item.category} Troubleshooting</span>
+                </div>
+                <h3 class="text-lg sm:text-xl font-extrabold text-white mt-1">${item.title}</h3>
+                <p class="text-xs sm:text-sm text-slate-400 mt-1">${item.summary}</p>
+              </div>
+            </div>
+            
+            <button onclick="toggleDetails('${item.id}')" id="btn-toggle-${item.id}" class="self-start sm:self-center px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 border border-slate-700 flex items-center space-x-1.5 transition">
+              <span>Buka SOP Penuh</span>
+              <span id="arrow-${item.id}">▼</span>
+            </button>
+          </div>
+
+          <!-- Quick Preview Grid (Symptoms vs Causes) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 text-xs">
+            <div class="p-3.5 rounded-xl bg-red-950/20 border border-red-900/30">
+              <div class="font-bold text-red-400 flex items-center space-x-1.5 mb-2">
+                <span>⚠️</span>
+                <span>Simptom & Tanda Kerosakan Lazim</span>
+              </div>
+              <ul class="space-y-1.5 text-slate-300">
+                ${item.symptoms.map(s => `<li class="flex items-start space-x-1.5"><span class="text-red-400 font-bold">•</span><span>${s}</span></li>`).join('')}
+              </ul>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-amber-950/20 border border-amber-900/30">
+              <div class="font-bold text-amber-400 flex items-center space-x-1.5 mb-2">
+                <span>🔍</span>
+                <span>Punca Berlakunya Masalah</span>
+              </div>
+              <ul class="space-y-1.5 text-slate-300">
+                ${item.causes.map(c => `<li class="flex items-start space-x-1.5"><span class="text-amber-400 font-bold">•</span><span>${c}</span></li>`).join('')}
+              </ul>
+            </div>
+          </div>
+
+          <!-- Expandable Step-by-Step SOP Section -->
+          <div id="details-${item.id}" class="hidden mt-5 pt-5 border-t border-slate-800 space-y-4">
+            
+            <div>
+              <h4 class="text-xs font-bold uppercase tracking-wider text-blue-400 mb-3 flex items-center space-x-2">
+                <span>📋</span>
+                <span>Langkah Standard Operating Procedure (SOP) Penyelesaian:</span>
+              </h4>
+              <div class="space-y-2.5">
+                ${item.steps.map((st, idx) => `
+                  <div class="p-3 rounded-xl bg-slate-950 border border-slate-800/80 flex items-start space-x-3">
+                    <div class="w-6 h-6 rounded-full bg-blue-600/20 text-blue-400 border border-blue-500/40 flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">
+                      ${idx + 1}
+                    </div>
+                    <div>
+                      <span class="text-xs font-bold text-white block">${st.step}</span>
+                      <p class="text-xs text-slate-400 mt-1 leading-relaxed whitespace-pre-line">${st.detail}</p>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Recommended Tools / Checklist -->
+            <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800 text-xs">
+              <span class="font-bold text-slate-300 block mb-1">🛠️ Peralatan & Perisian Diperlukan:</span>
+              <div class="flex flex-wrap gap-1.5 mt-1">
+                ${item.tools.map(t => `<span class="px-2 py-0.5 bg-slate-800 text-slate-300 rounded border border-slate-700 text-[11px]">${t}</span>`).join('')}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      `).join('');
+    }
+
+    function toggleDetails(id) {
+      const detailsEl = document.getElementById(`details-${id}`);
+      const arrowEl = document.getElementById(`arrow-${id}`);
+      const btn = document.getElementById(`btn-toggle-${id}`);
+      if (detailsEl.classList.contains('hidden')) {
+        detailsEl.classList.remove('hidden');
+        arrowEl.textContent = '▲';
+        btn.classList.add('bg-blue-600', 'text-white');
+        btn.classList.remove('bg-slate-800', 'text-slate-200');
+      } else {
+        detailsEl.classList.add('hidden');
+        arrowEl.textContent = '▼';
+        btn.classList.remove('bg-blue-600', 'text-white');
+        btn.classList.add('bg-slate-800', 'text-slate-200');
+      }
+    }
+
+    let audioCtx = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playBeepSequence(durations) {
+      const ctx = getAudioContext();
+      let currentTime = ctx.currentTime + 0.05;
+
+      durations.forEach((ms) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        // Standard BIOS buzzer frequency is around 850Hz to 1000Hz
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(920, currentTime);
+
+        // Envelope to prevent audio popping
+        gain.gain.setValueAtTime(0, currentTime);
+        gain.gain.linearRampToValueAtTime(0.2, currentTime + 0.01);
+        gain.gain.setValueAtTime(0.2, currentTime + (ms / 1000) - 0.01);
+        gain.gain.linearRampToValueAtTime(0, currentTime + (ms / 1000));
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(currentTime);
+        osc.stop(currentTime + (ms / 1000));
+
+        // Spacing between beeps (120ms gap)
+        currentTime += (ms / 1000) + 0.12;
+      });
+    }
+
+    const simScenarios = {
+      net_apipa: {
+        title: "Kes 1: Sambungan Terputus & Alamat APIPA (169.254.x.x)",
+        desc: "Sebuah komputer di makmal tidak boleh melayari internet. Ikon Network menunjukkan tanda seru kuning 'No Internet'. Tugas anda adalah memeriksa status IP dan memohon alamat yang sah daripada pelayan DHCP.",
+        goalCmd: "ipconfig /renew",
+        state: { dhcpFailed: true, released: false }
+      },
+      soft_bsod: {
+        title: "Kes 2: Skrin Biru Kerap (SFC System File Corruption)",
+        desc: "Pengguna mengadu komputer sering membeku selepas gangguan bekalan elektrik. Beberapa fail sistem utama Windows disyaki rosak. Anda dikehendaki mengimbas dan membaiki fail sistem.",
+        goalCmd: "sfc /scannow",
+        state: { fixed: false }
+      },
+      hard_disk: {
+        title: "Kes 3: Pemacu Hard Disk Menunjukkan Ralat Metadata",
+        desc: "Pemacu C: mengalami gangguan lambat membaca fail (slow read) dan sistem fail melaporkan kemungkinan bad sectors.",
+        goalCmd: "chkdsk C: /f",
+        state: { scanned: false }
+      },
+      net_dns: {
+        title: "Kes 4: IP Boleh Dihubungi, Tetapi Nama Domain Gagal (DNS Failure)",
+        desc: "Ping ke alamat 8.8.8.8 mendapat 'Reply from 8.8.8.8', tetapi membuka laman google.com gagal. Uji resolusi DNS dan kosongkan cache DNS.",
+        goalCmd: "ipconfig /flushdns",
+        state: { flushed: false }
+      }
+    };
+
+    let currentCaseKey = "net_apipa";
+
+    function initSimulator() {
+      loadSimCase("net_apipa");
+    }
+
+    function loadSimCase(caseKey) {
+      currentCaseKey = caseKey;
+      const c = simScenarios[caseKey];
+      const briefBox = document.getElementById('caseBriefBox');
+      briefBox.innerHTML = `
+        <div class="flex items-start justify-between">
+          <div>
+            <span class="text-xs font-bold text-blue-400 uppercase tracking-wide">Senario Semasa</span>
+            <h4 class="font-bold text-white text-base mt-0.5">${c.title}</h4>
+            <p class="text-xs text-slate-300 mt-1">${c.desc}</p>
+          </div>
+          <button onclick="hintCase()" class="px-2.5 py-1 bg-blue-600/30 text-blue-400 border border-blue-500/30 rounded text-xs hover:bg-blue-600/50">
+            💡 Panduan Arahan
+          </button>
+        </div>
+      `;
+      clearTerminal();
+      printTerm(`[SISTEM] Senario '${c.title}' dimuatkan.`, 'text-blue-400');
+      printTerm(`Taip arahan diagnostik atau gunakan pintasan butang di bawah.`, 'text-slate-400');
+    }
+
+    function hintCase() {
+      const c = simScenarios[currentCaseKey];
+      printTerm(`[PANDUAN JURUTEKNIK] Cuba gunakan arahan: ${c.goalCmd}`, 'text-amber-300');
+    }
+
+    function clearTerminal() {
+      const out = document.getElementById('terminalOutput');
+      out.innerHTML = `
+        <div class="text-slate-500">Microsoft Windows [Version 10.0.19045.3803]</div>
+        <div class="text-slate-500">(c) Microsoft Corporation. Hak cipta terpelihara.</div>
+      `;
+    }
+
+    function printTerm(text, colorClass = "text-slate-200") {
+      const out = document.getElementById('terminalOutput');
+      const line = document.createElement('div');
+      line.className = `${colorClass} whitespace-pre-wrap leading-relaxed`;
+      line.textContent = text;
+      out.appendChild(line);
+      out.scrollTop = out.scrollHeight;
+    }
+
+    function sendQuickCmd(cmd) {
+      document.getElementById('cmdInput').value = cmd;
+      executeCmd();
+    }
+
+    function executeCmd() {
+      const input = document.getElementById('cmdInput');
+      const rawCmd = input.value.trim();
+      if (!rawCmd) return;
+
+      printTerm(`C:\\Windows\\System32> ${rawCmd}`, 'text-white font-bold');
+      input.value = '';
+
+      const cmd = rawCmd.toLowerCase();
+
+      // Simulated Responses
+      if (cmd === 'cls' || cmd === 'clear') {
+        clearTerminal();
+        return;
+      }
+
+      if (cmd.startsWith('ipconfig')) {
+        handleIpconfigCmd(cmd);
+      } else if (cmd.startsWith('ping')) {
+        handlePingCmd(cmd);
+      } else if (cmd.startsWith('sfc')) {
+        handleSfcCmd(cmd);
+      } else if (cmd.startsWith('chkdsk')) {
+        handleChkdskCmd(cmd);
+      } else if (cmd.startsWith('nslookup')) {
+        handleNslookupCmd(cmd);
+      } else if (cmd === 'help') {
+        printTerm("Arahan yang disokong di simulator ini: ipconfig, ping, sfc /scannow, chkdsk, nslookup, cls");
+      } else {
+        printTerm(`'${rawCmd}' is not recognized as an internal or external command, operable program or batch file. Taip 'help' untuk panduan.`, 'text-red-400');
+      }
+    }
+
+    function handleIpconfigCmd(cmd) {
+      if (cmd === 'ipconfig /all' || cmd === 'ipconfig') {
+        if (currentCaseKey === 'net_apipa' && simScenarios.net_apipa.state.dhcpFailed) {
+          printTerm(`
+Windows IP Configuration
+
+Ethernet adapter Ethernet 1:
+   Connection-specific DNS Suffix  . : 
+   Link-local IPv6 Address . . . . . : fe80::5482:7821:3902:bb21%12
+   Autoconfiguration IPv4 Address. . : 169.254.120.45 (APIPA)
+   Subnet Mask . . . . . . . . . . . : 255.255.0.0
+   Default Gateway . . . . . . . . . : 
+   DHCP Server . . . . . . . . . . . : Tidak Ditemui (Timeout)
+   DNS Servers . . . . . . . . . . . : 
+          `, 'text-yellow-300');
+          printTerm("Perhatian: Alamat IP berada dalam julat APIPA 169.254.x.x. Tiada sambungan Gateway.", 'text-red-400');
+        } else {
+          printTerm(`
+Windows IP Configuration
+
+Ethernet adapter Ethernet 1:
+   Connection-specific DNS Suffix  . : lan.home
+   IPv4 Address. . . . . . . . . . . : 192.168.1.142
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 192.168.1.1
+   DHCP Server . . . . . . . . . . . : 192.168.1.1
+   DNS Servers . . . . . . . . . . . : 8.8.8.8, 1.1.1.1
+          `, 'text-emerald-300');
+        }
+      } else if (cmd === 'ipconfig /release') {
+        simScenarios.net_apipa.state.released = true;
+        printTerm("Windows IP Configuration\nIP address for adapter Ethernet 1 released successfully. (0.0.0.0)", 'text-slate-300');
+      } else if (cmd === 'ipconfig /renew') {
+        printTerm("Menghubungi pelayan DHCP...", 'text-slate-400');
+        setTimeout(() => {
+          simScenarios.net_apipa.state.dhcpFailed = false;
+          printTerm(`
+Windows IP Configuration
+Adapter Ethernet 1 berjaya memperbaharui pajakan IP:
+IPv4 Address . . . . . . . . . . . : 192.168.1.142
+Subnet Mask  . . . . . . . . . . . : 255.255.255.0
+Default Gateway  . . . . . . . . . : 192.168.1.1
+          `, 'text-emerald-400');
+          if (currentCaseKey === 'net_apipa') {
+            printTerm("🎉 TAHNIAH! Anda telah berjaya menyelesaikan isu Networking APIPA!", 'text-emerald-300 font-bold');
+          }
+        }, 600);
+      } else if (cmd === 'ipconfig /flushdns') {
+        printTerm("Windows IP Configuration\nSuccessfully flushed the DNS Resolver Cache.", 'text-emerald-400');
+        if (currentCaseKey === 'net_dns') {
+          printTerm("🎉 TAHNIAH! Cache DNS berjaya dikosongkan. Ralat resolusi domain selesai!", 'text-emerald-300 font-bold');
+        }
+      } else {
+        printTerm("Sintaks ipconfig tidak sah. Contoh: ipconfig /all, ipconfig /release, ipconfig /renew, ipconfig /flushdns", 'text-yellow-400');
+      }
+    }
+
+    function handlePingCmd(cmd) {
+      const parts = cmd.split(' ');
+      const target = parts[1] || "";
+      if (!target) {
+        printTerm("Usage: ping [-t] [-a] target_name", 'text-yellow-400');
+        return;
+      }
+
+      printTerm(`Pinging ${target} with 32 bytes of data:`, 'text-slate-300');
+
+      if (target === '127.0.0.1' || target === 'localhost') {
+        printTerm(`Reply from 127.0.0.1: bytes=32 time<1ms TTL=128\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128`, 'text-emerald-400');
+        printTerm("Ping statistics for 127.0.0.1: Packets: Sent = 4, Received = 4, Lost = 0 (0% loss). [TCP/IP Loopback Sihat]");
+        return;
+      }
+
+      if (currentCaseKey === 'net_apipa' && simScenarios.net_apipa.state.dhcpFailed) {
+        printTerm(`PING: transmit failed. General failure.\nRequest timed out.\nRequest timed out.\nPackets: Sent = 4, Received = 0, Lost = 4 (100% loss).`, 'text-red-400');
+        return;
+      }
+
+      if (currentCaseKey === 'net_dns' && target.includes('google.com')) {
+        printTerm(`Ping request could not find host ${target}. Please check the name and try again.`, 'text-red-400');
+        printTerm("Petunjuk: IP boleh di-ping, tetapi domain gagal. Ini adalah isu DNS!", 'text-yellow-400');
+        return;
+      }
+
+      printTerm(`Reply from ${target}: bytes=32 time=18ms TTL=116\nReply from ${target}: bytes=32 time=19ms TTL=116\nReply from ${target}: bytes=32 time=17ms TTL=116\nReply from ${target}: bytes=32 time=18ms TTL=116`, 'text-emerald-400');
+      printTerm(`Ping statistics for ${target}: Packets: Sent = 4, Received = 4, Lost = 0 (0% loss).`);
+    }
+
+    function handleSfcCmd(cmd) {
+      if (cmd.includes('/scannow')) {
+        printTerm("Beginning system scan. This process will take some time.", 'text-slate-300');
+        printTerm("Beginning verification phase of system scan.\nVerification 100% complete.", 'text-slate-300');
+        printTerm("Windows Resource Protection found corrupt files and successfully repaired them.\nDetails are included in the CBS.Log windir\\Logs\\CBS\\CBS.log", 'text-emerald-400 font-semibold');
+        if (currentCaseKey === 'soft_bsod') {
+          printTerm("🎉 TAHNIAH! Fail integriti sistem Windows telah dipulihkan dan isu BSOD diselesaikan!", 'text-emerald-300 font-bold');
+        }
+      } else {
+        printTerm("Sila gunakan: sfc /scannow", 'text-yellow-400');
+      }
+    }
+
+    function handleChkdskCmd(cmd) {
+      printTerm("The type of the file system is NTFS.", 'text-slate-300');
+      printTerm("Stage 1: Examining basic file system structure...\nStage 2: Examining file name linkage...\nStage 3: Examining security descriptors...\nCorrecting errors in the Volume Bitmap.\nWindows has made corrections to the file system.", 'text-emerald-400');
+      if (currentCaseKey === 'hard_disk') {
+        printTerm("🎉 TAHNIAH! CHKDSK telah membaiki struktur kluster dan fail metadata cakera!", 'text-emerald-300 font-bold');
+      }
+    }
+
+    function handleNslookupCmd(cmd) {
+      const parts = cmd.split(' ');
+      const target = parts[1] || "google.com";
+      if (currentCaseKey === 'net_dns') {
+        printTerm(`*** Default servers are not available\nServer: UnKnown\nAddress: 0.0.0.0\nDNS request timed out.`, 'text-red-400');
+      } else {
+        printTerm(`Server:  dns.google\nAddress:  8.8.8.8\n\nNon-authoritative answer:\nName:    ${target}\nAddresses:  142.250.190.46`, 'text-emerald-300');
+      }
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById('quizContainer');
+      container.innerHTML = quizQuestions.map((q, idx) => `
+        <div class="p-5 rounded-xl bg-slate-950 border border-slate-800" id="quiz-card-${q.id}">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-blue-400 bg-blue-950/60 px-2.5 py-0.5 rounded border border-blue-800/60">Soalan ${idx + 1} • ${q.category}</span>
+            <span id="quiz-status-${q.id}" class="text-xs font-semibold text-slate-500">Belum dijawab</span>
+          </div>
+          <h4 class="font-bold text-white text-sm sm:text-base leading-snug mb-4">${q.question}</h4>
+          
+          <div class="space-y-2">
+            ${q.options.map((opt, optIdx) => `
+              <button 
+                onclick="submitQuizAnswer(${q.id}, ${optIdx})" 
+                id="opt-btn-${q.id}-${optIdx}"
+                class="w-full text-left p-3 rounded-lg border border-slate-800 bg-slate-900/60 hover:bg-slate-800 text-xs sm:text-sm text-slate-200 transition flex items-center space-x-3"
+              >
+                <span class="w-6 h-6 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-xs flex-shrink-0">
+                  ${String.fromCharCode(65 + optIdx)}
+                </span>
+                <span>${opt}</span>
+              </button>
+            `).join('')}
+          </div>
+
+          <!-- Explanation box -->
+          <div id="quiz-exp-${q.id}" class="hidden mt-4 p-3 rounded-lg bg-blue-950/30 border border-blue-900/50 text-xs text-slate-300">
+            <!-- Injected on answer -->
+          </div>
+        </div>
+      `).join('');
+      updateQuizScore();
+    }
+
+    function submitQuizAnswer(qId, selectedIdx) {
+      const q = quizQuestions.find(item => item.id === qId);
+      if (!q) return;
+
+      // Disable further clicks on this question
+      userQuizAnswers[qId] = selectedIdx;
+
+      // Visual indicator for all options in this question
+      q.options.forEach((_, optIdx) => {
+        const btn = document.getElementById(`opt-btn-${qId}-${optIdx}`);
+        btn.disabled = true;
+        btn.classList.remove('hover:bg-slate-800');
+
+        if (optIdx === q.answer) {
+          btn.classList.add('bg-emerald-950/70', 'border-emerald-500', 'text-emerald-200');
+        } else if (optIdx === selectedIdx && selectedIdx !== q.answer) {
+          btn.classList.add('bg-red-950/70', 'border-red-500', 'text-red-200');
+        } else {
+          btn.classList.add('opacity-50');
+        }
+      });
+
+      const statusEl = document.getElementById(`quiz-status-${qId}`);
+      const expEl = document.getElementById(`quiz-exp-${qId}`);
+      expEl.classList.remove('hidden');
+
+      if (selectedIdx === q.answer) {
+        statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✓ Tepat</span>`;
+        expEl.innerHTML = `<strong class="text-emerald-400">Penjelasan:</strong> ${q.explanation}`;
+      } else {
+        statusEl.innerHTML = `<span class="text-red-400 font-bold">✗ Kurang Tepat</span>`;
+        expEl.innerHTML = `<strong class="text-red-400">Penjelasan:</strong> Jawapan tepat ialah <strong>${String.fromCharCode(65 + q.answer)}</strong>. ${q.explanation}`;
+      }
+
+      updateQuizScore();
+    }
+
+    function updateQuizScore() {
+      const answeredKeys = Object.keys(userQuizAnswers);
+      let correctCount = 0;
+
+      answeredKeys.forEach(k => {
+        const q = quizQuestions.find(item => item.id == k);
+        if (q && userQuizAnswers[k] === q.answer) {
+          correctCount++;
+        }
+      });
+
+      const scoreText = document.getElementById('quizScoreText');
+      scoreText.textContent = `${correctCount} / ${quizQuestions.length} Betul`;
+    }
+
+    function resetQuiz() {
+      userQuizAnswers = {};
+      renderQuiz();
+    }
+  </script>
+</body>
+</html>

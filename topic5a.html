@@ -1,0 +1,2479 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hardware, Software & Networking Troubleshooting Hub - Topik 5.1, 5.2 & 5.3">
+  <title>Topik 5A - Hardware, Software & Networking Troubleshooting Hub</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- React + ReactDOM -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <!-- Lucide React UMD -->
+  <script src="https://unpkg.com/lucide-react@0.536.0/dist/umd/lucide-react.min.js"></script>
+
+  <!-- Babel: membolehkan JSX terus digunakan dalam fail HTML -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn { animation: fadeIn .35s ease-out; }
+
+    /* Supaya elemen SVG Lucide mengikuti saiz yang diberi oleh Tailwind */
+    svg { display: inline-block; vertical-align: middle; }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="react">
+    const { useState, useEffect } = React;
+    const { Wifi, Server, Cpu, HardDrive, Wrench, CheckCircle2, AlertTriangle, FileText, BookOpen, Award, ArrowRight, RotateCcw, HelpCircle, ShieldAlert, Search, Activity, Layers, Zap, Monitor, Check, ChevronRight, ChevronLeft, Play, Pause, RefreshCw, Sliders, Sparkles, Terminal, Radio, Cable, Globe, Database, Lock, ChevronDown, Info, Fan, ShieldCheck, Eye, Video, ExternalLink } = LucideReact;
+
+// =========================================================================
+// SUB-KOMPONEN: KANVAS ANIMASI VISUALISASI PERKAKASAN (ENJIN 5.2)
+// =========================================================================
+function HardwareVisualizer({ mode, stepId, isPlaying }) {
+  return (
+    <div className="relative w-full h-64 sm:h-72 bg-slate-950 rounded-2xl border border-slate-800 flex items-center justify-center overflow-hidden shadow-inner p-4">
+      {/* Corak Grid Latar Belakang */}
+      <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+      {/* Paparan Status HUD */}
+      <div className="absolute top-3 left-3 z-20 flex items-center gap-2">
+        <span className="text-[10px] font-mono px-2.5 py-1 rounded-md bg-slate-900/90 text-cyan-300 border border-cyan-500/30 flex items-center gap-1.5 shadow">
+          <span className={`w-2 h-2 rounded-full ${isPlaying ? 'bg-emerald-400 animate-ping' : 'bg-amber-400'}`}></span>
+          {mode === 'assembly' ? 'SIMULASI PEMASANGAN' : 'SIMULASI PENYAHPASANGAN'} : FASA {stepId}
+        </span>
+      </div>
+
+      {/* ----------------------------------------------------------------- */}
+      {/* ANIMASI PEMASANGAN (1 hingga 8) */}
+      {/* ----------------------------------------------------------------- */}
+      {mode === 'assembly' && (
+        <div className="w-full h-full flex items-center justify-center relative">
+          {/* Langkah 1: Perlindungan ESD & Keselamatan */}
+          {stepId === 1 && (
+            <div className="flex flex-col items-center justify-center space-y-3 animate-fadeIn">
+              <div className="relative flex items-center justify-center">
+                <div className="w-28 h-28 rounded-full border-4 border-dashed border-cyan-400/60 flex items-center justify-center relative animate-[spin_8s_linear_infinite]">
+                  <div className="w-20 h-20 rounded-full bg-cyan-950/80 border-2 border-cyan-400 flex items-center justify-center text-cyan-300">
+                    <ShieldCheck className="w-10 h-10 animate-bounce" />
+                  </div>
+                </div>
+                <div className="absolute -bottom-2 -right-4 bg-emerald-500/20 border border-emerald-500 text-emerald-300 text-[10px] font-mono px-2 py-0.5 rounded-full animate-pulse">
+                  GND: 0V (Dinyahcas)
+                </div>
+              </div>
+              <div className="text-center">
+                <span className="text-xs font-bold text-cyan-300 block">Pembumian Statik ESD Aktif</span>
+                <span className="text-[11px] text-slate-400">Cas badan dinyahcas ke kerangka casis logam</span>
+              </div>
+            </div>
+          )}
+
+          {/* Langkah 2: Soket CPU & Pes Terma */}
+          {stepId === 2 && (
+            <div className="flex flex-col items-center justify-center space-y-2 animate-fadeIn">
+              <div className="relative w-44 h-36 bg-slate-900 border-2 border-amber-500/60 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-28 h-28 bg-slate-950 border border-slate-700 rounded-lg grid grid-cols-6 gap-0.5 p-1 relative">
+                  <div className="absolute top-1 left-1 w-2.5 h-2.5 bg-amber-400 rotate-45"></div>
+
+                  <div className={`absolute inset-2 bg-gradient-to-tr from-slate-800 to-slate-700 border-2 border-amber-400 rounded flex flex-col items-center justify-center transition-all duration-1000 ${
+                    isPlaying ? 'translate-y-0 scale-100 shadow-md' : '-translate-y-6 scale-90 opacity-60'
+                  }`}>
+                    <Cpu className="w-8 h-8 text-amber-300" />
+                    <span className="text-[8px] font-mono text-slate-300 mt-1">LGA / PGA CPU</span>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 bg-slate-300 rounded-full border border-slate-400 animate-ping opacity-75"></div>
+                  </div>
+                </div>
+              </div>
+              <span className="text-[11px] font-mono text-amber-300 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-800">
+                Zero Insertion Force (ZIF) & Pes Terma Disapu
+              </span>
+            </div>
+          )}
+
+          {/* Langkah 3: Heatsink / Penyejuk CPU */}
+          {stepId === 3 && (
+            <div className="flex flex-col items-center justify-center space-y-2 animate-fadeIn">
+              <div className="relative w-40 h-36 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-center">
+                <div className="w-32 h-28 bg-slate-800 border-2 border-cyan-500 rounded-xl flex flex-col items-center justify-center relative overflow-hidden shadow-xl">
+                  <Fan className={`w-16 h-16 text-cyan-400 transition-all ${isPlaying ? 'animate-spin duration-700' : ''}`} />
+                  <span className="text-[8px] font-mono text-cyan-200 mt-1">CPU_FAN 4-PIN</span>
+
+                  <div className="absolute top-1 left-1 w-2 h-2 rounded-full bg-amber-400 animate-pulse"></div>
+                  <div className="absolute top-1 right-1 w-2 h-2 rounded-full bg-amber-400 animate-pulse delay-100"></div>
+                  <div className="absolute bottom-1 left-1 w-2 h-2 rounded-full bg-amber-400 animate-pulse delay-200"></div>
+                  <div className="absolute bottom-1 right-1 w-2 h-2 rounded-full bg-amber-400 animate-pulse delay-300"></div>
+                </div>
+              </div>
+              <span className="text-[11px] font-mono text-cyan-300 bg-cyan-950/60 px-2.5 py-0.5 rounded border border-cyan-800">
+                Corak Skru Bersilang (X-Pattern) Dikunci Rapat
+              </span>
+            </div>
+          )}
+
+          {/* Langkah 4: Pemasangan RAM Dwi-Saluran */}
+          {stepId === 4 && (
+            <div className="flex flex-col items-center justify-center space-y-3 animate-fadeIn">
+              <div className="flex items-center gap-3">
+                <div className="w-4 h-32 bg-slate-900 border border-slate-800 rounded-sm"></div>
+
+                <div className="relative flex flex-col items-center">
+                  <div className={`w-7 h-28 bg-gradient-to-b from-blue-700 to-indigo-900 border-2 border-blue-400 rounded-md flex flex-col items-center justify-between p-1 transition-all duration-700 ${
+                    isPlaying ? 'translate-y-0 shadow-lg shadow-blue-500/30' : '-translate-y-4 opacity-70'
+                  }`}>
+                    <span className="text-[8px] font-bold text-white">DDR4</span>
+                    <div className="w-4 h-1 bg-amber-400 rounded-full"></div>
+                    <div className="w-full flex justify-between px-0.5">
+                      <span className="w-1.5 h-1.5 bg-blue-300 rounded-full"></span>
+                      <span className="w-1.5 h-1.5 bg-blue-300 rounded-full"></span>
+                    </div>
+                  </div>
+                  <span className="text-[9px] font-mono text-blue-300 mt-1">Slot 2</span>
+                </div>
+
+                <div className="w-4 h-32 bg-slate-900 border border-slate-800 rounded-sm"></div>
+
+                <div className="relative flex flex-col items-center">
+                  <div className={`w-7 h-28 bg-gradient-to-b from-blue-700 to-indigo-900 border-2 border-blue-400 rounded-md flex flex-col items-center justify-between p-1 transition-all duration-700 ${
+                    isPlaying ? 'translate-y-0 shadow-lg shadow-blue-500/30' : '-translate-y-4 opacity-70'
+                  }`}>
+                    <span className="text-[8px] font-bold text-white">DDR4</span>
+                    <div className="w-4 h-1 bg-amber-400 rounded-full"></div>
+                    <div className="w-full flex justify-between px-0.5">
+                      <span className="w-1.5 h-1.5 bg-blue-300 rounded-full"></span>
+                      <span className="w-1.5 h-1.5 bg-blue-300 rounded-full"></span>
+                    </div>
+                  </div>
+                  <span className="text-[9px] font-mono text-blue-300 mt-1">Slot 4</span>
+                </div>
+              </div>
+              <span className="text-[11px] font-mono text-blue-300 bg-blue-950/60 px-2 py-0.5 rounded border border-blue-800">
+                Klip Mengunci Rapat • Dual-Channel Diaktifkan
+              </span>
+            </div>
+          )}
+
+          {/* Langkah 5: Motherboard & Standoffs ke Casing */}
+          {stepId === 5 && (
+            <div className="flex flex-col items-center justify-center space-y-2 animate-fadeIn">
+              <div className="relative w-48 h-36 bg-slate-900 border-2 border-dashed border-slate-700 rounded-xl p-2 flex items-center justify-center">
+                <div className="absolute top-2 left-2 w-2 h-2 rounded-full bg-amber-400"></div>
+                <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-amber-400"></div>
+                <div className="absolute bottom-2 left-2 w-2 h-2 rounded-full bg-amber-400"></div>
+                <div className="absolute bottom-2 right-2 w-2 h-2 rounded-full bg-amber-400"></div>
+
+                <div className={`w-40 h-28 bg-emerald-950/60 border-2 border-emerald-500 rounded-lg flex flex-col items-center justify-center p-2 transition-all duration-1000 ${
+                  isPlaying ? 'scale-100 opacity-100 shadow-xl' : 'scale-90 opacity-40'
+                }`}>
+                  <Layers className="w-6 h-6 text-emerald-400 mb-1" />
+                  <span className="text-[9px] font-mono font-bold text-emerald-300">Motherboard (ATX)</span>
+                  <span className="text-[8px] text-slate-400">I/O Shield & Standoffs Diselaraskan</span>
+                </div>
+              </div>
+              <span className="text-[11px] font-mono text-emerald-300 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800">
+                Standoffs Mengelakkan Litar Pintas Casis Logam
+              </span>
+            </div>
+          )}
+
+          {/* Langkah 6: PSU & Storan SSD/NVMe */}
+          {stepId === 6 && (
+            <div className="flex flex-col items-center justify-center space-y-2 animate-fadeIn">
+              <div className="flex items-center gap-4">
+                <div className="w-28 h-28 bg-slate-900 border-2 border-purple-500 rounded-xl flex flex-col items-center justify-center p-2 shadow-lg relative">
+                  <Zap className="w-6 h-6 text-purple-400 mb-1 animate-pulse" />
+                  <span className="text-[9px] font-mono font-bold text-purple-200">PSU 750W</span>
+                  <span className="text-[7px] text-slate-400">Kipas Menghala Gril Bawah</span>
+                </div>
+
+                <div className="w-24 h-28 bg-slate-900 border border-slate-800 rounded-xl flex flex-col items-center justify-center p-2">
+                  <div className={`w-16 h-8 bg-slate-800 border border-indigo-400 rounded flex items-center justify-center text-[8px] font-mono text-indigo-300 transition-all duration-700 ${
+                    isPlaying ? 'rotate-0' : '-rotate-12'
+                  }`}>
+                    M.2 NVMe SSD
+                  </div>
+                  <span className="text-[8px] text-slate-400 mt-2">Skru M2 Dikunci</span>
+                </div>
+              </div>
+              <span className="text-[11px] font-mono text-purple-300 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-800">
+                Bekalan Kuasa & Jalur Data Terpasang Kemas
+              </span>
+            </div>
+          )}
+
+          {/* Langkah 7: Pemasangan GPU PCIe */}
+          {stepId === 7 && (
+            <div className="flex flex-col items-center justify-center space-y-2 animate-fadeIn">
+              <div className="relative w-48 h-36 bg-slate-900 border border-slate-800 rounded-xl flex flex-col items-center justify-center p-3">
+                <div className="w-40 h-3 bg-slate-950 border border-amber-500 rounded-full flex items-center justify-end px-1 mb-2">
+                  <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
+                </div>
+
+                <div className={`w-42 h-20 bg-gradient-to-r from-rose-950 via-slate-800 to-rose-950 border-2 border-rose-500 rounded-lg flex items-center justify-around p-2 transition-all duration-1000 ${
+                  isPlaying ? 'translate-y-0 shadow-lg shadow-rose-500/20' : '-translate-y-4 opacity-50'
+                }`}>
+                  <Fan className={`w-8 h-8 text-rose-400 ${isPlaying ? 'animate-spin' : ''}`} />
+                  <div className="text-center">
+                    <span className="text-[9px] font-mono font-bold text-white block">PCIe x16 GPU</span>
+                    <span className="text-[7px] text-rose-300">Slot Teratas (Laluan Terus CPU)</span>
+                  </div>
+                  <Fan className={`w-8 h-8 text-rose-400 ${isPlaying ? 'animate-spin' : ''}`} />
+                </div>
+              </div>
+              <span className="text-[11px] font-mono text-rose-300 bg-rose-950/60 px-2 py-0.5 rounded border border-rose-800">
+                Klip PCIe Berbunyi 'Klik' & Skru Bracket Terikat
+              </span>
+            </div>
+          )}
+
+          {/* Langkah 8: Pengurusan Kabel Kuasa & Front Panel */}
+          {stepId === 8 && (
+            <div className="flex flex-col items-center justify-center space-y-2 animate-fadeIn">
+              <div className="relative w-48 h-36 bg-slate-900 border border-slate-800 rounded-xl p-3 flex flex-col justify-between">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-1">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span className="text-[8px] font-mono text-emerald-300">24-PIN ATX</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
+                    <span className="text-[8px] font-mono text-cyan-300">8-PIN EPS</span>
+                  </div>
+                </div>
+
+                <div className="w-full h-8 bg-slate-950 rounded-lg border border-slate-700 flex items-center justify-around px-2">
+                  <div className="w-1.5 h-full bg-yellow-500"></div>
+                  <div className="w-1.5 h-full bg-red-500"></div>
+                  <div className="w-1.5 h-full bg-black"></div>
+                  <div className="w-1.5 h-full bg-orange-500"></div>
+                  <div className="w-1.5 h-full bg-blue-500"></div>
+                </div>
+
+                <div className="text-center">
+                  <span className="text-[8px] font-mono text-amber-300 bg-amber-950 px-1.5 py-0.5 rounded border border-amber-800">
+                    POWER SW • RESET SW • HDD LED (+/-)
+                  </span>
+                </div>
+              </div>
+              <span className="text-[11px] font-mono text-emerald-300 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800">
+                Pengurusan Kabel Selesai • Ujian Kuasa Siap!
+              </span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ----------------------------------------------------------------- */}
+      {/* ANIMASI PENYAHPASANGAN (1 hingga 8) */}
+      {/* ----------------------------------------------------------------- */}
+      {mode === 'disassembly' && (
+        <div className="w-full h-full flex items-center justify-center relative">
+          {/* Langkah 1: Nyahcas Kuasa & Cabut Kabel */}
+          {stepId === 1 && (
+            <div className="flex flex-col items-center justify-center space-y-2 animate-fadeIn">
+              <div className="relative w-44 h-36 bg-slate-900 border border-slate-800 rounded-xl flex flex-col items-center justify-center p-3">
+                <div className="w-14 h-14 rounded-full bg-rose-950 border-2 border-rose-500 flex items-center justify-center text-rose-400 mb-2">
+                  <Zap className="w-7 h-7 animate-pulse" />
+                </div>
+                <span className="text-[10px] font-bold text-white">Nyahcas Kuasa Kapasitor</span>
+                <span className="text-[8px] font-mono text-rose-300 bg-rose-950 px-2 py-0.5 rounded mt-1">
+                  Tekan Butang Power 5s • 0 Volt
+                </span>
+              </div>
+              <span className="text-[11px] font-mono text-rose-400 bg-rose-950/60 px-2 py-0.5 rounded border border-rose-800">
+                Palam Dinding Dicabut • Bebas Risiko Renjatan
+              </span>
+            </div>
+          )}
+
+          {/* Langkah 2: Buka Panel Sisi & Pembumian Statik */}
+          {stepId === 2 && (
+            <div className="flex flex-col items-center justify-center space-y-2 animate-fadeIn">
+              <div className="relative w-48 h-36 bg-slate-900 border-2 border-slate-700 rounded-xl flex items-center justify-center overflow-hidden">
+                <div className={`w-36 h-28 bg-cyan-900/30 border-2 border-cyan-400/80 rounded-lg flex flex-col items-center justify-center transition-all duration-1000 ${
+                  isPlaying ? 'translate-x-12 opacity-30 rotate-6' : 'translate-x-0 opacity-90'
+                }`}>
+                  <span className="text-[9px] font-mono text-cyan-200">Panel Sisi Ditanggalkan</span>
+                </div>
+              </div>
+              <span className="text-[11px] font-mono text-cyan-300 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800">
+                Panel Disimpan Selamat & ESD Wrist Strap Dipasang
+              </span>
+            </div>
+          )}
+
+          {/* Langkah 3: Tanggalkan GPU PCIe */}
+          {stepId === 3 && (
+            <div className="flex flex-col items-center justify-center space-y-2 animate-fadeIn">
+              <div className="relative w-48 h-36 bg-slate-900 border border-slate-800 rounded-xl flex flex-col items-center justify-center p-3">
+                <div className={`w-40 h-16 bg-slate-800 border-2 border-amber-500 rounded-lg flex items-center justify-around p-2 transition-all duration-1000 ${
+                  isPlaying ? '-translate-y-6 opacity-60 scale-90' : 'translate-y-0 opacity-100'
+                }`}>
+                  <Fan className="w-6 h-6 text-amber-400" />
+                  <span className="text-[9px] font-mono text-amber-200">Klip PCIe Ditekan Keluar</span>
+                  <Fan className="w-6 h-6 text-amber-400" />
+                </div>
+                <div className="w-36 h-2 bg-slate-950 border border-slate-700 rounded-full mt-2"></div>
+              </div>
+              <span className="text-[11px] font-mono text-amber-300 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-800">
+                Kabel PCIe 8-Pin Dicabut Terlebih Dahulu
+              </span>
+            </div>
+          )}
+
+          {/* Langkah 4: Cabut Kabel Kuasa PSU Utama */}
+          {stepId === 4 && (
+            <div className="flex flex-col items-center justify-center space-y-2 animate-fadeIn">
+              <div className="relative w-44 h-36 bg-slate-900 border border-slate-800 rounded-xl flex flex-col items-center justify-center p-3">
+                <div className={`w-28 h-12 bg-slate-950 border border-purple-400 rounded flex items-center justify-center transition-all duration-700 ${
+                  isPlaying ? 'scale-75 opacity-50' : 'scale-100'
+                }`}>
+                  <span className="text-[9px] font-mono text-purple-300">Klip 24-Pin ATX Dilepaskan</span>
+                </div>
+                <span className="text-[8px] text-slate-400 mt-2">8-Pin CPU & SATA Power Dicabut</span>
+              </div>
+              <span className="text-[11px] font-mono text-purple-300 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-800">
+                Tekan Tuil Pengunci Sebelum Menarik Penyambung
+              </span>
+            </div>
+          )}
+
+          {/* Langkah 5: Tanggalkan Pemacu Storan */}
+          {stepId === 5 && (
+            <div className="flex flex-col items-center justify-center space-y-2 animate-fadeIn">
+              <div className="relative w-44 h-36 bg-slate-900 border border-slate-800 rounded-xl flex flex-col items-center justify-center p-3">
+                <div className={`w-24 h-8 bg-indigo-950 border-2 border-indigo-400 rounded flex items-center justify-center text-[8px] font-mono text-indigo-200 transition-all duration-700 ${
+                  isPlaying ? '-rotate-12 -translate-y-2 shadow-lg' : 'rotate-0'
+                }`}>
+                  M.2 NVMe Melompat 30°
+                </div>
+                <span className="text-[8px] text-slate-400 mt-3">Skru M2 Disimpan Dalam Kotak Magnetik</span>
+              </div>
+              <span className="text-[11px] font-mono text-indigo-300 bg-indigo-950/60 px-2 py-0.5 rounded border border-indigo-800">
+                Tarik Pemacu M.2 Keluar Mengikut Sudut Condong
+              </span>
+            </div>
+          )}
+
+          {/* Langkah 6: Tanggalkan Modul RAM */}
+          {stepId === 6 && (
+            <div className="flex flex-col items-center justify-center space-y-2 animate-fadeIn">
+              <div className="flex items-center gap-3">
+                <div className={`w-6 h-28 bg-slate-800 border-2 border-blue-400 rounded-md flex flex-col items-center justify-between p-1 transition-all duration-700 ${
+                  isPlaying ? '-translate-y-6 opacity-40' : 'translate-y-0'
+                }`}>
+                  <span className="text-[7px] text-blue-300">RAM #1</span>
+                </div>
+                <div className={`w-6 h-28 bg-slate-800 border-2 border-blue-400 rounded-md flex flex-col items-center justify-between p-1 transition-all duration-700 ${
+                  isPlaying ? '-translate-y-6 opacity-40' : 'translate-y-0'
+                }`}>
+                  <span className="text-[7px] text-blue-300">RAM #2</span>
+                </div>
+              </div>
+              <span className="text-[11px] font-mono text-blue-300 bg-blue-950/60 px-2 py-0.5 rounded border border-blue-800">
+                Tekan Klip Tepi Slot Ke Luar Untuk Melepaskan RAM
+              </span>
+            </div>
+          )}
+
+          {/* Langkah 7: Heatsink & Pembersihan Pes Terma */}
+          {stepId === 7 && (
+            <div className="flex flex-col items-center justify-center space-y-2 animate-fadeIn">
+              <div className="relative w-44 h-36 bg-slate-900 border border-slate-800 rounded-xl flex flex-col items-center justify-center p-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-16 h-16 bg-slate-800 border border-cyan-400 rounded-lg flex items-center justify-center">
+                    <Fan className="w-8 h-8 text-cyan-300" />
+                  </div>
+                  <div className="w-16 h-16 bg-slate-950 border border-emerald-400 rounded-lg flex flex-col items-center justify-center text-center p-1">
+                    <Sparkles className="w-4 h-4 text-emerald-300 animate-spin" />
+                    <span className="text-[7px] font-mono text-emerald-200 mt-1">IPA 99% Bersih</span>
+                  </div>
+                </div>
+                <span className="text-[8px] text-slate-400 mt-2">Pembersihan Sisa Pes Lama</span>
+              </div>
+              <span className="text-[11px] font-mono text-emerald-300 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800">
+                Lap IHS CPU Menggunakan Kain Mikrofiber & Alkohol IPA
+              </span>
+            </div>
+          )}
+
+          {/* Langkah 8: Tanggalkan CPU & Motherboard */}
+          {stepId === 8 && (
+            <div className="flex flex-col items-center justify-center space-y-2 animate-fadeIn">
+              <div className="relative w-44 h-36 bg-slate-900 border border-slate-800 rounded-xl flex flex-col items-center justify-center p-2">
+                <div className={`w-20 h-20 bg-slate-950 border-2 border-amber-400 rounded-lg flex flex-col items-center justify-center p-1 transition-all duration-1000 ${
+                  isPlaying ? 'scale-110 shadow-lg shadow-amber-500/20' : 'scale-95'
+                }`}>
+                  <Cpu className="w-8 h-8 text-amber-300" />
+                  <span className="text-[8px] font-mono text-amber-200 mt-1">Tuil Dibuka</span>
+                </div>
+                <span className="text-[8px] text-slate-400 mt-1">Simpan Dalam Bekas Antistatik</span>
+              </div>
+              <span className="text-[11px] font-mono text-amber-300 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-800">
+                Pegang Tepi CPU • Jangan Sentuh Pin Emas Bawah
+              </span>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// =========================================================================
+// KOMPONEN UTAMA APLIKASI
+// =========================================================================
+function App() {
+  const [activeTab, setActiveTab] = useState('5.2');
+  const [networkType, setNetworkType] = useState('wired');
+  const [assemblyMode, setAssemblyMode] = useState('assembly');
+  const [videoTab, setVideoTab] = useState('assembly');
+  const [currentAssemblyStep, setCurrentAssemblyStep] = useState(0);
+  const [completedAssembly, setCompletedAssembly] = useState([]);
+  const [isAnimationPlaying, setIsAnimationPlaying] = useState(true);
+  const [selectedCase, setSelectedCase] = useState(0);
+  const [scenarioStep, setScenarioStep] = useState(0);
+  const [scenarioLog, setScenarioLog] = useState([]);
+  const [caseCompleted, setCaseCompleted] = useState(false);
+  const [quizIndex, setQuizIndex] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
+  const [quizScore, setQuizScore] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [packetTransmitting, setPacketTransmitting] = useState(false);
+
+  // --- DATA 5.1: KOMUNIKASI RANGKAIAN ---
+  const networkTypesData = {
+    internet: {
+      title: "a. Internet (Rangkaian Global)",
+      badge: "Wide Area Network (WAN)",
+      desc: "Rangkaian global komputer dan pelayan yang saling bersambung menggunakan suite protokol standard Internet (TCP/IP).",
+      speed: "10 Mbps - 10+ Gbps",
+      range: "Seluruh Dunia (Global)",
+      medium: "Gabungan Kabel Dasar Laut (Submarine Fiber), Satelit, 5G, & ISP Gateways",
+      advantages: ["Akses maklumat tanpa sempadan", "Menyokong perkhidmatan Cloud, E-Dagang & IoT", "Komunikasi global masa nyata"],
+      disadvantages: ["Keterdedahan ancaman siber antarabangsa", "Kebergantungan kepada pembekal ISP", "Kelewatan (latency) jika trafik sesak"],
+      keyTerms: ["TCP/IP", "DNS (Domain Name System)", "Gateway / Router", "Public IP", "ISP"]
+    },
+    wired: {
+      title: "b. Rangkaian Berwayar (Wired Network)",
+      badge: "Media Berpandu (Guided Media)",
+      desc: "Penghantaran data melalui kabel fizikal seperti Twisted Pair (UTP/STP Cat6/6a), Kabel Koaksial, dan Kabel Gentian Optik (Fiber Optic).",
+      speed: "1 Gbps hingga 100 Gbps (Fiber)",
+      range: "Terhad mengikut panjang kabel (cth: UTP maks 100 meter)",
+      medium: "Tembaga (Isyarat Elektrik) / Gentian Kaca (Isyarat Cahaya)",
+      advantages: ["Kelajuan transmisi sangat tinggi & stabil", "Rintangan tinggi terhadap gangguan elektromagnet (EMI)", "Sekuriti fizikal lebih terkawal"],
+      disadvantages: ["Kos pemasangan & kabel fizikal tinggi", "Mobiliti sifar (peranti mesti ditambat pada kabel)", "Penyelenggaraan kabel dalam dinding/siling rumit"],
+      keyTerms: ["RJ-45 Connector", "Cat6 UTP", "Fiber Optic Single/Multi-mode", "Ethernet Switch", "Patch Panel"]
+    },
+    wireless: {
+      title: "c. Rangkaian Tanpa Wayar (Wireless Network)",
+      badge: "Media Tidak Berpandu (Unguided Media)",
+      desc: "Penghantaran data melalui gelombang elektromagnet di udara seperti Gelombang Radio (Wi-Fi, Bluetooth), Gelombang Mikro, dan Satelit.",
+      speed: "100 Mbps hingga 9.6 Gbps (Wi-Fi 6/6E/7)",
+      range: "10m (Bluetooth) hingga 50m (Wi-Fi) / Global (Satelit)",
+      medium: "Gelombang Radio / Gelombang Mikro (2.4 GHz, 5 GHz, 6 GHz)",
+      advantages: ["Mobiliti tinggi (bebas bergerak)", "Mudah dikembangkan tanpa menambah wayar fizikal", "Pemasangan cepat dan kemas"],
+      disadvantages: ["Mudah terjejas oleh halangan fizikal (dinding tebal) & cuaca", "Risiko pemintasan isyarat radio (perlu enkripsi WPA3)", "Bandwidth dikongsi menyebabkan kelembapan jika peranti ramai"],
+      keyTerms: ["SSID", "WPA3 Encryption", "Access Point (AP)", "MIMO & Beamforming", "Radio Frequency (RF)"]
+    }
+  };
+
+  // --- DATA 5.2: PEMASANGAN & PENYAHPASANGAN PC ---
+  const assemblySteps = [
+    {
+      id: 1,
+      title: "Langkah Keselamatan & Perlindungan ESD",
+      action: "Persediaan Keselamatan Diri & Perkakasan",
+      desc: "Pakai gelang tangan antistatik (ESD Wrist Strap) atau sentuh bahagian logam unpainted pada casing untuk membuang cas elektrostatik. Sediakan tikar antistatik dan alatan bersesuaian.",
+      tip: "Cas statik sekecil 100V boleh merosakkan mikrocip CPU/RAM tanpa anda sedar!",
+      safetyCheck: true
+    },
+    {
+      id: 2,
+      title: "Pemasangan CPU & Thermal Paste",
+      action: "Pasang Prosessor pada Soket Motherboard",
+      desc: "Buka tuil soket CPU (LGA/PGA). Selaraskan penanda segitiga emas pada CPU dengan soket. Letakkan CPU tanpa paksaan (Zero Insertion Force), kunci tuil, dan sapukan sedikit Thermal Paste bersaiz kacang pea.",
+      tip: "Jangan sesekali menyentuh pin emas CPU atau soket motherboard secara langsung.",
+      safetyCheck: false
+    },
+    {
+      id: 3,
+      title: "Pemasangan Heatsink / CPU Cooler",
+      action: "Lekatkan Penyejuk CPU & Sambung Wayar Kipas",
+      desc: "Pasang heatsink di atas CPU dengan tekanan sekata (skru bersilang corak X). Sambungkan kabel 4-pin kipas penyejuk ke header 'CPU_FAN' pada motherboard.",
+      tip: "Tekanan skru yang tidak sekata boleh merosakkan die cip atau menyebabkan suhu CPU tinggi.",
+      safetyCheck: false
+    },
+    {
+      id: 4,
+      title: "Pemasangan Modul RAM",
+      action: "Masukkan RAM ke Slot Dual-Channel (Slot 2 & 4)",
+      desc: "Buka klip penahan slot DIMM. Selaraskan takuk (notch) RAM dengan slot. Tekan kedua-dua hujung RAM dengan sekata sehingga klip berbunyi 'klik' dan terkunci rapat.",
+      tip: "Gunakan konfigurasi Dual-Channel untuk prestasi pemprosesan memori yang maksimum.",
+      safetyCheck: false
+    },
+    {
+      id: 5,
+      title: "Pemasangan I/O Shield & Motherboard ke Casing",
+      action: "Pasang Motherboard ke dalam Casing PC",
+      desc: "Klip I/O shield pada bukaan belakang casing. Pasang standoffs tembaga pada casing mengikut saiz motherboard (ATX/mATX), letakkan motherboard, dan ketatkan skru dengan cermat.",
+      tip: "Standoffs penting untuk menghalang litar pintas (short circuit) antara motherboard dan chasis logam.",
+      safetyCheck: false
+    },
+    {
+      id: 6,
+      title: "Pemasangan Bekalan Kuasa (PSU) & Storan",
+      action: "Pasang PSU & Pemacu Storan (M.2 NVMe / SSD)",
+      desc: "Pasang unit PSU ke ruang bawah casing dan skru dari luar. Pasang SSD M.2 NVMe terus ke slot motherboard dan skru penahan atau pasang SSD SATA 2.5\" ke drive bay.",
+      tip: "Pastikan kipas PSU menghala ke arah gril pengudaraan casing yang betul.",
+      safetyCheck: false
+    },
+    {
+      id: 7,
+      title: "Pemasangan Kad Grafik (GPU)",
+      action: "Pasang GPU ke Slot PCIe x16 Pertama",
+      desc: "Buka penutup slot PCIe di belakang casing. Buka klip slot PCIe x16 paling atas. Tekan GPU masuk sehingga terkunci rapat, skru bracket ke casing.",
+      tip: "Sentiasa gunakan slot PCIe teratas kerana ia mempunyai laluan terus (direct lanes) ke CPU.",
+      safetyCheck: false
+    },
+    {
+      id: 8,
+      title: "Penyambungan Kabel Kuasa & Front Panel",
+      action: "Sambung 24-Pin ATX, 8-Pin CPU, PCIe & Front Panel",
+      desc: "Sambungkan kabel kuasa 24-pin Motherboard, 8-pin CPU (EPS), PCIe GPU, serta pin Front Panel (Power SW, Reset SW, HDD LED, Audio, USB 3.0). Lakukan pengurusan kabel (cable management).",
+      tip: "Semak kekutuban (+ / -) pada pin LED casing agar lampu indikator berfungsi.",
+      safetyCheck: false
+    }
+  ];
+
+  const disassemblySteps = [
+    {
+      id: 1,
+      title: "Nyahcas Kuasa & Cabut Semua Kabel Luaran",
+      action: "Putuskan Bekalan Kuasa & Kosongkan Cas Kapasitor",
+      desc: "Tutup sistem sepenuhnya, matikan suis PSU, cabut kabel kuasa dari soket dinding, dan cabut semua kabel periferal (monitor, papan kekunci, tetikus). Tekan butang Power selama 5 saat untuk menghabiskan baki elektrik kapasitor.",
+      tip: "Kapasitor menyimpan cas elektrik berbahaya walaupun palam telah dicabut.",
+      safetyCheck: true
+    },
+    {
+      id: 2,
+      title: "Buka Panel Sisi Casing & Pembumian Statik",
+      action: "Buka Panel Tempered Glass & Pasang ESD Strap",
+      desc: "Buka skru panel sisi casing (tempered glass / logam) dan simpan dengan selamat. Pasang gelang tangan antistatik (ESD strap) pada kerangka logam casing.",
+      tip: "Elakkan meletakkan panel tempered glass di atas permukaan jubin seramik (tiles) kerana ia mudah retak.",
+      safetyCheck: true
+    },
+    {
+      id: 3,
+      title: "Cabut Kad Grafik (GPU) & Kad Sambungan PCIe",
+      action: "Tanggalkan Kabel PCIe & Buka Kunci Slot x16",
+      desc: "Tanggalkan kabel kuasa PCIe dari GPU. Buka skru bracket pada casing belakang, tekan klip penahan PCIe pada motherboard, dan tarik keluar GPU dengan cermat.",
+      tip: "Jangan tarik GPU secara paksa tanpa menekan klip PCIe pada motherboard terlebih dahulu.",
+      safetyCheck: false
+    },
+    {
+      id: 4,
+      title: "Cabut Kabel Kuasa PSU & Kabel Data SATA",
+      action: "Tanggalkan 24-Pin ATX, 8-Pin CPU & Front Panel",
+      desc: "Tanggalkan kabel utama 24-pin ATX, kabel 8-pin CPU, kabel kuasa SATA/Molex dan kabel penyambung front panel (Power Switch, USB, Audio).",
+      tip: "Picit tuil klip plastik pada kepala penyambung 24-pin sebelum menariknya keluar.",
+      safetyCheck: false
+    },
+    {
+      id: 5,
+      title: "Tanggalkan Pemacu Storan (HDD/SSD/M.2 NVMe)",
+      action: "Buka Skru M.2 NVMe atau Drive Bay SSD",
+      desc: "Buka skru kecil penahan pemacu M.2 NVMe SSD dari motherboard (ia akan melompat pada sudut 30 darjah) atau tanggalkan kabel SATA dan buka skru pemacu 2.5\"/3.5\".",
+      tip: "Gunakan pemutar skru bermagnet kecil agar skru halus M.2 tidak terjatuh ke dalam celah komponen.",
+      safetyCheck: false
+    },
+    {
+      id: 6,
+      title: "Tanggalkan Modul Memori RAM",
+      action: "Lepaskan Klip Slot DIMM & Angkat Modul",
+      desc: "Tekan klip penahan di kedua-dua hujung slot RAM ke bawah untuk melepaskan modul RAM secara automatik, kemudian pegang bahagian tepi modul untuk mengeluarkannya.",
+      tip: "Pegang hanya pada bahagian tepi PCB, elakkan menyentuh pin emas RAM.",
+      safetyCheck: false
+    },
+    {
+      id: 7,
+      title: "Buka Heatsink / CPU Cooler & Bersihkan Thermal Paste",
+      action: "Longgarkan Skru Bersilang & Bersihkan Sisa Pes",
+      desc: "Cabut kabel CPU_FAN. Longgarkan skru heatsink mengikut corak bersilang sedikit demi sedikit. Angkat heatsink dan bersihkan sisa thermal paste menggunakan alkohol isopropil (IPA 90%+).",
+      tip: "Putar sedikit heatsink ke kiri dan kanan sebelum mengangkatnya bagi melepaskan kesan lekatan pes lama.",
+      safetyCheck: false
+    },
+    {
+      id: 8,
+      title: "Keluarkan CPU & Buka Motherboard dari Casing",
+      action: "Angkat Tuil Soket & Buka Standoff Motherboard",
+      desc: "Buka tuil soket CPU dan angkat CPU dengan memegang tepinya sahaja. Letakkan CPU dalam bekas plastik antistatik. Buka semua skru standoffs motherboard dan keluarkan dari casing.",
+      tip: "Tutup semula pelindung soket plastik (CPU socket cover) pada motherboard untuk melindungi pin soket daripada bengkok.",
+      safetyCheck: true
+    }
+  ];
+
+  // --- DATA 5.3: METODOLOGI 6-LANGKAH TROUBLESHOOTING ---
+  const troubleshootingSteps = [
+    {
+      step: "a",
+      title: "1. Kenal Pasti Masalah (Identify the Problem)",
+      sub: "Langkah Awal Penemuan Gejala",
+      icon: Search,
+      color: "from-blue-500 to-cyan-500",
+      actions: [
+        "Tanya pengguna soalan terbuka & tertutup mengenai simptom yang berlaku.",
+        "Kenal pasti perubahan terkini pada sistem (cth: kemas kini OS, pemasangan perkakasan/perisian baru).",
+        "Periksa log sistem (Windows Event Viewer) dan kod ralat (Error codes/Beep codes).",
+        "Lakukan sandaran data (Backup) kritikal sebelum melakukan sebarang perubahan."
+      ],
+      proTip: "Sentiasa buat data backup terlebih dahulu bagi mengelakkan kehilangan data pelanggan semasa proses pembaikan!"
+    },
+    {
+      step: "b",
+      title: "2. Bina Teori Punca Berkemungkinan (Establish a Theory of Probable Cause)",
+      sub: "Analisis & Hipotesis Awal",
+      icon: Activity,
+      color: "from-purple-500 to-indigo-500",
+      actions: [
+        "Soal perkara paling asas/mudah dahulu ('Question the obvious' - cth: kabel longgar, suis tertutup).",
+        "Senaraikan semua punca yang munasabah daripada yang paling kerap berlaku hingga paling kompleks.",
+        "Pertimbangkan punca perkakasan, perisian, konfigurasi rangkaian, atau kesilapan manusia."
+      ],
+      proTip: "70% masalah perkakasan berpunca daripada sambungan kabel yang longgar atau habuk terkumpul."
+    },
+    {
+      step: "c",
+      title: "3. Uji Teori untuk Menentukan Punca Sebenar (Test the Theory)",
+      sub: "Pengasingan Pemboleh Ubah",
+      icon: Wrench,
+      color: "from-amber-500 to-orange-500",
+      actions: [
+        "Uji satu teori pada satu masa untuk mengasingkan punca sebenar (Isolate variables).",
+        "Jika teori disahkan: Teruskan ke langkah pelan tindakan.",
+        "Jika teori salah / tidak disahkan: Bentuk teori baru atau eskalsikan (escalate) masalah kepada jurutera kanan."
+      ],
+      proTip: "Jika anda menukar 3 perkara serentak dan sistem pulih, anda tidak akan tahu komponen mana yang sebenarnya rosak!"
+    },
+    {
+      step: "d",
+      title: "4. Bina Pelan Tindakan & Laksanakan Penyelesaian (Establish Plan & Implement)",
+      sub: "Pelaksanaan Pembaikan",
+      icon: Sliders,
+      color: "from-emerald-500 to-teal-500",
+      actions: [
+        "Rangka pelan tindakan yang teratur untuk meminimumkan gangguan terhadap pengguna/organisasi.",
+        "Kenal pasti potensi risiko sebelum melaksanakan perubahan.",
+        "Laksanakan pembaikan (cth: tukar RAM rosak, kemas kini pemacu pemproses, tetapkan IP statik/DHCP)."
+      ],
+      proTip: "Jika pembaikan melibatkan downtime pelayan organisasi, jadualkan semasa waktu luar operasi (maintenance window)."
+    },
+    {
+      step: "e",
+      title: "5. Sahkan Kefungsian Penuh & Laksana Langkah Pencegahan (Verify & Prevent)",
+      sub: "Pengesahan & Perlindungan Masa Hadapan",
+      icon: ShieldAlert,
+      color: "from-rose-500 to-pink-500",
+      actions: [
+        "Lakukan ujian menyeluruh (stress test, restart, ujian sambungan ping/internet) untuk memastikan masalah selesai sepenuhnya.",
+        "Minta pengguna menguji aplikasi dan mengesahkan bahawa operasi kembali normal.",
+        "Laksanakan langkah pencegahan (pasang surge protector, pasang antivirus berjadual, jadualkan pembersihan habuk)."
+      ],
+      proTip: "Penyelesaian terbaik bukan sekadar membaiki kerosakan hari ini, tetapi menghalang ia daripada berulang esok."
+    },
+    {
+      step: "f",
+      title: "6. Dokumentasikan Penemuan, Tindakan & Hasil (Document Findings & Outcomes)",
+      sub: "Merekod Rekod Perkhidmatan",
+      icon: FileText,
+      color: "from-violet-500 to-fuchsia-500",
+      actions: [
+        "Catatkan gejala asal masalah yang dilaporkan pengguna.",
+        "Rekodkan punca sebenar kerosakan yang disahkan.",
+        "Tulis langkah-langkah pembetulan dan komponen yang digantikan.",
+        "Simpan rekod dalam sistem pengurusan tiket IT untuk rujukan masa hadapan."
+      ],
+      proTip: "Dokumentasi yang lengkap membina Pangkalan Pengetahuan (Knowledge Base) yang mempercepatkan kerja pembaikan masa hadapan."
+    }
+  ];
+
+  // --- SENARIO SIMULATOR KES ---
+  const diagnosticScenarios = [
+    {
+      id: 0,
+      title: "Kes 1: PC Hidup (Kipas Berpusing) Tetapi Tiada Paparan (Black Screen & 3 Long Beeps)",
+      category: "Perkakasan (Hardware)",
+      difficulty: "Sederhana",
+      initialSymptom: "Pengguna menekan butang power, lampu LED menyala, kipas CPU berpusing laju, tetapi skrin monitor kekal hitam dan kedengaran 3 bunyi 'beep' panjang berulang.",
+      steps: [
+        {
+          stage: "a. Kenal Pasti Masalah",
+          prompt: "Apakah tindakan pertama yang anda patut lakukan untuk mengenal pasti masalah?",
+          options: [
+            { text: "Beli motherboard baru dengan serta-merta.", correct: false, feedback: "Salah! Jangan ganti komponen tanpa mendiagnosis punca sebenar." },
+            { text: "Tanya pengguna jika ada perubahan fizikal terkini dan semak maksud kod 3 bip panjang pada manual motherboard.", correct: true, feedback: "Tepat! 3 bip panjang biasanya menandakan ralat komunikasi memori RAM." },
+            { text: "Format semula pemacu Windows SSD.", correct: false, feedback: "Salah! Masalah berlaku pada fasa POST sebelum OS sempat dimuatkan." }
+          ]
+        },
+        {
+          stage: "b. Bina Teori Punca",
+          prompt: "Berdasarkan kod 3 bip panjang dan tiada paparan POST, apakah teori punca yang paling munasabah?",
+          options: [
+            { text: "Modul RAM longgar daripada slot, kotor berhabuk, atau cip RAM rosak.", correct: true, feedback: "Tepat! Kod 3 bip panjang adalah ralat pengesanan RAM oleh BIOS/UEFI." },
+            { text: "Kabel Internet Ethernet tercabut.", correct: false, feedback: "Tidak tepat! Rangkaian tidak menyebabkan kegagalan POST sistem." },
+            { text: "Kekunci papan kekunci tersangkut.", correct: false, feedback: "Salah! Bip berterusan pendek mungkin untuk keyboard, bukan 3 bip panjang." }
+          ]
+        },
+        {
+          stage: "c. Uji Teori",
+          prompt: "Bagaimanakah anda menguji teori kerosakan RAM secara berkesan?",
+          options: [
+            { text: "Keluarkan semua modul RAM, bersihkan pin emas dengan pemadam/alkohol, dan uji satu batang RAM pada satu slot pada satu masa.", correct: true, feedback: "Cemerlang! Kaedah pengasingan modul menentukan sama ada slot atau batang RAM yang bermasalah." },
+            { text: "Tukar bekalan kuasa 1000W baru terus.", correct: false, feedback: "Salah! Ini tidak menguji teori kerosakan RAM." },
+            { text: "Ketuk casing komputer dengan pemutar skru.", correct: false, feedback: "Bahaya! Boleh menyebabkan litar pintas atau kerosakan mekanikal." }
+          ]
+        },
+        {
+          stage: "d. Pelan & Laksana Penyelesaian",
+          prompt: "Hasil ujian mendapati 1 daripada 2 batang RAM telah rosak. Apakah pelan tindakan seterusnya?",
+          options: [
+            { text: "Gantikan modul RAM yang rosak dengan RAM baru yang serasi (kelajuan & voltan sama) pada slot Dual-Channel.", correct: true, feedback: "Tepat! Penggantian dengan spesifikasi sepadan memastikan kestabilan sistem." },
+            { text: "Tinggalkan slot kosong tanpa memasang sebarang RAM.", correct: false, feedback: "Komputer tidak boleh beroperasi tanpa RAM!" },
+            { text: "Sapukan minyak pelincir ke dalam slot RAM.", correct: false, feedback: "Bahaya besar! Boleh menyebabkan litar pintas kekal." }
+          ]
+        },
+        {
+          stage: "e. Sahkan Kefungsian & Langkah Pencegahan",
+          prompt: "Bagaimanakah anda mengesahkan sistem pulih sepenuhnya dan mencegah isu berulang?",
+          options: [
+            { text: "Hidupkan PC, jalankan ujian memori (Windows Memory Diagnostic / MemTest86) selama 30 minit dan pasang penapis habuk casing.", correct: true, feedback: "Hebat! Ujian kestabilan membuktikan sistem bebas ralat dan penapis habuk mengelakkan kotoran pada pin." },
+            { text: "Tutup suis terus selepas Windows mula loading.", correct: false, feedback: "Salah! Ini tidak membuktikan kestabilan memori." }
+          ]
+        },
+        {
+          stage: "f. Dokumentasikan Hasil",
+          prompt: "Apakah maklumat yang wajib dimasukkan ke dalam tiket pembaikan IT?",
+          options: [
+            { text: "Simptom: 3 Bip POST Tiada Paparan -> Punca: RAM Stick #2 Rosak -> Tindakan: Ganti RAM DDR4 8GB 3200MHz -> Status: Selesai & MemTest Lulus.", correct: true, feedback: "Sempurna! Rekod ini lengkap dan bernilai tinggi untuk rujukan servis akan datang." },
+            { text: "Tulis 'Komputer sudah boleh hidup' sahaja.", correct: false, feedback: "Dokumentasi terlalu ringkas dan tidak membantu analisis masa depan." }
+          ]
+        }
+      ]
+    },
+    {
+      id: 1,
+      title: "Kes 2: Tiada Sambungan Internet (IP APIPA 169.254.x.x & Ikon 'No Internet')",
+      category: "Rangkaian (Networking)",
+      difficulty: "Sederhana",
+      initialSymptom: "Komputer pejabat di sebuah agensi tiba-tiba kehilangan sambungan intranet dan internet. Ikon rangkaian memaparkan tanda seru kuning, dan arahan 'ipconfig' menunjukkan IP Address: 169.254.45.12.",
+      steps: [
+        {
+          stage: "a. Kenal Pasti Masalah",
+          prompt: "Apakah maksud alamat IP 169.254.x.x yang dikesan melalui arahan 'ipconfig'?",
+          options: [
+            { text: "Alamat IP Awam (Public IP) yang laju daripada ISP.", correct: false, feedback: "Salah! 169.254.x.x ialah julat Automatic Private IP Addressing (APIPA)." },
+            { text: "APIPA - Komputer gagal menerima konfigurasi IP secara automatik daripada Pelayan DHCP.", correct: true, feedback: "Tepat! Apabila DHCP server gagal dihubungi, OS Windows akan menetapkan IP APIPA sendiri." },
+            { text: "Komputer telah dijangkiti ransomware yang menyekat kad rangkaian.", correct: false, feedback: "Tidak tepat! Ini adalah tingkah laku standard TCP/IP apabila tiada DHCP response." }
+          ]
+        },
+        {
+          stage: "b. Bina Teori Punca",
+          prompt: "Apakah teori punca kemungkinan utama bagi kegagalan mendapatkan IP daripada DHCP?",
+          options: [
+            { text: "Kabel Ethernet rosak/longgar, port switch bermasalah, atau DHCP Server / Router mengalami gangguan servis.", correct: true, feedback: "Tepat! Laluan fizikal atau pelayan peruntukan IP adalah suspek utama." },
+            { text: "Monitor kekurangan kecerahan (brightness).", correct: false, feedback: "Tidak logik! Tiada kaitan dengan rangkaian." },
+            { text: "Kipas pemproses CPU berputar terlalu perlahan.", correct: false, feedback: "Salah! Isu perkakasan terma tidak menjejaskan peruntukan IP." }
+          ]
+        },
+        {
+          stage: "c. Uji Teori",
+          prompt: "Bagaimanakah langkah ujian pantas untuk mengasingkan punca kabel vs switch/DHCP?",
+          options: [
+            { text: "Periksa lampu LED 'Link/Activity' pada port RJ45, uji kabel dengan Cable Tester, dan jalankan arahan 'ipconfig /release' serta 'ipconfig /renew'.", correct: true, feedback: "Cemerlang! Lampu LED dan pembaharuan sewaan DHCP adalah kaedah diagnosis pantas." },
+            { text: "Tukar semua komputer dalam bangunan pejabat secara serentak.", correct: false, feedback: "Membazir kos dan tidak praktikal!" }
+          ]
+        },
+        {
+          stage: "d. Pelan & Laksana Penyelesaian",
+          prompt: "Ujian mendapati klip penyambung RJ-45 pada kabel Cat6 patah dan pin tembaga bengkok. Apakah tindakan penyelesaian?",
+          options: [
+            { text: "Potong hujung kabel dan 'crimp' kepala penyambung RJ-45 Cat6 yang baru mengikut piawaian T568B atau gantikan dengan Patch Cord baru.", correct: true, feedback: "Tepat sekali! Penyambungan RJ-45 baharu mengembalikan sambungan fizikal yang kukuh." },
+            { text: "Lekatkan penyambung yang patah dengan pita pelekat biasa.", correct: false, feedback: "Penyelesaian sementara yang berisiko tinggi terputus semula." }
+          ]
+        },
+        {
+          stage: "e. Sahkan Kefungsian & Langkah Pencegahan",
+          prompt: "Bagaimanakah anda mengesahkan pembaikan sambungan internet berjaya?",
+          options: [
+            { text: "Semak semula 'ipconfig' (dapat IP sah cth: 192.168.1.55), ping Default Gateway, ping 8.8.8.8, ping google.com, dan pasang 'Cable Boot' pelindung klip.", correct: true, feedback: "Sangat sistematik! Ujian Ping berperingkat (Gateway -> Public IP -> DNS) memastikan rangkaian sempurna." },
+            { text: "Buka perisian Paint dan lukis gambar komputer.", correct: false, feedback: "Tiada kaitan dengan pengesahan rangkaian!" }
+          ]
+        },
+        {
+          stage: "f. Dokumentasikan Hasil",
+          prompt: "Lengkapkan dokumentasi tiket rangkaian:",
+          options: [
+            { text: "Simptom: IP APIPA 169.254.x.x Tiada Rangkaian -> Punca: Kepala RJ45 Patah -> Tindakan: Rekod crimping RJ-45 baru T568B -> Status: IP DHCP 192.168.1.55 didapati, Gateway Ping 1ms.", correct: true, feedback: "Tahniah! Dokumentasi profesional lengkap." },
+            { text: "Tulis 'Kabel sudah okey'.", correct: false, feedback: "Maklumat tidak mencukupi untuk audit IT." }
+          ]
+        }
+      ]
+    },
+    {
+      id: 2,
+      title: "Kes 3: Komputer Terpadam Sendiri (Thermal Throttling & Overheating Shutdown)",
+      category: "Perkakasan & Penyejukan",
+      difficulty: "Mencabar",
+      initialSymptom: "PC pemain e-sukan padam secara tiba-tiba setiap kali membuka permainan grafik tinggi selepas 10 minit. Tiada skrin biru (BSOD), tetapi casing terasa sangat panas dan kipas berbunyi seperti enjin jet.",
+      steps: [
+        {
+          stage: "a. Kenal Pasti Masalah",
+          prompt: "Apakah langkah awal untuk memeriksa punca PC terpadam secara mendadak semasa beban kerja tinggi?",
+          options: [
+            { text: "Semak suhu CPU dan GPU dalam BIOS/UEFI atau menggunakan perisian pemantau suhu perkakasan (HWMonitor/CoreTemp).", correct: true, feedback: "Tepat! Memeriksa suhu teras membolehkan kita mengesan thermal shutdown." },
+            { text: "Nyahpasang (uninstall) kad bunyi luaran.", correct: false, feedback: "Salah! Tiada kaitan dengan masalah suhu." }
+          ]
+        },
+        {
+          stage: "b. Bina Teori Punca",
+          prompt: "Suhu CPU mencecah 100°C sebelum PC terpadam. Apakah punca utama suhu melampau ini?",
+          options: [
+            { text: "Thermal paste antara CPU dan heatsink telah kering/mengeras atau heatsink tersumbat dengan gumpalan habuk tebal.", correct: true, feedback: "Tepat! Pengaliran haba terhalang menyebabkan mekanisme perlindungan thermal trip mematikan PC." },
+            { text: "Resolusi skrin monitor terlalu tajam.", correct: false, feedback: "Salah! Monitor tidak menyebabkan CPU panas melampau." }
+          ]
+        },
+        {
+          stage: "c. Uji Teori",
+          prompt: "Bagaimanakah anda mengesahkan teori kerosakan sistem penyejukan?",
+          options: [
+            { text: "Buka panel sisi, periksa heatsink dan mendapati sirip aluminium dipenuhi habuk tebal serta pes terma telah merekah menjadi serbuk kering.", correct: true, feedback: "Cemerlang! Pemeriksaan visual mengesahkan kehilangan keupayaan penyejukan." },
+            { text: "Biarkan PC di dalam peti sejuk semalaman.", correct: false, feedback: "Bahaya! Pemeluwapan air (condensation) akan merosakkan litar elektrik elektronik." }
+          ]
+        },
+        {
+          stage: "d. Pelan & Laksana Penyelesaian",
+          prompt: "Apakah langkah pembaikan terma yang betul?",
+          options: [
+            { text: "Bersihkan sisa pes lama dengan Isopropyl Alcohol (IPA), hembus habuk heatsink/kipas dengan Compressed Air, dan sapukan Thermal Paste berkualiti baru secara sekata.", correct: true, feedback: "Tepat sekali! Ini memulihkan konduksi haba yang optimum antara CPU dan heatsink." },
+            { text: "Sapu ubat gigi atau mentega di atas CPU.", correct: false, feedback: "Mitos berbahaya! Bahan domestik akan terbakar dan merosakkan cip." }
+          ]
+        },
+        {
+          stage: "e. Sahkan Kefungsian & Langkah Pencegahan",
+          prompt: "Bagaimanakah mengesahkan suhu stabil dan mencegah pemanasan melampau pada masa hadapan?",
+          options: [
+            { text: "Jalankan CPU Stress Test (Prime95/Cinebench) selama 15 minit (suhu kekal <75°C) dan tetapkan jadual pembersihan habuk setiap 6 bulan.", correct: true, feedback: "Sangat baik! Ujian stres membuktikan pengaliran haba berfungsi dengan cemerlang." },
+            { text: "Tanggalkan semua kipas casing untuk jimat elektrik.", correct: false, feedback: "Salah! Mengurangkan aliran udara akan memburukkan keadaan." }
+          ]
+        },
+        {
+          stage: "f. Dokumentasikan Hasil",
+          prompt: "Lengkapkan laporan perkhidmatan:",
+          options: [
+            { text: "Gejala: Terpadam Suhu 100°C -> Punca: Thermal Paste Kering & Debu Tebal -> Tindakan: Repaste Arctic MX-4 & Deep Cleaning -> Hasil: Suhu Idle 38°C, Max Load 72°C.", correct: true, feedback: "Dokumentasi teknikal yang sangat profesional dan bernilai!" },
+            { text: "Tulis 'Selesai buang habuk'.", correct: false, feedback: "Terlalu ringkas dan tiada data suhu untuk verifikasi." }
+          ]
+        }
+      ]
+    }
+  ];
+
+  // --- SOALAN KUIZ PENILAIAN ---
+  const quizQuestions = [
+    {
+      q: "1. Apakah definisi yang paling tepat bagi Teknologi Komunikasi Rangkaian (5.1.1)?",
+      options: [
+        "Sistem perisian yang hanya berfungsi untuk mengedit video dan muzik secara luar talian.",
+        "Pemindahan data, arahan, dan maklumat antara dua atau lebih komputer atau peranti melalui media penghantaran.",
+        "Proses memasang komponen fizikal CPU ke dalam casing komputer sahaja.",
+        "Kaedah mengformat pemacu cakera keras kepada fail sistem NTFS."
+      ],
+      answer: 1,
+      explanation: "Komunikasi rangkaian merangkumi pemindahan data dan maklumat merentasi peranti menggunakan media berpandu atau tanpa wayar."
+    },
+    {
+      q: "2. Antara berikut, yang manakah BUKAN kepentingan komunikasi rangkaian dalam perkomputeran moden (5.1.2)?",
+      options: [
+        "Perkongsian sumber perkakasan seperti pencetak rangkaian dan storan NAS.",
+        "Membolehkan kolaborasi dan komunikasi masa nyata melalui e-mel dan persidangan video.",
+        "Memastikan komputer beroperasi tanpa memerlukan sebarang bekalan elektrik.",
+        "Pemusatan pengurusan data dan sokongan sistem sandaran (cloud backup) automatik."
+      ],
+      answer: 2,
+      explanation: "Komputer dan peranti rangkaian tetap memerlukan bekalan kuasa elektrik untuk beroperasi."
+    },
+    {
+      q: "3. Manakah antara ciri berikut merupakan kelebihan utama kabel Gentian Optik (Fiber Optic) berbanding kabel UTP (5.1.3)?",
+      options: [
+        "Lebih murah dan sangat mudah dibengkokkan pada sudut 90 darjah.",
+        "Kadar kelajuan data sangat tinggi, jarak penghantaran sangat jauh dan kebal daripada gangguan elektromagnet (EMI).",
+        "Menggunakan gelombang radio 2.4 GHz tanpa memerlukan sebarang wayar fizikal.",
+        "Boleh terus dicucuk ke slot USB tanpa sebarang penukar media atau transceiver."
+      ],
+      answer: 1,
+      explanation: "Kabel Fiber Optic menghantar isyarat dalam bentuk denyutan cahaya melalui teras kaca, menjadikannya kebal kepada gangguan EMI dan mampu mencapai kelajuan gigabit merentas jarak jauh."
+    },
+    {
+      q: "4. Sebelum memegang komponen sensitif seperti CPU dan RAM, apakah langkah keselamatan ESD yang wajib diamalkan (5.2.1)?",
+      options: [
+        "Basuh tangan dengan air sabun dan pegang komponen semasa tangan masih basah.",
+        "Pakai gelang tangan antistatik (ESD wrist strap) dan sentuh kerangka logam casing unpainted untuk pembumian cas.",
+        "Gunakan sarung tangan bulu tebal untuk mengelap pin mikrocip.",
+        "Pastikan kabel kuasa komputer masih terpasang pada soket dinding yang hidup."
+      ],
+      answer: 1,
+      explanation: "Pelepasan Elektrostatik (ESD) boleh merosakkan cip semikonduktor. Gelang antistatik membuang cas statik badan ke bumi dengan selamat."
+    },
+    {
+      q: "5. Mengapakah Thermal Paste (pes terma) perlu disapu nipis di antara bahagian atas CPU dan heatsink semasa pemasangan (5.2.1)?",
+      options: [
+        "Untuk melekatkan heatsink secara kekal supaya tidak boleh dibuka lagi.",
+        "Untuk mengisi jurang udara mikroskopik antara permukaan CPU dan heatsink bagi memaksimumkan pemindahan haba.",
+        "Sebagai bahan penebat elektrik agar haba tidak mengalir ke heatsink.",
+        "Untuk menaikkan suhu CPU supaya mencapai tahap operasi maksimum."
+      ],
+      answer: 1,
+      explanation: "Udara adalah konduktor haba yang lemah. Thermal paste mengisi ketaksempurnaan mikroskopik pada permukaan logam untuk melancarkan konduksi haba ke penyejuk."
+    },
+    {
+      q: "6. Dalam proses penyahpasangan (disassembly), langkah manakah yang perlu dilakukan PALING AWAL (5.2.1)?",
+      options: [
+        "Mencabut heatsink CPU dari motherboard.",
+        "Membuka semua skru motherboard dari casing.",
+        "Mematikan suis bekalan kuasa (PSU), mencabut kabel kuasa dari soket dinding, dan menekan butang Power untuk menyahcas kapasitor.",
+        "Menanggalkan modul RAM dan kad grafik PCIe."
+      ],
+      answer: 2,
+      explanation: "Keselamatan elektrik adalah keutamaan nombor satu. Bekalan kuasa mesti dimatikan dan baki cas dalam kapasitor dinyahcas sebelum sebarang komponen disentuh."
+    },
+    {
+      q: "7. Semasa langkah pertama dalam Metodologi Troubleshooting (Identify the problem), apakah tindakan penting sebelum membuat perubahan pada sistem (5.3.1)?",
+      options: [
+        "Menghapuskan semua akaun pengguna dalam komputer.",
+        "Membuat sandaran data (Data Backup) yang kritikal.",
+        "Membeli komponen perkakasan yang paling mahal.",
+        "Menyembur air pada bekalan kuasa untuk mengelakkan kepanasan."
+      ],
+      answer: 1,
+      explanation: "Melakukan backup data kritikal melindungi hak dan maklumat pelanggan sekiranya berlaku kegagalan sistem semasa proses pembaikan."
+    },
+    {
+      q: "8. Dalam metodologi troubleshooting, apakah yang perlu dilakukan jika teori punca yang diuji didapati TIDAK BENAR (5.3.1 - Test the theory)?",
+      options: [
+        "Terus menutup kes dan memberitahu pelanggan komputer tidak boleh dibaiki.",
+        "Membina teori punca kemungkinan yang baharu atau mengeskalasikan isu kepada jurutera yang lebih pakar.",
+        "Menukar semua tetapan Windows secara rawak.",
+        "Membuang casing komputer ke dalam tong sampah."
+      ],
+      answer: 1,
+      explanation: "Jika teori gagal disahkan, juruteknik mesti berundur satu langkah untuk membentuk hipotesis baharu berdasarkan pemerhatian atau merujuk pakar kanan (escalation)."
+    },
+    {
+      q: "9. Mengapakah langkah 'Verify full system functionality & implement preventive measures' sangat penting (5.3.1)?",
+      options: [
+        "Untuk memastikan masalah asal telah diselesaikan sepenuhnya dan mengambil langkah agar kerosakan tidak berulang.",
+        "Hanya untuk melengahkan masa sebelum menyerahkan PC kepada pemilik.",
+        "Supaya juruteknik boleh bermain permainan video pada PC pengguna.",
+        "Untuk memadamkan rekod sistem operasi Windows."
+      ],
+      answer: 0,
+      explanation: "Pengesahan fungsi penuh memastikan kepuasan pengguna manakala langkah pencegahan (seperti surge protector & antivirus) melindungi sistem jangka panjang."
+    },
+    {
+      q: "10. Apakah tujuan utama mendokumentasikan penemuan, tindakan, dan hasil (Document findings, actions, and outcome) dalam tiket IT (5.3.1)?",
+      options: [
+        "Menghukum pengguna atas kesilapan yang mereka lakukan.",
+        "Membina pangkalan pengetahuan (Knowledge Base) rasmi untuk mempercepatkan penyelesaian masalah serupa pada masa hadapan.",
+        "Untuk menyembunyikan punca kerosakan daripada pihak pengurusan.",
+        "Menghabiskan ruang storan cakera keras pelayan syarikat."
+      ],
+      answer: 1,
+      explanation: "Dokumentasi mencipta arkib penyelesaian teknikal yang memudahkan rujukan silang, latihan kakitangan baharu, dan audit kualiti perkhidmatan IT."
+    }
+  ];
+
+  const currentStepsList = assemblyMode === 'assembly' ? assemblySteps : disassemblySteps;
+
+  const triggerPacketSim = () => {
+    setPacketTransmitting(true);
+    setTimeout(() => {
+      setPacketTransmitting(false);
+    }, 2500);
+  };
+
+  const handleAssemblySelect = (stepId) => {
+    if (stepId <= currentStepsList.length) {
+      if (!completedAssembly.includes(stepId)) {
+        setCompletedAssembly([...completedAssembly, stepId]);
+      }
+      setCurrentAssemblyStep(stepId - 1);
+      setIsAnimationPlaying(true);
+    }
+  };
+
+  const resetAssembly = () => {
+    setCurrentAssemblyStep(0);
+    setCompletedAssembly([]);
+    setIsAnimationPlaying(true);
+  };
+
+  const handleScenarioChoice = (option) => {
+    const currentCase = diagnosticScenarios[selectedCase];
+    const currentStage = currentCase.steps[scenarioStep];
+
+    const logEntry = {
+      stage: currentStage.stage,
+      selected: option.text,
+      isCorrect: option.correct,
+      feedback: option.feedback
+    };
+
+    setScenarioLog([...scenarioLog, logEntry]);
+
+    if (option.correct) {
+      if (scenarioStep + 1 < currentCase.steps.length) {
+        setScenarioStep(scenarioStep + 1);
+      } else {
+        setCaseCompleted(true);
+      }
+    }
+  };
+
+  const resetScenario = (caseIdx) => {
+    setSelectedCase(caseIdx);
+    setScenarioStep(0);
+    setScenarioLog([]);
+    setCaseCompleted(false);
+  };
+
+  const handleQuizAnswer = (index) => {
+    if (isAnswerSubmitted) return;
+    setSelectedAnswer(index);
+  };
+
+  const submitQuizAnswer = () => {
+    if (selectedAnswer === null) return;
+    setIsAnswerSubmitted(true);
+    if (selectedAnswer === quizQuestions[quizIndex].answer) {
+      setQuizScore(quizScore + 10);
+    }
+  };
+
+  const nextQuizQuestion = () => {
+    setSelectedAnswer(null);
+    setIsAnswerSubmitted(false);
+    if (quizIndex + 1 < quizQuestions.length) {
+      setQuizIndex(quizIndex + 1);
+    }
+  };
+
+  const resetQuiz = () => {
+    setQuizIndex(0);
+    setSelectedAnswer(null);
+    setIsAnswerSubmitted(false);
+    setQuizScore(0);
+  };
+
+  const glossaryList = [
+    { term: "APIPA (169.254.x.x)", cat: "Network", desc: "Automatic Private IP Addressing. Ditetapkan oleh Windows secara automatik apabila gagal menerima IP daripada Pelayan DHCP." },
+    { term: "POST (Power-On Self-Test)", cat: "Hardware", desc: "Ujian diagnostik perkakasan awal yang dijalankan oleh BIOS/UEFI sejurus komputer dihidupkan sebelum memuatkan OS." },
+    { term: "ESD (Electrostatic Discharge)", cat: "Safety", desc: "Pelepasan elektrik statik secara tiba-tiba antara dua objek yang boleh memusnahkan mikrocip semikonduktor." },
+    { term: "Thermal Throttling", cat: "Hardware", desc: "Mekanisme keselamatan di mana CPU/GPU menurunkan kelajuan clock secara automatik apabila suhu melepasi ambang selamat (>95°C)." },
+    { term: "Cat6 UTP Cable", cat: "Network", desc: "Kabel pasangan berpilin tanpa perisai yang menyokong kelajuan gigabit sehingga 10 Gbps (pada jarak terhad) dengan frekuensi 250 MHz." },
+    { term: "Fiber Optic", cat: "Network", desc: "Media transmisi berpandu yang menghantar data menggunakan denyutan cahaya melalui gentian kaca silika dengan imuniti penuh terhadap EMI." },
+    { term: "CompTIA 6-Step Methodology", cat: "Troubleshooting", desc: "Rangka kerja industri berstandard untuk menyelesaikan isu IT secara sistematik dari kenal pasti hingga dokumentasi." },
+    { term: "Default Gateway", cat: "Network", desc: "Alamat IP router tempatan yang bertindak sebagai pintu keluar masuk trafik dari rangkaian LAN ke rangkaian WAN / Internet." },
+    { term: "BSOD (Blue Screen of Death)", cat: "Software/Hardware", desc: "Skrin ralat kritikal (Stop Error) pada sistem Windows yang menandakan kegagalan kernel pemacu atau kerosakan perkakasan teruk." },
+    { term: "Dual-Channel RAM", cat: "Hardware", desc: "Teknologi pengawal memori yang menggandakan lebar jalur (bandwidth) data antara CPU dan RAM dengan menggunakan dua saluran memori serentak." }
+  ];
+
+  const filteredGlossary = glossaryList.filter(item =>
+    item.term.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.cat.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased selection:bg-indigo-500 selection:text-white pb-16">
+      {/* Pengepala Utama (Header) */}
+      <header className="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-3">
+          <div className="flex items-center space-x-3">
+            <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-600 to-cyan-400 p-0.5 shadow-lg shadow-indigo-500/20 flex items-center justify-center">
+              <div className="h-full w-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+                <Wrench className="h-5 w-5 text-cyan-400" />
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-indigo-300 font-medium">Topik 5.1, 5.2 & 5.3</span>
+              </div>
+              <h1 className="text-lg sm:text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                Hardware, Software & Networking Troubleshooting Hub
+              </h1>
+            </div>
+          </div>
+        </div>
+
+        {/* Tab Navigasi Utama */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <nav className="flex space-x-1 sm:space-x-2 overflow-x-auto py-2 scrollbar-thin scrollbar-thumb-slate-700">
+            <button
+              onClick={() => setActiveTab('5.1')}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-all ${
+                activeTab === '5.1'
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800'
+              }`}
+            >
+              <Globe className="w-4 h-4" />
+              <span>5.1 Komunikasi Rangkaian</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('5.2')}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-all ${
+                activeTab === '5.2'
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800'
+              }`}
+            >
+              <Cpu className="w-4 h-4" />
+              <span>5.2 Pemasangan PC (Animasi Hardware)</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('5.3')}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-all ${
+                activeTab === '5.3'
+                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800'
+              }`}
+            >
+              <Sliders className="w-4 h-4" />
+              <span>5.3 Metodologi Troubleshooting</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('scenarios')}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-all ${
+                activeTab === 'scenarios'
+                  ? 'bg-amber-600 text-white shadow-md shadow-amber-600/30'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800'
+              }`}
+            >
+              <Activity className="w-4 h-4" />
+              <span>Simulator Kes Sebenar</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('quiz')}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-all ${
+                activeTab === 'quiz'
+                  ? 'bg-purple-600 text-white shadow-md shadow-purple-600/30'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800'
+              }`}
+            >
+              <Award className="w-4 h-4" />
+              <span>Kuiz Interaktif</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('glossary')}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-all ${
+                activeTab === 'glossary'
+                  ? 'bg-cyan-600 text-white shadow-md shadow-cyan-600/30'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800'
+              }`}
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>Glosari & Rujukan</span>
+            </button>
+          </nav>
+        </div>
+      </header>
+
+      {/* Kawasan Kandungan Utama */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+
+        {/* ========================================================================= */}
+        {/* TAB 5.1: TEKNOLOGI KOMUNIKASI RANGKAIAN */}
+        {/* ========================================================================= */}
+        {activeTab === '5.1' && (
+          <div className="space-y-6 animate-fadeIn">
+            <div className="bg-gradient-to-r from-slate-900 via-indigo-950/50 to-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl">
+              <div className="flex flex-wrap items-center gap-2 mb-2">
+                <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                  Subtopik 5.1
+                </span>
+                <span className="text-xs text-slate-400">Explain Network Communication Technology</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Teknologi Komunikasi Rangkaian
+              </h2>
+              <p className="mt-2 text-slate-300 text-sm sm:text-base max-w-4xl">
+                Memahami konsep asas penghantaran data, kepentingannya dalam infrastruktur digital moden, serta perbandingan mendalam antara rangkaian Internet, Berwayar (Wired), dan Tanpa Wayar (Wireless).
+              </p>
+            </div>
+
+            {/* Grid Kad 5.1.1 & 5.1.2 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* 5.1.1 Definisi */}
+              <div className="bg-slate-900/90 border border-slate-800 hover:border-indigo-500/50 transition rounded-2xl p-5 shadow-lg flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-mono font-semibold text-indigo-400 bg-indigo-950/60 px-2.5 py-1 rounded border border-indigo-800/60">
+                      Standard 5.1.1
+                    </span>
+                    <Radio className="w-5 h-5 text-indigo-400" />
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-2">Definisi Komunikasi Rangkaian</h3>
+                  <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-300 text-sm leading-relaxed mb-4">
+                    <p className="font-medium text-indigo-200">
+                      "Teknologi komunikasi rangkaian ialah satu sistem bersepadu perkakasan, perisian, dan protokol yang membolehkan pemindahan data, maklumat, fail, dan arahan antara dua atau lebih komputer atau peranti berautonomi merentasi medium transmisi fizikal atau gelombang elektromagnet."
+                    </p>
+                  </div>
+                  <div className="space-y-2 text-xs text-slate-400">
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                      <span><strong>Penghantar (Sender):</strong> Menjana mesej/data (cth: PC, Telefon Pintar).</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                      <span><strong>Medium (Channel):</strong> Laluan fizikal (Kabel Cat6, Fiber) atau tanpa wayar (Radio RF).</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                      <span><strong>Penerima (Receiver):</strong> Memproses dan mentafsir data (cth: Pelayan, Printer, Cloud).</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                      <span><strong>Protokol:</strong> Peraturan standard komunikasi (cth: TCP/IP, HTTP/S, DNS).</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 5.1.2 Kepentingan */}
+              <div className="bg-slate-900/90 border border-slate-800 hover:border-blue-500/50 transition rounded-2xl p-5 shadow-lg flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-mono font-semibold text-blue-400 bg-blue-950/60 px-2.5 py-1 rounded border border-blue-800/60">
+                      Standard 5.1.2
+                    </span>
+                    <Server className="w-5 h-5 text-blue-400" />
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-2">Kepentingan dalam Perkomputeran Moden</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-slate-700 transition">
+                      <div className="flex items-center gap-2 text-blue-300 font-semibold mb-1">
+                        <Database className="w-4 h-4" />
+                        <span>Perkongsian Sumber</span>
+                      </div>
+                      <p className="text-slate-400">Berkongsi perkakasan mahal (Printers, NAS storage) dan lesen perisian serentak tanpa perlu peranti fizikal tambahan.</p>
+                    </div>
+
+                    <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-slate-700 transition">
+                      <div className="flex items-center gap-2 text-cyan-300 font-semibold mb-1">
+                        <Zap className="w-4 h-4" />
+                        <span>Komunikasi Masa Nyata</span>
+                      </div>
+                      <p className="text-slate-400">Menyokong VoIP, persidangan video HD, e-mel dan platform kolaborasi awan (Teams, Slack, Google Workspace).</p>
+                    </div>
+
+                    <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-slate-700 transition">
+                      <div className="flex items-center gap-2 text-emerald-300 font-semibold mb-1">
+                        <Lock className="w-4 h-4" />
+                        <span>Pemusatan & Sandaran Data</span>
+                      </div>
+                      <p className="text-slate-400">Data disimpan dalam pelayan berpusat memudahkan kawalan keselamatan, sandaran berjadual, dan kawalan akses pengguna.</p>
+                    </div>
+
+                    <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-slate-700 transition">
+                      <div className="flex items-center gap-2 text-amber-300 font-semibold mb-1">
+                        <Globe className="w-4 h-4" />
+                        <span>Kebolehcapaian Global & IoT</span>
+                      </div>
+                      <p className="text-slate-400">Membolehkan kerja jarak jauh (Remote Work), e-dagang 24/7 dan penyelarasan ribuan penderia IoT pintar.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 5.1.3 Jenis Teknologi Komunikasi Rangkaian */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-800">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-mono font-semibold text-emerald-400 bg-emerald-950/60 px-2.5 py-1 rounded border border-emerald-800/60">
+                      Standard 5.1.3
+                    </span>
+                    <h3 className="text-xl font-bold text-white">Jenis Teknologi Komunikasi Rangkaian</h3>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                    Eksplorasi interaktif: Pilih jenis teknologi untuk melihat spesifikasi fizikal, kelebihan, dan simulasi penghantaran paket data.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 bg-slate-950 p-1 rounded-xl border border-slate-800">
+                  <button
+                    onClick={() => setNetworkType('internet')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+                      networkType === 'internet'
+                        ? 'bg-indigo-600 text-white shadow'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    <Globe className="w-3.5 h-3.5" />
+                    <span>a. Internet</span>
+                  </button>
+
+                  <button
+                    onClick={() => setNetworkType('wired')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+                      networkType === 'wired'
+                        ? 'bg-blue-600 text-white shadow'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    <Cable className="w-3.5 h-3.5" />
+                    <span>b. Berwayar (Wired)</span>
+                  </button>
+
+                  <button
+                    onClick={() => setNetworkType('wireless')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+                      networkType === 'wireless'
+                        ? 'bg-emerald-600 text-white shadow'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    <Wifi className="w-3.5 h-3.5" />
+                    <span>c. Tanpa Wayar (Wireless)</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Panel Maklumat Rangkaian */}
+              <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <div className="lg:col-span-7 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-lg font-bold text-white flex items-center gap-2">
+                      {networkTypesData[networkType].title}
+                    </h4>
+                    <span className="text-xs px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+                      {networkTypesData[networkType].badge}
+                    </span>
+                  </div>
+
+                  <p className="text-sm text-slate-300 leading-relaxed bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
+                    {networkTypesData[networkType].desc}
+                  </p>
+
+                  <div className="grid grid-cols-3 gap-3 text-xs">
+                    <div className="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                      <span className="text-slate-500 block mb-1">Kelajuan Tipikal</span>
+                      <span className="font-bold text-emerald-400">{networkTypesData[networkType].speed}</span>
+                    </div>
+                    <div className="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                      <span className="text-slate-500 block mb-1">Jarak / Liputan</span>
+                      <span className="font-bold text-blue-400">{networkTypesData[networkType].range}</span>
+                    </div>
+                    <div className="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                      <span className="text-slate-500 block mb-1">Medium Fizikal</span>
+                      <span className="font-bold text-indigo-400 truncate block">{networkTypesData[networkType].medium}</span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs pt-2">
+                    <div className="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-900/40">
+                      <h5 className="font-bold text-emerald-400 flex items-center gap-1.5 mb-2">
+                        <CheckCircle2 className="w-4 h-4" /> Kelebihan Utama
+                      </h5>
+                      <ul className="space-y-1.5 text-slate-300">
+                        {networkTypesData[networkType].advantages.map((adv, idx) => (
+                          <li key={idx} className="flex items-start gap-1.5">
+                            <span className="text-emerald-500 font-bold">•</span>
+                            <span>{adv}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-rose-950/20 border border-rose-900/40">
+                      <h5 className="font-bold text-rose-400 flex items-center gap-1.5 mb-2">
+                        <AlertTriangle className="w-4 h-4" /> Had & Kekurangan
+                      </h5>
+                      <ul className="space-y-1.5 text-slate-300">
+                        {networkTypesData[networkType].disadvantages.map((dis, idx) => (
+                          <li key={idx} className="flex items-start gap-1.5">
+                            <span className="text-rose-500 font-bold">•</span>
+                            <span>{dis}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Visualizer Penghantaran Data */}
+                <div className="lg:col-span-5 bg-slate-950 p-5 rounded-2xl border border-slate-800 flex flex-col justify-between h-full min-h-[340px]">
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                        <Activity className="w-4 h-4 text-cyan-400" />
+                        Visualizer Penghantaran Data
+                      </span>
+                      <span className="text-xs px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
+                        Live Animation
+                      </span>
+                    </div>
+
+                    <div className="relative h-44 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between px-6 overflow-hidden">
+                      <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#6366f1_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+                      <div className="flex flex-col items-center z-10">
+                        <div className="w-12 h-12 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-600/40">
+                          <Monitor className="w-6 h-6" />
+                        </div>
+                        <span className="text-[11px] font-semibold text-slate-300 mt-2">Host A (Sender)</span>
+                        <span className="text-[9px] font-mono text-slate-500">192.168.1.10</span>
+                      </div>
+
+                      <div className="flex-1 relative mx-4 flex items-center justify-center">
+                        <div className={`w-full h-1.5 rounded-full transition-all duration-300 ${
+                          networkType === 'wired' ? 'bg-blue-600' : networkType === 'wireless' ? 'border-t-2 border-dashed border-emerald-500' : 'bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500'
+                        }`}></div>
+
+                        {packetTransmitting && (
+                          <div className="absolute top-1/2 -translate-y-1/2 flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-400 text-slate-950 font-bold text-[10px] shadow-lg shadow-cyan-400/50 animate-ping duration-1000">
+                            <Sparkles className="w-3 h-3" />
+                            <span>TCP Frame</span>
+                          </div>
+                        )}
+
+                        <div className="absolute -bottom-6 text-center">
+                          <span className="text-[10px] font-mono text-slate-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">
+                            {networkType === 'wired' ? 'Cat6 1000BASE-T (0.5ms)' : networkType === 'wireless' ? 'Wi-Fi 6 5GHz (12ms)' : 'WAN BGP Route (45ms)'}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col items-center z-10">
+                        <div className="w-12 h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-lg shadow-emerald-600/40">
+                          {networkType === 'internet' ? <Globe className="w-6 h-6" /> : <Server className="w-6 h-6" />}
+                        </div>
+                        <span className="text-[11px] font-semibold text-slate-300 mt-2">
+                          {networkType === 'internet' ? 'Cloud Server' : 'Host B (Server)'}
+                        </span>
+                        <span className="text-[9px] font-mono text-slate-500">
+                          {networkType === 'internet' ? '8.8.8.8' : '192.168.1.254'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between">
+                    <button
+                      onClick={triggerPacketSim}
+                      disabled={packetTransmitting}
+                      className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/20 transition disabled:opacity-50"
+                    >
+                      <Play className="w-4 h-4 fill-white" />
+                      <span>{packetTransmitting ? 'Menghantar Paket Data...' : 'Uji Hantar Paket Data (Ping & Bandwidth Test)'}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* TAB 5.2: PEMASANGAN PERKAKASAN KOMPUTER (ANIMASI CARA KERJA) */}
+        {/* ========================================================================= */}
+        {activeTab === '5.2' && (
+          <div className="space-y-6 animate-fadeIn">
+            <div className="bg-gradient-to-r from-slate-900 via-blue-950/50 to-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl">
+              <div className="flex flex-wrap items-center gap-2 mb-2">
+                <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                  Subtopik 5.2 • Visualizer 2D
+                </span>
+                <span className="text-xs text-slate-400">Set Up Computer Hardware (Assembly & Disassembly Animation)</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Simulator Animasi Cara Kerja Pemasangan & Penyahpasangan PC
+              </h2>
+              <p className="mt-2 text-slate-300 text-sm sm:text-base max-w-4xl">
+                Standard 5.2.1: Terokai visual animasi interaktif bagaimana setiap komponen dipasang dan dinyahpasang secara fizikal mengikut urutan teknikal piawaian keselamatan industri dan perlindungan ESD.
+              </p>
+            </div>
+
+            {/* Suis Mod: Assembly vs Disassembly */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900 p-4 rounded-2xl border border-slate-800 shadow-lg">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl bg-blue-600/20 text-blue-400 border border-blue-500/30">
+                  <Cpu className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-white text-sm sm:text-base flex items-center gap-2">
+                    <span>Enjin Visual Animasi Perkakasan</span>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      Interactive Live Engine
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-400">Pilih mod untuk melihat simulasi pergerakan komponen secara masa nyata.</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800 w-full sm:w-auto">
+                <button
+                  onClick={() => { setAssemblyMode('assembly'); resetAssembly(); }}
+                  className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition ${
+                    assemblyMode === 'assembly'
+                      ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30 ring-1 ring-blue-400'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Mod Pemasangan (Assembly)</span>
+                </button>
+
+                <button
+                  onClick={() => { setAssemblyMode('disassembly'); resetAssembly(); }}
+                  className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition ${
+                    assemblyMode === 'disassembly'
+                      ? 'bg-rose-600 text-white shadow-md shadow-rose-600/30 ring-1 ring-rose-400'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <RotateCcw className="w-4 h-4" />
+                  <span>Mod Penyahpasangan (Disassembly)</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Kawasan Interaktif Animasi */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              {/* Navigator Langkah Sebelah Kiri */}
+              <div className="lg:col-span-5 space-y-3">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                    {assemblyMode === 'assembly' ? '8 Urutan Pemasangan PC' : '8 Urutan Penyahpasangan PC'}
+                  </span>
+                  <button
+                    onClick={resetAssembly}
+                    className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-medium"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5" />
+                    <span>Mula Semula</span>
+                  </button>
+                </div>
+
+                <div className="space-y-2.5 max-h-[580px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800">
+                  {currentStepsList.map((step) => {
+                    const isDone = completedAssembly.includes(step.id);
+                    const isCurrent = step.id === currentAssemblyStep + 1;
+
+                    return (
+                      <div
+                        key={step.id}
+                        onClick={() => handleAssemblySelect(step.id)}
+                        className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
+                          isDone
+                            ? assemblyMode === 'assembly' ? 'bg-emerald-950/30 border-emerald-800/60 text-emerald-200' : 'bg-rose-950/30 border-rose-800/60 text-rose-200'
+                            : isCurrent
+                            ? assemblyMode === 'assembly'
+                              ? 'bg-blue-950/50 border-blue-500 shadow-lg shadow-blue-500/10 text-white ring-1 ring-blue-500/50'
+                              : 'bg-rose-950/50 border-rose-500 shadow-lg shadow-rose-500/10 text-white ring-1 ring-rose-500/50'
+                            : 'bg-slate-900/60 border-slate-800/80 text-slate-400 hover:bg-slate-900 hover:border-slate-700'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold font-mono ${
+                            isDone
+                              ? assemblyMode === 'assembly' ? 'bg-emerald-600 text-white' : 'bg-rose-600 text-white'
+                              : isCurrent
+                              ? assemblyMode === 'assembly' ? 'bg-blue-600 text-white animate-pulse' : 'bg-rose-600 text-white animate-pulse'
+                              : 'bg-slate-800 text-slate-400'
+                          }`}>
+                            {isDone ? <Check className="w-4 h-4" /> : step.id}
+                          </div>
+                          <div>
+                            <span className="text-xs font-bold block">{step.title}</span>
+                            <span className="text-[11px] text-slate-400 line-clamp-1">{step.action}</span>
+                          </div>
+                        </div>
+                        <ChevronRight className={`w-4 h-4 transition ${isCurrent ? 'text-cyan-400 translate-x-1' : 'text-slate-600'}`} />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Kad Visualizer Animasi Sebelah Kanan */}
+              <div className="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between shadow-xl">
+                {currentAssemblyStep < currentStepsList.length ? (
+                  <div className="space-y-4">
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                      <div className="flex items-center gap-2">
+                        <span className={`px-2.5 py-1 rounded font-mono text-xs font-bold border ${
+                          assemblyMode === 'assembly'
+                            ? 'bg-blue-500/20 text-blue-300 border-blue-500/30'
+                            : 'bg-rose-500/20 text-rose-300 border-rose-500/30'
+                        }`}>
+                          Langkah {currentStepsList[currentAssemblyStep].id} / 8
+                        </span>
+
+                        {currentStepsList[currentAssemblyStep].safetyCheck && (
+                          <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-xs font-semibold flex items-center gap-1 border border-amber-500/30">
+                            <ShieldAlert className="w-3.5 h-3.5" /> Keselamatan Diutamakan
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Butang Kawalan Animasi */}
+                      <div className="flex items-center gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800">
+                        <button
+                          onClick={() => setIsAnimationPlaying(!isAnimationPlaying)}
+                          className="px-2 py-1 rounded text-[11px] font-mono text-slate-300 hover:text-white flex items-center gap-1 hover:bg-slate-800 transition"
+                          title={isAnimationPlaying ? "Jeda Animasi" : "Mainkan Animasi"}
+                        >
+                          {isAnimationPlaying ? <Pause className="w-3.5 h-3.5 text-amber-400" /> : <Play className="w-3.5 h-3.5 text-emerald-400 fill-emerald-400" />}
+                          <span>{isAnimationPlaying ? 'Jeda' : 'Main'}</span>
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            setIsAnimationPlaying(false);
+                            setTimeout(() => setIsAnimationPlaying(true), 100);
+                          }}
+                          className="px-2 py-1 rounded text-[11px] font-mono text-slate-300 hover:text-white flex items-center gap-1 hover:bg-slate-800 transition"
+                          title="Ulang Animasi"
+                        >
+                          <RefreshCw className="w-3.5 h-3.5 text-cyan-400" />
+                          <span>Replay</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Skrin Visualizer */}
+                    <HardwareVisualizer
+                      mode={assemblyMode}
+                      stepId={currentStepsList[currentAssemblyStep].id}
+                      isPlaying={isAnimationPlaying}
+                    />
+
+                    {/* Penerangan Langkah */}
+                    <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800">
+                      <h4 className="text-base font-bold text-white mb-0.5">
+                        {currentStepsList[currentAssemblyStep].title}
+                      </h4>
+                      <span className="text-xs text-indigo-400 font-mono font-medium block mb-2">
+                        {currentStepsList[currentAssemblyStep].action}
+                      </span>
+                      <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        {currentStepsList[currentAssemblyStep].desc}
+                      </p>
+                    </div>
+
+                    {/* Petua Teknikal */}
+                    <div className="p-3.5 rounded-xl bg-amber-950/20 border border-amber-900/40 flex items-start gap-3">
+                      <Info className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <span className="text-[11px] font-bold text-amber-300 uppercase tracking-wide block">
+                          Tip Teknikal Industri:
+                        </span>
+                        <p className="text-xs text-amber-100/80 mt-0.5">
+                          {currentStepsList[currentAssemblyStep].tip}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="py-10 text-center space-y-4">
+                    <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center shadow-lg ${
+                      assemblyMode === 'assembly'
+                        ? 'bg-emerald-600/20 border border-emerald-500 text-emerald-400 shadow-emerald-500/20'
+                        : 'bg-rose-600/20 border border-rose-500 text-rose-400 shadow-rose-500/20'
+                    }`}>
+                      <Award className="w-8 h-8" />
+                    </div>
+                    <h4 className="text-2xl font-bold text-white">
+                      {assemblyMode === 'assembly' ? 'Tahniah! Pemasangan PC Selesai' : 'Tahniah! Penyahpasangan PC Selesai'}
+                    </h4>
+                    <p className="text-sm text-slate-300 max-w-md mx-auto">
+                      Anda telah berjaya melalui kesemua 8 langkah {assemblyMode === 'assembly' ? 'pemasangan perkakasan' : 'penyahpasangan selamat'} dengan mematuhi tatacara piawaian industri IT.
+                    </p>
+                    <button
+                      onClick={resetAssembly}
+                      className={`px-5 py-2.5 rounded-xl text-white text-xs font-bold transition shadow-lg ${
+                        assemblyMode === 'assembly'
+                          ? 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/20'
+                          : 'bg-rose-600 hover:bg-rose-500 shadow-rose-600/20'
+                      }`}
+                    >
+                      Ulangi Simulasi Ini
+                    </button>
+                  </div>
+                )}
+
+                {/* Butang Teruskan Langkah */}
+                {currentAssemblyStep < currentStepsList.length && (
+                  <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
+                    <span className="text-xs text-slate-400">
+                      Kemajuan: {completedAssembly.length} / {currentStepsList.length} Fasa Selesai
+                    </span>
+                    <button
+                      onClick={() => handleAssemblySelect(currentAssemblyStep + 2)}
+                      className={`px-5 py-2.5 rounded-xl text-white text-xs font-bold flex items-center gap-2 shadow-lg transition ${
+                        assemblyMode === 'assembly'
+                          ? 'bg-blue-600 hover:bg-blue-500 shadow-blue-600/20'
+                          : 'bg-rose-600 hover:bg-rose-500 shadow-rose-600/20'
+                      }`}
+                    >
+                      <span>{currentAssemblyStep + 1 === currentStepsList.length ? 'Tamatkan Modul' : 'Langkah Seterusnya'}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-red-600/20 text-red-400 border border-red-500/30">
+                    <Video className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white text-base sm:text-lg flex items-center gap-2">
+                      <span>Video Panduan Amali Komputer (YouTube)</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30 font-mono">
+                        HD Tutorial
+                      </span>
+                    </h3>
+                    <p className="text-xs text-slate-400">
+                      Tonton demonstrasi amali sebenar langkah demi langkah bagi melengkapkan kefahaman simulasi perkakasan.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Butang Pensuisan Video */}
+                <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800 w-full sm:w-auto">
+                  <button
+                    onClick={() => setVideoTab('assembly')}
+                    className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold transition ${
+                      videoTab === 'assembly'
+                        ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30 ring-1 ring-blue-400'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Pemasangan PC</span>
+                  </button>
+
+                  <button
+                    onClick={() => setVideoTab('disassembly')}
+                    className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold transition ${
+                      videoTab === 'disassembly'
+                        ? 'bg-rose-600 text-white shadow-md shadow-rose-600/30 ring-1 ring-rose-400'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span>Penyahpasangan PC</span>
+                  </button>
+                </div>
+              </div>
+
+              {}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <div className="lg:col-span-8">
+                  <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl">
+                    <iframe
+                      src={
+                        videoTab === 'assembly'
+                          ? 'https://www.youtube-nocookie.com/embed/UeaQ7Ou5H-Q'
+                          : 'https://www.youtube-nocookie.com/embed/FgJQ_KC7DEI'
+                      }
+                      title={
+                        videoTab === 'assembly'
+                          ? 'Video Pemasangan Komputer'
+                          : 'Video Penyahpasangan Komputer'
+                      }
+                      className="w-full h-full border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    ></iframe>
+                  </div>
+                </div>
+
+                {}
+                <div className="lg:col-span-4 bg-slate-950 p-5 rounded-2xl border border-slate-800 flex flex-col justify-between h-full space-y-4">
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-red-950/80 text-red-300 border border-red-800/80">
+                        {videoTab === 'assembly' ? 'Modul: Pemasangan' : 'Modul: Penyahpasangan'}
+                      </span>
+                      <span className="text-xs text-slate-400 font-mono">Standard 5.2.1</span>
+                    </div>
+
+                    <h4 className="text-sm font-bold text-white mb-2 leading-snug">
+                      {videoTab === 'assembly'
+                        ? 'Panduan Amali Pemasangan Komputer Lengkap'
+                        : 'Panduan Amali Penyahpasangan Komputer Selamat'}
+                    </h4>
+
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      {videoTab === 'assembly'
+                        ? 'Demonstrasi langkah demi langkah memasang CPU, soket motherboard, heatsink, RAM dwi-saluran, kad grafik, dan pengurusan kabel casing mengikut piawaian keselamatan industri.'
+                        : 'Panduan urutan selamat menanggalkan bekalan kuasa, menyahcas baki elektrik kapasitor, mengasingkan GPU PCIe, heatsink, RAM, dan penyimpanan cip dalam bekas antistatik.'}
+                    </p>
+
+                    <div className="mt-4 p-3 rounded-xl bg-slate-900 border border-slate-800 text-[11px] text-slate-400 space-y-1.5">
+                      <div className="flex items-center gap-1.5 text-slate-300 font-semibold">
+                        <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        <span>Fokus Pembelajaran:</span>
+                      </div>
+                      <p>
+                        {videoTab === 'assembly'
+                          ? '• Pengendalian alatan & ESD wrist strap\n• Orientasi pin ZIF soket CPU\n• Pemasangan bracket & skru'
+                          : '• Prosedur 0V nyahcas elektrik\n• Teknik membuka klip PCIe & DIMM\n• Pembersihan pes terma lama'}
+                      </p>
+                    </div>
+                  </div>
+
+                  <a
+                    href={
+                      videoTab === 'assembly'
+                        ? 'https://www.youtube.com/watch?v=UeaQ7Ou5H-Q'
+                        : 'https://www.youtube.com/watch?v=FgJQ_KC7DEI'
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold transition shadow-lg shadow-red-600/20"
+                  >
+                    <span>Buka Terus di YouTube</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* TAB 5.3: METODOLOGI PENYELESAIAN MASALAH */}
+        {/* ========================================================================= */}
+        {activeTab === '5.3' && (
+          <div className="space-y-6 animate-fadeIn">
+            <div className="bg-gradient-to-r from-slate-900 via-emerald-950/50 to-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl">
+              <div className="flex flex-wrap items-center gap-2 mb-2">
+                <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  Subtopik 5.3
+                </span>
+                <span className="text-xs text-slate-400">Explain Best Practice Methodology to Resolve Problems</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Metodologi Penyelesaian Masalah (6-Step Troubleshooting Process)
+              </h2>
+              <p className="mt-2 text-slate-300 text-sm sm:text-base max-w-4xl">
+                Standard 5.3.1: Kuasai rangka kerja sistematik 6 langkah (CompTIA / ITIL Standard) untuk mendiagnosis, membaiki, mengesahkan, dan mendokumentasikan kerosakan perkakasan, perisian, dan rangkaian.
+              </p>
+            </div>
+
+            {/* Grid 6 Langkah Troubleshooting */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {troubleshootingSteps.map((stepItem, idx) => {
+                const IconComponent = stepItem.icon;
+                return (
+                  <div
+                    key={idx}
+                    className="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-2xl p-5 shadow-lg flex flex-col justify-between transition-all hover:-translate-y-1"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <span className={`w-8 h-8 rounded-xl bg-gradient-to-br ${stepItem.color} flex items-center justify-center text-white text-xs font-bold font-mono shadow-md`}>
+                          {stepItem.step.toUpperCase()}
+                        </span>
+                        <div className="p-2 rounded-lg bg-slate-950 text-slate-400 border border-slate-800">
+                          <IconComponent className="w-4 h-4" />
+                        </div>
+                      </div>
+
+                      <h3 className="text-base font-bold text-white mb-1">
+                        {stepItem.title}
+                      </h3>
+                      <span className="text-xs font-medium text-slate-400 block mb-3">
+                        {stepItem.sub}
+                      </span>
+
+                      <div className="space-y-2 mb-4">
+                        {stepItem.actions.map((act, aIdx) => (
+                          <div key={aIdx} className="flex items-start gap-2 text-xs text-slate-300">
+                            <span className="text-emerald-400 font-bold mt-0.5">•</span>
+                            <span className="leading-snug">{act}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="pt-3 border-t border-slate-800/80">
+                      <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-[11px] text-slate-400">
+                        <strong className="text-amber-400 block mb-0.5">Petua Penting:</strong>
+                        {stepItem.proTip}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Carta Alir Logik */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+              <h4 className="text-base font-bold text-white mb-2 flex items-center gap-2">
+                <Layers className="w-5 h-5 text-emerald-400" />
+                Carta Alir Logik Troubleshooting (Logic Decision Flowchart)
+              </h4>
+              <p className="text-xs text-slate-400 mb-6">
+                Gambaran visual bagaimana juruteknik bergerak melalui 6 langkah secara lelaran (iterative) sekiranya teori gagal.
+              </p>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-center text-xs">
+                <div className="p-3 rounded-xl bg-blue-950/40 border border-blue-800 text-blue-200">
+                  <span className="font-mono text-[10px] text-blue-400 block">Langkah A</span>
+                  <strong className="block mt-1">1. Kenal Pasti Masalah & Backup</strong>
+                </div>
+
+                <div className="p-3 rounded-xl bg-purple-950/40 border border-purple-800 text-purple-200">
+                  <span className="font-mono text-[10px] text-purple-400 block">Langkah B</span>
+                  <strong className="block mt-1">2. Bina Teori Punca Paling Asas</strong>
+                </div>
+
+                <div className="p-3 rounded-xl bg-amber-950/40 border border-amber-800 text-amber-200">
+                  <span className="font-mono text-[10px] text-amber-400 block">Langkah C</span>
+                  <strong className="block mt-1">3. Uji Teori (Isolate Variable)</strong>
+                </div>
+
+                <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-800 text-emerald-200">
+                  <span className="font-mono text-[10px] text-emerald-400 block">Langkah D</span>
+                  <strong className="block mt-1">4. Laksana Pelan Pembaikan</strong>
+                </div>
+
+                <div className="p-3 rounded-xl bg-rose-950/40 border border-rose-800 text-rose-200">
+                  <span className="font-mono text-[10px] text-rose-400 block">Langkah E</span>
+                  <strong className="block mt-1">5. Sahkan & Pasang Pencegahan</strong>
+                </div>
+
+                <div className="p-3 rounded-xl bg-violet-950/40 border border-violet-800 text-violet-200">
+                  <span className="font-mono text-[10px] text-violet-400 block">Langkah F</span>
+                  <strong className="block mt-1">6. Dokumentasikan Dalam Tiket</strong>
+                </div>
+              </div>
+            </div>
+
+            {}
+            {/* Bahagian Video Panduan Amali YouTube Subtopik 5.3 */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-red-600/20 text-red-400 border border-red-500/30">
+                    <Video className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white text-base sm:text-lg flex items-center gap-2">
+                      <span>Video Panduan Metodologi Troubleshooting (YouTube)</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30 font-mono">
+                        CompTIA Standard
+                      </span>
+                    </h3>
+                    <p className="text-xs text-slate-400">
+                      Tonton kupasan video terperinci mengenai metodologi 6-langkah penyelesaian masalah IT mengikut amalan terbaik industri.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Pemain Video & Panel Maklumat */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <div className="lg:col-span-8">
+                  <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl">
+                    <iframe
+                      src="https://www.youtube-nocookie.com/embed/EOnI3S6-nNk"
+                      title="Video Panduan Metodologi Troubleshooting"
+                      className="w-full h-full border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    ></iframe>
+                  </div>
+                </div>
+
+                <div className="lg:col-span-4 bg-slate-950 p-5 rounded-2xl border border-slate-800 flex flex-col justify-between h-full space-y-4">
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-red-950/80 text-red-300 border border-red-800/80">
+                        Modul: 5.3 Troubleshooting
+                      </span>
+                      <span className="text-xs text-slate-400 font-mono">Standard 5.3.1</span>
+                    </div>
+
+                    <h4 className="text-sm font-bold text-white mb-2 leading-snug">
+                      Aplikasi Proses 6-Langkah CompTIA & Amalan Terbaik
+                    </h4>
+
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      Video ini membincangkan kaedah mengenal pasti punca masalah, membina serta menguji hipotesis secara bersistematik, mengelakkan ralat diagnosis biasa, serta kepentingan dokumentasi profesional.
+                    </p>
+
+                    <div className="mt-4 p-3 rounded-xl bg-slate-900 border border-slate-800 text-[11px] text-slate-400 space-y-1.5">
+                      <div className="flex items-center gap-1.5 text-slate-300 font-semibold">
+                        <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        <span>Fokus Pembelajaran:</span>
+                      </div>
+                      <p>
+                        • Soalan diagnostik terbuka vs tertutup<br />
+                        • Pengasingan pemboleh ubah kerosakan<br />
+                        • Ujian kefungsian & langkah pencegahan
+                      </p>
+                    </div>
+                  </div>
+
+                  <a
+                    href="https://www.youtube.com/watch?v=EOnI3S6-nNk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold transition shadow-lg shadow-red-600/20"
+                  >
+                    <span>Buka Terus di YouTube</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* TAB: SIMULATOR KES SEBENAR */}
+        {/* ========================================================================= */}
+        {activeTab === 'scenarios' && (
+          <div className="space-y-6 animate-fadeIn">
+            <div className="bg-gradient-to-r from-slate-900 via-amber-950/50 to-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl">
+              <div className="flex flex-wrap items-center gap-2 mb-2">
+                <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                  Simulasi Praktikal
+                </span>
+                <span className="text-xs text-slate-400">Penyelesaian Masalah Berasaskan Kes Sebenar</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Makmal Simulator Kes Troubleshooting IT
+              </h2>
+              <p className="mt-2 text-slate-300 text-sm sm:text-base max-w-4xl">
+                Laksanakan kesemua 6 langkah (A hingga F) untuk menyelesaikan masalah teknikal dunia sebenar. Pilih jawapan diagnosis yang paling tepat mengikut tatacara piawaian industri.
+              </p>
+            </div>
+
+            {/* Butang Pilihan Kes */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {diagnosticScenarios.map((sc, idx) => (
+                <button
+                  key={sc.id}
+                  onClick={() => resetScenario(idx)}
+                  className={`p-4 rounded-xl border text-left transition-all flex flex-col justify-between ${
+                    selectedCase === idx
+                      ? 'bg-amber-950/40 border-amber-500 ring-1 ring-amber-500/50 text-white shadow-lg'
+                      : 'bg-slate-900 border-slate-800 text-slate-400 hover:bg-slate-850 hover:border-slate-700'
+                  }`}
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-800 text-slate-300">
+                        {sc.category}
+                      </span>
+                      <span className="text-[10px] text-amber-400 font-semibold">{sc.difficulty}</span>
+                    </div>
+                    <h4 className="font-bold text-white text-xs sm:text-sm line-clamp-2">{sc.title}</h4>
+                  </div>
+                  <span className="text-[11px] text-slate-500 mt-2 font-mono">6 Langkah CompTIA</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Kawasan Kes Aktif */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <div className="lg:col-span-7 space-y-5">
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800">
+                  <span className="text-xs font-mono font-semibold text-amber-400 block mb-1">
+                    Tiket Servis #{1001 + selectedCase} • {diagnosticScenarios[selectedCase].category}
+                  </span>
+                  <h3 className="text-base font-bold text-white mb-2">
+                    {diagnosticScenarios[selectedCase].title}
+                  </h3>
+                  <div className="p-3 rounded-lg bg-slate-900 text-xs text-slate-300 border border-slate-800 leading-relaxed">
+                    <strong className="text-slate-400 block mb-0.5">Laporan Simptom Awal:</strong>
+                    "{diagnosticScenarios[selectedCase].initialSymptom}"
+                  </div>
+                </div>
+
+                {!caseCompleted ? (
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider px-2.5 py-1 rounded bg-indigo-950/60 border border-indigo-800">
+                        {diagnosticScenarios[selectedCase].steps[scenarioStep].stage}
+                      </span>
+                      <span className="text-xs text-slate-400 font-mono">
+                        Langkah {scenarioStep + 1} / 6
+                      </span>
+                    </div>
+
+                    <h4 className="text-sm sm:text-base font-bold text-white">
+                      {diagnosticScenarios[selectedCase].steps[scenarioStep].prompt}
+                    </h4>
+
+                    <div className="space-y-2.5">
+                      {diagnosticScenarios[selectedCase].steps[scenarioStep].options.map((opt, oIdx) => (
+                        <button
+                          key={oIdx}
+                          onClick={() => handleScenarioChoice(opt)}
+                          className="w-full text-left p-3.5 rounded-xl bg-slate-950 hover:bg-slate-850 border border-slate-800 hover:border-amber-500/60 text-xs sm:text-sm text-slate-200 transition flex items-center justify-between group"
+                        >
+                          <span className="leading-relaxed pr-2">{opt.text}</span>
+                          <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-amber-400 flex-shrink-0 transition" />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="p-6 rounded-xl bg-emerald-950/30 border border-emerald-800 text-center space-y-4">
+                    <div className="w-14 h-14 bg-emerald-600/20 text-emerald-400 rounded-xl mx-auto flex items-center justify-center border border-emerald-500">
+                      <CheckCircle2 className="w-8 h-8" />
+                    </div>
+                    <h4 className="text-xl font-bold text-white">Kes Selesai Berjaya!</h4>
+                    <p className="text-xs text-slate-300 max-w-md mx-auto">
+                      Anda telah mematuhi kesemua 6 langkah tatacara penyelesaian masalah secara profesional dan berintegriti.
+                    </p>
+                    <button
+                      onClick={() => resetScenario(selectedCase)}
+                      className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-lg"
+                    >
+                      Ulangi Kes Ini
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Log Tiket Servis */}
+              <div className="lg:col-span-5 bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                      <Terminal className="w-4 h-4 text-emerald-400" />
+                      Log Tindakan Servis (Audit Trail)
+                    </span>
+                    <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">
+                      Active Ticket
+                    </span>
+                  </div>
+
+                  <div className="space-y-2.5 max-h-[380px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800">
+                    {scenarioLog.length === 0 ? (
+                      <div className="text-center py-12 text-slate-600 text-xs italic">
+                        Belum ada tindakan diambil. Pilih keputusan diagnosis pada panel sebelah kiri.
+                      </div>
+                    ) : (
+                      scenarioLog.map((log, lIdx) => (
+                        <div
+                          key={lIdx}
+                          className={`p-3 rounded-lg border text-xs ${
+                            log.isCorrect
+                              ? 'bg-slate-900 border-emerald-900/60 text-slate-300'
+                              : 'bg-rose-950/20 border-rose-900/60 text-rose-300'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between font-bold text-[11px] mb-1">
+                            <span className={log.isCorrect ? 'text-emerald-400' : 'text-rose-400'}>
+                              {log.stage}
+                            </span>
+                            <span>{log.isCorrect ? '✓ Disahkan' : '✗ Ralat'}</span>
+                          </div>
+                          <p className="text-slate-400 text-[11px] mb-1">"{log.selected}"</p>
+                          <p className={`text-[10px] font-medium ${log.isCorrect ? 'text-emerald-300' : 'text-rose-300'}`}>
+                            {log.feedback}
+                          </p>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+
+                <div className="pt-3 border-t border-slate-800 mt-3 text-[11px] text-slate-500 flex items-center justify-between">
+                  <span>Status: {caseCompleted ? 'Tiket Ditutup (Closed)' : 'Sedang Dibaiki (In Progress)'}</span>
+                  <span className="font-mono">ITIL Standard v4</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* TAB: KUIZ INTERAKTIF */}
+        {/* ========================================================================= */}
+        {activeTab === 'quiz' && (
+          <div className="space-y-6 animate-fadeIn">
+            <div className="bg-gradient-to-r from-slate-900 via-purple-950/50 to-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl">
+              <div className="flex flex-wrap items-center gap-2 mb-2">
+                <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                  Ujian Penilaian Formatif
+                </span>
+                <span className="text-xs text-slate-400">10 Soalan Standard Silibus 5.1, 5.2 & 5.3</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Kuiz Pengukuhan Komprehensif
+              </h2>
+              <p className="mt-2 text-slate-300 text-sm sm:text-base max-w-4xl">
+                Uji kefahaman teori, piawaian keselamatan, urutan perkakasan dan langkah penyelesaian masalah teknikal.
+              </p>
+            </div>
+
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl max-w-3xl mx-auto">
+              {quizIndex < quizQuestions.length ? (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <div className="flex items-center gap-2">
+                      <span className="px-3 py-1 rounded-lg bg-purple-950 text-purple-300 text-xs font-bold border border-purple-800">
+                        Soalan {quizIndex + 1} daripada {quizQuestions.length}
+                      </span>
+                    </div>
+                  </div>
+
+                  <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
+                    {quizQuestions[quizIndex].q}
+                  </h3>
+
+                  <div className="space-y-3">
+                    {quizQuestions[quizIndex].options.map((opt, oIdx) => {
+                      let btnStyle = "bg-slate-950 border-slate-800 text-slate-300 hover:bg-slate-850 hover:border-slate-700";
+
+                      if (selectedAnswer === oIdx) {
+                        btnStyle = "bg-purple-950/60 border-purple-500 text-white ring-1 ring-purple-500/50";
+                      }
+
+                      if (isAnswerSubmitted) {
+                        if (oIdx === quizQuestions[quizIndex].answer) {
+                          btnStyle = "bg-emerald-950/70 border-emerald-500 text-emerald-200 ring-1 ring-emerald-500";
+                        } else if (selectedAnswer === oIdx && oIdx !== quizQuestions[quizIndex].answer) {
+                          btnStyle = "bg-rose-950/70 border-rose-500 text-rose-200 ring-1 ring-rose-500";
+                        }
+                      }
+
+                      return (
+                        <button
+                          key={oIdx}
+                          onClick={() => handleQuizAnswer(oIdx)}
+                          disabled={isAnswerSubmitted}
+                          className={`w-full text-left p-4 rounded-xl border text-xs sm:text-sm font-medium transition flex items-center justify-between ${btnStyle}`}
+                        >
+                          <span className="pr-3 leading-relaxed">{opt}</span>
+                          <div className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-mono border flex-shrink-0 ${
+                            selectedAnswer === oIdx ? 'border-purple-400 bg-purple-600 text-white' : 'border-slate-700 text-slate-500'
+                          }`}>
+                            {String.fromCharCode(65 + oIdx)}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {isAnswerSubmitted && (
+                    <div className={`p-4 rounded-xl border text-xs sm:text-sm leading-relaxed ${
+                      selectedAnswer === quizQuestions[quizIndex].answer
+                        ? 'bg-emerald-950/30 border-emerald-800 text-emerald-200'
+                        : 'bg-rose-950/30 border-rose-800 text-rose-200'
+                    }`}>
+                      <strong className="block font-bold mb-1">
+                        {selectedAnswer === quizQuestions[quizIndex].answer ? '✓ Jawapan Tepat!' : '✗ Kurang Tepat!'}
+                      </strong>
+                      {quizQuestions[quizIndex].explanation}
+                    </div>
+                  )}
+
+                  <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
+                    <button
+                      onClick={resetQuiz}
+                      className="text-xs text-slate-400 hover:text-white flex items-center gap-1.5"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>Mula Semula Kuiz</span>
+                    </button>
+
+                    {!isAnswerSubmitted ? (
+                      <button
+                        onClick={submitQuizAnswer}
+                        disabled={selectedAnswer === null}
+                        className="px-6 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-lg shadow-purple-600/20 transition disabled:opacity-40"
+                      >
+                        Sahkan Jawapan
+                      </button>
+                    ) : (
+                      <button
+                        onClick={nextQuizQuestion}
+                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold shadow-lg transition flex items-center gap-2"
+                      >
+                        <span>{quizIndex + 1 === quizQuestions.length ? 'Lihat Keputusan Akhir' : 'Soalan Seterusnya'}</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-8 space-y-5">
+                  <div className="w-20 h-20 bg-gradient-to-tr from-purple-600 to-amber-500 text-white rounded-3xl mx-auto flex items-center justify-center shadow-xl shadow-purple-600/30">
+                    <Award className="w-10 h-10" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-white">Keputusan Kuiz Anda</h3>
+                    <p className="text-sm text-slate-400 mt-1">Penilaian Modul Hardware, Software & Networking Troubleshooting</p>
+                  </div>
+
+                  <div className="inline-block p-6 rounded-2xl bg-slate-950 border border-slate-800 shadow-inner">
+                    <span className="text-4xl font-extrabold text-white font-mono">
+                      {quizScore} <span className="text-lg text-slate-500">/ {quizQuestions.length * 10}</span>
+                    </span>
+                    <span className="block text-xs font-semibold text-emerald-400 mt-2">
+                      Gred: {quizScore >= 80 ? 'Cemerlang (A+)' : quizScore >= 60 ? 'Kepujian (B)' : 'Perlu Ulang Kaji (C)'}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-slate-300 max-w-md mx-auto">
+                    {quizScore >= 80
+                      ? 'Tahniah! Anda telah menguasai sepenuhnya konsep komunikasi rangkaian, tatacara pemasangan perkakasan, dan metodologi 6-langkah penyelesaian masalah.'
+                      : 'Teruskan usaha anda! Semak semula modul teori 5.1, 5.2, dan 5.3 untuk meningkatkan kefahaman teknikal anda.'}
+                  </p>
+
+                  <button
+                    onClick={resetQuiz}
+                    className="px-6 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition shadow-lg"
+                  >
+                    Ulangi Kuiz Semula
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* TAB: GLOSARI & RUJUKAN PANTAS */}
+        {/* ========================================================================= */}
+        {activeTab === 'glossary' && (
+          <div className="space-y-6 animate-fadeIn">
+            <div className="bg-gradient-to-r from-slate-900 via-cyan-950/50 to-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl">
+              <div className="flex flex-wrap items-center gap-2 mb-2">
+                <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                  Pusat Rujukan Pantas
+                </span>
+                <span className="text-xs text-slate-400">Glosari Istilah & Kod Ralat Teknikal</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Glosari & Nota Poket Troubleshooting
+              </h2>
+              <p className="mt-2 text-slate-300 text-sm sm:text-base max-w-4xl">
+                Carian pantas istilah teknikal, arahan diagnostik Terminal (Command Prompt), kod bip BIOS, dan pangkalan pengetahuan IT.
+              </p>
+            </div>
+
+            {/* Kotak Carian */}
+            <div className="relative max-w-xl">
+              <Search className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Cari istilah (cth: APIPA, ESD, Cat6, Thermal, POST, BSOD)..."
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
+              />
+            </div>
+
+            {/* Kad Glosari */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {filteredGlossary.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-500/40 transition flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-bold text-white text-sm sm:text-base">{item.term}</h4>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950 text-cyan-400 border border-slate-800">
+                        {item.cat}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-300 leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Helaian Arahan CLI (Command Prompt) */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+              <h4 className="text-base font-bold text-white flex items-center gap-2">
+                <Terminal className="w-5 h-5 text-emerald-400" />
+                Arahan Diagnostik Rangkaian Penting (CLI Cheatsheet)
+              </h4>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 font-mono">
+                  <span className="text-emerald-400 font-bold block mb-1">ipconfig /all</span>
+                  <span className="text-slate-400 font-sans text-[11px]">Memaparkan maklumat lengkap IP, Subnet Mask, Default Gateway, DHCP & MAC Address.</span>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 font-mono">
+                  <span className="text-emerald-400 font-bold block mb-1">ping -t 8.8.8.8</span>
+                  <span className="text-slate-400 font-sans text-[11px]">Menguji kesinambungan sambungan data (latency & packet loss) ke DNS Google secara berterusan.</span>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 font-mono">
+                  <span className="text-emerald-400 font-bold block mb-1">tracert google.com</span>
+                  <span className="text-slate-400 font-sans text-[11px]">Menjejak setiap lompatan router (hops) dari PC ke pelayan destinasi bagi mengesan bottleneck.</span>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 font-mono">
+                  <span className="text-emerald-400 font-bold block mb-1">netstat -an</span>
+                  <span className="text-slate-400 font-sans text-[11px]">Menyenaraikan semua port aktif dan sambungan TCP/UDP yang sedang dibuka oleh sistem.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </main>
+    </div>
+  );
+}
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
