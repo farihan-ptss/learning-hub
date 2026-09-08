@@ -116,7 +116,7 @@
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                     </span>
-                    <span><strong>Nota Terkini:</strong> Topik 1 kini aktif sepenuhnya dengan 4 pautan hub interaktif!</span>
+                    <span><strong>Nota Terkini:</strong> Kesemua 5 topik kini aktif sepenuhnya dengan 11 pautan hub interaktif!</span>
                 </div>
             </div>
         </div>
@@ -414,29 +414,66 @@
                     </div>
                 </div>
 
-                <!-- TOPIK 5: UNDER CONSTRUCTION -->
-                <div class="topic-card bg-white/70 backdrop-blur-xs border border-slate-200 rounded-3xl p-6 sm:p-8 hover:shadow-md transition duration-300 relative group opacity-90" data-title="hardware software and networking troubleshooting">
-                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+                <!-- TOPIK 5: ACTIVE (EMERALD & TEAL GRADIENT) -->
+                <div class="topic-card bg-gradient-to-br from-emerald-50/90 via-teal-50/70 to-cyan-50/85 border border-emerald-200 rounded-3xl p-6 sm:p-8 hover:shadow-xl hover:border-emerald-300 transition-all duration-300 relative group" data-title="hardware software and networking troubleshooting">
+                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6 relative z-10">
                         <div class="flex items-start space-x-4">
-                            <div class="w-12 h-12 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500">
-                                <span class="font-extrabold text-lg">05</span>
+                            <div class="w-12 h-12 rounded-2xl bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0 shadow-sm">
+                                <span class="font-extrabold text-lg text-emerald-700">05</span>
                             </div>
                             <div>
-                                <h3 class="text-xl font-bold text-slate-800">Hardware, Software, and Networking Troubleshooting</h3>
-                                <p class="text-sm text-slate-500 mt-1">Panduan diagnosis kerosakan perkakasan komputer, pepijat perisian, dan isu komunikasi rangkaian.</p>
+                                <h3 class="text-xl font-bold text-slate-900 group-hover:text-emerald-700 transition">Hardware, Software, and Networking Troubleshooting</h3>
+                                <p class="text-sm text-slate-600 mt-1">Panduan diagnosis kerosakan perkakasan komputer, pepijat perisian sistem, dan penyelesaian isu komunikasi rangkaian.</p>
                             </div>
                         </div>
-                        <span class="inline-flex self-start px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-600 border border-amber-200">Dalam Pembinaan</span>
+                        <span class="inline-flex self-start px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200 shadow-xs">Aktif</span>
                     </div>
 
-                    <!-- Under Construction Placeholder -->
-                    <div class="mt-6 border border-dashed border-slate-300 rounded-2xl p-6 text-center bg-white/80">
-                        <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center mx-auto mb-3">
-                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    <!-- Hub Links Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 relative z-10">
+                        
+                        <!-- Link 10 -->
+                        <div class="bg-white/90 border border-emerald-200 rounded-2xl p-4 flex flex-col justify-between hover:border-emerald-400 hover:bg-white hover:shadow-md transition duration-200 group/link">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs font-semibold text-emerald-600 tracking-wider">MODUL 5.1</span>
+                                    <button onclick="toggleLinkProgress('link10')" id="tick-link10" class="w-5 h-5 rounded-md border border-emerald-300 bg-white flex items-center justify-center hover:bg-emerald-50 transition">
+                                        <svg class="w-3.5 h-3.5 text-techBlue-600 hidden" id="svg-link10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                    </button>
+                                </div>
+                                <h4 class="text-sm font-bold text-slate-800 group-hover/link:text-emerald-700 transition">Hardware & Software Troubleshooting</h4>
+                                <p class="text-xs text-slate-500 mt-1">Teknik mengesan, mendiagnosis, dan membaik pulih kerosakan komponen fizikal serta ralat perisian sistem.</p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-emerald-100 flex justify-between items-center">
+                                <span class="text-xs text-slate-400">farihan-ptss.github.io</span>
+                                <a href="https://farihan-ptss.github.io/learning-hub/topic5a.html" target="_blank" class="inline-flex items-center space-x-1 text-xs text-emerald-700 hover:text-emerald-800 font-semibold hover:underline">
+                                    <span>Buka Hub</span>
+                                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                                </a>
+                            </div>
                         </div>
-                        <p class="text-sm font-semibold text-slate-800">Hub Pembelajaran Sedang Dibangunkan</p>
-                        <p class="text-xs text-slate-500 mt-1 max-w-md mx-auto">Senario kes penyelesaian masalah interaktif serta simulasi "diagnosis kerosakan" sedang dibina.</p>
-                        <button onclick="requestNotification('Hardware, Software, and Networking Troubleshooting')" class="mt-4 px-4 py-1.5 bg-slate-100/90 border border-slate-200 text-xs text-slate-600 rounded-lg hover:bg-slate-200/80 transition shadow-xs">Maklumkan Saya Apabila Siap</button>
+
+                        <!-- Link 11 -->
+                        <div class="bg-white/90 border border-emerald-200 rounded-2xl p-4 flex flex-col justify-between hover:border-emerald-400 hover:bg-white hover:shadow-md transition duration-200 group/link">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs font-semibold text-emerald-600 tracking-wider">MODUL 5.2</span>
+                                    <button onclick="toggleLinkProgress('link11')" id="tick-link11" class="w-5 h-5 rounded-md border border-emerald-300 bg-white flex items-center justify-center hover:bg-emerald-50 transition">
+                                        <svg class="w-3.5 h-3.5 text-techBlue-600 hidden" id="svg-link11" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                    </button>
+                                </div>
+                                <h4 class="text-sm font-bold text-slate-800 group-hover/link:text-emerald-700 transition">Networking Troubleshooting</h4>
+                                <p class="text-xs text-slate-500 mt-1">Kaedah pengenalpastian dan penyelesaian masalah sambungan rangkaian, konfigurasi peranti, dan protokol komunikasi.</p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-emerald-100 flex justify-between items-center">
+                                <span class="text-xs text-slate-400">farihan-ptss.github.io</span>
+                                <a href="https://farihan-ptss.github.io/learning-hub/topic5b.html" target="_blank" class="inline-flex items-center space-x-1 text-xs text-emerald-700 hover:text-emerald-800 font-semibold hover:underline">
+                                    <span>Buka Hub</span>
+                                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                                </a>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -452,7 +489,7 @@
                         <svg class="w-5 h-5 text-techBlue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
                         <span>Kemajuan Belajar Anda</span>
                     </h3>
-                    <p class="text-xs text-slate-500 mb-4">Tanda modul pembelajaran (Modul 1.1 hingga 4.1) yang selesai dibaca di sebelah kiri untuk melihat perkembangan status belajar anda secara langsung.</p>
+                    <p class="text-xs text-slate-500 mb-4">Tanda modul pembelajaran (Modul 1.1 hingga 5.2) yang selesai dibaca di sebelah kiri untuk melihat perkembangan status belajar anda secara langsung.</p>
                     
                     <div class="relative pt-1">
                         <div class="flex mb-2 items-center justify-between">
@@ -468,7 +505,7 @@
                         </div>
                     </div>
                     <div class="mt-4 flex justify-between text-xs text-slate-500">
-                        <span id="completed-modules-count" class="font-medium text-slate-600">Selesai: 0 daripada 4 modul</span>
+                        <span id="completed-modules-count" class="font-medium text-slate-600">Selesai: 0 daripada 11 modul</span>
                         <button onclick="resetProgress()" class="text-techBlue-600 hover:text-techBlue-700 hover:underline font-semibold">Set Semula</button>
                     </div>
                 </div>
@@ -579,7 +616,9 @@
             link6: false,
             link7: false,
             link8: false,
-            link9: false
+            link9: false,
+            link10: false,
+            link11: false
         };
 
         // Initialize state or layout
