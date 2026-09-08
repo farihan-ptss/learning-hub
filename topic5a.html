@@ -1,49 +1,125 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Hardware, Software & Networking Troubleshooting Hub - Topik 5.1, 5.2 & 5.3">
-  <title>Topik 5A - Hardware, Software & Networking Troubleshooting Hub</title>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- React + ReactDOM -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-  <!-- Lucide React UMD -->
-  <script src="https://unpkg.com/lucide-react@0.536.0/dist/umd/lucide-react.min.js"></script>
-
-  <!-- Babel: membolehkan JSX terus digunakan dalam fail HTML -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-  <style>
-    html { scroll-behavior: smooth; }
-    body { margin: 0; }
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { background: #0f172a; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 999px; }
-    ::-webkit-scrollbar-thumb:hover { background: #475569; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fadeIn { animation: fadeIn .35s ease-out; }
-
-    /* Supaya elemen SVG Lucide mengikuti saiz yang diberi oleh Tailwind */
-    svg { display: inline-block; vertical-align: middle; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hardware, Software & Networking Troubleshooting Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    animation: {
+                        fadeIn: 'fadeIn 0.3s ease-in-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(4px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- React & React DOM CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel standalone for JSX parsing -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
 </head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased">
+    <div id="root"></div>
 
-<body>
-  <div id="root"></div>
-
-  <script type="text/babel" data-presets="react">
+    <script type="text/babel">
     const { useState, useEffect } = React;
-    const { Wifi, Server, Cpu, HardDrive, Wrench, CheckCircle2, AlertTriangle, FileText, BookOpen, Award, ArrowRight, RotateCcw, HelpCircle, ShieldAlert, Search, Activity, Layers, Zap, Monitor, Check, ChevronRight, ChevronLeft, Play, Pause, RefreshCw, Sliders, Sparkles, Terminal, Radio, Cable, Globe, Database, Lock, ChevronDown, Info, Fan, ShieldCheck, Eye, Video, ExternalLink } = LucideReact;
+
+    const LucideIcon = ({ name, className = "w-5 h-5", ...props }) => {
+        const iconRef = React.useRef(null);
+
+        React.useEffect(() => {
+            if (iconRef.current) {
+                iconRef.current.innerHTML = '';
+                const i = document.createElement('i');
+                const kebabName = name
+                    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+                    .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2')
+                    .toLowerCase();
+                i.setAttribute('data-lucide', kebabName);
+                if (className) i.className = className;
+                iconRef.current.appendChild(i);
+                lucide.createIcons({
+                    nodes: [i]
+                });
+            }
+        }, [name, className]);
+
+        return <span ref={iconRef} className="inline-flex items-center justify-center" {...props} />;
+    };
+
+    const Wifi = (props) => <LucideIcon name="wifi" {...props} />;
+    const Server = (props) => <LucideIcon name="server" {...props} />;
+    const Cpu = (props) => <LucideIcon name="cpu" {...props} />;
+    const HardDrive = (props) => <LucideIcon name="hard-drive" {...props} />;
+    const Wrench = (props) => <LucideIcon name="wrench" {...props} />;
+    const CheckCircle2 = (props) => <LucideIcon name="check-circle-2" {...props} />;
+    const AlertTriangle = (props) => <LucideIcon name="alert-triangle" {...props} />;
+    const FileText = (props) => <LucideIcon name="file-text" {...props} />;
+    const BookOpen = (props) => <LucideIcon name="book-open" {...props} />;
+    const Award = (props) => <LucideIcon name="award" {...props} />;
+    const ArrowRight = (props) => <LucideIcon name="arrow-right" {...props} />;
+    const RotateCcw = (props) => <LucideIcon name="rotate-ccw" {...props} />;
+    const HelpCircle = (props) => <LucideIcon name="help-circle" {...props} />;
+    const ShieldAlert = (props) => <LucideIcon name="shield-alert" {...props} />;
+    const Search = (props) => <LucideIcon name="search" {...props} />;
+    const Activity = (props) => <LucideIcon name="activity" {...props} />;
+    const Layers = (props) => <LucideIcon name="layers" {...props} />;
+    const Zap = (props) => <LucideIcon name="zap" {...props} />;
+    const Monitor = (props) => <LucideIcon name="monitor" {...props} />;
+    const Check = (props) => <LucideIcon name="check" {...props} />;
+    const X = (props) => <LucideIcon name="x" {...props} />;
+    const ChevronRight = (props) => <LucideIcon name="chevron-right" {...props} />;
+    const ChevronLeft = (props) => <LucideIcon name="chevron-left" {...props} />;
+    const Play = (props) => <LucideIcon name="play" {...props} />;
+    const Pause = (props) => <LucideIcon name="pause" {...props} />;
+    const RefreshCw = (props) => <LucideIcon name="refresh-cw" {...props} />;
+    const Sliders = (props) => <LucideIcon name="sliders" {...props} />;
+    const Sparkles = (props) => <LucideIcon name="sparkles" {...props} />;
+    const Terminal = (props) => <LucideIcon name="terminal" {...props} />;
+    const Radio = (props) => <LucideIcon name="radio" {...props} />;
+    const Cable = (props) => <LucideIcon name="cable" {...props} />;
+    const Globe = (props) => <LucideIcon name="globe" {...props} />;
+    const Database = (props) => <LucideIcon name="database" {...props} />;
+    const Lock = (props) => <LucideIcon name="lock" {...props} />;
+    const ChevronDown = (props) => <LucideIcon name="chevron-down" {...props} />;
+    const Info = (props) => <LucideIcon name="info" {...props} />;
+    const Fan = (props) => <LucideIcon name="fan" {...props} />;
+    const ShieldCheck = (props) => <LucideIcon name="shield-check" {...props} />;
+    const Eye = (props) => <LucideIcon name="eye" {...props} />;
+    const Video = (props) => <LucideIcon name="video" {...props} />;
+    const ExternalLink = (props) => <LucideIcon name="external-link" {...props} />;
+
+
 
 // =========================================================================
 // SUB-KOMPONEN: KANVAS ANIMASI VISUALISASI PERKAKASAN (ENJIN 5.2)
@@ -2471,9 +2547,8 @@ function App() {
     </div>
   );
 }
-
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<App />);
-  </script>
+    </script>
 </body>
 </html>
